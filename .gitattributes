@@ -1,0 +1,11 @@
+# Keep generated artifacts and reviewed pages byte-stable across platforms.
+* text=auto eol=lf
+
+*.json text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.csv text eol=lf
+*.f90 text eol=lf

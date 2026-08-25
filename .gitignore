@@ -1,0 +1,17 @@
+# local SWAT+ / Editor source checkouts
+/external/
+
+# derived artifacts — regenerated from docs_src + the fact store
+/.swatref/
+/.spdocs/
+/docs/
+/_site/
+/.test_tmp/
+
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+.coverage
+htmlcov/

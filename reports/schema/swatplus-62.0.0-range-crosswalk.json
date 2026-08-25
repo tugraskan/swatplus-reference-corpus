@@ -1,0 +1,4795 @@
+{
+  "applied": [
+    {
+      "description": "Julian day to start printing output",
+      "file": "print.prt",
+      "maximum": 366.0,
+      "minimum": 0.0,
+      "official_name": "day_start",
+      "route": "editor_map",
+      "spreadsheet_name": "jd_start",
+      "units": "none"
+    },
+    {
+      "description": "Julian day to end printing output",
+      "file": "print.prt",
+      "maximum": 366.0,
+      "minimum": 0.0,
+      "official_name": "day_end",
+      "route": "editor_map",
+      "spreadsheet_name": "jd_end",
+      "units": "none"
+    },
+    {
+      "description": "Calendar year to end printing output",
+      "file": "print.prt",
+      "maximum": 2020.0,
+      "minimum": 0.0,
+      "official_name": "yrc_end",
+      "route": "editor_map",
+      "spreadsheet_name": "yrc_end",
+      "units": "none"
+    },
+    {
+      "description": "area of landscape, (all hrus)",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "area_ls_ha",
+      "route": "editor_map",
+      "spreadsheet_name": "ls_area",
+      "units": "ha"
+    },
+    {
+      "description": "total area",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "area_tot_ha",
+      "route": "editor_map",
+      "spreadsheet_name": "tot_area",
+      "units": "ha"
+    },
+    {
+      "description": "total number of objects or 1st object command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "objs",
+      "route": "editor_map",
+      "spreadsheet_name": "obj",
+      "units": "none"
+    },
+    {
+      "description": "1-number of hru's or 1st hru command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "hru",
+      "route": "editor_map",
+      "spreadsheet_name": "hru",
+      "units": "none"
+    },
+    {
+      "description": "2-number of hru_lte's or 1st hru_lte command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "hru_lte",
+      "route": "editor_map",
+      "spreadsheet_name": "lhru",
+      "units": "none"
+    },
+    {
+      "description": "3-number of routing units or 1st ru command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ru",
+      "route": "editor_map",
+      "spreadsheet_name": "rtu",
+      "units": "none"
+    },
+    {
+      "description": "4-number of modparm's or 1st modparm command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "gwflow",
+      "route": "direct_name",
+      "spreadsheet_name": "gwfl",
+      "units": "none"
+    },
+    {
+      "description": "5-number of aquifer's or 1st aquifer command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aqu",
+      "route": "editor_map",
+      "spreadsheet_name": "aqu",
+      "units": "none"
+    },
+    {
+      "description": "6-number of chan's or 1st chan command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "chan",
+      "route": "editor_map",
+      "spreadsheet_name": "cha",
+      "units": "none"
+    },
+    {
+      "description": "7-number of res's or 1st res command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "res",
+      "route": "editor_map",
+      "spreadsheet_name": "res",
+      "units": "none"
+    },
+    {
+      "description": "8-number of recdays's or 1st recday command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "recall",
+      "route": "editor_map",
+      "spreadsheet_name": "rec",
+      "units": "none"
+    },
+    {
+      "description": "11-number of exco's or 1st export coeff command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "exco",
+      "route": "editor_map",
+      "spreadsheet_name": "exco",
+      "units": "none"
+    },
+    {
+      "description": "12-number of dr's or 1st del ratio command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "dr",
+      "route": "direct_name",
+      "spreadsheet_name": "del",
+      "units": "none"
+    },
+    {
+      "description": "13-number of canal's or 1st canal command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "canal",
+      "route": "editor_map",
+      "spreadsheet_name": "can",
+      "units": "none"
+    },
+    {
+      "description": "14-number of pump's or 1st pump command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "pump",
+      "route": "editor_map",
+      "spreadsheet_name": "pmp",
+      "units": "none"
+    },
+    {
+      "description": "15-number of outlet's or 1st outlet command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "outlet",
+      "route": "editor_map",
+      "spreadsheet_name": "out",
+      "units": "none"
+    },
+    {
+      "description": "16-number of swat-deg channel's or 1st swat-deg channel command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "chandeg",
+      "route": "editor_map",
+      "spreadsheet_name": "lcha",
+      "units": "none"
+    },
+    {
+      "description": "17-number of 2D aquifer's or 1st 2D aquifer command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aqu2d",
+      "route": "editor_map",
+      "spreadsheet_name": "aqu2d",
+      "units": "none"
+    },
+    {
+      "description": "17-number of herds or 1st 2D aquifer command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "herd",
+      "route": "editor_map",
+      "spreadsheet_name": "hrd",
+      "units": "none"
+    },
+    {
+      "description": "17-number of water right objects or 1st 2D aquifer command",
+      "file": "object.cnt",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "wro",
+      "route": "editor_map",
+      "spreadsheet_name": "wro",
+      "units": "none"
+    },
+    {
+      "description": "potential ET method code",
+      "file": "codes.bsn",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "official_name": "pet",
+      "route": "editor_map",
+      "spreadsheet_name": "pet",
+      "units": null
+    },
+    {
+      "description": "crack flow code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "crk",
+      "route": "editor_map",
+      "spreadsheet_name": "crack",
+      "units": null
+    },
+    {
+      "description": "max half-hour rainfall frac calc",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "sed_det",
+      "route": "editor_map",
+      "spreadsheet_name": "sed_det",
+      "units": null
+    },
+    {
+      "description": "water routing method",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "rte",
+      "route": "editor_map",
+      "spreadsheet_name": "rte_cha",
+      "units": null
+    },
+    {
+      "description": "channel degradation code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "deg",
+      "route": "editor_map",
+      "spreadsheet_name": "deg_cha",
+      "units": null
+    },
+    {
+      "description": "stream water quality code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "wq",
+      "route": "editor_map",
+      "spreadsheet_name": "wq_cha",
+      "units": null
+    },
+    {
+      "description": "stress codes: 0=all stresses applied; 1-turn off stresses;2=turn off nutrient stress only",
+      "file": "codes.bsn",
+      "maximum": 250.0,
+      "minimum": 0.0,
+      "official_name": "nostress",
+      "route": "editor_map",
+      "spreadsheet_name": "nostress",
+      "units": null
+    },
+    {
+      "description": "0=call cal_soft_hyd_bfr(CEAP); 1=call cal_soft_hyd;",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cn",
+      "route": "editor_map",
+      "spreadsheet_name": "cn",
+      "units": null
+    },
+    {
+      "description": "C-factor",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cfac",
+      "route": "editor_map",
+      "spreadsheet_name": "c_fact",
+      "units": null
+    },
+    {
+      "description": "carbon code",
+      "file": "codes.bsn",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "cswat",
+      "route": "editor_map",
+      "spreadsheet_name": "carbon",
+      "units": null
+    },
+    {
+      "description": "precip and temp lapse rate control 0=do not adjust; 1=adjust for elevation;",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "lapse",
+      "route": "editor_map",
+      "spreadsheet_name": "lapse",
+      "units": null
+    },
+    {
+      "description": "Unit hydrograph method;  0=triangular UH; 1=gamma function UH;",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "uhyd",
+      "route": "editor_map",
+      "spreadsheet_name": "uhyd",
+      "units": null
+    },
+    {
+      "description": "Instream sediment model",
+      "file": "codes.bsn",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "sed_ch",
+      "route": "editor_map",
+      "spreadsheet_name": "sed_cha",
+      "units": null
+    },
+    {
+      "description": "tile drainage eq code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "tdrn",
+      "route": "editor_map",
+      "spreadsheet_name": "tiledrain",
+      "units": null
+    },
+    {
+      "description": "water table depth algorithms code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "wtdn",
+      "route": "editor_map",
+      "spreadsheet_name": "wtable",
+      "units": null
+    },
+    {
+      "description": "1 = new soil P model",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "sol_p_model",
+      "route": "editor_map",
+      "spreadsheet_name": "soil_p",
+      "units": null
+    },
+    {
+      "description": "max depressional storage selection code",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "smax",
+      "route": "editor_map",
+      "spreadsheet_name": "stor_max",
+      "units": null
+    },
+    {
+      "description": "code for using groundwater flow routines; 0=off; 1=on;",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "gwflow",
+      "route": "editor_map",
+      "spreadsheet_name": "gwflow",
+      "units": null
+    },
+    {
+      "description": "leaf area index at which no evap occurs",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "evlai",
+      "route": "editor_map",
+      "spreadsheet_name": "lai_noevap",
+      "units": null
+    },
+    {
+      "description": "surface runoff lag time",
+      "file": "parameters.bsn",
+      "maximum": 2.0,
+      "minimum": 0.5,
+      "official_name": "surlag",
+      "route": "editor_map",
+      "spreadsheet_name": "surq_lag",
+      "units": null
+    },
+    {
+      "description": "peak rate adjustment factor in the subbasin",
+      "file": "parameters.bsn",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "adj_pkr",
+      "route": "editor_map",
+      "spreadsheet_name": "adj_pkrt",
+      "units": null
+    },
+    {
+      "description": "peak rate adjustment factor for sediment routing in the channel",
+      "file": "parameters.bsn",
+      "maximum": 0.01,
+      "minimum": 0.0001,
+      "official_name": "prf",
+      "route": "editor_map",
+      "spreadsheet_name": "adj_pkrt_sed",
+      "units": null
+    },
+    {
+      "description": "rate factor for mineralization on active org N",
+      "file": "parameters.bsn",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "cmn",
+      "route": "editor_map",
+      "spreadsheet_name": "orgn_min",
+      "units": null
+    },
+    {
+      "description": "nitrogen uptake dist parm",
+      "file": "parameters.bsn",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "n_updis",
+      "route": "editor_map",
+      "spreadsheet_name": "n_uptake",
+      "units": null
+    },
+    {
+      "description": "phosphorus uptake dist parm",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "p_updis",
+      "route": "editor_map",
+      "spreadsheet_name": "p_uptake",
+      "units": null
+    },
+    {
+      "description": "nitrate perc coeff (0-1) 0 = conc of nitrate in surface runoff is zero;1 = perc has same conc of nitrate as surf runoff",
+      "file": "parameters.bsn",
+      "maximum": 17.5,
+      "minimum": 10.0,
+      "official_name": "nperco",
+      "route": "editor_map",
+      "spreadsheet_name": "n_perc",
+      "units": null
+    },
+    {
+      "description": "phos perc coeff (0-1)  0 = conc of sol P in surf runoff is zero;1 = percolate has some conc of sol P as surf runoff",
+      "file": "parameters.bsn",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "pperco",
+      "route": "editor_map",
+      "spreadsheet_name": "p_perc",
+      "units": null
+    },
+    {
+      "description": "phos soil partitioning coef",
+      "file": "parameters.bsn",
+      "maximum": 250.0,
+      "minimum": 100.0,
+      "official_name": "phoskd",
+      "route": "editor_map",
+      "spreadsheet_name": "p_soil",
+      "units": null
+    },
+    {
+      "description": "phos availability index",
+      "file": "parameters.bsn",
+      "maximum": 0.7,
+      "minimum": 0.02,
+      "official_name": "psp",
+      "route": "editor_map",
+      "spreadsheet_name": "p_avail",
+      "units": null
+    },
+    {
+      "description": "residue decomposition coeff",
+      "file": "parameters.bsn",
+      "maximum": 0.03,
+      "minimum": 0.0,
+      "official_name": "rsdco",
+      "route": "editor_map",
+      "spreadsheet_name": "rsd_decomp",
+      "units": null
+    },
+    {
+      "description": "pestcide perc coeff (0-1)",
+      "file": "parameters.bsn",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "percop",
+      "route": "editor_map",
+      "spreadsheet_name": "pest_perc",
+      "units": null
+    },
+    {
+      "description": "calibration coeff to control impact of the storage time constant for the reach at bankfull depth",
+      "file": "parameters.bsn",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "msk_co1",
+      "route": "editor_map",
+      "spreadsheet_name": "msk_co1",
+      "units": null
+    },
+    {
+      "description": "calibration coefficient used to control impact of the storage time constant for low flow (where low flow is when river is at 0.1 bankfull depth) upon the Km value calculated for the reach",
+      "file": "parameters.bsn",
+      "maximum": 0.3,
+      "minimum": 0.0,
+      "official_name": "msk_co2",
+      "route": "editor_map",
+      "spreadsheet_name": "msk_co2",
+      "units": null
+    },
+    {
+      "description": "weighting factor control relative importance of inflow rate and outflow rate in determining storage on reach",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "msk_x",
+      "route": "editor_map",
+      "spreadsheet_name": "msk_x",
+      "units": null
+    },
+    {
+      "description": "n concentration coeff for tile flow and leach from bottom layer",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "nperco_lchtile",
+      "route": "editor_map",
+      "spreadsheet_name": "np_lchtile",
+      "units": "frac"
+    },
+    {
+      "description": "reach evaporation adjustment factor",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "evrch",
+      "route": "editor_map",
+      "spreadsheet_name": "evap_adj",
+      "units": null
+    },
+    {
+      "description": "channel storage coefficient (0-1)",
+      "file": "parameters.bsn",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "official_name": "scoef",
+      "route": "editor_map",
+      "spreadsheet_name": "scoef",
+      "units": null
+    },
+    {
+      "description": "denitrification expoential rate coefficient",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cdn",
+      "route": "editor_map",
+      "spreadsheet_name": "denit_exp",
+      "units": null
+    },
+    {
+      "description": "denitrification threshold frac of field cap",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "sdnco",
+      "route": "editor_map",
+      "spreadsheet_name": "denit_frac",
+      "units": null
+    },
+    {
+      "description": "frac of manure containing active colony forming units",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "bact_swf",
+      "route": "editor_map",
+      "spreadsheet_name": "man_bact",
+      "units": null
+    },
+    {
+      "description": "parameter for frozen soil adjustment on infiltraion/runoff",
+      "file": "parameters.bsn",
+      "maximum": 24.0,
+      "minimum": 0.0,
+      "official_name": "cn_froz",
+      "route": "editor_map",
+      "spreadsheet_name": "cn_froz",
+      "units": null
+    },
+    {
+      "description": "time threshold used to define dormant (hrs)",
+      "file": "parameters.bsn",
+      "maximum": 0.0,
+      "minimum": -2.0,
+      "official_name": "dorm_hr",
+      "route": "editor_map",
+      "spreadsheet_name": "dorm_hr",
+      "units": "hrs"
+    },
+    {
+      "description": "precipitation lapse rate",
+      "file": "parameters.bsn",
+      "maximum": 25.0,
+      "minimum": -25.0,
+      "official_name": "plaps",
+      "route": "editor_map",
+      "spreadsheet_name": "plaps",
+      "units": "mm"
+    },
+    {
+      "description": "temperature lapse rate",
+      "file": "parameters.bsn",
+      "maximum": 8.0,
+      "minimum": 3.0,
+      "official_name": "tlaps",
+      "route": "editor_map",
+      "spreadsheet_name": "tlaps",
+      "units": "degc"
+    },
+    {
+      "description": "max daily n-fixation",
+      "file": "parameters.bsn",
+      "maximum": 0.05,
+      "minimum": 0.0,
+      "official_name": "nfixmx",
+      "route": "editor_map",
+      "spreadsheet_name": "n_fix_max",
+      "units": "kg/ha"
+    },
+    {
+      "description": "minimum daily residue decay",
+      "file": "parameters.bsn",
+      "maximum": 0.5,
+      "minimum": 0.1,
+      "official_name": "decr_min",
+      "route": "editor_map",
+      "spreadsheet_name": "rsd_decay",
+      "units": null
+    },
+    {
+      "description": "residue cover factor for computing frac of cover",
+      "file": "parameters.bsn",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "rsd_covco",
+      "route": "editor_map",
+      "spreadsheet_name": "rsd_cover",
+      "units": null
+    },
+    {
+      "description": "max initial abstrction for urban areas when using Green&Ampt",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "urb_init_abst",
+      "route": "editor_map",
+      "spreadsheet_name": "urb_init_abst",
+      "units": null
+    },
+    {
+      "description": "PET adjustment for Penman-Monteith/Preistley Taylor",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "petco_pmpt",
+      "route": "editor_map",
+      "spreadsheet_name": "petco_pmpt",
+      "units": "%"
+    },
+    {
+      "description": "alpha coeff for est unit hydrograph using gamma func",
+      "file": "parameters.bsn",
+      "maximum": 3.1,
+      "minimum": 0.9,
+      "official_name": "uhalpha",
+      "route": "editor_map",
+      "spreadsheet_name": "uhyd_alpha",
+      "units": null
+    },
+    {
+      "description": "coeff of splash erosion varying 0.9-3.1",
+      "file": "parameters.bsn",
+      "maximum": 2.0,
+      "minimum": 0.5,
+      "official_name": "eros_spl",
+      "route": "editor_map",
+      "spreadsheet_name": "splash",
+      "units": null
+    },
+    {
+      "description": "rill erosion coefficient",
+      "file": "parameters.bsn",
+      "maximum": 3.0,
+      "minimum": 1.0,
+      "official_name": "rill_mult",
+      "route": "editor_map",
+      "spreadsheet_name": "rill",
+      "units": null
+    },
+    {
+      "description": "exponential coeffcient for overland flow",
+      "file": "parameters.bsn",
+      "maximum": 0.45,
+      "minimum": 0.001,
+      "official_name": "eros_expo",
+      "route": "editor_map",
+      "spreadsheet_name": "surq_exp",
+      "units": null
+    },
+    {
+      "description": "scaling parameter for cover and management factor for overland flow erosion",
+      "file": "parameters.bsn",
+      "maximum": 100.0,
+      "minimum": 10.0,
+      "official_name": "c_factor",
+      "route": "editor_map",
+      "spreadsheet_name": "cov_mgt",
+      "units": null
+    },
+    {
+      "description": "median particle diameter of main channel",
+      "file": "parameters.bsn",
+      "maximum": 5.0,
+      "minimum": 1.0,
+      "official_name": "ch_d50",
+      "route": "editor_map",
+      "spreadsheet_name": "cha_d50",
+      "units": "mm"
+    },
+    {
+      "description": "co2 concentration at start of simulation (ppm)",
+      "file": "parameters.bsn",
+      "maximum": 1000.0,
+      "minimum": 100.0,
+      "official_name": "co2",
+      "route": "editor_map",
+      "spreadsheet_name": "co2",
+      "units": null
+    },
+    {
+      "description": "max days to lag hydrographs for hru,ru channels;",
+      "file": "parameters.bsn",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "official_name": "day_lag_mx",
+      "route": "direct_name",
+      "spreadsheet_name": "day_lag_mx",
+      "units": "days"
+    },
+    {
+      "description": "random generator code:0 = use default numbers;1 = generate new numbers in every simulation",
+      "file": "parameters.bsn",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "igen",
+      "route": "editor_map",
+      "spreadsheet_name": "igen",
+      "units": null
+    },
+    {
+      "description": "Latitude of weather station used to create statistical parameters",
+      "file": "weather-wgn.cli",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "degree"
+    },
+    {
+      "description": "Longitude of weather station used to create statistical parameters",
+      "file": "weather-wgn.cli",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "degree"
+    },
+    {
+      "description": "Elevation of weather station used to create statistical parameters",
+      "file": "weather-wgn.cli",
+      "maximum": 5000.0,
+      "minimum": 0.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Number of years of recorded maximum monthly 0.5 h rainfall data",
+      "file": "weather-wgn.cli",
+      "maximum": 100.0,
+      "minimum": 5.0,
+      "official_name": "rain_yrs",
+      "route": "editor_map",
+      "spreadsheet_name": "yrs",
+      "units": "none"
+    },
+    {
+      "description": "Average or mean daily maximum air temperature for month",
+      "file": "weather-wgn.cli",
+      "maximum": 50.0,
+      "minimum": -30.0,
+      "official_name": "tmpmx",
+      "route": "editor_map",
+      "spreadsheet_name": "tmp_max_ave",
+      "units": "deg C"
+    },
+    {
+      "description": "Average or mean daily minimum air temperature for month",
+      "file": "weather-wgn.cli",
+      "maximum": 40.0,
+      "minimum": -40.0,
+      "official_name": "tmpmn",
+      "route": "editor_map",
+      "spreadsheet_name": "tmp_min_ave",
+      "units": "deg C"
+    },
+    {
+      "description": "Standard deviation for daily maximum air temperature in month",
+      "file": "weather-wgn.cli",
+      "maximum": 100.0,
+      "minimum": 0.1,
+      "official_name": "tmpstdmx",
+      "route": "editor_map",
+      "spreadsheet_name": "tmp_max_sd",
+      "units": "deg C"
+    },
+    {
+      "description": "Standard deviation for daily minimum air temperature in month",
+      "file": "weather-wgn.cli",
+      "maximum": 30.0,
+      "minimum": 0.1,
+      "official_name": "tmpstdmn",
+      "route": "editor_map",
+      "spreadsheet_name": "tmp_min_sd",
+      "units": "deg C"
+    },
+    {
+      "description": "Average or mean total monthly precipitation",
+      "file": "weather-wgn.cli",
+      "maximum": 600.0,
+      "minimum": 0.0,
+      "official_name": "pcpmm",
+      "route": "editor_map",
+      "spreadsheet_name": "pcp_ave",
+      "units": "mm"
+    },
+    {
+      "description": "Standard deviation for the average daily precipitation",
+      "file": "weather-wgn.cli",
+      "maximum": 50.0,
+      "minimum": 0.1,
+      "official_name": "pcpstd",
+      "route": "editor_map",
+      "spreadsheet_name": "pcp_sd",
+      "units": "mm/day"
+    },
+    {
+      "description": "Skew coefficient for the average daily precipitaiton",
+      "file": "weather-wgn.cli",
+      "maximum": 20.0,
+      "minimum": -50.0,
+      "official_name": "pcpskw",
+      "route": "editor_map",
+      "spreadsheet_name": "pcp_skew",
+      "units": "mm"
+    },
+    {
+      "description": "Probability of a wet day after a dry day",
+      "file": "weather-wgn.cli",
+      "maximum": 0.95,
+      "minimum": 0.0,
+      "official_name": "pr_wd",
+      "route": "editor_map",
+      "spreadsheet_name": "wet_dry",
+      "units": "none"
+    },
+    {
+      "description": "Probability of a wet day after a wet day",
+      "file": "weather-wgn.cli",
+      "maximum": 0.95,
+      "minimum": 0.0,
+      "official_name": "pr_ww",
+      "route": "editor_map",
+      "spreadsheet_name": "wet_wet",
+      "units": "none"
+    },
+    {
+      "description": "Average number of days of precipitation in a month",
+      "file": "weather-wgn.cli",
+      "maximum": 31.0,
+      "minimum": 0.0,
+      "official_name": "pcpd",
+      "route": "editor_map",
+      "spreadsheet_name": "pcp_days",
+      "units": "day"
+    },
+    {
+      "description": "Maximum 0.5 hour rainfall in entire period of record for month",
+      "file": "weather-wgn.cli",
+      "maximum": 125.0,
+      "minimum": 0.0,
+      "official_name": "rainhmx",
+      "route": "editor_map",
+      "spreadsheet_name": "pcp_hhr",
+      "units": "mm"
+    },
+    {
+      "description": "Average daily solar radiation for the month",
+      "file": "weather-wgn.cli",
+      "maximum": 750.0,
+      "minimum": 0.0,
+      "official_name": "solarav",
+      "route": "editor_map",
+      "spreadsheet_name": "slr_ave",
+      "units": "MJ/m^2/day"
+    },
+    {
+      "description": "Average daily dew point temperature for each month",
+      "file": "weather-wgn.cli",
+      "maximum": 25.0,
+      "minimum": -50.0,
+      "official_name": "dewpt",
+      "route": "editor_map",
+      "spreadsheet_name": "dew_ave",
+      "units": "deg C"
+    },
+    {
+      "description": "Average wind speed for the month",
+      "file": "weather-wgn.cli",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "windav",
+      "route": "editor_map",
+      "spreadsheet_name": "wnd_ave",
+      "units": "m/s"
+    },
+    {
+      "description": "Latitude",
+      "file": "hru.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "hru.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of HRU",
+      "file": "hru.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "hru.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "hru.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Latitude",
+      "file": "hru-lte.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "hru-lte.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of HRU-LTE",
+      "file": "hru-lte.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "hru-lte.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "hru-lte.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Latitude",
+      "file": "rout_unit.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "rout_unit.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of subbasin",
+      "file": "rout_unit.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Outgoing object count",
+      "file": "rout_unit.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph sent to object",
+      "file": "rout_unit.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Latitude",
+      "file": "aquifer.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "aquifer.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of aquifer",
+      "file": "aquifer.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "aquifer.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph sent to object",
+      "file": "aquifer.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Latitude",
+      "file": "channel.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "channel.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of channel",
+      "file": "channel.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "channel.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph sent to object",
+      "file": "channel.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Latitude",
+      "file": "reservoir.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "reservoir.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of channel",
+      "file": "reservoir.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "reservoir.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph sent to object",
+      "file": "reservoir.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "latitude",
+      "file": "recall.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "direct_name",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "longitude",
+      "file": "recall.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "direct_name",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of recall",
+      "file": "recall.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "direct_name",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing objects",
+      "file": "recall.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "direct_name",
+      "spreadsheet_name": "out_tot",
+      "units": null
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "recall.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "direct_name",
+      "spreadsheet_name": "frac",
+      "units": null
+    },
+    {
+      "description": "latitude",
+      "file": "exco.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "longitude",
+      "file": "exco.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of recall",
+      "file": "exco.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing objects",
+      "file": "exco.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": null
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "exco.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": null
+    },
+    {
+      "description": "latitude",
+      "file": "delratio.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "longitude",
+      "file": "delratio.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of DR",
+      "file": "delratio.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing objects",
+      "file": "delratio.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": null
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "delratio.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": null
+    },
+    {
+      "description": "AREA",
+      "file": "outlet.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "area_ha",
+      "route": "direct_name",
+      "spreadsheet_name": "area",
+      "units": "ha"
+    },
+    {
+      "description": "longitude",
+      "file": "outlet.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "long",
+      "route": "direct_name",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of outlet",
+      "file": "outlet.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "direct_name",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Fraction of hydrograph set to object",
+      "file": "outlet.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "direct_name",
+      "spreadsheet_name": "frac",
+      "units": null
+    },
+    {
+      "description": "Latitude",
+      "file": "chandeg.con",
+      "maximum": 90.0,
+      "minimum": -90.0,
+      "official_name": "lat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Longitude",
+      "file": "chandeg.con",
+      "maximum": 180.0,
+      "minimum": -180.0,
+      "official_name": "long",
+      "route": "editor_map",
+      "spreadsheet_name": "lon",
+      "units": "dec degrees"
+    },
+    {
+      "description": "Elevation of chandeg",
+      "file": "chandeg.con",
+      "maximum": 7000.0,
+      "minimum": 1.0,
+      "official_name": "elev",
+      "route": "editor_map",
+      "spreadsheet_name": "elev",
+      "units": "m"
+    },
+    {
+      "description": "Total number of outgoing hydrographs",
+      "file": "chandeg.con",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "src_tot",
+      "route": "editor_map",
+      "spreadsheet_name": "out_tot",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of hydrograph sent to object",
+      "file": "chandeg.con",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac_out",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Average width of main channel",
+      "file": "hydrology.cha",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "w",
+      "route": "editor_map",
+      "spreadsheet_name": "wd",
+      "units": "m"
+    },
+    {
+      "description": "Average depth of main channel",
+      "file": "hydrology.cha",
+      "maximum": 30.0,
+      "minimum": 0.0,
+      "official_name": "d",
+      "route": "editor_map",
+      "spreadsheet_name": "dp",
+      "units": "m"
+    },
+    {
+      "description": "Average slope of main channel",
+      "file": "hydrology.cha",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "s",
+      "route": "editor_map",
+      "spreadsheet_name": "slp",
+      "units": "m/m"
+    },
+    {
+      "description": "Main channel length in subbasin",
+      "file": "hydrology.cha",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "l",
+      "route": "editor_map",
+      "spreadsheet_name": "len",
+      "units": "km"
+    },
+    {
+      "description": "Manning's n value for the channel",
+      "file": "hydrology.cha",
+      "maximum": 0.3,
+      "minimum": 0.0,
+      "official_name": "n",
+      "route": "editor_map",
+      "spreadsheet_name": "mann",
+      "units": "none"
+    },
+    {
+      "description": "Effective hydraulic conductivity of channel alluvium",
+      "file": "hydrology.cha",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "k",
+      "route": "editor_map",
+      "spreadsheet_name": "k",
+      "units": "mm/hr"
+    },
+    {
+      "description": "Channel width to depth ratio",
+      "file": "hydrology.cha",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "official_name": "wdr",
+      "route": "editor_map",
+      "spreadsheet_name": "wdr",
+      "units": "m/m"
+    },
+    {
+      "description": "Alpha factor for bank storage recession curve",
+      "file": "hydrology.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "alpha_bnk",
+      "route": "editor_map",
+      "spreadsheet_name": "alpha_bnk",
+      "units": "days"
+    },
+    {
+      "description": "Change in horizontal distance per unit vertical distance",
+      "file": "hydrology.cha",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "side",
+      "route": "editor_map",
+      "spreadsheet_name": "side_slp",
+      "units": "ratio"
+    },
+    {
+      "description": "Sediment routine methods (0=original SWAT method;1=Bagnold's;2=Kodatie;3=Molinas Wu;4=Yang)",
+      "file": "sediment.cha",
+      "maximum": 4.0,
+      "minimum": 0.0,
+      "official_name": "eqn",
+      "route": "editor_map",
+      "spreadsheet_name": "sed_eqn",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor (if SED_EQN=0 (0=non-erosive channel;1=no resistance to erosion)) or channel bank vegetation coefficient for critical shear stress (if SED_EQN!=0)",
+      "file": "sediment.cha",
+      "maximum": 0.6,
+      "minimum": 0.0,
+      "official_name": "cov1",
+      "route": "editor_map",
+      "spreadsheet_name": "erod_fact",
+      "units": "none"
+    },
+    {
+      "description": "Channel cover factor (if SED_EQN=0 (0=channel is completely protected from erosion by cover;1=no vegetative cover on channel)) or channel bed vegetation coefficient for critical shear stress (if SED_EQN!=0)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cov2",
+      "route": "editor_map",
+      "spreadsheet_name": "cov_fact",
+      "units": "none"
+    },
+    {
+      "description": "Bulk density of channel bank sediment (1.1-1.9)",
+      "file": "sediment.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "bnk_bd",
+      "route": "editor_map",
+      "spreadsheet_name": "bd_bnk",
+      "units": "g/cc"
+    },
+    {
+      "description": "Bulk density of channel bed sediment (1.1-1.9)",
+      "file": "sediment.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "bed_bd",
+      "route": "editor_map",
+      "spreadsheet_name": "bd_bed",
+      "units": "g/cc"
+    },
+    {
+      "description": "Erodibility of channel bank sediment by jet test",
+      "file": "sediment.cha",
+      "maximum": 3.75,
+      "minimum": 0.001,
+      "official_name": "bnk_kd",
+      "route": "editor_map",
+      "spreadsheet_name": "kd_bnk",
+      "units": "cm^3/N-s"
+    },
+    {
+      "description": "Erodibility of channel bed sediment by jet test",
+      "file": "sediment.cha",
+      "maximum": 3.75,
+      "minimum": 0.001,
+      "official_name": "bed_kd",
+      "route": "editor_map",
+      "spreadsheet_name": "kd_bed",
+      "units": "cm^3/N-s"
+    },
+    {
+      "description": "D50 (median) particle size diameter of channel bank sediment",
+      "file": "sediment.cha",
+      "maximum": 10000.0,
+      "minimum": 1.0,
+      "official_name": "bnk_d50",
+      "route": "editor_map",
+      "spreadsheet_name": "d50_bnk",
+      "units": "\u03bcm"
+    },
+    {
+      "description": "D50 (median) particle size diameter of channel bed sediment",
+      "file": "sediment.cha",
+      "maximum": 10000.0,
+      "minimum": 1.0,
+      "official_name": "bed_d50",
+      "route": "editor_map",
+      "spreadsheet_name": "d50_bed",
+      "units": "\u03bcm"
+    },
+    {
+      "description": "Critical shear stress of channel bank",
+      "file": "sediment.cha",
+      "maximum": 400.0,
+      "minimum": 0.0,
+      "official_name": "tc_bnk",
+      "route": "editor_map",
+      "spreadsheet_name": "css_bnk",
+      "units": "N/m^2"
+    },
+    {
+      "description": "Critical shear stress of channel bed",
+      "file": "sediment.cha",
+      "maximum": 400.0,
+      "minimum": 0.0,
+      "official_name": "tc_bed",
+      "route": "editor_map",
+      "spreadsheet_name": "css_bed",
+      "units": "N/m^2"
+    },
+    {
+      "description": "Channel erodibility factor Jan (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(1)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod1",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Feb (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(2)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod2",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Mar (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(3)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod3",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Apr (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(4)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod4",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor May (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(5)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod5",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Jun (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(6)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod6",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Jul (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(7)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod7",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Aug (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(8)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod8",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Sep (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(9)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod9",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Oct (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(10)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod10",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Nov (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(11)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod11",
+      "units": "none"
+    },
+    {
+      "description": "Channel erodibility factor Dec (0=non-erosive channel;1=no resistance to erosion)",
+      "file": "sediment.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "erod(12)",
+      "route": "editor_map",
+      "spreadsheet_name": "erod12",
+      "units": "none"
+    },
+    {
+      "description": "Channel organic N concentration",
+      "file": "nutrients.cha",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "onco",
+      "route": "editor_map",
+      "spreadsheet_name": "plt_n",
+      "units": "ppm"
+    },
+    {
+      "description": "Channel organic P concentration",
+      "file": "nutrients.cha",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "opco",
+      "route": "editor_map",
+      "spreadsheet_name": "ptl_p",
+      "units": "ppm"
+    },
+    {
+      "description": "Local algal settling rate in reach",
+      "file": "nutrients.cha",
+      "maximum": 1.82,
+      "minimum": 0.15,
+      "official_name": "rs1",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_stl",
+      "units": "m/day or m/hr"
+    },
+    {
+      "description": "Benthos source rate for dissolved P in reach",
+      "file": "nutrients.cha",
+      "maximum": 0.1,
+      "minimum": 0.001,
+      "official_name": "rs2",
+      "route": "editor_map",
+      "spreadsheet_name": "ben_disp",
+      "units": "(m**2)*day or (mg disP-P)/((m**2)*hr)"
+    },
+    {
+      "description": "Benthos source rate for NH3-N in reach",
+      "file": "nutrients.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "rs3",
+      "route": "editor_map",
+      "spreadsheet_name": "ben_nh3n",
+      "units": "(m**2)*day or (mg disP-P)/((m**2)*hr)"
+    },
+    {
+      "description": "Organic N settling rate in reach",
+      "file": "nutrients.cha",
+      "maximum": 0.1,
+      "minimum": 0.001,
+      "official_name": "rs4",
+      "route": "editor_map",
+      "spreadsheet_name": "ptln_stl",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Organic P settling rate in reach",
+      "file": "nutrients.cha",
+      "maximum": 0.1,
+      "minimum": 0.001,
+      "official_name": "rs5",
+      "route": "editor_map",
+      "spreadsheet_name": "ptlp_stl",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Arbitrary non-conservative constituent settling rate in reach",
+      "file": "nutrients.cha",
+      "maximum": 10.0,
+      "minimum": 0.01,
+      "official_name": "rs6",
+      "route": "editor_map",
+      "spreadsheet_name": "cst_stl",
+      "units": "1/day"
+    },
+    {
+      "description": "benthal source rate for arbitrary non-conservative constituent in reach",
+      "file": "nutrients.cha",
+      "maximum": 10.0,
+      "minimum": 0.01,
+      "official_name": "rs7",
+      "route": "editor_map",
+      "spreadsheet_name": "ben_cst",
+      "units": "(mg ANC)/((m^2)*day)"
+    },
+    {
+      "description": "CBOD deoxygenation rate in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 3.4,
+      "minimum": 0.02,
+      "official_name": "rk1",
+      "route": "editor_map",
+      "spreadsheet_name": "cbn_bod_co",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Reaeration rate in accordance with Fickian diffusion in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "rk2",
+      "route": "editor_map",
+      "spreadsheet_name": "air_rt",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Rate of loss of CBOD due to settling in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 0.36,
+      "minimum": -0.36,
+      "official_name": "rk3",
+      "route": "editor_map",
+      "spreadsheet_name": "cbn_bod_stl",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Sediment oxygen demand rate in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "rk4",
+      "route": "editor_map",
+      "spreadsheet_name": "ben_bod",
+      "units": "((m**2)*day)|at 20 deg C or mg O2/((m**2)*hr)"
+    },
+    {
+      "description": "Coliform die-off rate in reach",
+      "file": "nutrients.cha",
+      "maximum": 4.0,
+      "minimum": 0.05,
+      "official_name": "rk5",
+      "route": "editor_map",
+      "spreadsheet_name": "bact_die",
+      "units": "1/day"
+    },
+    {
+      "description": "Decay rate for arbitrary non-conservative constituent in reach",
+      "file": "nutrients.cha",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "rk6",
+      "route": "editor_map",
+      "spreadsheet_name": "cst_decay",
+      "units": "1/day"
+    },
+    {
+      "description": "Biological oxidation rate of NH3 to NO2 in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 1.0,
+      "minimum": 0.1,
+      "official_name": "bc1",
+      "route": "editor_map",
+      "spreadsheet_name": "nh3n_no2n",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Biological oxidation rate of NO2 to NO3 in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 2.0,
+      "minimum": 0.2,
+      "official_name": "bc2",
+      "route": "editor_map",
+      "spreadsheet_name": "no2n_no3n",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Hydrolysis rate of organic N to ammonia in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 0.4,
+      "minimum": 0.2,
+      "official_name": "bc3",
+      "route": "editor_map",
+      "spreadsheet_name": "ptln_nh3n",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Decay rate of organic P to dissolved P in reach at 20 deg C",
+      "file": "nutrients.cha",
+      "maximum": 0.7,
+      "minimum": 0.01,
+      "official_name": "bc4",
+      "route": "editor_map",
+      "spreadsheet_name": "ptlp_solp",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Qual2E light averaging option (1=one day/steady temp.;2=One day user value;3=hourly/steady temp.;4=hourly/single value)",
+      "file": "nutrients.cha",
+      "maximum": 4.0,
+      "minimum": 1.0,
+      "official_name": "lao",
+      "route": "editor_map",
+      "spreadsheet_name": "q2e_lt",
+      "units": "none"
+    },
+    {
+      "description": "Qual2E option for calculating the local specific growth rate of algae (1=multiplicative;2=limiting nutrient;3=harmonic mean)",
+      "file": "nutrients.cha",
+      "maximum": 3.0,
+      "minimum": 1.0,
+      "official_name": "igropt",
+      "route": "editor_map",
+      "spreadsheet_name": "q2e_alg",
+      "units": "none"
+    },
+    {
+      "description": "Ratio of chlorophyll-a to algal biomass",
+      "file": "nutrients.cha",
+      "maximum": 100.0,
+      "minimum": 10.0,
+      "official_name": "ai0",
+      "route": "editor_map",
+      "spreadsheet_name": "chla_alg",
+      "units": "ug chla/mg alg"
+    },
+    {
+      "description": "Fraction of algal biomass that is N",
+      "file": "nutrients.cha",
+      "maximum": 0.09,
+      "minimum": 0.07,
+      "official_name": "ai1",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_n",
+      "units": "mg N/mg alg"
+    },
+    {
+      "description": "Fraction of algal biomass that is P",
+      "file": "nutrients.cha",
+      "maximum": 0.02,
+      "minimum": 0.01,
+      "official_name": "ai2",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_p",
+      "units": "mg P/mg alg"
+    },
+    {
+      "description": "Oxygen production rate per unit of algal photosynthesis",
+      "file": "nutrients.cha",
+      "maximum": 1.8,
+      "minimum": 1.4,
+      "official_name": "ai3",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_o2_prod",
+      "units": "mg O2/mg alg"
+    },
+    {
+      "description": "Oxygen uptake rate per unit of algae respiration",
+      "file": "nutrients.cha",
+      "maximum": 2.3,
+      "minimum": 1.6,
+      "official_name": "ai4",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_o2_resp",
+      "units": "mg O2/mg alg"
+    },
+    {
+      "description": "Oxygen uptake rate per unit of NH3 nitrogen oxidation",
+      "file": "nutrients.cha",
+      "maximum": 4.0,
+      "minimum": 3.0,
+      "official_name": "ai5",
+      "route": "editor_map",
+      "spreadsheet_name": "o2_nh3n",
+      "units": "mg O2/mg N"
+    },
+    {
+      "description": "Oxygen uptake rate per unit of NO2 nitrogen oxidation",
+      "file": "nutrients.cha",
+      "maximum": 1.14,
+      "minimum": 1.0,
+      "official_name": "ai6",
+      "route": "editor_map",
+      "spreadsheet_name": "o2_no2n",
+      "units": "mg O2/mg N"
+    },
+    {
+      "description": "Maximum specific algal growth rate",
+      "file": "nutrients.cha",
+      "maximum": 3.0,
+      "minimum": 1.0,
+      "official_name": "mumax",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_grow",
+      "units": "1/day"
+    },
+    {
+      "description": "Algal respiration rate",
+      "file": "nutrients.cha",
+      "maximum": 5.0,
+      "minimum": 0.05,
+      "official_name": "rhoq",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_resp",
+      "units": "1/day or 1/hr"
+    },
+    {
+      "description": "Fraction of solar radiation computed in the temperature heat balance that is photosynthetically active",
+      "file": "nutrients.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "tfact",
+      "route": "editor_map",
+      "spreadsheet_name": "slr_act",
+      "units": "fraction"
+    },
+    {
+      "description": "Half-saturation coefficient for light",
+      "file": "nutrients.cha",
+      "maximum": 1.135,
+      "minimum": 0.223,
+      "official_name": "k_l",
+      "route": "editor_map",
+      "spreadsheet_name": "lt_co",
+      "units": "MJ/(m^2*hr)"
+    },
+    {
+      "description": "Michaelis-menton half-saturation constant for N",
+      "file": "nutrients.cha",
+      "maximum": 0.3,
+      "minimum": 0.01,
+      "official_name": "k_n",
+      "route": "editor_map",
+      "spreadsheet_name": "const_n",
+      "units": "mg N/L"
+    },
+    {
+      "description": "Michaelis-Menton half saturation constant for P",
+      "file": "nutrients.cha",
+      "maximum": 0.05,
+      "minimum": 0.001,
+      "official_name": "k_p",
+      "route": "editor_map",
+      "spreadsheet_name": "const_p",
+      "units": "mg P/L"
+    },
+    {
+      "description": "Non-algal portion of the light extinction coefficient",
+      "file": "nutrients.cha",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "lambda0",
+      "route": "editor_map",
+      "spreadsheet_name": "lt_nonalg",
+      "units": "1/m"
+    },
+    {
+      "description": "Linear algal self-shading coefficient",
+      "file": "nutrients.cha",
+      "maximum": 0.065,
+      "minimum": 0.006,
+      "official_name": "lambda1",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_shd_l",
+      "units": "1/(m*ug chla/L)"
+    },
+    {
+      "description": "Nonlinear algal self-shading coefficient",
+      "file": "nutrients.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "lambda2",
+      "route": "editor_map",
+      "spreadsheet_name": "alg_shd_nl",
+      "units": "(1/m)(ug chla/L)^(-2/3)"
+    },
+    {
+      "description": "Algal preference factor for ammonia",
+      "file": "nutrients.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "p_n",
+      "route": "editor_map",
+      "spreadsheet_name": "nh3_pref",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 0.6,
+      "minimum": 0.0,
+      "official_name": "pk_rto",
+      "route": "direct_name",
+      "spreadsheet_name": "pk_rto",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fp_inun_days",
+      "route": "direct_name",
+      "spreadsheet_name": "fp_inun_days",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "n_sol_part",
+      "route": "direct_name",
+      "spreadsheet_name": "n_sol_part",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "p_sol_part",
+      "route": "direct_name",
+      "spreadsheet_name": "p_sol_part",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "n_dep_enr",
+      "route": "direct_name",
+      "spreadsheet_name": "n_dep_enr",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "p_dep_enr",
+      "route": "direct_name",
+      "spreadsheet_name": "p_dep_enr",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "arc_len_fr",
+      "route": "direct_name",
+      "spreadsheet_name": "arc_len_fr",
+      "units": "none"
+    },
+    {
+      "description": null,
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "minimum": 1.1,
+      "official_name": "wash_bed_fr",
+      "route": "direct_name",
+      "spreadsheet_name": "wash_bed_fr",
+      "units": "none"
+    },
+    {
+      "description": "flood plain slope",
+      "file": "hyd-sed-lte.cha",
+      "maximum": 0.1,
+      "minimum": 1e-06,
+      "official_name": "fps",
+      "route": "editor_map",
+      "spreadsheet_name": "fps",
+      "units": "m/m"
+    },
+    {
+      "description": "nitrogen concentation in channel bank",
+      "file": "hyd-sed-lte.cha",
+      "maximum": 300.0,
+      "minimum": 0.0,
+      "official_name": "n_conc",
+      "route": "editor_map",
+      "spreadsheet_name": "n_conc",
+      "units": "mg/kg"
+    },
+    {
+      "description": "phosphorus concentration in channel bank",
+      "file": "hyd-sed-lte.cha",
+      "maximum": 200.0,
+      "minimum": 0.0,
+      "official_name": "p_conc",
+      "route": "editor_map",
+      "spreadsheet_name": "p_conc",
+      "units": "mg/kg"
+    },
+    {
+      "description": "fraction of p in bank that is bioavailable",
+      "file": "hyd-sed-lte.cha",
+      "maximum": 0.9,
+      "minimum": 0.0,
+      "official_name": "p_bio",
+      "route": "editor_map",
+      "spreadsheet_name": "p_bio",
+      "units": "frac"
+    },
+    {
+      "description": "Year of the simulation that the reservoir becomes operational",
+      "file": "hydrology.res",
+      "maximum": 9999.0,
+      "minimum": 0.0,
+      "official_name": "iyres",
+      "route": "editor_map",
+      "spreadsheet_name": "yr_op",
+      "units": "none"
+    },
+    {
+      "description": "Month the reservoir becomes operational",
+      "file": "hydrology.res",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "mores",
+      "route": "editor_map",
+      "spreadsheet_name": "mon_op",
+      "units": "none"
+    },
+    {
+      "description": "Reservoir surface area when reservoir is filled to principal spillway",
+      "file": "hydrology.res",
+      "maximum": 3000.0,
+      "minimum": 1.0,
+      "official_name": "psa",
+      "route": "editor_map",
+      "spreadsheet_name": "area_ps",
+      "units": "ha"
+    },
+    {
+      "description": "Volume of water needed to fill the reservoir to the principal spillway (read in as 10^4 m^3  and converted to m^3)",
+      "file": "hydrology.res",
+      "maximum": 3000.0,
+      "minimum": 15.0,
+      "official_name": "pvol",
+      "route": "editor_map",
+      "spreadsheet_name": "vol_ps",
+      "units": "10^4 m^3"
+    },
+    {
+      "description": "Reservoir surface area when reservoir is filled to emergency spillway",
+      "file": "hydrology.res",
+      "maximum": 1000.0,
+      "minimum": 1.0,
+      "official_name": "esa",
+      "route": "editor_map",
+      "spreadsheet_name": "area_es",
+      "units": "ha or frac"
+    },
+    {
+      "description": "Volume of water needed to fill the reservoir to the emergency spillway (read in as 10^4 m^3 and converted to m^3)",
+      "file": "hydrology.res",
+      "maximum": 100.0,
+      "minimum": 10.0,
+      "official_name": "evol",
+      "route": "editor_map",
+      "spreadsheet_name": "vol_es",
+      "units": "10^4 m^3"
+    },
+    {
+      "description": "Hydraulic conductivity of the reservoir bottom",
+      "file": "hydrology.res",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "k",
+      "route": "editor_map",
+      "spreadsheet_name": "k",
+      "units": "mm/hr"
+    },
+    {
+      "description": "Lake evaporation coefficient",
+      "file": "hydrology.res",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "evrsv",
+      "route": "editor_map",
+      "spreadsheet_name": "evap_co",
+      "units": "none"
+    },
+    {
+      "description": "Normal amount of sediment in reservoir (read in as mg/L and convert to kg/L)",
+      "file": "sediment.res",
+      "maximum": 5000.0,
+      "minimum": 1.0,
+      "official_name": "nsed",
+      "route": "direct_name",
+      "spreadsheet_name": "nsed",
+      "units": "kg/L"
+    },
+    {
+      "description": "Beginning month of mid-year nutrient settling \"season\" period",
+      "file": "nutrients.res",
+      "maximum": 12.0,
+      "minimum": 0.0,
+      "official_name": "ires1",
+      "route": "editor_map",
+      "spreadsheet_name": "mid_start",
+      "units": "none"
+    },
+    {
+      "description": "Ending month of mid-year nutrient settling \"season\" period",
+      "file": "nutrients.res",
+      "maximum": 12.0,
+      "minimum": 0.0,
+      "official_name": "ires2",
+      "route": "editor_map",
+      "spreadsheet_name": "mid_end",
+      "units": "none"
+    },
+    {
+      "description": "N settling rate for mid-year period (read in as m/year and converted to m/day)",
+      "file": "nutrients.res",
+      "maximum": 15.0,
+      "minimum": 1.0,
+      "official_name": "nsetlr1",
+      "route": "editor_map",
+      "spreadsheet_name": "mid_n_stl",
+      "units": "m/day"
+    },
+    {
+      "description": "N settling rate for remainder of year (read in as m/year and converted to m/day)",
+      "file": "nutrients.res",
+      "maximum": 15.0,
+      "minimum": 1.0,
+      "official_name": "nsetlr2",
+      "route": "editor_map",
+      "spreadsheet_name": "n_stl",
+      "units": "m/day"
+    },
+    {
+      "description": "P settling rate for mid-year period (read in as m/year and converted to m/day)",
+      "file": "nutrients.res",
+      "maximum": 20.0,
+      "minimum": 2.0,
+      "official_name": "psetlr1",
+      "route": "editor_map",
+      "spreadsheet_name": "mid_p_stl",
+      "units": "m/day"
+    },
+    {
+      "description": "P settling rate for remainder of year (read in as m/year and converted to m/day)",
+      "file": "nutrients.res",
+      "maximum": 20.0,
+      "minimum": 2.0,
+      "official_name": "psetlr2",
+      "route": "editor_map",
+      "spreadsheet_name": "p_stl",
+      "units": "m/day"
+    },
+    {
+      "description": "Chlorophyll-a production coefficient for reservoir",
+      "file": "nutrients.res",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "nsolr",
+      "route": "editor_map",
+      "spreadsheet_name": "chla_co",
+      "units": "none"
+    },
+    {
+      "description": "Water clarity coefficient for reservoir",
+      "file": "nutrients.res",
+      "maximum": 2.0,
+      "minimum": 0.5,
+      "official_name": "psolr",
+      "route": "editor_map",
+      "spreadsheet_name": "secchi_co",
+      "units": "none"
+    },
+    {
+      "description": "Energy coefficient (broad crested=147,000;sharp crested=153,000)",
+      "file": "weir.res",
+      "maximum": 153000.0,
+      "minimum": 147000.0,
+      "official_name": "k",
+      "route": "direct_name",
+      "spreadsheet_name": "energy_co",
+      "units": "m^0.5/day"
+    },
+    {
+      "description": "Fraction of routing unit represented by element",
+      "file": "rout_unit.ele",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frac",
+      "route": "editor_map",
+      "spreadsheet_name": "frac",
+      "units": "none"
+    },
+    {
+      "description": "Soil percolation coefficient",
+      "file": "hru-lte.hru",
+      "maximum": 6000.0,
+      "minimum": 0.0,
+      "official_name": "perco",
+      "route": "editor_map",
+      "spreadsheet_name": "perc_co",
+      "units": null
+    },
+    {
+      "description": "Land surface slope",
+      "file": "hru-lte.hru",
+      "maximum": 0.6,
+      "minimum": 0.0,
+      "official_name": "slope",
+      "route": "editor_map",
+      "spreadsheet_name": "slp",
+      "units": "m/m"
+    },
+    {
+      "description": "Initial groundwater flow",
+      "file": "aquifer.aqu",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "flo",
+      "route": "editor_map",
+      "spreadsheet_name": "gw_flo",
+      "units": "mm"
+    },
+    {
+      "description": "Depth-mid-slope surface to bottom of aquifer",
+      "file": "aquifer.aqu",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "dep_bot",
+      "route": "editor_map",
+      "spreadsheet_name": "dep_bot",
+      "units": "m"
+    },
+    {
+      "description": "Depth-mid-slope surface to water table (initial)",
+      "file": "aquifer.aqu",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "dep_wt",
+      "route": "editor_map",
+      "spreadsheet_name": "dep_wt",
+      "units": "m"
+    },
+    {
+      "description": "Nitrate concentration in shallow aquifer converted to kg/ha",
+      "file": "aquifer.aqu",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "no3",
+      "route": "editor_map",
+      "spreadsheet_name": "no3_n",
+      "units": "ppm NO3-N"
+    },
+    {
+      "description": "Mineral P concentration",
+      "file": "aquifer.aqu",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "minp",
+      "route": "editor_map",
+      "spreadsheet_name": "sol_p",
+      "units": "mg P/L"
+    },
+    {
+      "description": "Organic carbon in aquifer",
+      "file": "aquifer.aqu",
+      "maximum": 15.0,
+      "minimum": 0.0,
+      "official_name": "cbn",
+      "route": "editor_map",
+      "spreadsheet_name": "carbon",
+      "units": "%"
+    },
+    {
+      "description": "Ave flow distance to stream or object",
+      "file": "aquifer.aqu",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "flo_dist",
+      "route": "editor_map",
+      "spreadsheet_name": "flo_dist",
+      "units": "m"
+    },
+    {
+      "description": "Baseflow rate when entire area is contributing to baseflow",
+      "file": "aquifer.aqu",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "bf_max",
+      "route": "editor_map",
+      "spreadsheet_name": "flo_max",
+      "units": "mm"
+    },
+    {
+      "description": "Alpha factor for groundwater recession curve",
+      "file": "aquifer.aqu",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "alpha",
+      "route": "editor_map",
+      "spreadsheet_name": "alpha_bf",
+      "units": "1/days"
+    },
+    {
+      "description": "Fraction of pet to calculate revap",
+      "file": "aquifer.aqu",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "revap_co",
+      "route": "editor_map",
+      "spreadsheet_name": "revap",
+      "units": "mm"
+    },
+    {
+      "description": "Recharge to deep aquifer (the fraction of root zone percolation that reaches the deep aquifer)",
+      "file": "aquifer.aqu",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "seep",
+      "route": "editor_map",
+      "spreadsheet_name": "rchg_dp",
+      "units": "none"
+    },
+    {
+      "description": "Specific yield for shallow aquifer",
+      "file": "aquifer.aqu",
+      "maximum": 0.4,
+      "minimum": 0.0,
+      "official_name": "spyld",
+      "route": "editor_map",
+      "spreadsheet_name": "spec_yld",
+      "units": "m^3/m^3"
+    },
+    {
+      "description": "Half-life of NO3 in the shallow aquifer",
+      "file": "aquifer.aqu",
+      "maximum": 200.0,
+      "minimum": 0.0,
+      "official_name": "hlife_n",
+      "route": "editor_map",
+      "spreadsheet_name": "hl_no3n",
+      "units": "days"
+    },
+    {
+      "description": "Minimum aquifer storage to allow return flow [m]",
+      "file": "aquifer.aqu",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "flo_min",
+      "route": "editor_map",
+      "spreadsheet_name": "flo_min",
+      "units": null
+    },
+    {
+      "description": "Threshold depth of water in shallow aquifer required to allow revap to occur",
+      "file": "aquifer.aqu",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "revap_min",
+      "route": "editor_map",
+      "spreadsheet_name": "revap_min",
+      "units": "mm"
+    },
+    {
+      "description": "Exponential of the lateral flow travel time",
+      "file": "hydrology.hyd",
+      "maximum": 180.0,
+      "minimum": 0.0,
+      "official_name": "lat_ttime",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_ttime",
+      "units": "days"
+    },
+    {
+      "description": "Sediment concentration in lateral flow",
+      "file": "hydrology.hyd",
+      "maximum": 5000.0,
+      "minimum": 0.0,
+      "official_name": "lat_sed",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_sed",
+      "units": "g/L"
+    },
+    {
+      "description": "Maximum canopy storage",
+      "file": "hydrology.hyd",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "canmx",
+      "route": "editor_map",
+      "spreadsheet_name": "can_max",
+      "units": "mm"
+    },
+    {
+      "description": "Soil evaporation compensation factor",
+      "file": "hydrology.hyd",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "esco",
+      "route": "editor_map",
+      "spreadsheet_name": "esco",
+      "units": "none"
+    },
+    {
+      "description": "Plant water uptake compensation factor",
+      "file": "hydrology.hyd",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "epco",
+      "route": "editor_map",
+      "spreadsheet_name": "epco",
+      "units": "none"
+    },
+    {
+      "description": "Organic N enrichment ratio, if left blank the model will calculate for every event",
+      "file": "hydrology.hyd",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "erorgn",
+      "route": "editor_map",
+      "spreadsheet_name": "orgn_enrich",
+      "units": "none"
+    },
+    {
+      "description": "Organic P enrichment ratio, if left blank  the model will calculate for every event",
+      "file": "hydrology.hyd",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "erorgp",
+      "route": "editor_map",
+      "spreadsheet_name": "orgp_enrich",
+      "units": "none"
+    },
+    {
+      "description": "Soil water at cn3 0=fc; .99=near saturation",
+      "file": "hydrology.hyd",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cn3_swf",
+      "route": "editor_map",
+      "spreadsheet_name": "cn3_swf",
+      "units": null
+    },
+    {
+      "description": "Organic N concentration in lateral flow",
+      "file": "hydrology.hyd",
+      "maximum": 200.0,
+      "minimum": 0.0,
+      "official_name": "lat_orgn",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_orgn",
+      "units": "mg/L"
+    },
+    {
+      "description": "Organic P concentration in lateral flow",
+      "file": "hydrology.hyd",
+      "maximum": 200.0,
+      "minimum": 0.0,
+      "official_name": "lat_orgp",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_orgp",
+      "units": "mg/L"
+    },
+    {
+      "description": "Average slope steepness in HRU",
+      "file": "topography.hyd",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "slope",
+      "route": "editor_map",
+      "spreadsheet_name": "slp",
+      "units": "m/m"
+    },
+    {
+      "description": "Average slope length in HRU",
+      "file": "topography.hyd",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "slope_len",
+      "route": "editor_map",
+      "spreadsheet_name": "slp_len",
+      "units": "m"
+    },
+    {
+      "description": "Slope length for lateral subsurface flow",
+      "file": "topography.hyd",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "lat_len",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_len",
+      "units": "m"
+    },
+    {
+      "description": "Average distance to stream",
+      "file": "topography.hyd",
+      "maximum": 100000.0,
+      "minimum": 0.0,
+      "official_name": "dis_stream",
+      "route": "editor_map",
+      "spreadsheet_name": "dist_cha",
+      "units": "m"
+    },
+    {
+      "description": "Deposition coefficient",
+      "file": "topography.hyd",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "dep_co",
+      "route": "editor_map",
+      "spreadsheet_name": "depos",
+      "units": null
+    },
+    {
+      "description": "Depth of drain tube from the soil surface",
+      "file": "tiledrain.str",
+      "maximum": 6000.0,
+      "minimum": 0.0,
+      "official_name": "depth",
+      "route": "editor_map",
+      "spreadsheet_name": "dp",
+      "units": "mm"
+    },
+    {
+      "description": "Time to drain soil to field capacity",
+      "file": "tiledrain.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "time",
+      "route": "editor_map",
+      "spreadsheet_name": "t_fc",
+      "units": "hrs"
+    },
+    {
+      "description": "Drain tile lag time",
+      "file": "tiledrain.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "lag",
+      "route": "editor_map",
+      "spreadsheet_name": "lag",
+      "units": "hrs"
+    },
+    {
+      "description": "Effective radius of drains",
+      "file": "tiledrain.str",
+      "maximum": 40.0,
+      "minimum": 3.0,
+      "official_name": "radius",
+      "route": "editor_map",
+      "spreadsheet_name": "rad",
+      "units": "mm"
+    },
+    {
+      "description": "Distance between two drain tubes or tiles",
+      "file": "tiledrain.str",
+      "maximum": 30000.0,
+      "minimum": 7600.0,
+      "official_name": "dist",
+      "route": "editor_map",
+      "spreadsheet_name": "dist",
+      "units": "mm"
+    },
+    {
+      "description": "Drainage coefficient",
+      "file": "tiledrain.str",
+      "maximum": 51.0,
+      "minimum": 10.0,
+      "official_name": "drain_co",
+      "route": "editor_map",
+      "spreadsheet_name": "drain",
+      "units": "mm/day"
+    },
+    {
+      "description": "Pump capacity",
+      "file": "tiledrain.str",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "pumpcap",
+      "route": "editor_map",
+      "spreadsheet_name": "pump",
+      "units": "mm/hr"
+    },
+    {
+      "description": "Multiplication factor to determine lateral ksat from SWAT ksat input value",
+      "file": "tiledrain.str",
+      "maximum": 4.0,
+      "minimum": 0.01,
+      "official_name": "latksat",
+      "route": "editor_map",
+      "spreadsheet_name": "lat_ksat",
+      "units": "none"
+    },
+    {
+      "description": "Initial SCS curve number II value",
+      "file": "filterstrip.str",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "vfsi",
+      "route": "editor_map",
+      "spreadsheet_name": "flag",
+      "units": "none"
+    },
+    {
+      "description": "Contouring USLE P factor",
+      "file": "filterstrip.str",
+      "maximum": 300.0,
+      "minimum": 0.0,
+      "official_name": "vfsratio",
+      "route": "editor_map",
+      "spreadsheet_name": "fld_vfs",
+      "units": "ratio"
+    },
+    {
+      "description": "fraction of the total runoff from the entire field",
+      "file": "filterstrip.str",
+      "maximum": 0.75,
+      "minimum": 0.25,
+      "official_name": "vfscon",
+      "route": "editor_map",
+      "spreadsheet_name": "con_vfs",
+      "units": "fraction"
+    },
+    {
+      "description": "Grassed waterway flag (x=active;y=inactive)",
+      "file": "grassedww.str",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "grwat_i",
+      "route": "editor_map",
+      "spreadsheet_name": "flag",
+      "units": "none"
+    },
+    {
+      "description": "Manning's n for grassed waterway",
+      "file": "grassedww.str",
+      "maximum": 0.5,
+      "minimum": 0.001,
+      "official_name": "grwat_n",
+      "route": "editor_map",
+      "spreadsheet_name": "mann",
+      "units": "none"
+    },
+    {
+      "description": "Sediment transport coefficient defined by user",
+      "file": "grassedww.str",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "grwat_spcon",
+      "route": "editor_map",
+      "spreadsheet_name": "sed_co",
+      "units": "none"
+    },
+    {
+      "description": "Depth of grassed waterway",
+      "file": "grassedww.str",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "grwat_d",
+      "route": "editor_map",
+      "spreadsheet_name": "dp",
+      "units": "m"
+    },
+    {
+      "description": "Width of grassed waterway",
+      "file": "grassedww.str",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "grwat_w",
+      "route": "editor_map",
+      "spreadsheet_name": "wd",
+      "units": "m"
+    },
+    {
+      "description": "Length of grassed waterway",
+      "file": "grassedww.str",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "official_name": "grwat_l",
+      "route": "editor_map",
+      "spreadsheet_name": "len",
+      "units": "km"
+    },
+    {
+      "description": "Slope of grassed waterway",
+      "file": "grassedww.str",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "grwat_s",
+      "route": "editor_map",
+      "spreadsheet_name": "slp",
+      "units": "m/m"
+    },
+    {
+      "description": "BMP flag (1=active;2=inactive) ArcSWAT 0 and 1",
+      "file": "bmpuser.str",
+      "maximum": 2.0,
+      "minimum": 1.0,
+      "official_name": "bmp_flag",
+      "route": "editor_map",
+      "spreadsheet_name": "flag",
+      "units": null
+    },
+    {
+      "description": "Sediment removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_sed",
+      "route": "editor_map",
+      "spreadsheet_name": "sed_eff",
+      "units": null
+    },
+    {
+      "description": "Particulate P removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_pp",
+      "route": "editor_map",
+      "spreadsheet_name": "ptlp_eff",
+      "units": null
+    },
+    {
+      "description": "Soluble P removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_sp",
+      "route": "editor_map",
+      "spreadsheet_name": "solp_eff",
+      "units": null
+    },
+    {
+      "description": "Particulate N removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_pn",
+      "route": "editor_map",
+      "spreadsheet_name": "ptln_eff",
+      "units": null
+    },
+    {
+      "description": "Soluble N removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_sn",
+      "route": "editor_map",
+      "spreadsheet_name": "soln_eff",
+      "units": null
+    },
+    {
+      "description": "Bacteria removal by BMP",
+      "file": "bmpuser.str",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "bmp_bac",
+      "route": "editor_map",
+      "spreadsheet_name": "bact_eff",
+      "units": null
+    },
+    {
+      "description": "Days to maturity -if zero use hu for entire growing season; if negative value, considered to be heat units to mat; if positive, input is days to mat;",
+      "file": "plants.plt",
+      "maximum": 300.0,
+      "minimum": 0.0,
+      "official_name": "days_mat",
+      "route": "direct_name",
+      "spreadsheet_name": "days_mat",
+      "units": "none"
+    },
+    {
+      "description": "Biomass-energy ratio",
+      "file": "plants.plt",
+      "maximum": 90.0,
+      "minimum": 10.0,
+      "official_name": "bio_e",
+      "route": "direct_name",
+      "spreadsheet_name": "bm_e",
+      "units": "(kg/ha)/(MJ/m^2)"
+    },
+    {
+      "description": "Maximum (potential) leaf area index",
+      "file": "plants.plt",
+      "maximum": 10.0,
+      "minimum": 0.5,
+      "official_name": "blai",
+      "route": "direct_name",
+      "spreadsheet_name": "lai_pot",
+      "units": "m^2/m^2"
+    },
+    {
+      "description": "Fraction of the growing season heat units corresponding to the 1st point on optimal leaf area development curve",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frgrw1",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_hu1",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of the maximum leaf area index corresponding to the 1st point on optimal leaf area development curve",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "laimx1",
+      "route": "direct_name",
+      "spreadsheet_name": "lai_max1",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of the growing season heat units corresponding to the 2nd point on optimal leaf area development curve",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "frgrw2",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_hu2",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of the maximum leaf area index corresponding to the 2nd point on optimal leaf area development curve",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "laimx2",
+      "route": "direct_name",
+      "spreadsheet_name": "lai_max2",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of growing season when leaf area declines",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.15,
+      "official_name": "dlai",
+      "route": "direct_name",
+      "spreadsheet_name": "hu_lai_decl",
+      "units": "fraction"
+    },
+    {
+      "description": "Maximum canopy height",
+      "file": "plants.plt",
+      "maximum": 20.0,
+      "minimum": 0.1,
+      "official_name": "chtmx",
+      "route": "direct_name",
+      "spreadsheet_name": "can_ht_max",
+      "units": "m"
+    },
+    {
+      "description": "Maximum root depth",
+      "file": "plants.plt",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "official_name": "rdmx",
+      "route": "direct_name",
+      "spreadsheet_name": "rt_dp_max",
+      "units": "m"
+    },
+    {
+      "description": "Optimal temperature for plant growth",
+      "file": "plants.plt",
+      "maximum": 38.0,
+      "minimum": 11.0,
+      "official_name": "t_opt",
+      "route": "direct_name",
+      "spreadsheet_name": "tmp_opt",
+      "units": "deg C"
+    },
+    {
+      "description": "Minimum temperture for plant growth",
+      "file": "plants.plt",
+      "maximum": 18.0,
+      "minimum": 0.0,
+      "official_name": "t_base",
+      "route": "direct_name",
+      "spreadsheet_name": "tmp_base",
+      "units": "deg C"
+    },
+    {
+      "description": "Fraction of N in yield",
+      "file": "plants.plt",
+      "maximum": 0.075,
+      "minimum": 0.0015,
+      "official_name": "cnyld",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_n_yld",
+      "units": "kg N/kg yield"
+    },
+    {
+      "description": "Fraction of P in yield",
+      "file": "plants.plt",
+      "maximum": 0.015,
+      "minimum": 0.0001,
+      "official_name": "cpyld",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_p_yld",
+      "units": "kg P/kg yield"
+    },
+    {
+      "description": "Normal fraction of N in plant biomass at emergence",
+      "file": "plants.plt",
+      "maximum": 0.07,
+      "minimum": 0.004,
+      "official_name": "pltnfr1",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_n_em",
+      "units": "kg N/kg biomass"
+    },
+    {
+      "description": "Normal fraction of N in plant biomass at 50% maturity",
+      "file": "plants.plt",
+      "maximum": 0.05,
+      "minimum": 0.002,
+      "official_name": "pltnfr2",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_n_50",
+      "units": "kg N/kg biomass"
+    },
+    {
+      "description": "Normal fraction of N in plant biomass at maturity",
+      "file": "plants.plt",
+      "maximum": 0.27,
+      "minimum": 0.001,
+      "official_name": "pltnfr3",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_n_mat",
+      "units": "kg N/kg biomass"
+    },
+    {
+      "description": "Normal fraction of P in plant biomass at emergence",
+      "file": "plants.plt",
+      "maximum": 0.01,
+      "minimum": 0.0005,
+      "official_name": "pltpfr1",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_p_em",
+      "units": "kg P/kg biomass"
+    },
+    {
+      "description": "Normal fraction of P in plant biomass at 50% maturity",
+      "file": "plants.plt",
+      "maximum": 0.007,
+      "minimum": 0.0002,
+      "official_name": "pltpfr2",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_p_50",
+      "units": "kg P/kg biomass"
+    },
+    {
+      "description": "Normal fraction of P in plant biomass at maturity",
+      "file": "plants.plt",
+      "maximum": 0.00035,
+      "minimum": 0.0003,
+      "official_name": "pltpfr3",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_p_mat",
+      "units": "kg P/kg biomass"
+    },
+    {
+      "description": "Harvest index that represents the lowest harvest index expected due to water stress",
+      "file": "plants.plt",
+      "maximum": 1.1,
+      "minimum": -0.2,
+      "official_name": "wsyf",
+      "route": "direct_name",
+      "spreadsheet_name": "harv_idx_ws",
+      "units": "(kg/ha)/(kg/ha)"
+    },
+    {
+      "description": "Minimum value of the USLE C factor for water erosion",
+      "file": "plants.plt",
+      "maximum": 0.5,
+      "minimum": 0.001,
+      "official_name": "usle_c",
+      "route": "direct_name",
+      "spreadsheet_name": "usle_c_min",
+      "units": "none"
+    },
+    {
+      "description": "Maximum stomatal conductance",
+      "file": "plants.plt",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "gsi",
+      "route": "direct_name",
+      "spreadsheet_name": "stcon_max",
+      "units": "m/s"
+    },
+    {
+      "description": "Vapor pressure deficit at which FR_STCON_VPD is valid",
+      "file": "plants.plt",
+      "maximum": 6.0,
+      "minimum": 1.5,
+      "official_name": "vpdfr",
+      "route": "direct_name",
+      "spreadsheet_name": "vpd",
+      "units": "kPa"
+    },
+    {
+      "description": "Fraction of maximum stomatal conductance that is achieved at the vapor pressue deficit defined by VPD",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "gmaxfr",
+      "route": "direct_name",
+      "spreadsheet_name": "frac_stcon",
+      "units": "fraction"
+    },
+    {
+      "description": "Rate of decline in radiation use efficiency per unit increase in vapor pressure deficit",
+      "file": "plants.plt",
+      "maximum": 50.0,
+      "minimum": 0.0,
+      "official_name": "wavp",
+      "route": "direct_name",
+      "spreadsheet_name": "ru_vpd",
+      "units": "none"
+    },
+    {
+      "description": "CO2 concentration higher than the ambient corresponding to the 2nd point on radiation use efficiency curve",
+      "file": "plants.plt",
+      "maximum": 1000.0,
+      "minimum": 100.0,
+      "official_name": "co2hi",
+      "route": "direct_name",
+      "spreadsheet_name": "co2_hi",
+      "units": "\u03bcL CO2/L air"
+    },
+    {
+      "description": "Biomass-energy ratio when plant is in an environment with CO2 level equal to the value of CO2_HI",
+      "file": "plants.plt",
+      "maximum": 100.0,
+      "minimum": 5.0,
+      "official_name": "bioehi",
+      "route": "direct_name",
+      "spreadsheet_name": "bm_e_hi",
+      "units": "kg/ha)/(MJ/m^2"
+    },
+    {
+      "description": "Plant residue decomposition coefficient",
+      "file": "plants.plt",
+      "maximum": 0.099,
+      "minimum": 0.01,
+      "official_name": "rsdco_pl",
+      "route": "direct_name",
+      "spreadsheet_name": "plnt_decomp",
+      "units": "none"
+    },
+    {
+      "description": "Minimum LAI during winter dormant period",
+      "file": "plants.plt",
+      "maximum": 0.99,
+      "minimum": 0.0,
+      "official_name": "alai_min",
+      "route": "direct_name",
+      "spreadsheet_name": "lai_min",
+      "units": "m^2/m^2"
+    },
+    {
+      "description": "Fraction of biomass accumulated each year",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "laixco_tree",
+      "route": "direct_name",
+      "spreadsheet_name": "bm_tree_acc",
+      "units": "fraction"
+    },
+    {
+      "description": "Years to maturity",
+      "file": "plants.plt",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "mat_yrs",
+      "route": "direct_name",
+      "spreadsheet_name": "yrs_mat",
+      "units": "years"
+    },
+    {
+      "description": "Maximum biomass for forest (trees only)",
+      "file": "plants.plt",
+      "maximum": 5000.0,
+      "minimum": 0.0,
+      "official_name": "bmx_peren",
+      "route": "direct_name",
+      "spreadsheet_name": "bm_tree_max",
+      "units": "metric tons/ha"
+    },
+    {
+      "description": "Light extinction coefficient",
+      "file": "plants.plt",
+      "maximum": 2.0,
+      "minimum": 0.0,
+      "official_name": "ext_coef",
+      "route": "direct_name",
+      "spreadsheet_name": "ext_co",
+      "units": "none"
+    },
+    {
+      "description": "Above ground biomass that dies off at dormancy",
+      "file": "plants.plt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "bm_dieoff",
+      "route": "direct_name",
+      "spreadsheet_name": "bm_dieoff",
+      "units": "fraction"
+    },
+    {
+      "description": "Resisude factor for precent cover equation",
+      "file": "plants.plt",
+      "maximum": 0.6,
+      "minimum": 0.15,
+      "official_name": "rsd_pctcov",
+      "route": "direct_name",
+      "spreadsheet_name": "rsd_pctcov",
+      "units": "none"
+    },
+    {
+      "description": "Residue factor for surface cover (C factor) equation",
+      "file": "plants.plt",
+      "maximum": 0.09,
+      "minimum": 0.02,
+      "official_name": "rsd_covfac",
+      "route": "direct_name",
+      "spreadsheet_name": "rsd_covfac",
+      "units": "none"
+    },
+    {
+      "description": "Fraction of fertilizer that is mineral N (NO3+NH3)",
+      "file": "fertilizer.frt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fminn",
+      "route": "direct_name",
+      "spreadsheet_name": "min_n",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of fertilizer that is mineral P",
+      "file": "fertilizer.frt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fminp",
+      "route": "direct_name",
+      "spreadsheet_name": "min_p",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of fertilizer that is org N",
+      "file": "fertilizer.frt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "forgn",
+      "route": "direct_name",
+      "spreadsheet_name": "org_n",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of fertilizer that is org P",
+      "file": "fertilizer.frt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "forgp",
+      "route": "direct_name",
+      "spreadsheet_name": "org_p",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of mineral N content of fertilizer that is NH3",
+      "file": "fertilizer.frt",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fnh3n",
+      "route": "direct_name",
+      "spreadsheet_name": "nh3_n",
+      "units": "fraction"
+    },
+    {
+      "description": "Mixing efficiency of tillage operation",
+      "file": "tillage.til",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "effmix",
+      "route": "editor_map",
+      "spreadsheet_name": "mix_eff",
+      "units": "fraction"
+    },
+    {
+      "description": "Depth of mixing caused by tillage",
+      "file": "tillage.til",
+      "maximum": 750.0,
+      "minimum": 0.0,
+      "official_name": "deptil",
+      "route": "editor_map",
+      "spreadsheet_name": "mix_dp",
+      "units": "mm"
+    },
+    {
+      "description": "Random roughness",
+      "file": "tillage.til",
+      "maximum": 200.0,
+      "minimum": 0.0,
+      "official_name": "ranrns",
+      "route": "editor_map",
+      "spreadsheet_name": "rough",
+      "units": "mm"
+    },
+    {
+      "description": "Ridge height",
+      "file": "tillage.til",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ridge_ht",
+      "route": "editor_map",
+      "spreadsheet_name": "ridge_ht",
+      "units": "mm"
+    },
+    {
+      "description": "Ridge interval (or row spacing)",
+      "file": "tillage.til",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ridge_sp",
+      "route": "editor_map",
+      "spreadsheet_name": "ridge_sp",
+      "units": "mm"
+    },
+    {
+      "description": "Solubility of chemical in water",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "solub",
+      "route": "direct_name",
+      "spreadsheet_name": "solub",
+      "units": "mg/L (ppm)"
+    },
+    {
+      "description": "Aquatic pesticide reaction coefficient",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aq_hlife",
+      "route": "direct_name",
+      "spreadsheet_name": "aq_reac",
+      "units": "Flow"
+    },
+    {
+      "description": "Aquatic volitization coefficient",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aq_volat",
+      "route": "direct_name",
+      "spreadsheet_name": "aq_volat",
+      "units": "m/day"
+    },
+    {
+      "description": "Molecular weight to calculate mixing efficiency",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "mol_wt",
+      "route": "direct_name",
+      "spreadsheet_name": "mol_wt",
+      "units": null
+    },
+    {
+      "description": "Aquatic resuspension velocity for pesticide sorbed to sediment",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aq_resus",
+      "route": "direct_name",
+      "spreadsheet_name": "aq_resus",
+      "units": "m/day"
+    },
+    {
+      "description": "Aquatic settling velocity for pesticide sorbed to sediment",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "aq_settle",
+      "route": "direct_name",
+      "spreadsheet_name": "aq_settle",
+      "units": "m/day"
+    },
+    {
+      "description": "Depth of active benthic later",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ben_act_dep",
+      "route": "direct_name",
+      "spreadsheet_name": "ben_act_dep",
+      "units": "m/day"
+    },
+    {
+      "description": "Burial velocity in benthic sediment",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ben_bury",
+      "route": "direct_name",
+      "spreadsheet_name": "ben_bury",
+      "units": "m/day"
+    },
+    {
+      "description": "Reaction coefficient in benthic sediment",
+      "file": "pesticide.pes",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "ben_hlife",
+      "route": "direct_name",
+      "spreadsheet_name": "ben_reac",
+      "units": "1/day"
+    },
+    {
+      "description": "Fraction of HRU area that is impermeable",
+      "file": "urban.urb",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fimp",
+      "route": "editor_map",
+      "spreadsheet_name": "frac_imp",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of HRU that is classified as directly connected impermeable",
+      "file": "urban.urb",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fcimp",
+      "route": "editor_map",
+      "spreadsheet_name": "frac_dc_imp",
+      "units": "fraction"
+    },
+    {
+      "description": "Curb length density",
+      "file": "urban.urb",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "curbden",
+      "route": "editor_map",
+      "spreadsheet_name": "curb_den",
+      "units": "km/ha"
+    },
+    {
+      "description": "Wash-off coefficient for removal of contituents from an impermeable surface",
+      "file": "urban.urb",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "urbcoef",
+      "route": "editor_map",
+      "spreadsheet_name": "urb_wash",
+      "units": "1/mm"
+    },
+    {
+      "description": "Maximum amount of solids allowed to build up on impermeable surfaces",
+      "file": "urban.urb",
+      "maximum": 2000.0,
+      "minimum": 0.0,
+      "official_name": "dirtmx",
+      "route": "editor_map",
+      "spreadsheet_name": "dirt_max",
+      "units": "kg/curb km"
+    },
+    {
+      "description": "Time for the amount of solids on impermeable areas to build up to 1/2 of maximum level",
+      "file": "urban.urb",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "thalf",
+      "route": "editor_map",
+      "spreadsheet_name": "t_halfmax",
+      "units": "days"
+    },
+    {
+      "description": "Concentration of total N in suspended solid load from impermeable areas",
+      "file": "urban.urb",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "tnconc",
+      "route": "editor_map",
+      "spreadsheet_name": "conc_totn",
+      "units": "mg/kg"
+    },
+    {
+      "description": "Concentration of total P in suspended solid load from impermeable areas",
+      "file": "urban.urb",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "tpconc",
+      "route": "editor_map",
+      "spreadsheet_name": "conc_totp",
+      "units": "mg/kg"
+    },
+    {
+      "description": "Concentration of NO3-N in suspended solid load from impermeable areas",
+      "file": "urban.urb",
+      "maximum": 50.0,
+      "minimum": 0.0,
+      "official_name": "tno3conc",
+      "route": "editor_map",
+      "spreadsheet_name": "conc_no3n",
+      "units": "mg/kg"
+    },
+    {
+      "description": "Moisture condition II curve number for impermeable areas",
+      "file": "urban.urb",
+      "maximum": 100.0,
+      "minimum": 30.0,
+      "official_name": "urbcn2",
+      "route": "editor_map",
+      "spreadsheet_name": "urb_cn",
+      "units": "none"
+    },
+    {
+      "description": "flow rate of the septic tank effluent per capita",
+      "file": "septic.sep",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "qs",
+      "route": "editor_map",
+      "spreadsheet_name": "q_rate",
+      "units": "m^3/d"
+    },
+    {
+      "description": "biological oxygen demand of the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": 300.0,
+      "minimum": 0.0,
+      "official_name": "bodconcs",
+      "route": "editor_map",
+      "spreadsheet_name": "bod",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of total suspended solid in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": 300.0,
+      "minimum": 0.0,
+      "official_name": "tssconcs",
+      "route": "editor_map",
+      "spreadsheet_name": "tss",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of total phosphorus in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "nh4concs",
+      "route": "editor_map",
+      "spreadsheet_name": "nh4_n",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of nitrate in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "no3concs",
+      "route": "editor_map",
+      "spreadsheet_name": "no3_n",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of nitrite in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "no2concs",
+      "route": "editor_map",
+      "spreadsheet_name": "no2_n",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of organic nitrogen in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "orgnconcs",
+      "route": "editor_map",
+      "spreadsheet_name": "org_n",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of mineral phosphorus in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "minps",
+      "route": "editor_map",
+      "spreadsheet_name": "min_p",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of organic phosphorus in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "orgps",
+      "route": "editor_map",
+      "spreadsheet_name": "org_p",
+      "units": "mg/l"
+    },
+    {
+      "description": "concentration of fecal coliform in the septic tank effluent",
+      "file": "septic.sep",
+      "maximum": null,
+      "minimum": 0.0,
+      "official_name": "fcolis",
+      "route": "editor_map",
+      "spreadsheet_name": "fcoli",
+      "units": "mg/l"
+    },
+    {
+      "description": "Snowfall temperature",
+      "file": "snow.sno",
+      "maximum": 5.0,
+      "minimum": -5.0,
+      "official_name": "falltmp",
+      "route": "editor_map",
+      "spreadsheet_name": "fall_tmp",
+      "units": "deg C"
+    },
+    {
+      "description": "Snow melt base temperature",
+      "file": "snow.sno",
+      "maximum": 5.0,
+      "minimum": -5.0,
+      "official_name": "melttmp",
+      "route": "editor_map",
+      "spreadsheet_name": "melt_tmp",
+      "units": "deg C"
+    },
+    {
+      "description": "Maximum melt rate for snow during year (June 21)",
+      "file": "snow.sno",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "meltmx",
+      "route": "editor_map",
+      "spreadsheet_name": "melt_max",
+      "units": "mm/deg C/day"
+    },
+    {
+      "description": "Minimum melt rate for snow during year (Dec 21)",
+      "file": "snow.sno",
+      "maximum": 10.0,
+      "minimum": 0.0,
+      "official_name": "meltmn",
+      "route": "editor_map",
+      "spreadsheet_name": "melt_min",
+      "units": "mm/deg C/day"
+    },
+    {
+      "description": "Snow pack temperature lag factor",
+      "file": "snow.sno",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "timp",
+      "route": "editor_map",
+      "spreadsheet_name": "tmp_lag",
+      "units": "none"
+    },
+    {
+      "description": "Minimum snow water content",
+      "file": "snow.sno",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "covmx",
+      "route": "editor_map",
+      "spreadsheet_name": "snow_h2o",
+      "units": "mm H20"
+    },
+    {
+      "description": "Fraction of SNOW_WC",
+      "file": "snow.sno",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "cov50",
+      "route": "editor_map",
+      "spreadsheet_name": "cov50",
+      "units": "none"
+    },
+    {
+      "description": "initial snow water content at start of simulation",
+      "file": "snow.sno",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "init_mm",
+      "route": "editor_map",
+      "spreadsheet_name": "snow_init",
+      "units": "mm H20"
+    },
+    {
+      "description": "Harvest index target specified at harvest (kg/ha)/(kg/ha)",
+      "file": "harv.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "hi_ovr",
+      "route": "editor_map",
+      "spreadsheet_name": "harv_idx",
+      "units": "fraction"
+    },
+    {
+      "description": "Harvest efficiency",
+      "file": "harv.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "eff",
+      "route": "editor_map",
+      "spreadsheet_name": "harv_eff",
+      "units": "fraction"
+    },
+    {
+      "description": "Dry weight of biomass removed by grazing daily",
+      "file": "graze.ops",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "eat",
+      "route": "editor_map",
+      "spreadsheet_name": "bm_eat",
+      "units": "kg/ha"
+    },
+    {
+      "description": "Dry weight of biomass removed by trampling daily",
+      "file": "graze.ops",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "tramp",
+      "route": "editor_map",
+      "spreadsheet_name": "bm_tramp",
+      "units": "kg/ha"
+    },
+    {
+      "description": "Dry weight of manure deposited",
+      "file": "graze.ops",
+      "maximum": 500.0,
+      "minimum": 0.0,
+      "official_name": "manure",
+      "route": "editor_map",
+      "spreadsheet_name": "man_amt",
+      "units": "kg/ha"
+    },
+    {
+      "description": "Minimum plant biomass for grazing to occur",
+      "file": "graze.ops",
+      "maximum": 5000.0,
+      "minimum": 0.0,
+      "official_name": "biomin",
+      "route": "editor_map",
+      "spreadsheet_name": "grz_bm_min",
+      "units": "kg/ha"
+    },
+    {
+      "description": "irrigation application amount",
+      "file": "irr.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "amt_mm",
+      "route": "editor_map",
+      "spreadsheet_name": "irr_amt",
+      "units": "mm"
+    },
+    {
+      "description": "irrigation in-field efficiency",
+      "file": "irr.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "eff",
+      "route": "editor_map",
+      "spreadsheet_name": "irr_eff",
+      "units": null
+    },
+    {
+      "description": "Removal efficiency of sweeping operation",
+      "file": "sweep.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "eff",
+      "route": "editor_map",
+      "spreadsheet_name": "swp_eff",
+      "units": "fraction"
+    },
+    {
+      "description": "Fraction of the curb length that is sweepable",
+      "file": "sweep.ops",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fr_curb",
+      "route": "editor_map",
+      "spreadsheet_name": "frac_curb",
+      "units": "fraction"
+    },
+    {
+      "description": "Month of operation",
+      "file": "management.sch",
+      "maximum": 12.0,
+      "minimum": 1.0,
+      "official_name": "mon",
+      "route": "direct_name",
+      "spreadsheet_name": "mon",
+      "units": "none"
+    },
+    {
+      "description": "Day of Operation",
+      "file": "management.sch",
+      "maximum": 31.0,
+      "minimum": 1.0,
+      "official_name": "day",
+      "route": "direct_name",
+      "spreadsheet_name": "day",
+      "units": "none"
+    },
+    {
+      "description": "Plant count in community",
+      "file": "plant.ini",
+      "maximum": null,
+      "minimum": 1.0,
+      "official_name": "plants_com",
+      "route": "direct_name",
+      "spreadsheet_name": "plnt_cnt",
+      "units": "none"
+    },
+    {
+      "description": "Initial leaf area index",
+      "file": "plant.ini",
+      "maximum": 8.0,
+      "minimum": 0.0,
+      "official_name": "lai",
+      "route": "editor_map",
+      "spreadsheet_name": "lai_init",
+      "units": "m^2/m^2"
+    },
+    {
+      "description": "Initial biomass",
+      "file": "plant.ini",
+      "maximum": 1000.0,
+      "minimum": 0.0,
+      "official_name": "bioms",
+      "route": "editor_map",
+      "spreadsheet_name": "bm_init",
+      "units": "kg/ha"
+    },
+    {
+      "description": "Initial residue cover",
+      "file": "plant.ini",
+      "maximum": 10000.0,
+      "minimum": 0.0,
+      "official_name": "rsdin",
+      "route": "editor_map",
+      "spreadsheet_name": "rsd_init",
+      "units": "kg/ha"
+    },
+    {
+      "description": null,
+      "file": "soil_plant.ini",
+      "maximum": null,
+      "minimum": 1.0,
+      "official_name": "sw_frac",
+      "route": "direct_name",
+      "spreadsheet_name": "sw_frac",
+      "units": "none"
+    },
+    {
+      "description": "Layer count",
+      "file": "soils.sol",
+      "maximum": 10.0,
+      "minimum": 1.0,
+      "official_name": "nly",
+      "route": "editor_map",
+      "spreadsheet_name": "lay_cnt",
+      "units": "none"
+    },
+    {
+      "description": "Depth of soil",
+      "file": "soils.sol",
+      "maximum": 3500.0,
+      "minimum": 0.0,
+      "official_name": "zmx",
+      "route": "editor_map",
+      "spreadsheet_name": "dp_tot",
+      "units": "mm"
+    },
+    {
+      "description": "Fraction of porosity from which anions are excluded",
+      "file": "soils.sol",
+      "maximum": 1.0,
+      "minimum": 0.01,
+      "official_name": "anion_excl",
+      "route": "editor_map",
+      "spreadsheet_name": "anion_excl",
+      "units": "fraction"
+    },
+    {
+      "description": "Percolation due to crack flow ArcSWAT: Crack volume potential of soil (m^3/m^3)",
+      "file": "soils.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "crk",
+      "route": "editor_map",
+      "spreadsheet_name": "perc_crk",
+      "units": "mm H2O"
+    },
+    {
+      "description": "Depth to bottom of layer",
+      "file": "soils.sol",
+      "maximum": 3500.0,
+      "minimum": 0.0,
+      "official_name": "z",
+      "route": "editor_map",
+      "spreadsheet_name": "dp",
+      "units": "mm"
+    },
+    {
+      "description": "bulk density of layer",
+      "file": "soils.sol",
+      "maximum": 2.5,
+      "minimum": 0.9,
+      "official_name": "bd",
+      "route": "editor_map",
+      "spreadsheet_name": "bd",
+      "units": "g/cm^3"
+    },
+    {
+      "description": "Available water capacity of soil layer",
+      "file": "soils.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "awc",
+      "route": "editor_map",
+      "spreadsheet_name": "awc",
+      "units": "mm/mm"
+    },
+    {
+      "description": "Saturated hydraulic conductivity of soil layer",
+      "file": "soils.sol",
+      "maximum": 2000.0,
+      "minimum": 0.0,
+      "official_name": "k",
+      "route": "editor_map",
+      "spreadsheet_name": "soil_k",
+      "units": "mm/hr"
+    },
+    {
+      "description": "Carbon in soil layer",
+      "file": "soils.sol",
+      "maximum": 10.0,
+      "minimum": 0.05,
+      "official_name": "cbn",
+      "route": "editor_map",
+      "spreadsheet_name": "carbon",
+      "units": "%"
+    },
+    {
+      "description": "Clay in soil layer",
+      "file": "soils.sol",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "clay",
+      "route": "editor_map",
+      "spreadsheet_name": "clay",
+      "units": "%"
+    },
+    {
+      "description": "Silt in soil layer",
+      "file": "soils.sol",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "silt",
+      "route": "editor_map",
+      "spreadsheet_name": "silt",
+      "units": "%"
+    },
+    {
+      "description": "Sand in soil layer",
+      "file": "soils.sol",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "sand",
+      "route": "editor_map",
+      "spreadsheet_name": "sand",
+      "units": "%"
+    },
+    {
+      "description": "Rock in soil layer",
+      "file": "soils.sol",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "rock",
+      "route": "editor_map",
+      "spreadsheet_name": "rock",
+      "units": "%"
+    },
+    {
+      "description": "Soil albedo when soil is moist",
+      "file": "soils.sol",
+      "maximum": 0.25,
+      "minimum": 0.0,
+      "official_name": "alb",
+      "route": "editor_map",
+      "spreadsheet_name": "alb",
+      "units": "none"
+    },
+    {
+      "description": "USLE equation soil erodibility (K) factor",
+      "file": "soils.sol",
+      "maximum": 0.65,
+      "minimum": 0.0,
+      "official_name": "usle_k",
+      "route": "editor_map",
+      "spreadsheet_name": "usle_k",
+      "units": "mm/hr"
+    },
+    {
+      "description": "Electrical conductivity of soil layer",
+      "file": "soils.sol",
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "official_name": "ec",
+      "route": "editor_map",
+      "spreadsheet_name": "ec",
+      "units": "dS/m"
+    },
+    {
+      "description": "CaCO3 in soil layer",
+      "file": "soils.sol",
+      "maximum": 65.0,
+      "minimum": 0.0,
+      "official_name": "cal",
+      "route": "editor_map",
+      "spreadsheet_name": "caco3",
+      "units": "%"
+    },
+    {
+      "description": "pH value of soil layer",
+      "file": "soils.sol",
+      "maximum": 10.0,
+      "minimum": 3.0,
+      "official_name": "ph",
+      "route": "editor_map",
+      "spreadsheet_name": "ph",
+      "units": "none"
+    },
+    {
+      "description": "Depth coefficient to adjust concentrations for depth",
+      "file": "nutrients.sol",
+      "maximum": 0.002,
+      "minimum": 0.0005,
+      "official_name": "exp_co",
+      "route": "editor_map",
+      "spreadsheet_name": "exp_co",
+      "units": null
+    },
+    {
+      "description": "Labile P in soil surface",
+      "file": "nutrients.sol",
+      "maximum": 20.0,
+      "minimum": 0.0,
+      "official_name": "lab_p",
+      "route": "editor_map",
+      "spreadsheet_name": "lab_p",
+      "units": "ppm"
+    },
+    {
+      "description": "Nitrate N in soil surface",
+      "file": "nutrients.sol",
+      "maximum": 40.0,
+      "minimum": 0.0,
+      "official_name": "nitrate",
+      "route": "editor_map",
+      "spreadsheet_name": "nitrate",
+      "units": "ppm"
+    },
+    {
+      "description": "Fraction of soil humus that is active",
+      "file": "nutrients.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "fr_hum_act",
+      "route": "editor_map",
+      "spreadsheet_name": "fr_hum_act",
+      "units": "0-1"
+    },
+    {
+      "description": "Humus C:N ratio",
+      "file": "nutrients.sol",
+      "maximum": 12.0,
+      "minimum": 8.0,
+      "official_name": "hum_c_n",
+      "route": "editor_map",
+      "spreadsheet_name": "hum_c_n",
+      "units": "ratio"
+    },
+    {
+      "description": "Humus C:P ratio",
+      "file": "nutrients.sol",
+      "maximum": 90.0,
+      "minimum": 70.0,
+      "official_name": "hum_c_p",
+      "route": "editor_map",
+      "spreadsheet_name": "hum_c_p",
+      "units": "ratio"
+    },
+    {
+      "description": "Inorganic P in soil surface-not currently used",
+      "file": "nutrients.sol",
+      "maximum": 15.0,
+      "minimum": 0.0,
+      "official_name": "inorgp",
+      "route": "editor_map",
+      "spreadsheet_name": "inorgp",
+      "units": "ppm"
+    },
+    {
+      "description": "Water soluble P in soil surface-not currently used",
+      "file": "nutrients.sol",
+      "maximum": 0.5,
+      "minimum": 0.0,
+      "official_name": "watersol_p",
+      "route": "editor_map",
+      "spreadsheet_name": "watersol_p",
+      "units": "ppm"
+    },
+    {
+      "description": "H3a in soil surface-not currently used",
+      "file": "nutrients.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "h3a_p",
+      "route": "editor_map",
+      "spreadsheet_name": "h3a_p",
+      "units": "ppm"
+    },
+    {
+      "description": "Mehlich P in soil surface--not currently used",
+      "file": "nutrients.sol",
+      "maximum": 5.0,
+      "minimum": 0.0,
+      "official_name": "mehlich_p",
+      "route": "editor_map",
+      "spreadsheet_name": "mehlich_p",
+      "units": "ppm"
+    },
+    {
+      "description": "Bray P in soil surface-not currently used",
+      "file": "nutrients.sol",
+      "maximum": 3.0,
+      "minimum": 0.0,
+      "official_name": "bray_strong_p",
+      "route": "editor_map",
+      "spreadsheet_name": "bray_strong_p",
+      "units": "ppm"
+    },
+    {
+      "description": "available water capacity for lte soil",
+      "file": "soils_lte.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "awc",
+      "route": "editor_map",
+      "spreadsheet_name": "awc_lte",
+      "units": "mm/mm"
+    },
+    {
+      "description": "porosity for lte soil",
+      "file": "soils_lte.sol",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "official_name": "por",
+      "route": "editor_map",
+      "spreadsheet_name": "por_lte",
+      "units": "mm/mm"
+    },
+    {
+      "description": "saturated condcutivity for lte soil",
+      "file": "soils_lte.sol",
+      "maximum": 2000.0,
+      "minimum": 0.0,
+      "official_name": "scon",
+      "route": "editor_map",
+      "spreadsheet_name": "scon_lte",
+      "units": "mm/hr"
+    }
+  ],
+  "drift": [
+    {
+      "code": "name_not_in_schema",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 0.0,
+      "name": "rtu_wq"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "codes.bsn",
+      "maximum": 1.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 0.0,
+      "name": "i_fpwet"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "weather-wgn.cli",
+      "maximum": 12.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 0.0,
+      "name": "month"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "hru.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "hru-lte.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "rout_unit.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "aquifer.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "channel.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "reservoir.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "exco.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "delratio.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "chandeg.con",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "weir.res",
+      "maximum": 24.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "numb_steps"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "soils.sol",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "lay_numb"
+    },
+    {
+      "code": "name_not_in_schema",
+      "file": "ls_unit.def",
+      "maximum": 10.0,
+      "message": "No official field matches this spreadsheet name.",
+      "minimum": 1.0,
+      "name": "elem_numb"
+    }
+  ],
+  "needs_review": [
+    {
+      "code": "no_editor_mapping",
+      "file": "recall.con",
+      "maximum": 10.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "outlet.con",
+      "maximum": 10.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.0,
+      "name": "obj_numb"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "sed_nut.cha",
+      "maximum": 1.9,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.1,
+      "name": "part_size"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "rout_unit.def",
+      "maximum": 10.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.0,
+      "name": "elem_numb"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "aqu_cha.lin",
+      "maximum": 10.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.0,
+      "name": "elem_numb"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "pesticide.pes",
+      "maximum": 999999999.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 1.0,
+      "name": "soil_ads"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "pesticide.pes",
+      "maximum": 1.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 0.0,
+      "name": "frac_wash"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "pesticide.pes",
+      "maximum": 10000.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 0.0,
+      "name": "hl_foliage"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "pesticide.pes",
+      "maximum": 100000.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 0.0,
+      "name": "hl_soil"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "cntable.lum",
+      "maximum": 100.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 30.0,
+      "name": "cn_a"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "cntable.lum",
+      "maximum": 100.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 30.0,
+      "name": "cn_b"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "cntable.lum",
+      "maximum": 100.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 30.0,
+      "name": "cn_c"
+    },
+    {
+      "code": "no_editor_mapping",
+      "file": "cntable.lum",
+      "maximum": 100.0,
+      "message": "This file has no Editor pairing, so the name could not be translated.",
+      "minimum": 30.0,
+      "name": "cn_d"
+    }
+  ],
+  "quarantined": [
+    {
+      "code": "placeholder_zero_range",
+      "file": "print.prt",
+      "maximum": 0.0,
+      "message": "Both bounds are 0; a placeholder, not a range.",
+      "minimum": 0.0,
+      "name": "yrc_start"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "object.cnt",
+      "maximum": null,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "name"
+    },
+    {
+      "code": "fraction_bound_conflict",
+      "file": "parameters.bsn",
+      "maximum": 24.0,
+      "message": "Row is described as a fraction but the maximum is 24.0.",
+      "minimum": 1.0,
+      "name": "ffcb"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "sed_nut.cha",
+      "maximum": 4.0,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "order"
+    },
+    {
+      "code": "placeholder_zero_range",
+      "file": "hydrology.hyd",
+      "maximum": 0.0,
+      "message": "Both bounds are 0; a placeholder, not a range.",
+      "minimum": 0.0,
+      "name": "latq_co"
+    },
+    {
+      "code": "fraction_bound_conflict",
+      "file": "filterstrip.str",
+      "maximum": 100.0,
+      "message": "Row is described as a fraction but the maximum is 100.0.",
+      "minimum": 0.0,
+      "name": "vfsch"
+    },
+    {
+      "code": "fraction_bound_conflict",
+      "file": "plants.plt",
+      "maximum": 1.25,
+      "message": "Row is described as a fraction but the maximum is 1.25.",
+      "minimum": 0.01,
+      "name": "hvsti"
+    },
+    {
+      "code": "fraction_bound_conflict",
+      "file": "irr.ops",
+      "maximum": 100.0,
+      "message": "Row is described as a fraction but the maximum is 100.0.",
+      "minimum": 0.0,
+      "name": "surq"
+    },
+    {
+      "code": "fraction_bound_conflict",
+      "file": "fire.ops",
+      "maximum": 100.0,
+      "message": "Row is described as a fraction but the maximum is 100.0.",
+      "minimum": 0.0,
+      "name": "fr_burn"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "landuse.lum",
+      "maximum": 1.0,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "cons_prac"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "codes.sft",
+      "maximum": null,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 1.0,
+      "name": "sed"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "codes.sft",
+      "maximum": 3500.0,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "chsed"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "codes.sft",
+      "maximum": 8.0,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "chnut"
+    },
+    {
+      "code": "range_on_non_numeric_field",
+      "file": "codes.sft",
+      "maximum": 1000.0,
+      "message": "The schema marks this field non-numeric, so a numeric range cannot apply.",
+      "minimum": 0.0,
+      "name": "res"
+    }
+  ],
+  "source": "modular_database_rev_61_0_nbs.csv",
+  "summary": {
+    "applied": 444,
+    "drift": 15,
+    "needs_review": 13,
+    "not_applicable": 526,
+    "quarantined": 14
+  },
+  "swatplus_version": "62.0.0"
+}

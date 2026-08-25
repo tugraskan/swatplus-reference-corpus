@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swatplus-reference-corpus"
+version = "0.1.0"
+description = "Source-grounded reference corpus and documentation generator for SWAT+."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "SWAT+ Reference Corpus maintainers" },
+]
+keywords = ["SWAT+", "Fortran", "documentation", "reference corpus"]
+dependencies = [
+    "fparser>=0.2",
+    "PyYAML>=6.0",
+    "mkdocs-material>=9.5",
+]
+
+[project.optional-dependencies]
+fill = ["anthropic>=0.40"]
+editor = ["peewee>=3.14"]
+dev = ["pytest>=8.0", "anthropic>=0.40", "peewee>=3.14"]
+
+[project.scripts]
+swatref = "swatplus_reference.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-p no:cacheprovider"
+testpaths = ["tests"]

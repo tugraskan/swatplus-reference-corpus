@@ -1,0 +1,52 @@
+name: validate-corpus
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Test and reproduce all artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Unit tests
+        run: pytest -q
+      - name: Fetch and verify configured SWAT+ sources
+        run: |
+          swatref source fetch main
+          swatref source fetch release_62_0_0
+          swatref source show main
+          swatref source show release_62_0_0
+      - name: Parse source
+        run: swatref docs parse
+      - name: Require a current corpus
+        run: swatref docs status --verbose --require-current
+      - name: Grounding checks
+        run: swatref docs check
+      - name: Render and build site
+        run: |
+          swatref docs render
+          mkdocs build --strict
+      - name: Rebuild release schema and reports
+        run: |
+          swatref schema build
+          swatref schema ranges
+          swatref schema field-map
+          git diff --exit-code -- schemas reports/schema
+      - name: Upload rendered site
+        uses: actions/upload-artifact@v4
+        with:
+          name: swatplus-reference-corpus-site
+          path: _site

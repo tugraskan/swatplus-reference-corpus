@@ -1,0 +1,39 @@
+# One repository, two independently selectable SWAT+ source baselines.
+default_source = "main"
+
+[sources.main]
+repository = "https://github.com/swat-model/swatplus"
+ref = "main"
+commit = "cb442f7c05fc3bfc34349c446010f452d2737ca0"
+checkout = "external/swatplus-cb442f7c05fc"
+subdir = "src"
+label = "SWAT+ main @ cb442f7c05fc"
+depth = 1
+
+[sources.release_62_0_0]
+repository = "https://github.com/swat-model/swatplus"
+ref = "62.0.0"
+commit = "de210d64db4f1d75e110bd6af33ea9c333d27b8a"
+checkout = "external/swatplus-62.0.0"
+subdir = "src"
+label = "SWAT+ 62.0.0"
+depth = 1
+
+[docs]
+source = "main"
+pages = "docs_src"
+facts = ".swatref/docs/facts.json"
+render = "docs"
+
+[schema]
+source = "release_62_0_0"
+version = "62.0.0"
+output_dir = "schemas/releases"
+range_csv = "schema_data/modular_database_rev_61_0_nbs.csv"
+editor_report = "reports/schema/swatplus-62.0.0-editor-schema-report.json"
+reports_dir = "reports/schema"
+
+[fill]
+model = "claude-opus-4-8"
+max_tokens = 8192
+concurrency = 4

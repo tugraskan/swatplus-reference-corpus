@@ -1,0 +1,147 @@
+---
+kind: output_family
+source_symbols:
+- hcsout_output
+- header_cs
+title: hydout_metals_*
+status: filled
+source_hash: b90a64c853492134
+version_label: SWAT+ 62.0.0
+---
+
+**Kind:** output family  
+**Opened by:** [`header_cs`](../procedures/header_cs.md)  
+**Written by:** [`hcsout_output`](../procedures/hcsout_output.md)  
+**Primary data type:** `constituent_mass_module::constituent_mass` (the `%hmet` array of `hcs1` / `obcs(iob)%hcsout_*(iiout)`)  
+**Files covered:** `hydout_metals_day`, `hydout_metals_mon`, `hydout_metals_yr`, `hydout_metals_aa` text/CSV pairs
+
+## Bottom Line
+
+`hydout_metals_*` reports the heavy-metal mass carried **out of** each spatial object on each of its outgoing hydrograph connections. `hcsout_output` walks every spatial object (`iob = 1, sp_ob%objs`) and, for each object, every outgoing hydrograph (`iiout = 1, ob(iob)%src_tot`). It writes one row per object-outflow link: time, the object identity, the descriptors of that outflow link, and then one value per simulated heavy metal (an implied-do over `imetal = 1, cs_db%num_metals`).
+
+This is one documentation page, not four. Daily, monthly, yearly, and average-annual files share the same row layout; only the file name, unit number, print condition, and source state object differ. The daily row is written from `hcs1` (the current outgoing constituent hydrograph); the coarser frequencies use the `hcsout_m`, `hcsout_y`, and `hcsout_a` accumulators.
+
+> **What each row means:** one outgoing hydrograph link leaving one object for one reporting period. The first columns say which object it is and where the outflow goes (destination object type/number, hydrograph type, and the fraction of this object's hydrograph sent on this link); the remaining columns give the mass of each simulated heavy metal carried out on that link. If a run simulates N heavy metals there are N constituent columns. Pick the file whose frequency matches your timestep — the columns are the same across all four. Whole files only exist when at least one heavy metal is simulated (`cs_db%num_metals > 0`).
+
+## Output Family
+
+| Frequency | Text File | CSV File | Text Unit | CSV Unit | State Written | Write Lines |
+|---|---|---|---:|---:|---|---|
+| Daily | `hydout_metals_day.txt` | `hydout_metals_day.csv` | 2748 | 2764 | `hcs1%hmet` | `hcsout_output.f90:44, 48` |
+| Monthly | `hydout_metals_mon.txt` | `hydout_metals_mon.csv` | 2749 | 2765 | `obcs(iob)%hcsout_m(iiout)%hmet` | `hcsout_output.f90:95, 99` |
+| Yearly | `hydout_metals_yr.txt` | `hydout_metals_yr.csv` | 2750 | 2766 | `obcs(iob)%hcsout_y(iiout)%hmet` | `hcsout_output.f90:146, 150` |
+| Average annual | `hydout_metals_aa.txt` | `hydout_metals_aa.csv` | 2751 | 2767 | `obcs(iob)%hcsout_a(iiout)%hmet` | `hcsout_output.f90:197, 201` |
+
+## File Contracts
+
+| Frequency | Open Condition | Open Lines | Header Row | Catalog Entry |
+|---|---|---|---|---|
+| Daily | `pco%hyd%d == "y"` and `cs_db%num_metals > 0` | `header_cs.f90:265` (txt), `:270` (csv) | `csout_hyd_hdr` + one `cs_hmet_solsor` label group per metal (`header_cs.f90:268`) | `HYDOUT_METALS hydout_metals_day.txt/csv` |
+| Monthly | `pco%hyd%m == "y"` and `cs_db%num_metals > 0` | `header_cs.f90:320` (txt), `:325` (csv) | same | `HYDOUT_METALS hydout_metals_mon.txt/csv` |
+| Yearly | `pco%hyd%y == "y"` and `cs_db%num_metals > 0` | `header_cs.f90:376` (txt), `:381` (csv) | same | `HYDOUT_METALS hydout_metals_yr.txt/csv` |
+| Average annual | `pco%hyd%a == "y"` and `cs_db%num_metals > 0` | `header_cs.f90:431` (txt), `:436` (csv) | same | `HYDOUT_METALS hydout_metals_aa.txt/csv` |
+
+## Writer And Print Controls
+
+| Control | Source Line | Applies To | Meaning |
+|---|---:|---|---|
+| `cs_db%num_metals > 0` | `hcsout_output.f90:43`, `header_cs.f90:264` | All | Nothing is opened or written unless at least one heavy metal is simulated. |
+| `pco%hyd%d == "y"` | `header_cs.f90:237`, `hcsout_output.f90:20` | Daily | Enables the daily HYDOUT constituent files. |
+| `pco%day_print == "y"` and `pco%int_day_cur == pco%int_day` | `hcsout_output.f90:19` | Daily | Restricts daily rows to the configured print interval. |
+| `pco%hyd%m == "y"` | `header_cs.f90:292`, `hcsout_output.f90:71` | Monthly | Enables monthly HYDOUT files. |
+| `pco%hyd%y == "y"` | `header_cs.f90:348`, `hcsout_output.f90:122` | Yearly | Enables yearly HYDOUT files. |
+| `pco%hyd%a == "y"` | `header_cs.f90:403`, `hcsout_output.f90:172` | Average annual | Enables average-annual HYDOUT files. |
+| `pco%csvout == "y"` | `hcsout_output.f90:47`, `header_cs.f90:269` | CSV companions | Enables the CSV file beside each text file. |
+| `time%end_mo == 1` | `hcsout_output.f90:70` | Monthly | Writes monthly rows at month end. |
+| `time%end_yr == 1` | `hcsout_output.f90:121` | Yearly | Writes yearly rows at year end. |
+| `time%end_sim == 1` | `hcsout_output.f90:172` | Average annual | Writes average-annual rows at simulation end. |
+
+## Shared Record Layout
+
+| Row Part | Columns | Source | Meaning |
+|---|---|---|---|
+| Title row | Basin name and program string | `header_cs.f90:267` | Identifies the model run. |
+| Header row | `csout_hyd_hdr` + per-metal labels | `header_cs.f90:268` | Column names; see the note about label/value alignment in Review Notes. |
+| Data row | time, object identity, outflow descriptors, per-metal mass | `hcsout_output.f90:44` | One outgoing hydrograph link for the active frequency. |
+
+```text
+title:   bsn%name, prog
+header:  csout_hyd_hdr, (cs_hmet_solsor(imet), imet = 1, num_metals)
+data:    jday mon day yr iob gis_id type num obtypout obtyp_noout htyp_out frac_out  hmet(1) ... hmet(num_metals)
+```
+
+## Columns Written
+
+The first twelve columns are fixed. The heavy-metal columns then repeat once per simulated metal (`imetal = 1, cs_db%num_metals`).
+
+| Column | Unit | Source Field | Source-Backed Meaning |
+|---|---|---|---|
+| `jday` |  | `time%day` | Julian day / simulation day of the reporting period. |
+| `mon` |  | `time%mo` | Simulation month. |
+| `day` |  | `time%day_mo` | Day of month. |
+| `yr` |  | `time%yrc` | Calendar year. |
+| `iob` |  | `iob` | Spatial object number of the source object. |
+| `gis_id` |  | `ob(iob)%gis_id` | GIS id of the source object. |
+| `type` |  | `ob(iob)%typ` | Source object type (hru, sd_hru, chan, res, recall, …). |
+| `num` |  | `ob(iob)%num` | Spatial object number within its type. |
+| `obtypout` |  | `ob(iob)%obtyp_out(iiout)` | Outflow (destination) object type of this outgoing hydrograph. |
+| `obtyp_noout` |  | `ob(iob)%obtypno_out(iiout)` | Outflow object type number (which destination object of that type). |
+| `htyp_out` |  | `ob(iob)%htyp_out(iiout)` | Outflow hydrograph type (tot, rec, surf, …). |
+| `frac_out` | frac | `ob(iob)%frac_out(iiout)` | Fraction of this object's hydrograph sent on this outgoing link. |
+| `hmet(imetal)` | kg/ha | `hcs1%hmet(imetal)` / `hcsout_*(iiout)%hmet(imetal)` | Mass of heavy metal `imetal` carried out on this outgoing hydrograph. One column per simulated metal. |
+
+## Frequency-Specific Behavior
+
+| Aspect | Daily | Monthly | Yearly | Average annual |
+|---|---|---|---|---|
+| State object | `hcs1` | `hcsout_m(iiout)` | `hcsout_y(iiout)` | `hcsout_a(iiout)` |
+| Text/CSV units | 2748 / 2764 | 2749 / 2765 | 2750 / 2766 | 2751 / 2767 |
+| Trigger | daily print interval | `time%end_mo == 1` | `time%end_yr == 1` | `time%end_sim == 1` |
+| Print flag | `pco%hyd%d` | `pco%hyd%m` | `pco%hyd%y` | `pco%hyd%a` |
+
+The columns are identical across all four frequencies; only the accumulation window and the source state object differ.
+
+## Data Sources And Calculations
+
+- The daily row is written directly from `hcs1`, the current outgoing constituent hydrograph for that outflow link (there is no separate `hcsout_d` accumulator).
+- After the daily block the daily hydrograph is accumulated into the monthly state (`hcsout_m(iiout) = hcsout_m(iiout) + hcs1`, `hcsout_output.f90:67`).
+- Monthly is accumulated into yearly (`hcsout_y(iiout) = hcsout_y(iiout) + hcsout_m(iiout)`, `hcsout_output.f90:118`), and yearly into average-annual (`hcsout_a(iiout) = hcsout_a(iiout) + hcsout_y(iiout)`, `hcsout_output.f90:169`).
+- These are running sums of heavy-metal mass; the writer does not divide the constituent columns by the number of days or years, so monthly/yearly/average-annual rows are period totals of the daily outflow.
+
+## Writer Flow
+
+1. Loop over every spatial object `iob = 1, sp_ob%objs`.
+2. For each object, loop over every outgoing hydrograph `iiout = 1, ob(iob)%src_tot`.
+3. If daily printing is enabled and within the print interval and `cs_db%num_metals > 0`, write the daily row from `hcs1` to unit 2748 (and 2764 for CSV).
+4. Accumulate `hcs1` into the monthly state; at month end write the monthly row from `hcsout_m(iiout)`.
+5. Accumulate into the yearly state; at year end write the yearly row from `hcsout_y(iiout)`.
+6. Accumulate into the average-annual state; at simulation end write the average-annual row from `hcsout_a(iiout)`.
+
+## Line-Based I/O Trace
+
+| Source Line | Operation | Unit | File | Fields |
+|---:|---|---|---|---|
+| `hcsout_output.f90:44` | `write` | `2748` | `hydout_metals_day.txt` | time, object identity, outflow descriptors, `hcs1%hmet(:)` |
+| `hcsout_output.f90:48` | `write` | `2764` | `hydout_metals_day.csv` | time, object identity, outflow descriptors, `hcs1%hmet(:)` |
+| `hcsout_output.f90:95` | `write` | `2749` | `hydout_metals_mon.txt` | time, object identity, outflow descriptors, `hcsout_m(iiout)%hmet(:)` |
+| `hcsout_output.f90:146` | `write` | `2750` | `hydout_metals_yr.txt` | time, object identity, outflow descriptors, `hcsout_y(iiout)%hmet(:)` |
+| `hcsout_output.f90:197` | `write` | `2751` | `hydout_metals_aa.txt` | time, object identity, outflow descriptors, `hcsout_a(iiout)%hmet(:)` |
+
+## Review Notes
+
+- **Header/data column alignment.** The fixed part of the header (`csout_hyd_hdr`, `constituent_mass_module.f90:568-581`) has twelve labels that match the twelve fixed data columns. Each metal then contributes a `cs_hmet_solsor` group (`sol_out`/`sor_out`, two labels) to the header, while the data row writes a single value per metal. Readers aligning constituent columns by position should key off the writer (`hcsout_output.f90:44`), not the per-constituent header labels.
+- The heavy-metal value unit is `kg/ha`, from the `%hmet` comment in `type constituent_mass` (`constituent_mass_module.f90:82`).
+- Rows are emitted per outgoing hydrograph link, so an object with several outflows contributes several rows per period.
+
+## Source Links
+
+- Writer: [`hcsout_output`](../procedures/hcsout_output.md) (`hcsout_output.f90:1-222`)
+- Header/opener: [`header_cs`](../procedures/header_cs.md) (`header_cs.f90:236-455`)
+- Data type: `constituent_mass_module::constituent_mass` (`%hmet`)
+
+## Evidence Used
+
+- `hcsout_output.f90:1-222`
+- `header_cs.f90:236-455`
+- `constituent_mass_module.f90:79-90` (`type constituent_mass`), `:154` (`hcs1`), `:159-174` (`all_constituent_hydrograph`, `obcs`), `:568-591` (`csout_hyd_hdr`, `sol_sor`)
+- `hydrograph_module.f90:350-355` (`obtyp_out`, `obtypno_out`, `htyp_out`, `frac_out`)
