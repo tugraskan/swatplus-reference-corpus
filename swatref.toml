@@ -19,6 +19,24 @@ subdir = "src"
 label = "SWAT+ 62.0.0"
 depth = 1
 
+[sources.dev_pr252_base]
+repository = "https://github.com/swat-model/swatplus"
+ref = "dev"
+commit = "e05177f4cb837613cf465802159eb723401668bb"
+checkout = "external/swatplus-pr-252-base"
+subdir = "src"
+label = "SWAT+ PR 252 dev base @ e05177f4cb83"
+depth = 1
+
+[sources.pr_252]
+repository = "https://github.com/swat-model/swatplus"
+ref = "refs/pull/252/head"
+commit = "795d2d92ef11bfb3c30a6b38fd987463f025ef93"
+checkout = "external/swatplus-pr-252"
+subdir = "src"
+label = "SWAT+ PR 252 candidate @ 795d2d92ef11"
+depth = 1
+
 [docs]
 source = "main"
 pages = "docs_src"
@@ -32,6 +50,14 @@ output_dir = "schemas/releases"
 range_csv = "schema_data/modular_database_rev_61_0_nbs.csv"
 editor_report = "reports/schema/swatplus-62.0.0-editor-schema-report.json"
 reports_dir = "reports/schema"
+
+[comparisons.pr_252]
+base_source = "dev_pr252_base"
+candidate_source = "pr_252"
+output_dir = "reports/comparisons/pr-252"
+work_dir = ".swatref/comparisons/pr-252"
+title = "SWAT+ pull request 252"
+url = "https://github.com/swat-model/swatplus/pull/252"
 
 [fill]
 model = "claude-opus-4-8"

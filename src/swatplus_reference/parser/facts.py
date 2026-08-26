@@ -149,9 +149,12 @@ class FactStore:
         return json.dumps(
             {
                 "source_ref": self.source_ref,
-                "symbols": {k: enc_symbol(v) for k, v in self.symbols.items()},
-                "parse_errors": self.parse_errors,
-                "fallback_files": self.fallback_files,
+                "symbols": {
+                    key: enc_symbol(self.symbols[key])
+                    for key in sorted(self.symbols)
+                },
+                "parse_errors": dict(sorted(self.parse_errors.items())),
+                "fallback_files": sorted(self.fallback_files),
             },
             indent=1,
             default=enc,
@@ -186,7 +189,7 @@ class FactStore:
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(self.to_json(), encoding="utf-8")
+        path.write_bytes(self.to_json().encode("utf-8"))
 
     @classmethod
     def load(cls, path: Path) -> "FactStore":

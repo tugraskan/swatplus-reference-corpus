@@ -3913,7 +3913,7 @@ class SchemaResolver:
             (
                 op
                 for op in block.reads
-                if len(op.fields) == 17
+                if len(op.fields) >= 3
                 and _normalised_field_name(op.fields[0]) == "i"
                 and _normalised_field_name(op.fields[-1]) == "num_aqu"
             ),
@@ -3923,7 +3923,7 @@ class SchemaResolver:
             (
                 op
                 for op in block.reads
-                if len(op.fields) == 18
+                if len(op.fields) >= 4
                 and _normalised_field_name(op.fields[0]) == "i"
                 and _normalised_field_name(op.fields[-2]) == "num_aqu"
                 and _parse_implied_do(op.fields[-1].strip()) is not None
@@ -3932,6 +3932,11 @@ class SchemaResolver:
         )
         if file_count_op is None or peek_op is None or data_op is None:
             return None, "water_canal.wal missing file-count/peek/data runtime-arity reads"
+
+        peek_names = [_normalised_field_name(field) for field in peek_op.fields]
+        data_prefix_names = [_normalised_field_name(field) for field in data_op.fields[:-1]]
+        if peek_names != data_prefix_names:
+            return None, "water_canal.wal peek and data read prefixes do not match"
 
         file_count_fields, _count_type, err = self._resolve_field_expr(file_count_op.fields[0], proc)
         if err:

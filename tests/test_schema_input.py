@@ -2680,6 +2680,86 @@ WATER_CANAL_RUNTIME_ARITY_FIXTURE = """
 """
 
 
+WATER_CANAL_PR252_RUNTIME_ARITY_FIXTURE = """
+      module maximum_data_module
+      type data_max
+        integer :: canal = 0
+      end type data_max
+      type (data_max) :: db_mx
+      end module maximum_data_module
+
+      module constituent_mass_module
+      type constituent_mass
+        real :: dummy = 0.
+      end type constituent_mass
+      type (constituent_mass), dimension(:), allocatable :: canal_cs_stor
+      end module constituent_mass_module
+
+      module water_allocation_module
+      type water_canal_data
+        character (len=25) :: name = ""
+        character (len=25) :: w_sta = ""
+        character (len=25) :: init = ""
+        character (len=25) :: dtbl = ""
+        real :: ddown_days = 0.
+        real :: w = 0.
+        real :: d = 0.
+        real :: l = 0.
+        real :: s = 0.
+        real :: ss = 0.
+        real :: sat_con = 0.
+        real :: evap_co = 0.
+        integer :: num_aqu = 0
+        real, dimension(:), allocatable :: aqu_loss_fr
+      end type water_canal_data
+      type (water_canal_data), dimension(:), allocatable :: canal
+      end module water_allocation_module
+
+      subroutine water_canal_read
+      use water_allocation_module
+      use maximum_data_module
+      use constituent_mass_module
+      character (len=80) :: titldum = ""
+      character (len=80) :: header = ""
+      integer :: eof = 0
+      integer :: imax = 0
+      logical :: i_exist
+      integer :: i = 0
+      integer :: ic = 0
+      integer :: num_aqu = 0
+      integer :: iaq = 0
+
+      inquire (file='water_canal.wal', exist=i_exist)
+      if (i_exist) then
+      do
+        open (107,file='water_canal.wal')
+        read (107,*,iostat=eof) titldum
+        if (eof < 0) exit
+        read (107,*,iostat=eof) imax
+        read (107,*,iostat=eof) header
+        db_mx%canal = imax
+        if (eof < 0) exit
+        allocate (canal(imax))
+        allocate (canal_cs_stor(imax))
+        do ic = 1, imax
+          read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, &
+              canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%l, canal(ic)%s, canal(ic)%ss, &
+              canal(ic)%sat_con, canal(ic)%evap_co, num_aqu
+          if (eof < 0) exit
+          backspace (107)
+          allocate (canal(ic)%aqu_loss_fr(num_aqu))
+          read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, &
+              canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%l, canal(ic)%s, canal(ic)%ss, &
+              canal(ic)%sat_con, canal(ic)%evap_co, canal(ic)%num_aqu, &
+              (canal(ic)%aqu_loss_fr(iaq), iaq = 1, num_aqu)
+        end do
+      end do
+      end if
+      close(107)
+      end subroutine water_canal_read
+"""
+
+
 WATER_PIPE_RUNTIME_ARITY_FIXTURE = """
       module maximum_data_module
       type data_max
@@ -3050,6 +3130,36 @@ class RuntimeAritySchemaTests(unittest.TestCase):
             ["i", "name", "w_sta", "init", "dtbl", "ddown_days", "w", "d", "s", "ss", "sat_con", "loss_fr", "bed_thick", "div_id", "day_beg", "day_end", "num_aqu"],
         )
         self.assertEqual([field["fortran_name"] for field in rows["repeat_fields"]], ["aqu_num", "frac"])
+
+    def test_water_canal_resolves_pr252_shorter_row_tail_aquifer_losses(self) -> None:
+        project = scan_source(WATER_CANAL_PR252_RUNTIME_ARITY_FIXTURE)
+        files, unresolved = build_runtime_arity(
+            project, SchemaResolver(project), targets=("water_canal.wal",)
+        )
+        self.assertEqual(unresolved, [])
+        rows = files["water_canal.wal"]["sections"][1]
+        self.assertEqual(rows["repeat_source"], "canal_rows:num_aqu")
+        self.assertEqual(rows["repeat_expr"], "num_aqu")
+        self.assertEqual(
+            [field["fortran_name"] for field in rows["fields"]],
+            [
+                "i",
+                "name",
+                "w_sta",
+                "init",
+                "dtbl",
+                "ddown_days",
+                "w",
+                "d",
+                "l",
+                "s",
+                "ss",
+                "sat_con",
+                "evap_co",
+                "num_aqu",
+            ],
+        )
+        self.assertEqual([field["fortran_name"] for field in rows["repeat_fields"]], ["aqu_loss_fr"])
 
     def test_water_pipe_resolves_row_tail_aquifer_losses(self) -> None:
         project = scan_source(WATER_PIPE_RUNTIME_ARITY_FIXTURE)

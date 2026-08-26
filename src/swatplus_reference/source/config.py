@@ -69,6 +69,19 @@ class SchemaPipelineConfig:
 
 
 @dataclass
+class ComparisonConfig:
+    """One locked source-to-source impact comparison."""
+
+    name: str
+    base_source: str
+    candidate_source: str
+    output_dir: Path
+    work_dir: Path
+    title: str = ""
+    url: str = ""
+
+
+@dataclass
 class Config:
     root: Path
 
@@ -87,6 +100,7 @@ class Config:
     sources: dict[str, SourceProfile] = field(default_factory=dict)
     docs_source: str = "main"
     schema: SchemaPipelineConfig = field(default_factory=SchemaPipelineConfig)
+    comparisons: dict[str, ComparisonConfig] = field(default_factory=dict)
 
     def resolve(self, p: Path) -> Path:
         return p if p.is_absolute() else self.root / p
@@ -125,6 +139,13 @@ class Config:
             subdir=self.source_dir.name if self.source_dir.name == "src" else "src",
             label=self.version_label,
         )
+
+    def comparison(self, name: str) -> ComparisonConfig:
+        try:
+            return self.comparisons[name]
+        except KeyError as exc:
+            choices = ", ".join(sorted(self.comparisons)) or "none configured"
+            raise ValueError(f"unknown comparison {name!r}; choose: {choices}") from exc
 
 
 def _path(value: object, default: Path) -> Path:
@@ -166,6 +187,21 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
         ),
         reports_dir=_path(schema_raw.get("reports_dir"), Path("reports/schema")),
     )
+    comparisons: dict[str, ComparisonConfig] = {}
+    for name, raw in data.get("comparisons", {}).items():
+        comparisons[name] = ComparisonConfig(
+            name=name,
+            base_source=str(raw["base_source"]),
+            candidate_source=str(raw["candidate_source"]),
+            output_dir=_path(
+                raw.get("output_dir"), Path("reports") / "comparisons" / name
+            ),
+            work_dir=_path(
+                raw.get("work_dir"), Path(".swatref") / "comparisons" / name
+            ),
+            title=str(raw.get("title", name)),
+            url=str(raw.get("url", "")),
+        )
 
     cfg = Config(
         root=root,
@@ -176,6 +212,7 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
         sources=sources,
         docs_source=docs_source,
         schema=schema,
+        comparisons=comparisons,
     )
 
     if sources:

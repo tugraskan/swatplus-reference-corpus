@@ -1,0 +1,88 @@
+{
+  "checks": {
+    "base_compile": null,
+    "candidate_compile": null,
+    "facts_deterministic": true,
+    "input_contract_deterministic": true,
+    "preview": null,
+    "schema_deterministic": true
+  },
+  "comparison": "pr_252",
+  "grounding": {
+    "candidate_counts": {
+      "errors": 141,
+      "total": 4045,
+      "warnings": 3904
+    },
+    "introduced_errors": 139,
+    "introduced_warnings": 50
+  },
+  "inputs": {
+    "added": 7,
+    "base_input_files": 207,
+    "base_unresolved_open_blocks": 27,
+    "candidate_input_files": 210,
+    "candidate_unresolved_open_blocks": 27,
+    "changed": 8,
+    "new_unresolved_open_blocks": 1,
+    "possible_renames_or_replacements": 4,
+    "removed": 4,
+    "resolved_unresolved_open_blocks": 1
+  },
+  "pages": {
+    "candidate_counts": {
+      "affected": 235,
+      "filled": 709,
+      "missing": 8,
+      "orphaned": 9,
+      "stale": 142,
+      "todo": 0
+    },
+    "new_missing_pages": 8,
+    "newly_affected": 184,
+    "newly_orphaned": 9,
+    "newly_stale": 100
+  },
+  "parser": {
+    "base_fallback_files": 2,
+    "candidate_fallback_files": 2,
+    "fallback_set_changed": false
+  },
+  "ready_for_adoption": false,
+  "schemas": {
+    "base_flat_files": 145,
+    "candidate_flat_files": 143,
+    "changed_entries": 44,
+    "new_unresolved": 6,
+    "new_unresolved_files": [
+      "manure.frt",
+      "out_src.wal",
+      "transplant.plt",
+      "water_allocation.wro",
+      "water_treat.wal",
+      "water_use.wal"
+    ]
+  },
+  "source": {
+    "base_commit": "e05177f4cb837613cf465802159eb723401668bb",
+    "base_profile": "dev_pr252_base",
+    "base_ref": "dev",
+    "candidate_commit": "795d2d92ef11bfb3c30a6b38fd987463f025ef93",
+    "candidate_profile": "pr_252",
+    "candidate_ref": "refs/pull/252/head"
+  },
+  "symbols": {
+    "added": 29,
+    "base_symbols": 1310,
+    "candidate_symbols": 1321,
+    "changed": 309,
+    "removed": 18,
+    "unchanged": 983
+  },
+  "title": "SWAT+ pull request 252",
+  "url": "https://github.com/swat-model/swatplus/pull/252",
+  "workspace": {
+    "ignored_artifacts": ".swatref/comparisons/pr-252",
+    "tracked_reports": "reports/comparisons/pr-252"
+  }
+}

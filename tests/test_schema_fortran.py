@@ -73,6 +73,24 @@ class FortranScannerTests(unittest.TestCase):
             [line.text for line in logical_lines(["call x()"])],
         )
 
+    def test_source_suffix_is_case_insensitive_but_exact(self) -> None:
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "accepted.F90").write_text(
+                "module accepted\nend module accepted\n", encoding="utf-8"
+            )
+            (source / "template.f90.in").write_text(
+                "module template_only\nend module template_only\n",
+                encoding="utf-8",
+            )
+            project = FortranScanner(BuildConfig(source_dir=source)).scan()
+
+            names = {module.name for module in project.modules}
+            self.assertIn("accepted", names)
+            self.assertNotIn("template_only", names)
+
     def test_type_component_wrapped_inline_comment_attributed_correctly(self) -> None:
         # SWAT+ wraps a field's inline "!units |desc" comment onto the next gutter
         # line. That continuation belongs to the field above, not the field below.
@@ -543,4 +561,3 @@ end subroutine keyed_read
 
 if __name__ == "__main__":
     unittest.main()
-

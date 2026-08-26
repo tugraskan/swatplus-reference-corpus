@@ -1,0 +1,3966 @@
+{
+  "determinism": {
+    "candidate_sha256": "95e0052cd679e1b436d1e87fb7623d496fa05afa2a950898a49cb6094633d40f",
+    "repeat_sha256": "95e0052cd679e1b436d1e87fb7623d496fa05afa2a950898a49cb6094633d40f",
+    "zero_byte_diff": true
+  },
+  "sections": {
+    "decision_tables": {
+      "added": [],
+      "changed": [
+        "flo_con.dtl",
+        "lum.dtl",
+        "res_rel.dtl",
+        "scen_lu.dtl"
+      ],
+      "changed_details": {
+        "flo_con.dtl": {
+          "changed_keys": [
+            "vocabulary"
+          ]
+        },
+        "lum.dtl": {
+          "changed_keys": [
+            "vocabulary"
+          ]
+        },
+        "res_rel.dtl": {
+          "changed_keys": [
+            "vocabulary"
+          ]
+        },
+        "scen_lu.dtl": {
+          "changed_keys": [
+            "vocabulary"
+          ]
+        }
+      },
+      "removed": [],
+      "unchanged_count": 0
+    },
+    "files": {
+      "added": [],
+      "changed": [
+        "aqu_cha.lin",
+        "aquifer.con",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "delratio.con",
+        "exco.con",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "object.prt",
+        "om_treat.wal",
+        "om_use.wal",
+        "outlet.con",
+        "outside_rcv.wal",
+        "parameters.bsn",
+        "pest.com",
+        "pesticide.pes",
+        "recall.con",
+        "recall_db.rec",
+        "reservoir.con",
+        "rout_unit.con",
+        "rout_unit.def",
+        "rout_unit.ele",
+        "salt_aqu.ini",
+        "shade_factor.shf",
+        "water_tower.wal"
+      ],
+      "changed_details": {
+        "aqu_cha.lin": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "aquifer.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "chan-surf.lin": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "chandeg.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "channel-lte.cha": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "channel.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "delratio.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "exco.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "gwflow.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "hru-lte.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "hru.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "initial.aqu": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "initial.aqu_cs": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "ls_unit.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "ls_unit.ele": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "object.prt": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 5
+          }
+        },
+        "om_treat.wal": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 19
+          }
+        },
+        "om_use.wal": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 19
+          }
+        },
+        "outlet.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "outside_rcv.wal": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "parameters.bsn": {
+          "changed_keys": [
+            "fields"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [
+              "5",
+              "6"
+            ],
+            "changed_details": {
+              "5": {
+                "base": {
+                  "doc": "not used",
+                  "fortran_name": "spcon",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 5,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": "pesticide groundwater mixing factor",
+                  "fortran_name": "pestgwfact",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 5,
+                  "units": null
+                }
+              },
+              "6": {
+                "base": {
+                  "doc": "not used",
+                  "fortran_name": "spexp",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 6,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": "pesticide temperature decay factor (0-1) - fraction increase in decay rate per degree C increase in temp",
+                  "fortran_name": "temp_decay",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 6,
+                  "units": null
+                }
+              }
+            },
+            "removed": [],
+            "unchanged_count": 42
+          }
+        },
+        "pest.com": {
+          "changed_keys": [
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "pesticide.pes": {
+          "changed_keys": [
+            "fields",
+            "type_source"
+          ],
+          "fields": {
+            "added": [
+              "16",
+              "17"
+            ],
+            "changed": [
+              "15",
+              "8"
+            ],
+            "changed_details": {
+              "15": {
+                "base": {
+                  "doc": "pesticide description",
+                  "fortran_name": "descrip",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 15,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": "1=plant is 100% sink (lost on uptake); 0=accumulates in pl_in, returned to soil on harvest/kill",
+                  "fortran_name": "harvest_sink",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 15,
+                  "units": "0/1"
+                }
+              },
+              "8": {
+                "base": {
+                  "doc": "molecular weight - to calculate mixing velocity",
+                  "fortran_name": "mol_wt",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 8,
+                  "units": "g/mol"
+                },
+                "candidate": {
+                  "doc": "molecular weight - to calulate mixing velocity",
+                  "fortran_name": "mol_wt",
+                  "fortran_type": "real",
+                  "numeric": true,
+                  "position": 8,
+                  "units": "g/mol"
+                }
+              }
+            },
+            "removed": [],
+            "unchanged_count": 14
+          }
+        },
+        "recall.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "recall_db.rec": {
+          "changed_keys": [
+            "fields",
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [
+              "2",
+              "3",
+              "4",
+              "5",
+              "6",
+              "7",
+              "8"
+            ],
+            "changed_details": {
+              "2": {
+                "base": {
+                  "doc": null,
+                  "fortran_name": "org_min.name",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 2,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "org_min",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 2,
+                  "units": null
+                }
+              },
+              "3": {
+                "base": {
+                  "doc": "mass, conc",
+                  "fortran_name": "org_min.units",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 3,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "pest",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 3,
+                  "units": null
+                }
+              },
+              "4": {
+                "base": {
+                  "doc": "day, mo, yr",
+                  "fortran_name": "org_min.tstep",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 4,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "path",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 4,
+                  "units": null
+                }
+              },
+              "5": {
+                "base": {
+                  "doc": null,
+                  "fortran_name": "pest.name",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 5,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "hmet",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 5,
+                  "units": null
+                }
+              },
+              "6": {
+                "base": {
+                  "doc": "mass, conc",
+                  "fortran_name": "pest.units",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 6,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "salt",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 6,
+                  "units": null
+                }
+              },
+              "7": {
+                "base": {
+                  "doc": "day, mo, yr",
+                  "fortran_name": "pest.tstep",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 7,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "constit",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 7,
+                  "units": null
+                }
+              },
+              "8": {
+                "base": {
+                  "doc": null,
+                  "fortran_name": "path.name",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 8,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": null,
+                  "fortran_name": "descrip",
+                  "fortran_type": "character",
+                  "numeric": false,
+                  "position": 8,
+                  "units": null
+                }
+              }
+            },
+            "removed": [
+              "10",
+              "11",
+              "12",
+              "13",
+              "14",
+              "15",
+              "16",
+              "17",
+              "18",
+              "19",
+              "9"
+            ],
+            "unchanged_count": 2
+          }
+        },
+        "reservoir.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "rout_unit.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "rout_unit.def": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "rout_unit.ele": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "salt_aqu.ini": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "shade_factor.shf": {
+          "changed_keys": [
+            "fields",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [
+              "1"
+            ],
+            "changed_details": {
+              "1": {
+                "base": {
+                  "doc": "landscape unit",
+                  "fortran_name": "lsu",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 1,
+                  "units": "none"
+                },
+                "candidate": {
+                  "doc": "channel number",
+                  "fortran_name": "cha",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 1,
+                  "units": "none"
+                }
+              }
+            },
+            "removed": [],
+            "unchanged_count": 2
+          }
+        },
+        "water_tower.wal": {
+          "changed_keys": [
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 5
+          }
+        }
+      },
+      "removed": [
+        "manure.frt",
+        "transplant.plt"
+      ],
+      "unchanged_count": 111
+    },
+    "multi_record": {
+      "added": [],
+      "changed": [],
+      "changed_details": {},
+      "removed": [
+        "water_allocation.wro"
+      ],
+      "unchanged_count": 5
+    },
+    "multi_section": {
+      "added": [],
+      "changed": [],
+      "changed_details": {},
+      "removed": [],
+      "unchanged_count": 7
+    },
+    "runtime_arity": {
+      "added": [],
+      "changed": [
+        "water_canal.wal",
+        "water_pipe.wal"
+      ],
+      "changed_details": {
+        "water_canal.wal": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "water_pipe.wal": {
+          "changed_keys": [
+            "sections"
+          ]
+        }
+      },
+      "removed": [
+        "out_src.wal",
+        "water_treat.wal",
+        "water_use.wal"
+      ],
+      "unchanged_count": 28
+    }
+  },
+  "source": {
+    "base_commit": "e05177f4cb837613cf465802159eb723401668bb",
+    "candidate_commit": "795d2d92ef11bfb3c30a6b38fd987463f025ef93"
+  },
+  "source_read_evidence": {
+    "flo_con.dtl": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_flo",
+              "file_resolved": "in_cond%dtbl_flo",
+              "line": 31,
+              "raw": "open (107,file=in_cond%dtbl_flo)"
+            },
+            "procedure": "dtbl_flocon_read",
+            "reader": "dtbl_flocon_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_flo(i)%name",
+                  "dtbl_flo(i)%conds",
+                  "dtbl_flo(i)%alts",
+                  "dtbl_flo(i)%acts"
+                ],
+                "line": 43,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%name, dtbl_flo(i)%conds, dtbl_flo(i)%alts, dtbl_flo(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_flo(i)%conds",
+                "fields": [
+                  "dtbl_flo(i)%cond(ic)",
+                  "(dtbl_flo(i)%alt(ic,ial), ial = 1, dtbl_flo(i)%alts)"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%cond(ic), (dtbl_flo(i)%alt(ic,ial), ial = 1, dtbl_flo(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_flo(i)%acts",
+                "fields": [
+                  "dtbl_flo(i)%act(iac)",
+                  "(dtbl_flo(i)%act_outcomes(iac,ial), ial = 1, dtbl_flo(i)%alts)"
+                ],
+                "line": 65,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%act(iac), (dtbl_flo(i)%act_outcomes(iac,ial), ial = 1, dtbl_flo(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "flo_con.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_flo"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_flo",
+              "file_resolved": "in_cond%dtbl_flo",
+              "line": 31,
+              "raw": "open (107,file=in_cond%dtbl_flo)"
+            },
+            "procedure": "dtbl_flocon_read",
+            "reader": "dtbl_flocon_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do",
+                "fields": [],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_flo(i)%name",
+                  "dtbl_flo(i)%conds",
+                  "dtbl_flo(i)%alts",
+                  "dtbl_flo(i)%acts"
+                ],
+                "line": 43,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%name, dtbl_flo(i)%conds, dtbl_flo(i)%alts, dtbl_flo(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_flo(i)%conds",
+                "fields": [
+                  "dtbl_flo(i)%cond(ic)",
+                  "(dtbl_flo(i)%alt(ic,ial), ial = 1, dtbl_flo(i)%alts)"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%cond(ic), (dtbl_flo(i)%alt(ic,ial), ial = 1, dtbl_flo(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_flo(i)%acts",
+                "fields": [
+                  "dtbl_flo(i)%act(iac)",
+                  "(dtbl_flo(i)%act_outcomes(iac,ial), ial = 1, dtbl_flo(i)%alts)"
+                ],
+                "line": 65,
+                "raw": "read (107,*,iostat=eof) dtbl_flo(i)%act(iac), (dtbl_flo(i)%act_outcomes(iac,ial), ial = 1, dtbl_flo(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_flo == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "flo_con.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_flo"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "decision_tables.changed"
+      ]
+    },
+    "lum.dtl": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_lum",
+              "file_resolved": "in_cond%dtbl_lum",
+              "line": 41,
+              "raw": "open (107,file=in_cond%dtbl_lum)"
+            },
+            "procedure": "dtbl_lum_read",
+            "reader": "dtbl_lum_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 42,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 44,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_lum(i)%name",
+                  "dtbl_lum(i)%conds",
+                  "dtbl_lum(i)%alts",
+                  "dtbl_lum(i)%acts"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%name, dtbl_lum(i)%conds, dtbl_lum(i)%alts, dtbl_lum(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_lum(i)%conds",
+                "fields": [
+                  "dtbl_lum(i)%cond(ic)",
+                  "(dtbl_lum(i)%alt(ic,ial), ial = 1, dtbl_lum(i)%alts)"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%cond(ic), (dtbl_lum(i)%alt(ic,ial), ial = 1, dtbl_lum(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_lum(i)%conds > if (dtbl_lum(i)%cond(ic)%var == \"prob_unif\") then",
+                "fields": [
+                  "dtbl_lum(i)%cond(ic)%var",
+                  "dtbl_lum(i)%frac_app"
+                ],
+                "line": 74,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%cond(ic)%var, dtbl_lum(i)%frac_app",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 93,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_lum(i)%acts",
+                "fields": [
+                  "dtbl_lum(i)%act(iac)",
+                  "(dtbl_lum(i)%act_outcomes(iac,ial), ial = 1, dtbl_lum(i)%alts)"
+                ],
+                "line": 96,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%act(iac), (dtbl_lum(i)%act_outcomes(iac,ial), ial = 1, dtbl_lum(i)%alts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "lum.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_lum"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_lum",
+              "file_resolved": "in_cond%dtbl_lum",
+              "line": 41,
+              "raw": "open (107,file=in_cond%dtbl_lum)"
+            },
+            "procedure": "dtbl_lum_read",
+            "reader": "dtbl_lum_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 42,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 44,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do",
+                "fields": [],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_lum(i)%name",
+                  "dtbl_lum(i)%conds",
+                  "dtbl_lum(i)%alts",
+                  "dtbl_lum(i)%acts"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%name, dtbl_lum(i)%conds, dtbl_lum(i)%alts, dtbl_lum(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_lum(i)%conds",
+                "fields": [
+                  "dtbl_lum(i)%cond(ic)",
+                  "(dtbl_lum(i)%alt(ic,ial), ial = 1, dtbl_lum(i)%alts)"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%cond(ic), (dtbl_lum(i)%alt(ic,ial), ial = 1, dtbl_lum(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_lum(i)%conds > if (dtbl_lum(i)%cond(ic)%var == \"prob_unif\") then",
+                "fields": [
+                  "dtbl_lum(i)%cond(ic)%var",
+                  "dtbl_lum(i)%frac_app"
+                ],
+                "line": 74,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%cond(ic)%var, dtbl_lum(i)%frac_app",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 93,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_lum == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_lum(i)%acts",
+                "fields": [
+                  "dtbl_lum(i)%act(iac)",
+                  "(dtbl_lum(i)%act_outcomes(iac,ial), ial = 1, dtbl_lum(i)%alts)"
+                ],
+                "line": 96,
+                "raw": "read (107,*,iostat=eof) dtbl_lum(i)%act(iac), (dtbl_lum(i)%act_outcomes(iac,ial), ial = 1, dtbl_lum(i)%alts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "lum.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_lum"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "decision_tables.changed"
+      ]
+    },
+    "manure.frt": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do",
+              "file_expr": "\"manure.frt\"",
+              "file_resolved": "manure.frt",
+              "line": 27,
+              "raw": "open (107,file=\"manure.frt\")"
+            },
+            "procedure": "manure_parm_read",
+            "reader": "manure_parm_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 43,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"manure.frt\" == \"null\") then / else > do > do it = 1, imax",
+                "fields": [
+                  "manure_db(it)"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) manure_db(it)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "manure.frt"
+            ],
+            "source_expressions": [
+              "manure.frt"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "files"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [],
+        "status": "not_found"
+      },
+      "candidate_related": [
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem, shared filename tokens, similar opened filename/expression",
+          "open": {
+            "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do",
+            "file_expr": "\"manure_db.frt\"",
+            "file_resolved": "manure_db.frt",
+            "line": 27,
+            "raw": "open (107,file=\"manure_db.frt\")"
+          },
+          "procedure": "manure_db_read",
+          "reader": "manure_db_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 28,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 30,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do > do while (eof == 0)",
+              "fields": [
+                "titldum"
+              ],
+              "line": 33,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 41,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 43,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_db.frt\" == \"null\") then / else > do > do it = 1, imax",
+              "fields": [
+                "manure_db(it)%name",
+                "manure_db(it)%org_min",
+                "manure_db(it)%pests",
+                "manure_db(it)%paths",
+                "manure_db(it)%hmets",
+                "manure_db(it)%salts",
+                "manure_db(it)%constit",
+                "manure_db(it)%descrip"
+              ],
+              "line": 47,
+              "raw": "read (107,*,iostat=eof) manure_db(it)%name, manure_db(it)%org_min, manure_db(it)%pests, manure_db(it)%paths, manure_db(it)%hmets, manure_db(it)%salts, manure_db(it)%constit, manure_db(it)%descrip",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "manure_db.frt"
+          ],
+          "source_expressions": [
+            "manure_db.frt"
+          ]
+        },
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem, shared filename tokens, similar opened filename/expression",
+          "open": {
+            "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do",
+            "file_expr": "\"manure_om.frt\"",
+            "file_resolved": "manure_om.frt",
+            "line": 27,
+            "raw": "open (107,file=\"manure_om.frt\")"
+          },
+          "procedure": "manure_orgmin_read",
+          "reader": "manure_orgmin_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 28,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 30,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do > do while (eof == 0)",
+              "fields": [
+                "titldum"
+              ],
+              "line": 33,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 41,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 43,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_om.frt\" == \"null\") then / else > do > do it = 1, imax",
+              "fields": [
+                "manure_om(it)%name",
+                "manure_om(it)%frac_water",
+                "manure_om(it)%fcbn",
+                "manure_om(it)%fminn",
+                "manure_om(it)%fminp",
+                "manure_om(it)%forgn",
+                "manure_om(it)%forgp",
+                "manure_om(it)%fnh3n",
+                "manure_om(it)%description"
+              ],
+              "line": 47,
+              "raw": "read (107,*,iostat=eof) manure_om(it)%name, manure_om(it)%frac_water, manure_om(it)%fcbn, manure_om(it)%fminn, manure_om(it)%fminp, manure_om(it)%forgn, manure_om(it)%forgp, manure_om(it)%fnh3n, manure_om(it)%description",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "manure_om.frt"
+          ],
+          "source_expressions": [
+            "manure_om.frt"
+          ]
+        },
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem, shared filename tokens",
+          "open": {
+            "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do",
+            "file_expr": "\"manure_allo.mnu\"",
+            "file_resolved": "manure_allo.mnu",
+            "line": 39,
+            "raw": "open (107,file=\"manure_allo.mnu\")"
+          },
+          "procedure": "manure_allocation_read",
+          "reader": "manure_allocation_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 40,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do",
+              "fields": [
+                "imax"
+              ],
+              "line": 42,
+              "raw": "read (107,*,iostat=eof) imax",
+              "role": "count"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax",
+              "fields": [
+                "header"
+              ],
+              "line": 49,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax",
+              "fields": [
+                "mallo(imro)%name",
+                "mallo(imro)%rule_typ",
+                "mallo(imro)%src_obs",
+                "mallo(imro)%trn_obs"
+              ],
+              "line": 51,
+              "raw": "read (107,*,iostat=eof) mallo(imro)%name, mallo(imro)%rule_typ, mallo(imro)%src_obs, mallo(imro)%trn_obs",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax",
+              "fields": [
+                "header"
+              ],
+              "line": 54,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax > do isrc = 1, mallo(imro)%src_obs",
+              "fields": [
+                "i"
+              ],
+              "line": 63,
+              "raw": "read (107,*,iostat=eof) i",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax > do isrc = 1, mallo(imro)%src_obs",
+              "fields": [
+                "k",
+                "mallo(imro)%src(i)%mois_typ",
+                "mallo(imro)%src(i)%manure_typ",
+                "mallo(imro)%src(i)%lat",
+                "mallo(imro)%src(i)%long",
+                "mallo(imro)%src(i)%stor_init",
+                "mallo(imro)%src(i)%stor_max",
+                "mallo(imro)%src(i)%prod_mon"
+              ],
+              "line": 67,
+              "raw": "read (107,*,iostat=eof) k, mallo(imro)%src(i)%mois_typ, mallo(imro)%src(i)%manure_typ, mallo(imro)%src(i)%lat, mallo(imro)%src(i)%long, mallo(imro)%src(i)%stor_init, mallo(imro)%src(i)%stor_max, mallo(imro)%src(i)%prod_mon",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax",
+              "fields": [
+                "header"
+              ],
+              "line": 81,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax > do itrn = 1, num_objs",
+              "fields": [
+                "i"
+              ],
+              "line": 90,
+              "raw": "read (107,*,iostat=eof) i",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"manure_allo.mnu\" == \"null\") then / else > do > do imro = 1, imax > do itrn = 1, num_objs",
+              "fields": [
+                "k",
+                "mallo(imro)%trn(i)%ob_typ",
+                "mallo(imro)%trn(i)%ob_num",
+                "mallo(imro)%trn(i)%dtbl",
+                "mallo(imro)%trn(i)%right"
+              ],
+              "line": 94,
+              "raw": "read (107,*,iostat=eof) k, mallo(imro)%trn(i)%ob_typ, mallo(imro)%trn(i)%ob_num, mallo(imro)%trn(i)%dtbl, mallo(imro)%trn(i)%right",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "manure_allo.mnu"
+          ],
+          "source_expressions": [
+            "manure_allo.mnu"
+          ]
+        }
+      ],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "files.removed",
+        "newly_unresolved"
+      ]
+    },
+    "out_src.wal": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+              "file_expr": "'out_src.wal'",
+              "file_resolved": "out_src.wal",
+              "line": 34,
+              "raw": "open (107,file='out_src.wal')"
+            },
+            "procedure": "water_osrc_read",
+            "reader": "water_osrc_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax",
+                "fields": [
+                  "i",
+                  "osrc(isrc)%name",
+                  "osrc(isrc)%stor_mx",
+                  "osrc(isrc)%lag_days",
+                  "osrc(isrc)%loss_fr"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) i, osrc(isrc)%name, osrc(isrc)%stor_mx, osrc(isrc)%lag_days, osrc(isrc)%loss_fr",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "osrc_cs(isrc)%pest"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) osrc_cs(isrc)%pest",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "osrc_cs(isrc)%path"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) osrc_cs(isrc)%path",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "out_src.wal"
+            ],
+            "source_expressions": [
+              "out_src.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [],
+        "status": "not_found"
+      },
+      "candidate_related": [
+        {
+          "match": "shared filename tokens, similar opened filename/expression",
+          "open": {
+            "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+            "file_expr": "'outside_src.wal'",
+            "file_resolved": "outside_src.wal",
+            "line": 34,
+            "raw": "open (107,file='outside_src.wal')"
+          },
+          "procedure": "water_osrc_read",
+          "reader": "water_osrc_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 35,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+              "fields": [
+                "imax"
+              ],
+              "line": 37,
+              "raw": "read (107,*,iostat=eof) imax",
+              "role": "count"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 38,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax",
+              "fields": [
+                "osrc(isrc)%name",
+                "osrc(isrc)%conc(lev)%org_min_typ",
+                "osrc(isrc)%conc(lev)%org_min_name",
+                "osrc(isrc)%conc(lev)%pests_typ",
+                "osrc(isrc)%conc(lev)%pests_name",
+                "osrc(isrc)%conc(lev)%paths_typ",
+                "osrc(isrc)%conc(lev)%paths_name",
+                "osrc(isrc)%conc(lev)%salts_typ",
+                "osrc(isrc)%conc(lev)%salts_name",
+                "osrc(isrc)%conc(lev)%constit_typ",
+                "osrc(isrc)%conc(lev)%constit_name",
+                "osrc(isrc)%descrip"
+              ],
+              "line": 47,
+              "raw": "read (107,*,iostat=eof) osrc(isrc)%name, osrc(isrc)%conc(lev)%org_min_typ, osrc(isrc)%conc(lev)%org_min_name, osrc(isrc)%conc(lev)%pests_typ, osrc(isrc)%conc(lev)%pests_name, osrc(isrc)%conc(lev)%paths_typ, osrc(isrc)%conc(lev)%paths_name, osrc(isrc)%conc(lev)%salts_typ, osrc(isrc)%conc(lev)%salts_name, osrc(isrc)%conc(lev)%constit_typ, osrc(isrc)%conc(lev)%constit_name, osrc(isrc)%descrip",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax > if (cs_db%num_pests > 0) then",
+              "fields": [
+                "header"
+              ],
+              "line": 89,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax > if (cs_db%num_pests > 0) then",
+              "fields": [
+                "osrc_cs(isrc)%pest"
+              ],
+              "line": 90,
+              "raw": "read (107,*,iostat=eof) osrc_cs(isrc)%pest",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax > if (cs_db%num_paths > 0) then",
+              "fields": [
+                "header"
+              ],
+              "line": 96,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do > do isrc = 1, imax > if (cs_db%num_paths > 0) then",
+              "fields": [
+                "osrc_cs(isrc)%path"
+              ],
+              "line": 97,
+              "raw": "read (107,*,iostat=eof) osrc_cs(isrc)%path",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "outside_src.wal"
+          ],
+          "source_expressions": [
+            "outside_src.wal"
+          ]
+        },
+        {
+          "match": "shared filename tokens, similar opened filename/expression",
+          "open": {
+            "condition": "if (cal_soft == \"y\") then",
+            "file_expr": "\"hru-out.cal\"",
+            "file_resolved": "hru-out.cal",
+            "line": 25,
+            "raw": "open (4999,file=\"hru-out.cal\", recl = 800)"
+          },
+          "procedure": "header_write",
+          "reader": "header_write.f90",
+          "reads": [],
+          "resolved_default_filenames": [
+            "hru-out.cal"
+          ],
+          "source_expressions": [
+            "hru-out.cal"
+          ]
+        },
+        {
+          "match": "similar opened filename/expression",
+          "open": {
+            "condition": "if (.not. i_exist .or. 'outside_rcv.wal' == \"null\") then / else > do",
+            "file_expr": "'outside_rcv.wal'",
+            "file_resolved": "outside_rcv.wal",
+            "line": 34,
+            "raw": "open (107,file='outside_rcv.wal')"
+          },
+          "procedure": "water_orcv_read",
+          "reader": "water_orcv_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. 'outside_rcv.wal' == \"null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 35,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_rcv.wal' == \"null\") then / else > do",
+              "fields": [
+                "imax"
+              ],
+              "line": 37,
+              "raw": "read (107,*,iostat=eof) imax",
+              "role": "count"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_rcv.wal' == \"null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 38,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. 'outside_rcv.wal' == \"null\") then / else > do > do ircv = 1, imax",
+              "fields": [
+                "i",
+                "orcv(ircv)%name",
+                "orcv(ircv)%filename"
+              ],
+              "line": 45,
+              "raw": "read (107,*,iostat=eof) i, orcv(ircv)%name, orcv(ircv)%filename",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "outside_rcv.wal"
+          ],
+          "source_expressions": [
+            "outside_rcv.wal"
+          ]
+        }
+      ],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "runtime_arity_unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "newly_unresolved",
+        "runtime_arity.removed"
+      ]
+    },
+    "res_rel.dtl": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_res",
+              "file_resolved": "in_cond%dtbl_res",
+              "line": 36,
+              "raw": "open (107,file=in_cond%dtbl_res)"
+            },
+            "procedure": "dtbl_res_read",
+            "reader": "dtbl_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_res(i)%name",
+                  "dtbl_res(i)%conds",
+                  "dtbl_res(i)%alts",
+                  "dtbl_res(i)%acts"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%name, dtbl_res(i)%conds, dtbl_res(i)%alts, dtbl_res(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_res(i)%conds",
+                "fields": [
+                  "dtbl_res(i)%cond(ic)",
+                  "(dtbl_res(i)%alt(ic,ial), ial = 1, dtbl_res(i)%alts)"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%cond(ic), (dtbl_res(i)%alt(ic,ial), ial = 1, dtbl_res(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_res(i)%acts",
+                "fields": [
+                  "dtbl_res(i)%act(iac)",
+                  "(dtbl_res(i)%act_outcomes(iac,ial), ial = 1, dtbl_res(i)%alts)"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%act(iac), (dtbl_res(i)%act_outcomes(iac,ial), ial = 1, dtbl_res(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 73,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "res_rel.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_res"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_res",
+              "file_resolved": "in_cond%dtbl_res",
+              "line": 36,
+              "raw": "open (107,file=in_cond%dtbl_res)"
+            },
+            "procedure": "dtbl_res_read",
+            "reader": "dtbl_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do",
+                "fields": [],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_res(i)%name",
+                  "dtbl_res(i)%conds",
+                  "dtbl_res(i)%alts",
+                  "dtbl_res(i)%acts"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%name, dtbl_res(i)%conds, dtbl_res(i)%alts, dtbl_res(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_res(i)%conds",
+                "fields": [
+                  "dtbl_res(i)%cond(ic)",
+                  "(dtbl_res(i)%alt(ic,ial), ial = 1, dtbl_res(i)%alts)"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%cond(ic), (dtbl_res(i)%alt(ic,ial), ial = 1, dtbl_res(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_res(i)%acts",
+                "fields": [
+                  "dtbl_res(i)%act(iac)",
+                  "(dtbl_res(i)%act_outcomes(iac,ial), ial = 1, dtbl_res(i)%alts)"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) dtbl_res(i)%act(iac), (dtbl_res(i)%act_outcomes(iac,ial), ial = 1, dtbl_res(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_res == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 73,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "res_rel.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_res"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "decision_tables.changed"
+      ]
+    },
+    "scen_lu.dtl": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_scen",
+              "file_resolved": "in_cond%dtbl_scen",
+              "line": 35,
+              "raw": "open (107,file=in_cond%dtbl_scen)"
+            },
+            "procedure": "dtbl_scen_read",
+            "reader": "dtbl_scen_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [],
+                "line": 40,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_scen(i)%name",
+                  "dtbl_scen(i)%conds",
+                  "dtbl_scen(i)%alts",
+                  "dtbl_scen(i)%acts"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%name, dtbl_scen(i)%conds, dtbl_scen(i)%alts, dtbl_scen(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_scen(i)%conds",
+                "fields": [
+                  "dtbl_scen(i)%cond(ic)",
+                  "(dtbl_scen(i)%alt(ic,ial), ial = 1, dtbl_scen(i)%alts)"
+                ],
+                "line": 64,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%cond(ic), (dtbl_scen(i)%alt(ic,ial), ial = 1, dtbl_scen(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 69,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_scen(i)%acts",
+                "fields": [
+                  "dtbl_scen(i)%act(iac)",
+                  "(dtbl_scen(i)%act_outcomes(iac,ial), ial = 1, dtbl_scen(i)%alts)"
+                ],
+                "line": 72,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%act(iac), (dtbl_scen(i)%act_outcomes(iac,ial), ial = 1, dtbl_scen(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 75,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "scen_lu.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_scen"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+              "file_expr": "in_cond%dtbl_scen",
+              "file_resolved": "in_cond%dtbl_scen",
+              "line": 35,
+              "raw": "open (107,file=in_cond%dtbl_scen)"
+            },
+            "procedure": "dtbl_scen_read",
+            "reader": "dtbl_scen_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [
+                  "mdtbl"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) mdtbl",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do",
+                "fields": [],
+                "line": 40,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "dtbl_scen(i)%name",
+                  "dtbl_scen(i)%conds",
+                  "dtbl_scen(i)%alts",
+                  "dtbl_scen(i)%acts"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%name, dtbl_scen(i)%conds, dtbl_scen(i)%alts, dtbl_scen(i)%acts",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl > do ic = 1, dtbl_scen(i)%conds",
+                "fields": [
+                  "dtbl_scen(i)%cond(ic)",
+                  "(dtbl_scen(i)%alt(ic,ial), ial = 1, dtbl_scen(i)%alts)"
+                ],
+                "line": 64,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%cond(ic), (dtbl_scen(i)%alt(ic,ial), ial = 1, dtbl_scen(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [
+                  "header"
+                ],
+                "line": 69,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl > do iac = 1, dtbl_scen(i)%acts",
+                "fields": [
+                  "dtbl_scen(i)%act(iac)",
+                  "(dtbl_scen(i)%act_outcomes(iac,ial), ial = 1, dtbl_scen(i)%alts)"
+                ],
+                "line": 72,
+                "raw": "read (107,*,iostat=eof) dtbl_scen(i)%act(iac), (dtbl_scen(i)%act_outcomes(iac,ial), ial = 1, dtbl_scen(i)%alts)",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_cond%dtbl_scen == \"null\") then / else > do > do i = 1, mdtbl",
+                "fields": [],
+                "line": 75,
+                "raw": "read (107,*,iostat=eof)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "scen_lu.dtl"
+            ],
+            "source_expressions": [
+              "in_cond%dtbl_scen"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "decision_tables"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "decision_tables.changed"
+      ]
+    },
+    "transplant.plt": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do",
+              "file_expr": "\"transplant.plt\"",
+              "file_resolved": "transplant.plt",
+              "line": 24,
+              "raw": "open (104,file=\"transplant.plt\")"
+            },
+            "procedure": "plant_transplant_read",
+            "reader": "plant_transplant_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (104,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (104,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (104,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (104,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 39,
+                "raw": "read (104,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. \"transplant.plt\" == \" null\") then / else > do > do ic = 1, imax",
+                "fields": [
+                  "transpl(ic)"
+                ],
+                "line": 43,
+                "raw": "read (104,*,iostat=eof) transpl(ic)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "transplant.plt"
+            ],
+            "source_expressions": [
+              "transplant.plt"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "files"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [],
+        "status": "not_found"
+      },
+      "candidate_related": [
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem, shared filename tokens, similar opened filename/expression",
+          "open": {
+            "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
+            "file_expr": "\"transplant.ops\"",
+            "file_resolved": "transplant.ops",
+            "line": 24,
+            "raw": "open (104,file=\"transplant.ops\")"
+          },
+          "procedure": "plant_transplant_read",
+          "reader": "plant_transplant_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 25,
+              "raw": "read (104,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 27,
+              "raw": "read (104,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do > do while (eof == 0)",
+              "fields": [
+                "titldum"
+              ],
+              "line": 30,
+              "raw": "read (104,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 37,
+              "raw": "read (104,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
+              "fields": [
+                "header"
+              ],
+              "line": 39,
+              "raw": "read (104,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do > do ic = 1, imax",
+              "fields": [
+                "transpl(ic)"
+              ],
+              "line": 43,
+              "raw": "read (104,*,iostat=eof) transpl(ic)",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "transplant.ops"
+          ],
+          "source_expressions": [
+            "transplant.ops"
+          ]
+        }
+      ],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "files.removed",
+        "newly_unresolved"
+      ]
+    },
+    "water_allocation.wro": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do",
+              "file_expr": "in_watrts%transfer_wro",
+              "file_resolved": "in_watrts%transfer_wro",
+              "line": 47,
+              "raw": "open (107,file=in_watrts%transfer_wro)"
+            },
+            "procedure": "water_allocation_read",
+            "reader": "water_allocation_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 65,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax",
+                "fields": [
+                  "wallo(iwro)%name",
+                  "wallo(iwro)%rule_typ",
+                  "wallo(iwro)%trn_obs"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) wallo(iwro)%name, wallo(iwro)%rule_typ, wallo(iwro)%trn_obs",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax > do itrn = 1, num_objs",
+                "fields": [
+                  "i"
+                ],
+                "line": 88,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax > do itrn = 1, num_objs",
+                "fields": [
+                  "k",
+                  "wallo(iwro)%trn(i)%trn_typ",
+                  "wallo(iwro)%trn(i)%trn_typ_name",
+                  "wallo(iwro)%trn(i)%amount",
+                  "wallo(iwro)%trn(i)%right",
+                  "wallo(iwro)%trn(i)%src_num"
+                ],
+                "line": 92,
+                "raw": "read (107,*,iostat=eof) k, wallo(iwro)%trn(i)%trn_typ, wallo(iwro)%trn(i)%trn_typ_name, wallo(iwro)%trn(i)%amount, wallo(iwro)%trn(i)%right, wallo(iwro)%trn(i)%src_num",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do > do iwro = 1, imax > do itrn = 1, num_objs",
+                "fields": [
+                  "k",
+                  "wallo(iwro)%trn(i)%trn_typ",
+                  "wallo(iwro)%trn(i)%trn_typ_name",
+                  "wallo(iwro)%trn(i)%amount",
+                  "wallo(iwro)%trn(i)%right",
+                  "wallo(iwro)%trn(i)%src_num",
+                  "wallo(iwro)%trn(i)%dtbl_src",
+                  "(wallo(iwro)%trn(i)%src(isrc), isrc = 1, num_src)",
+                  "wallo(iwro)%trn(i)%rcv"
+                ],
+                "line": 139,
+                "raw": "read (107,*,iostat=eof) k, wallo(iwro)%trn(i)%trn_typ, wallo(iwro)%trn(i)%trn_typ_name, wallo(iwro)%trn(i)%amount, wallo(iwro)%trn(i)%right, wallo(iwro)%trn(i)%src_num, wallo(iwro)%trn(i)%dtbl_src, (wallo(iwro)%trn(i)%src(isrc), isrc = 1, num_src), wallo(iwro)%trn(i)%rcv",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_allocation.wro"
+            ],
+            "source_expressions": [
+              "in_watrts%transfer_wro"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "multi_record"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [],
+        "status": "not_found"
+      },
+      "candidate_related": [
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem",
+          "open": {
+            "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
+            "file_expr": "in_wallo%pou",
+            "file_resolved": "in_wallo%pou",
+            "line": 40,
+            "raw": "open (107,file=in_wallo%pou)"
+          },
+          "procedure": "water_allocation_read",
+          "reader": "water_allocation_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 41,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
+              "fields": [
+                "imax"
+              ],
+              "line": 43,
+              "raw": "read (107,*,iostat=eof) imax",
+              "role": "count"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
+              "fields": [
+                "header"
+              ],
+              "line": 58,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do > do i = 1, imax",
+              "fields": [
+                "ipou"
+              ],
+              "line": 63,
+              "raw": "read (107,*,iostat=eof) ipou",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do > do i = 1, imax",
+              "fields": [
+                "ip",
+                "pou(ipou)%name",
+                "pou(ipou)%typ",
+                "pou(ipou)%typ_num",
+                "pou(ipou)%pods",
+                "pou(ipou)%pors",
+                "pou(ipou)%dtbl_mx",
+                "pou(ipou)%rate_max",
+                "pou(ipou)%dtbl_pod_fr",
+                "pou(ipou)%dtbl_por_fr"
+              ],
+              "line": 67,
+              "raw": "read (107,*,iostat=eof) ip, pou(ipou)%name, pou(ipou)%typ, pou(ipou)%typ_num, pou(ipou)%pods, pou(ipou)%pors, pou(ipou)%dtbl_mx, pou(ipou)%rate_max, pou(ipou)%dtbl_pod_fr, pou(ipou)%dtbl_por_fr",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do > do i = 1, imax > do ipod = 1, ipods",
+              "fields": [
+                "pp",
+                "pou(ipou)%pod(ipod)%num",
+                "pou(ipou)%pod(ipod)%name",
+                "pou(ipou)%pod(ipod)%typ",
+                "pou(ipou)%pod(ipod)%num",
+                "pou(ipou)%pod(ipod)%conv_typ",
+                "pou(ipou)%pod(ipod)%conv_num",
+                "pou(ipou)%pod(ipod)%dtbl_min",
+                "pou(ipou)%pod(ipod)%const_min",
+                "pou(ipou)%pod(ipod)%dtbl_wdraw",
+                "pou(ipou)%pod(ipod)%ann_max",
+                "pou(ipou)%pod(ipod)%frac",
+                "pou(ipou)%pod(ipod)%comp"
+              ],
+              "line": 93,
+              "raw": "read (107,*,iostat=eof) pp, pou(ipou)%pod(ipod)%num, pou(ipou)%pod(ipod)%name, pou(ipou)%pod(ipod)%typ, pou(ipou)%pod(ipod)%num, pou(ipou)%pod(ipod)%conv_typ, pou(ipou)%pod(ipod)%conv_num, pou(ipou)%pod(ipod)%dtbl_min, pou(ipou)%pod(ipod)%const_min, pou(ipou)%pod(ipod)%dtbl_wdraw, pou(ipou)%pod(ipod)%ann_max, pou(ipou)%pod(ipod)%frac, pou(ipou)%pod(ipod)%comp",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do > do i = 1, imax > do ipor = 1, ipors",
+              "fields": [
+                "pp",
+                "pou(ipou)%por(ipor)%num",
+                "pou(ipou)%por(ipor)%name",
+                "pou(ipou)%por(ipor)%typ",
+                "pou(ipou)%por(ipor)%num",
+                "pou(ipou)%por(ipor)%conv_typ",
+                "pou(ipou)%por(ipor)%conv_num",
+                "pou(ipou)%por(ipor)%dtbl_max",
+                "pou(ipou)%por(ipor)%const_max",
+                "pou(ipou)%por(ipor)%ann_max",
+                "pou(ipou)%por(ipor)%frac"
+              ],
+              "line": 102,
+              "raw": "read (107,*,iostat=eof) pp,pou(ipou)%por(ipor)%num, pou(ipou)%por(ipor)%name, pou(ipou)%por(ipor)%typ, pou(ipou)%por(ipor)%num, pou(ipou)%por(ipor)%conv_typ, pou(ipou)%por(ipor)%conv_num, pou(ipou)%por(ipor)%dtbl_max, pou(ipou)%por(ipor)%const_max, pou(ipou)%por(ipor)%ann_max, pou(ipou)%por(ipor)%frac",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "place_of_use.wro"
+          ],
+          "source_expressions": [
+            "in_wallo%pou"
+          ]
+        },
+        {
+          "match": "reader procedure tokens match target, same reader procedure stem",
+          "open": {
+            "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
+            "file_expr": "in_wallo%pod",
+            "file_resolved": "in_wallo%pod",
+            "line": 194,
+            "raw": "open (107,file=in_wallo%pod)"
+          },
+          "procedure": "water_allocation_read",
+          "reader": "water_allocation_read.f90",
+          "reads": [
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
+              "fields": [
+                "titldum"
+              ],
+              "line": 195,
+              "raw": "read (107,*,iostat=eof) titldum",
+              "role": "title"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
+              "fields": [
+                "imax"
+              ],
+              "line": 197,
+              "raw": "read (107,*,iostat=eof) imax",
+              "role": "count"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
+              "fields": [
+                "header"
+              ],
+              "line": 200,
+              "raw": "read (107,*,iostat=eof) header",
+              "role": "header"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do > do ipod = 1, imax",
+              "fields": [
+                "pod(ipod)%num",
+                "pod(ipod)%name",
+                "pod(ipod)%typ",
+                "pod(ipod)%typ_num",
+                "ipous"
+              ],
+              "line": 210,
+              "raw": "read (107,*,iostat=eof) pod(ipod)%num, pod(ipod)%name, pod(ipod)%typ, pod(ipod)%typ_num, ipous",
+              "role": "data"
+            },
+            {
+              "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do > do ipod = 1, imax",
+              "fields": [
+                "pod(ipod)%num",
+                "pod(ipod)%name",
+                "pod(ipod)%typ",
+                "pod(ipod)%typ_num",
+                "pod(ipod)%pous",
+                "(pod(ipod)%pou(ipou)%num, pod(ipod)%pou(ipou)%name, pod(ipod)%pou(ipou)%pod_num, pod(ipod)%pou(ipou)%typ, pod(ipod)%pou(ipou)%typ_num, pod(ipod)%pou(ipou)%right, ipou = 1, ipous)"
+              ],
+              "line": 220,
+              "raw": "read (107,*,iostat=eof) pod(ipod)%num, pod(ipod)%name, pod(ipod)%typ, pod(ipod)%typ_num, pod(ipod)%pous, (pod(ipod)%pou(ipou)%num, pod(ipod)%pou(ipou)%name, pod(ipod)%pou(ipou)%pod_num, pod(ipod)%pou(ipou)%typ, pod(ipod)%pou(ipou)%typ_num, pod(ipod)%pou(ipou)%right, ipou = 1, ipous)",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [
+            "point_of_diver.wro"
+          ],
+          "source_expressions": [
+            "in_wallo%pod"
+          ]
+        }
+      ],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "multi_record_unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "multi_record.removed",
+        "newly_unresolved"
+      ]
+    },
+    "water_canal.wal": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do",
+              "file_expr": "'water_canal.wal'",
+              "file_resolved": "water_canal.wal",
+              "line": 32,
+              "raw": "open (107,file='water_canal.wal')"
+            },
+            "procedure": "water_canal_read",
+            "reader": "water_canal_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do > do ic = 1, imax",
+                "fields": [
+                  "i",
+                  "canal(ic)%name",
+                  "canal(ic)%w_sta",
+                  "canal(ic)%init",
+                  "canal(ic)%dtbl",
+                  "canal(ic)%ddown_days",
+                  "canal(ic)%w",
+                  "canal(ic)%d",
+                  "canal(ic)%s",
+                  "canal(ic)%ss",
+                  "canal(ic)%sat_con",
+                  "canal(ic)%loss_fr",
+                  "canal(ic)%bed_thick",
+                  "canal(ic)%div_id",
+                  "canal(ic)%day_beg",
+                  "canal(ic)%day_end",
+                  "num_aqu"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%s, canal(ic)%ss, canal(ic)%sat_con, canal(ic)%loss_fr, canal(ic)%bed_thick, canal(ic)%div_id, canal(ic)%day_beg, canal(ic)%day_end, num_aqu",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_canal.wal' == \"null\") then / else > do > do ic = 1, imax",
+                "fields": [
+                  "i",
+                  "canal(ic)%name",
+                  "canal(ic)%w_sta",
+                  "canal(ic)%init",
+                  "canal(ic)%dtbl",
+                  "canal(ic)%ddown_days",
+                  "canal(ic)%w",
+                  "canal(ic)%d",
+                  "canal(ic)%s",
+                  "canal(ic)%ss",
+                  "canal(ic)%sat_con",
+                  "canal(ic)%loss_fr",
+                  "canal(ic)%bed_thick",
+                  "canal(ic)%div_id",
+                  "canal(ic)%day_beg",
+                  "canal(ic)%day_end",
+                  "canal(ic)%num_aqu",
+                  "(canal(ic)%aqu_loss(iaq), iaq = 1, num_aqu)"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%s, canal(ic)%ss, canal(ic)%sat_con, canal(ic)%loss_fr, canal(ic)%bed_thick, canal(ic)%div_id, canal(ic)%day_beg, canal(ic)%day_end, canal(ic)%num_aqu, (canal(ic)%aqu_loss(iaq), iaq = 1, num_aqu)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_canal.wal"
+            ],
+            "source_expressions": [
+              "water_canal.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist) then > do",
+              "file_expr": "'water_canal.wal'",
+              "file_resolved": "water_canal.wal",
+              "line": 30,
+              "raw": "open (107,file='water_canal.wal')"
+            },
+            "procedure": "water_canal_read",
+            "reader": "water_canal_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist) then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist) then > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (i_exist) then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist) then > do > do ic = 1, imax",
+                "fields": [
+                  "i",
+                  "canal(ic)%name",
+                  "canal(ic)%w_sta",
+                  "canal(ic)%init",
+                  "canal(ic)%dtbl",
+                  "canal(ic)%ddown_days",
+                  "canal(ic)%w",
+                  "canal(ic)%d",
+                  "canal(ic)%l",
+                  "canal(ic)%s",
+                  "canal(ic)%ss",
+                  "canal(ic)%sat_con",
+                  "canal(ic)%evap_co",
+                  "num_aqu"
+                ],
+                "line": 44,
+                "raw": "read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%l, canal(ic)%s, canal(ic)%ss, canal(ic)%sat_con, canal(ic)%evap_co, num_aqu",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist) then > do > do ic = 1, imax",
+                "fields": [
+                  "i",
+                  "canal(ic)%name",
+                  "canal(ic)%w_sta",
+                  "canal(ic)%init",
+                  "canal(ic)%dtbl",
+                  "canal(ic)%ddown_days",
+                  "canal(ic)%w",
+                  "canal(ic)%d",
+                  "canal(ic)%l",
+                  "canal(ic)%s",
+                  "canal(ic)%ss",
+                  "canal(ic)%sat_con",
+                  "canal(ic)%evap_co",
+                  "canal(ic)%num_aqu",
+                  "(canal(ic)%aqu_loss_fr(iaq), iaq = 1, num_aqu)"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) i, canal(ic)%name, canal(ic)%w_sta, canal(ic)%init, canal(ic)%dtbl, canal(ic)%ddown_days, canal(ic)%w, canal(ic)%d, canal(ic)%l, canal(ic)%s, canal(ic)%ss, canal(ic)%sat_con, canal(ic)%evap_co, canal(ic)%num_aqu, (canal(ic)%aqu_loss_fr(iaq), iaq = 1, num_aqu)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_canal.wal"
+            ],
+            "source_expressions": [
+              "water_canal.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "water_pipe.wal": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+              "file_expr": "'water_pipe.wal'",
+              "file_resolved": "water_pipe.wal",
+              "line": 32,
+              "raw": "open (107,file='water_pipe.wal')"
+            },
+            "procedure": "water_pipe_read",
+            "reader": "water_pipe_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 43,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "i",
+                  "pipe(ipipe)%name",
+                  "pipe(ipipe)%stor_mx",
+                  "pipe(ipipe)%ddown_days",
+                  "pipe(ipipe)%loss_fr",
+                  "num_aqu"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) i, pipe(ipipe)%name, pipe(ipipe)%stor_mx, pipe(ipipe)%ddown_days, pipe(ipipe)%loss_fr, num_aqu",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "i",
+                  "pipe(ipipe)%name",
+                  "pipe(ipipe)%stor_mx",
+                  "pipe(ipipe)%ddown_days",
+                  "pipe(ipipe)%loss_fr",
+                  "pipe(ipipe)%num_aqu",
+                  "(pipe(ipipe)%aqu_loss(iaq), iaq = 1, num_aqu)"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) i, pipe(ipipe)%name, pipe(ipipe)%stor_mx, pipe(ipipe)%ddown_days, pipe(ipipe)%loss_fr, pipe(ipipe)%num_aqu, (pipe(ipipe)%aqu_loss(iaq), iaq = 1, num_aqu)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_pipe.wal"
+            ],
+            "source_expressions": [
+              "water_pipe.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+              "file_expr": "'water_pipe.wal'",
+              "file_resolved": "water_pipe.wal",
+              "line": 32,
+              "raw": "open (107,file='water_pipe.wal')"
+            },
+            "procedure": "water_pipe_read",
+            "reader": "water_pipe_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 43,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "i",
+                  "pipe(ipipe)%name",
+                  "pipe(ipipe)%stor_mx",
+                  "pipe(ipipe)%ddown_days",
+                  "pipe(ipipe)%loss_fr",
+                  "num_aqu"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) i, pipe(ipipe)%name, pipe(ipipe)%stor_mx, pipe(ipipe)%ddown_days, pipe(ipipe)%loss_fr, num_aqu",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_pipe.wal' == \"null\") then / else > do > do ipipe = 1, imax",
+                "fields": [
+                  "i",
+                  "pipe(ipipe)%name",
+                  "pipe(ipipe)%stor_mx",
+                  "pipe(ipipe)%ddown_days",
+                  "pipe(ipipe)%loss_fr",
+                  "pipe(ipipe)%num_aqu",
+                  "(pipe(ipipe)%aqu_loss_fr(iaq), iaq = 1, num_aqu)"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) i, pipe(ipipe)%name, pipe(ipipe)%stor_mx, pipe(ipipe)%ddown_days, pipe(ipipe)%loss_fr, pipe(ipipe)%num_aqu, (pipe(ipipe)%aqu_loss_fr(iaq), iaq = 1, num_aqu)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_pipe.wal"
+            ],
+            "source_expressions": [
+              "water_pipe.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "water_treat.wal": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+              "file_expr": "'water_treat.wal'",
+              "file_resolved": "water_treat.wal",
+              "line": 31,
+              "raw": "open (107,file='water_treat.wal')"
+            },
+            "procedure": "water_treatment_read",
+            "reader": "water_treatment_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax",
+                "fields": [
+                  "i",
+                  "wtp(iwtp)%name",
+                  "wtp(iwtp)%stor_mx",
+                  "wtp(iwtp)%lag_days",
+                  "wtp(iwtp)%loss_fr",
+                  "wtp(iwtp)%org_min",
+                  "wtp(iwtp)%pests",
+                  "wtp(iwtp)%paths",
+                  "wtp(iwtp)%salts",
+                  "wtp(iwtp)%constit",
+                  "wtp(iwtp)%descrip"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) i, wtp(iwtp)%name, wtp(iwtp)%stor_mx, wtp(iwtp)%lag_days, wtp(iwtp)%loss_fr, wtp(iwtp)%org_min, wtp(iwtp)%pests, wtp(iwtp)%paths, wtp(iwtp)%salts, wtp(iwtp)%constit, wtp(iwtp)%descrip",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "wtp_cs_treat(iwtp)%pest"
+                ],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof) wtp_cs_treat(iwtp)%pest",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 74,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "wtp_cs_treat(iwtp)%path"
+                ],
+                "line": 75,
+                "raw": "read (107,*,iostat=eof) wtp_cs_treat(iwtp)%path",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_treat.wal"
+            ],
+            "source_expressions": [
+              "water_treat.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+              "file_expr": "'water_treat.wal'",
+              "file_resolved": "water_treat.wal",
+              "line": 34,
+              "raw": "open (107,file='water_treat.wal')"
+            },
+            "procedure": "water_treatment_read",
+            "reader": "water_treatment_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax",
+                "fields": [
+                  "wtp(iwtp)%name",
+                  "wtp(iwtp)%stor_mx",
+                  "wtp(iwtp)%lag_days",
+                  "wtp(iwtp)%loss_fr",
+                  "wtp(iwtp)%num_treats"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) wtp(iwtp)%name, wtp(iwtp)%stor_mx, wtp(iwtp)%lag_days, wtp(iwtp)%loss_fr, wtp(iwtp)%num_treats",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > do itrt = 1, wtp(iwtp)%num_treats",
+                "fields": [
+                  "wtp(iwtp)%conc(itrt)%org_min_typ",
+                  "wtp(iwtp)%conc(itrt)%org_min_name",
+                  "wtp(iwtp)%conc(itrt)%pests_typ",
+                  "wtp(iwtp)%conc(itrt)%pests_name",
+                  "wtp(iwtp)%conc(itrt)%paths_typ",
+                  "wtp(iwtp)%conc(itrt)%paths_name",
+                  "wtp(iwtp)%conc(itrt)%salts_typ",
+                  "wtp(iwtp)%conc(itrt)%salts_name",
+                  "wtp(iwtp)%conc(itrt)%constit_typ",
+                  "wtp(iwtp)%conc(itrt)%constit_name",
+                  "wtp(iwtp)%descrip"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) wtp(iwtp)%conc(itrt)%org_min_typ, wtp(iwtp)%conc(itrt)%org_min_name, wtp(iwtp)%conc(itrt)%pests_typ, wtp(iwtp)%conc(itrt)%pests_name, wtp(iwtp)%conc(itrt)%paths_typ, wtp(iwtp)%conc(itrt)%paths_name, wtp(iwtp)%conc(itrt)%salts_typ, wtp(iwtp)%conc(itrt)%salts_name, wtp(iwtp)%conc(itrt)%constit_typ, wtp(iwtp)%conc(itrt)%constit_name, wtp(iwtp)%descrip",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > do itrt = 1, wtp(iwtp)%num_treats > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 104,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > do itrt = 1, wtp(iwtp)%num_treats > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "wtp_cs_treat(iwtp)%pest"
+                ],
+                "line": 105,
+                "raw": "read (107,*,iostat=eof) wtp_cs_treat(iwtp)%pest",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > do itrt = 1, wtp(iwtp)%num_treats > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 111,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do > do iwtp = 1, imax > do itrt = 1, wtp(iwtp)%num_treats > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "wtp_cs_treat(iwtp)%path"
+                ],
+                "line": 112,
+                "raw": "read (107,*,iostat=eof) wtp_cs_treat(iwtp)%path",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_treat.wal"
+            ],
+            "source_expressions": [
+              "water_treat.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "runtime_arity_unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "newly_unresolved",
+        "runtime_arity.removed"
+      ]
+    },
+    "water_use.wal": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+              "file_expr": "'water_use.wal'",
+              "file_resolved": "water_use.wal",
+              "line": 32,
+              "raw": "open (107,file='water_use.wal')"
+            },
+            "procedure": "water_use_read",
+            "reader": "water_use_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax",
+                "fields": [
+                  "i",
+                  "wuse(iwuse)%name",
+                  "wuse(iwuse)%stor_mx",
+                  "wuse(iwuse)%lag_days",
+                  "wuse(iwuse)%loss_fr",
+                  "wuse(iwuse)%org_min",
+                  "wuse(iwuse)%pests",
+                  "wuse(iwuse)%paths",
+                  "wuse(iwuse)%salts",
+                  "wuse(iwuse)%constit",
+                  "wuse(iwuse)%descrip"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) i, wuse(iwuse)%name, wuse(iwuse)%stor_mx, wuse(iwuse)%lag_days, wuse(iwuse)%loss_fr, wuse(iwuse)%org_min, wuse(iwuse)%pests, wuse(iwuse)%paths, wuse(iwuse)%salts, wuse(iwuse)%constit, wuse(iwuse)%descrip",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "wuse_cs_efflu(iwuse)%pest"
+                ],
+                "line": 69,
+                "raw": "read (107,*,iostat=eof) wuse_cs_efflu(iwuse)%pest",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 75,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "wuse_cs_efflu(iwuse)%path"
+                ],
+                "line": 76,
+                "raw": "read (107,*,iostat=eof) wuse_cs_efflu(iwuse)%path",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_use.wal"
+            ],
+            "source_expressions": [
+              "water_use.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+              "file_expr": "'water_use.wal'",
+              "file_resolved": "water_use.wal",
+              "line": 35,
+              "raw": "open (107,file='water_use.wal')"
+            },
+            "procedure": "water_use_read",
+            "reader": "water_use_read.f90",
+            "reads": [
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "imax"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) imax",
+                "role": "count"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax",
+                "fields": [
+                  "wuse(iwuse)%name",
+                  "wuse(iwuse)%stor_mx",
+                  "wuse(iwuse)%lag_days",
+                  "wuse(iwuse)%loss_fr",
+                  "wuse(iwuse)%conc(lev)%org_min_typ",
+                  "wuse(iwuse)%conc(lev)%org_min_name",
+                  "wuse(iwuse)%conc(lev)%pests_typ",
+                  "wuse(iwuse)%conc(lev)%pests_name",
+                  "wuse(iwuse)%conc(lev)%paths_typ",
+                  "wuse(iwuse)%conc(lev)%paths_name",
+                  "wuse(iwuse)%conc(lev)%salts_typ",
+                  "wuse(iwuse)%conc(lev)%salts_name",
+                  "wuse(iwuse)%conc(lev)%constit_typ",
+                  "wuse(iwuse)%conc(lev)%constit_name",
+                  "wuse(iwuse)%descrip"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) wuse(iwuse)%name, wuse(iwuse)%stor_mx,wuse(iwuse)%lag_days, wuse(iwuse)%loss_fr, wuse(iwuse)%conc(lev)%org_min_typ, wuse(iwuse)%conc(lev)%org_min_name, wuse(iwuse)%conc(lev)%pests_typ, wuse(iwuse)%conc(lev)%pests_name, wuse(iwuse)%conc(lev)%paths_typ, wuse(iwuse)%conc(lev)%paths_name, wuse(iwuse)%conc(lev)%salts_typ, wuse(iwuse)%conc(lev)%salts_name, wuse(iwuse)%conc(lev)%constit_typ, wuse(iwuse)%conc(lev)%constit_name, wuse(iwuse)%descrip",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 90,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_pests > 0) then",
+                "fields": [
+                  "wuse_cs_efflu(iwuse)%pest"
+                ],
+                "line": 91,
+                "raw": "read (107,*,iostat=eof) wuse_cs_efflu(iwuse)%pest",
+                "role": "data"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "header"
+                ],
+                "line": 97,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do > do iwuse = 1, imax > if (cs_db%num_paths > 0) then",
+                "fields": [
+                  "wuse_cs_efflu(iwuse)%path"
+                ],
+                "line": 98,
+                "raw": "read (107,*,iostat=eof) wuse_cs_efflu(iwuse)%path",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "water_use.wal"
+            ],
+            "source_expressions": [
+              "water_use.wal"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [],
+        "unresolved_sections": [
+          "runtime_arity_unresolved"
+        ]
+      },
+      "review_needed": true,
+      "schema_diff_status": [
+        "newly_unresolved",
+        "runtime_arity.removed"
+      ]
+    }
+  },
+  "summary": {
+    "base_flat_files": 145,
+    "candidate_flat_files": 143,
+    "changed_entries": 44,
+    "new_unresolved": 6
+  },
+  "unresolved_sections": {
+    "decision_tables_unresolved": {
+      "base_count": 0,
+      "candidate": {},
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_record_unresolved": {
+      "base_count": 0,
+      "candidate": {
+        "water_allocation.wro": "reader not found for filename"
+      },
+      "candidate_count": 1,
+      "changed_reasons": {},
+      "new": [
+        "water_allocation.wro"
+      ],
+      "resolved": []
+    },
+    "multi_section_unresolved": {
+      "base_count": 0,
+      "candidate": {},
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "runtime_arity_unresolved": {
+      "base_count": 0,
+      "candidate": {
+        "out_src.wal": "reader not found for filename",
+        "water_treat.wal": "water_treat.wal missing count/main-row reads",
+        "water_use.wal": "water_use.wal missing count/main-row reads"
+      },
+      "candidate_count": 3,
+      "changed_reasons": {},
+      "new": [
+        "out_src.wal",
+        "water_treat.wal",
+        "water_use.wal"
+      ],
+      "resolved": []
+    },
+    "unresolved": {
+      "base_count": 0,
+      "candidate": {
+        "manure.frt": "reader not found for filename",
+        "transplant.plt": "reader not found for filename"
+      },
+      "candidate_count": 2,
+      "changed_reasons": {},
+      "new": [
+        "manure.frt",
+        "transplant.plt"
+      ],
+      "resolved": []
+    }
+  }
+}

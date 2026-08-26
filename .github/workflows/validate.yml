@@ -50,3 +50,26 @@ jobs:
         with:
           name: swatplus-reference-corpus-site
           path: _site
+      - name: Package rendered site for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy-pages:
+    name: Deploy documentation site
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.PUBLISH_PAGES == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

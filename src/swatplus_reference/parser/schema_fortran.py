@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 
 from .schema_config import BuildConfig
+from .source_files import source_files
 from .schema_model import (
     CallRef,
     ControlStep,
@@ -408,16 +409,16 @@ class FortranScanner:
         return self._iter_source_files(self.config.source_dir.resolve())
 
     def _iter_source_files(self, source_root: Path) -> list[Path]:
-        suffixes = {f".{ext.lstrip('.')}" for ext in self.config.extensions}
+        suffixes = {
+            f".{ext.lstrip('.').lower()}" for ext in self.config.extensions
+        }
         files: list[Path] = []
-        for path in source_root.rglob("*"):
-            if not path.is_file() or path.suffix not in suffixes:
-                continue
+        for path in source_files(source_root, suffixes):
             rel = path.relative_to(source_root).as_posix()
             if any(fnmatch(rel, pattern) or fnmatch(path.as_posix(), pattern) for pattern in self.config.exclude):
                 continue
             files.append(path)
-        return sorted(files)
+        return files
 
     def _scan_file(self, path: Path, source_root: Path, project: ProjectIndex) -> SourceFileDoc:
         rel = path.relative_to(source_root).as_posix()

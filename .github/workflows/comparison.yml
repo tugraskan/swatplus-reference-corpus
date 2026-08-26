@@ -1,0 +1,54 @@
+name: validate-comparison-reports
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/comparison.yml"
+      - "swatref.toml"
+      - "src/swatplus_reference/comparison/**"
+      - "src/swatplus_reference/parser/**"
+      - "src/swatplus_reference/schema/**"
+      - "src/swatplus_reference/source/**"
+      - "tests/test_comparison.py"
+      - "tests/test_schema_input.py"
+      - "reports/comparisons/**"
+  pull_request:
+    paths:
+      - ".github/workflows/comparison.yml"
+      - "swatref.toml"
+      - "src/swatplus_reference/comparison/**"
+      - "src/swatplus_reference/parser/**"
+      - "src/swatplus_reference/schema/**"
+      - "src/swatplus_reference/source/**"
+      - "tests/test_comparison.py"
+      - "tests/test_schema_input.py"
+      - "reports/comparisons/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  reproduce-pr-252:
+    name: Reproduce locked PR 252 reports
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Fetch and verify locked comparison sources
+        run: |
+          swatref source fetch dev_pr252_base
+          swatref source fetch pr_252
+          swatref source show dev_pr252_base
+          swatref source show pr_252
+      - name: Regenerate deterministic comparison reports
+        run: swatref compare pr_252 --skip-source-build --skip-preview
+      - name: Require committed reports to match regeneration
+        run: git diff --exit-code -- reports/comparisons/pr-252

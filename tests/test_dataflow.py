@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import subprocess
 
 from swatplus_reference.docs.pages import Page, STATUS_FILLED
 from swatplus_reference.docs.staleness import compute_status
@@ -71,6 +72,44 @@ def test_reads_writes_extracted(tmp_path):
     assert store.readers_of("albday")[0].name == "use_albedo"
     assert {s.name for s in store.writers_of("shared_acc")} == \
         {"make_albedo", "use_albedo", "also_writes_acc"}
+
+
+def test_parse_tree_accepts_f90_case_but_rejects_template_suffix(tmp_path):
+    src_dir = tmp_path / "src"
+    src_dir.mkdir()
+    (src_dir / "accepted.F90").write_text(
+        "subroutine accepted\nend subroutine accepted\n", encoding="utf-8"
+    )
+    (src_dir / "template.f90.in").write_text(
+        "subroutine template_only\nend subroutine template_only\n",
+        encoding="utf-8",
+    )
+
+    store = parse_tree(src_dir, "t")
+
+    assert store.get("accepted") is not None
+    assert store.get("template_only") is None
+
+
+def test_parse_tree_ignores_untracked_build_products_in_git_checkout(tmp_path):
+    repo = tmp_path / "repo"
+    src_dir = repo / "src"
+    src_dir.mkdir(parents=True)
+    (src_dir / "tracked.f90").write_text(
+        "subroutine tracked\nend subroutine tracked\n", encoding="utf-8"
+    )
+    (src_dir / "generated.f90").write_text(
+        "subroutine generated\nend subroutine generated\n", encoding="utf-8"
+    )
+    subprocess.run(["git", "init", "-q", str(repo)], check=True)
+    subprocess.run(
+        ["git", "-C", str(repo), "add", "src/tracked.f90"], check=True
+    )
+
+    store = parse_tree(src_dir, "t")
+
+    assert store.get("tracked") is not None
+    assert store.get("generated") is None
 
 
 def _pages(tmp, store, names, changed=()) -> list[Page]:

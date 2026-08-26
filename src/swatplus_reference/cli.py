@@ -420,6 +420,37 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     return 2
 
 
+def cmd_compare(cfg: Config, argv: list[str]) -> int:
+    """Run a configured, locked source impact comparison."""
+    parser = argparse.ArgumentParser(prog="swatref compare")
+    parser.add_argument("name", help="comparison name from swatref.toml")
+    parser.add_argument(
+        "--fetch", action="store_true", help="fetch and verify both locked source profiles"
+    )
+    parser.add_argument(
+        "--skip-source-build", action="store_true", help="skip compiling both source trees"
+    )
+    parser.add_argument(
+        "--skip-preview", action="store_true", help="skip the isolated strict MkDocs preview"
+    )
+    args = parser.parse_args(argv)
+    try:
+        from .comparison.run import run_comparison
+
+        result = run_comparison(
+            cfg,
+            args.name,
+            fetch=args.fetch,
+            build_sources=not args.skip_source_build,
+            build_preview=not args.skip_preview,
+        )
+    except (FileNotFoundError, RuntimeError, ValueError) as exc:
+        parser.error(str(exc))
+    print(f"wrote comparison report to {result.report_dir}")
+    print(result.one_line_summary)
+    return 0 if result.complete else 1
+
+
 def _config_from_argv(argv: list[str]) -> tuple[str, list[str]]:
     """Accept --config before or after the docs/schema/source namespace."""
     args = list(argv)
@@ -442,8 +473,8 @@ def main(argv: list[str] | None = None) -> int:
         )
         parser.add_argument("--config", default="swatref.toml")
         parser.add_argument(
-            "area", nargs="?", choices=["source", "docs", "schema"],
-            help="source checkout, readable documentation, or JSON schemas",
+            "area", nargs="?", choices=["source", "docs", "schema", "compare"],
+            help="source checkout, readable documentation, JSON schemas, or impact comparison",
         )
         parser.print_help()
         return 0
@@ -452,6 +483,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_source(cfg, argv[1:])
     if argv and argv[0] == "schema":
         return cmd_schema(cfg, argv[1:])
+    if argv and argv[0] == "compare":
+        return cmd_compare(cfg, argv[1:])
     if argv and argv[0] == "docs":
         argv = argv[1:]
 

@@ -48,11 +48,15 @@ reports/schema/
   swatplus-62.0.0-field-map.{json,md}
   swatplus-62.0.0-range-crosswalk.{json,md}
 
+reports/comparisons/
+  pr-252/                         locked base-vs-candidate impact report
+
 src/swatplus_reference/
   source/                          source profiles, fetching, SHA checks
   parser/                          documentation facts + schema scanner
   docs/                            pages, grounding, staleness, rendering
   schema/                          schema, range, field-map, Editor comparison
+  comparison/                      locked builds, diffs, reproducibility checks
   generation/                      optional prose fill and delta refill
   provenance/                      deterministic provenance sidecars
   cli.py                           `swatref` command
@@ -87,7 +91,36 @@ mkdocs build --strict
 swatref schema build
 swatref schema ranges
 swatref schema field-map
+
+# Re-run the locked PR 252 comparison (fetch once, then compare).
+swatref source fetch dev_pr252_base
+swatref source fetch pr_252
+swatref compare pr_252
 ```
+
+## Comparing a branch or pull request
+
+A `[comparisons.NAME]` entry selects two source profiles: an exact base and an
+exact candidate. `swatref compare NAME` compiles both with the same settings,
+parses the candidate twice, generates its schema twice, inventories source-opened
+inputs, measures reviewed-page impact, runs grounding checks, and builds an
+isolated strict documentation preview. Base-to-candidate differences are review
+targets; repeated facts and schemas from the same candidate must have a zero-byte
+difference, and repeated input contracts must have zero semantic changes.
+
+Tracked comparison reports contain portable commits, counts, detailed diffs,
+resolved default filenames, source read order, and explicit
+`readable_needs_schema_review` flags. Source checkouts, compiler logs, fact
+stores, candidate schemas, rendered Markdown, and the preview site remain
+ignored under `.swatref/comparisons/`. The command never fills prose or edits
+`docs_src/`.
+
+The main validation workflow runs tests, source-backed documentation checks,
+schema reproduction, and a strict MkDocs build. A path-filtered comparison
+workflow regenerates the locked PR reports whenever comparison inputs or code
+change. Full source compilation remains a manual release gate. The rendered site
+is always available as a workflow artifact; GitHub Pages deployment is gated by
+the repository variable `PUBLISH_PAGES=true` and only runs from corpus `main`.
 
 ## How the readable corpus works
 

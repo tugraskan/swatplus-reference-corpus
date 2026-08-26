@@ -27,6 +27,7 @@ from .facts import (
     UseDep,
     hash_slice,
 )
+from .source_files import source_files
 
 _PARSER = None
 
@@ -39,8 +40,9 @@ def _parser():
 
 
 def parse_tree(source_dir: Path, source_ref: str = "") -> FactStore:
+    source_dir = source_dir.resolve()
     store = FactStore(source_ref=source_ref)
-    for path in sorted(source_dir.rglob("*.f90")):
+    for path in source_files(source_dir, [".f90"]):
         rel = path.relative_to(source_dir).as_posix()
         text = path.read_text(encoding="utf-8", errors="replace")
         try:

@@ -81,9 +81,10 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | `parser` | documentation fact extraction and schema-oriented Fortran scan |
 | `docs` | tracked page model, grounding, staleness, fact injection, rendering |
 | `schema` | base schema, ranges, field maps, and Editor comparison |
+| `comparison` | locked source builds, symbol/schema diffs, page impact, preview |
 | `generation` | optional prose fill, batch fill, and source-diff refill |
 | `provenance` | deterministic source/artifact records |
-| `cli.py` | `source`, `docs`, and `schema` command groups |
+| `cli.py` | `source`, `docs`, `schema`, and `compare` command groups |
 
 The two Fortran parsers have different contracts and are deliberately separate:
 
@@ -187,6 +188,8 @@ portable checkout name, not a machine-specific absolute path.
 
 ## 7. Reproducibility
 
+### 7.1 Release and corpus gates
+
 The following are build gates:
 
 1. source profile resolves and satisfies its optional commit lock;
@@ -208,6 +211,31 @@ Verified migration results:
 The Editor report has one intentional metadata cleanup: its old machine path
 was replaced by the portable checkout name. Scientific comparison content is
 unchanged.
+
+### 7.2 Locked source comparisons
+
+Each `[comparisons.NAME]` table selects a locked base profile, locked candidate
+profile, tracked report directory, and ignored work directory. `swatref compare
+NAME` performs these independent checks without editing reviewed pages:
+
+1. verify both exact commits;
+2. compile both with the same compiler, generator, flags, build type, and tag;
+3. parse both source trees and parse the candidate a second time;
+4. generate both schemas and generate the candidate schema a second time;
+5. inventory source-opened inputs using the schema resolver's literal, derived-
+   type-slot, and reader-argument filename resolution;
+6. report added, removed, changed, replacement-candidate, unresolved, symbol,
+   parser-fallback, schema, page-status, and grounding changes;
+7. render the candidate into an isolated directory and run strict MkDocs; and
+8. require zero byte difference between repeated candidate facts and schemas,
+   plus zero semantic changes between repeated candidate input contracts.
+
+A base-to-candidate difference is expected and does not itself fail the run.
+New unresolved schemas and grounding errors block corpus adoption but remain
+reported review work rather than being silently filled or guessed. A readable
+source contract that is not yet certified is published as
+`readable_needs_schema_review`, including the source expression, resolved default
+filename, read roles, conditions, and field order.
 
 ## 8. Tracked versus derived files
 
