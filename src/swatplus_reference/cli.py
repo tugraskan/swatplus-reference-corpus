@@ -368,7 +368,9 @@ def cmd_render(cfg: Config, args) -> int:
     from .docs.render import render_site
 
     store = get_store(cfg)
-    out = render_site(cfg, store)
+    rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
+    rich = RichStore.build(cfg.abs_source_dir) if rich_path.exists() else None
+    out = render_site(cfg, store, rich)
     print(f"rendered into {out}")
     return 0
 

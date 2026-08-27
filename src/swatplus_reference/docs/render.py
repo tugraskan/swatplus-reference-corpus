@@ -21,10 +21,11 @@ SYM_REF_RX = re.compile(r"\[sym:([A-Za-z_]\w*)\]")
 
 
 class Renderer:
-    def __init__(self, cfg: Config, store: FactStore, pages: list[Page]):
+    def __init__(self, cfg: Config, store: FactStore, pages: list[Page], rich=None):
         self.cfg = cfg
         self.store = store
         self.pages = pages
+        self.rich = rich
         self.page_by_symbol = {p.symbol: p for p in pages if p.symbol}
         self.page_paths = {p.path.resolve() for p in pages}
 
@@ -231,7 +232,7 @@ class Renderer:
         return "\n".join(lines)
 
 
-def render_site(cfg: Config, store: FactStore) -> Path:
+def render_site(cfg: Config, store: FactStore, rich=None) -> Path:
     """Render docs_dir pages into render_dir for mkdocs."""
     docs_dir = cfg.abs_docs_dir
     out_dir = cfg.abs_render_dir
@@ -240,7 +241,7 @@ def render_site(cfg: Config, store: FactStore) -> Path:
     out_dir.mkdir(parents=True)
 
     pages = load_all(docs_dir)
-    renderer = Renderer(cfg, store, pages)
+    renderer = Renderer(cfg, store, pages, rich)
 
     sections: dict[str, list[Page]] = {}
     for page in pages:
