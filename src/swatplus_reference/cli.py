@@ -10,6 +10,8 @@ from pathlib import Path
 from .docs.pages import STATUS_STALE, STATUS_TODO, Page, load_all, page_dir
 from .parser.facts import FactStore
 from .parser.fortran import parse_tree
+from .parser.rich import RichStore
+from .parser.schema_model import ModuleDoc, ProcedureDoc, DerivedTypeDoc
 from .provenance.records import write_provenance
 from .source.config import Config, load_config
 from .source.fetch import fetch_profile, resolve_profile
@@ -64,6 +66,101 @@ def cmd_parse(cfg: Config, args) -> int:
     store = get_store(cfg, refresh=True)
     for f, err in store.parse_errors.items():
         print(f"fallback: {f}: {err.splitlines()[0][:100]}")
+    return 0
+
+
+def cmd_rich_parse(cfg: Config, args) -> int:
+    rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
+    if rich_path.exists() and not args.refresh:
+        print(f"rich parse already exists at {rich_path} (use --refresh to rebuild)")
+        return 0
+    rich_store = RichStore.build(cfg.abs_source_dir)
+    rich_store.save(rich_path)
+    print(f"rich parse written to {rich_path}")
+    return 0
+
+
+def cmd_facts_diff(cfg: Config, args) -> int:
+    thin_store = get_store(cfg, refresh=args.refresh_thin)
+    rich_store = RichStore.build(cfg.abs_source_dir)
+
+    thin_names = set(thin_store.symbols.keys())
+    rich_names = set(rich_store.by_name.keys())
+
+    thin_only = sorted(thin_names - rich_names)
+    rich_only = sorted(rich_names - thin_names)
+
+    disagreements = []
+    kind_collisions = []
+    for name in sorted(thin_names & rich_names):
+        thin_sym = thin_store.get(name)
+        rich_obj = rich_store.get(name)
+        if not thin_sym or not rich_obj:
+            continue
+
+        # Derive rich object kind
+        if isinstance(rich_obj, ModuleDoc):
+            rich_kind = "module"
+        elif isinstance(rich_obj, DerivedTypeDoc):
+            rich_kind = "type"
+        elif isinstance(rich_obj, ProcedureDoc):
+            rich_kind = rich_obj.kind
+        else:
+            rich_kind = "unknown"
+
+        # Check for kind collision
+        if thin_sym.kind != rich_kind:
+            kind_collisions.append((name, f"kind: thin={thin_sym.kind} rich={rich_kind}"))
+            continue
+
+        diffs = []
+        if hasattr(rich_obj, 'args') and len(thin_sym.args) != len(rich_obj.args):
+            diffs.append(f"arg_count: thin={len(thin_sym.args)} rich={len(rich_obj.args)}")
+        if hasattr(rich_obj, 'uses') and len(thin_sym.uses) != len(rich_obj.uses):
+            diffs.append(f"use_count: thin={len(thin_sym.uses)} rich={len(rich_obj.uses)}")
+        if hasattr(rich_obj, 'locals') and len(thin_sym.locals) != len(rich_obj.locals):
+            diffs.append(f"local_count: thin={len(thin_sym.locals)} rich={len(rich_obj.locals)}")
+        if hasattr(rich_obj, 'location') and hasattr(rich_obj.location, 'line'):
+            thin_span = thin_sym.end_line - thin_sym.start_line + 1
+            rich_span = rich_obj.location.end_line - rich_obj.location.line + 1
+            if thin_span != rich_span:
+                diffs.append(f"span: thin={thin_span} rich={rich_span}")
+
+        if diffs:
+            disagreements.append((name, "; ".join(diffs)))
+
+    # Write report under reports/
+    report_dir = cfg.root / "reports" / "docs"
+    report_dir.mkdir(parents=True, exist_ok=True)
+    report_path = report_dir / f"rich-vs-thin-{cfg.source_ref[:12]}.md"
+
+    lines = []
+    lines.append(f"# Rich vs Thin Diff — SWAT+ {cfg.source_ref[:12]}\n")
+    lines.append(f"## Summary\n")
+    lines.append(f"- Thin-only: {len(thin_only)}")
+    lines.append(f"- Rich-only: {len(rich_only)}")
+    lines.append(f"- Disagreements: {len(disagreements)}")
+    lines.append(f"- Kind collisions: {len(kind_collisions)}\n")
+
+    lines.append("## Thin-only symbols\n")
+    for n in thin_only:
+        lines.append(f"- `{n}`")
+
+    lines.append("\n## Rich-only symbols\n")
+    for n in rich_only:
+        lines.append(f"- `{n}`")
+
+    lines.append("\n## Kind collisions\n")
+    for name, msg in kind_collisions:
+        lines.append(f"- `{name}`: {msg}")
+
+    lines.append("\n## Disagreements\n")
+    for name, msg in disagreements:
+        lines.append(f"- `{name}`: {msg}")
+
+    report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"diff report written to {report_path}")
+    print(f"thin_only={len(thin_only)} rich_only={len(rich_only)} disagreements={len(disagreements)} kind_collisions={len(kind_collisions)}")
     return 0
 
 
@@ -494,6 +591,12 @@ def main(argv: list[str] | None = None) -> int:
     sub.add_parser("fetch")
     sub.add_parser("parse")
 
+    p = sub.add_parser("rich-parse")
+    p.add_argument("--refresh", action="store_true", help="rebuild even if rich.json exists")
+
+    p = sub.add_parser("facts-diff")
+    p.add_argument("--refresh-thin", action="store_true", help="force reparse of thin store before diffing")
+
     p = sub.add_parser("status")
     p.add_argument("--verbose", "-v", action="store_true")
     p.add_argument(
@@ -542,6 +645,8 @@ def main(argv: list[str] | None = None) -> int:
     handler = {
         "fetch": cmd_fetch,
         "parse": cmd_parse,
+        "rich-parse": cmd_rich_parse,
+        "facts-diff": cmd_facts_diff,
         "status": cmd_status,
         "mark-stale": cmd_mark_stale,
         "new": cmd_new,
