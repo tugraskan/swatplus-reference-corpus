@@ -422,6 +422,7 @@ class FortranScanner:
         for path in self._iter_source_files(source_root):
             file_doc = self._scan_file(path, source_root, project)
             project.files.append(file_doc)
+        self._resolve_project_file_expressions(project)
         self._populate_io_summaries(project)
         project.stats = {
             "files": len(project.files),
@@ -433,6 +434,88 @@ class FortranScanner:
             "output_families": len(project.output_families),
         }
         return project
+
+    def _resolve_project_file_expressions(self, project: ProjectIndex) -> None:
+        """Resolve derived-component filenames after all files are scanned.
+
+        SWAT+ declares input filenames as defaults on derived-type components
+        in ``input_file_module.f90`` and opens them from separate procedures,
+        for example ``in_aqu%aqu`` in ``aqu_read.f90``.  The per-file scanner
+        cannot see that cross-file default while it parses the OPEN statement,
+        but the completed project has everything needed to resolve it:
+        module variable -> declared type -> component initializer.
+
+        Keep ``file_expr`` unchanged as source evidence and update only
+        ``file_resolved``.  Reads and closes inherit the symbolic OPEN target
+        during the per-file pass, so resolve their existing ``file_resolved``
+        value as well.
+        """
+        component_defaults: dict[str, dict[str, str]] = {}
+        for derived in project.types:
+            defaults: dict[str, str] = {}
+            for component in derived.components:
+                if component.initial:
+                    literal = self._string_literal(component.initial)
+                    if literal:
+                        defaults[component.name.lower()] = literal
+            if defaults:
+                component_defaults[derived.name.lower()] = defaults
+
+        module_by_name = {module.name.lower(): module for module in project.modules}
+
+        for procedure in project.procedures:
+            root_types: dict[str, set[str]] = {}
+
+            def add_variables(variables: list[VariableRef]) -> None:
+                for variable in variables:
+                    type_name = self._derived_type_name(variable.vartype)
+                    if type_name:
+                        root_types.setdefault(variable.name.lower(), set()).add(type_name)
+
+            add_variables(procedure.variables)
+
+            modules: list[ModuleDoc] = []
+            if procedure.module:
+                owner = module_by_name.get(procedure.module.lower())
+                if owner:
+                    modules.append(owner)
+            for use in procedure.uses:
+                imported = module_by_name.get(use.module.lower())
+                if imported:
+                    modules.append(imported)
+            for module in modules:
+                add_variables(module.variables)
+
+            for operation in procedure.io:
+                expression = operation.file_resolved or operation.file_expr
+                if not expression:
+                    continue
+                match = re.fullmatch(
+                    r"\s*([a-z_]\w*)\s*%\s*([a-z_]\w*)\s*",
+                    expression,
+                    re.I,
+                )
+                if not match:
+                    continue
+                root, component = (part.lower() for part in match.groups())
+                possible_types = root_types.get(root, set())
+                if len(possible_types) != 1:
+                    continue
+                type_name = next(iter(possible_types))
+                resolved = component_defaults.get(type_name, {}).get(component)
+                if resolved:
+                    operation.file_resolved = resolved
+
+    @staticmethod
+    def _derived_type_name(vartype: str | None) -> str | None:
+        if not vartype:
+            return None
+        match = re.fullmatch(
+            r"\s*(?:type|class)\s*\(\s*([a-z_]\w*)\s*\)\s*",
+            vartype,
+            re.I,
+        )
+        return match.group(1).lower() if match else None
 
     def iter_source_files(self) -> list[Path]:
         """The files scan() would parse, without parsing them (for cache keys)."""

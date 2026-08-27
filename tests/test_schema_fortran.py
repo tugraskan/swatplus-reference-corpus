@@ -223,6 +223,48 @@ end module aqu_pesticide_module
             self.assertEqual(by_name["spaced_result"].args, ["left", "right"])
             self.assertNotIn("result", " ".join(by_name["aqupest_add"].args).lower())
 
+    def test_cross_file_derived_component_filename_is_resolved(self) -> None:
+        """Resolve SWAT+'s input-file defaults across source files.
+
+        The declaration and OPEN statement live in different files in the
+        pinned source.  A file-local defaults table therefore leaves
+        ``in_aqu%aqu`` unresolved even though the completed project records
+        both the root variable's type and the component's literal default.
+        """
+        input_module = """\
+module input_file_module
+  type :: input_aqu
+    character(len=25) :: aqu = "aquifer.aqu"
+  end type input_aqu
+  type(input_aqu) :: in_aqu
+end module input_file_module
+"""
+        reader = """\
+subroutine aqu_read
+  use input_file_module
+  open (107,file=in_aqu%aqu)
+  read (107,*) header
+  close (107)
+end subroutine aqu_read
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "input_file_module.f90").write_text(input_module, encoding="utf-8")
+            (source / "aqu_read.f90").write_text(reader, encoding="utf-8")
+            config = BuildConfig(
+                project_name="Fixture", source_dir=source, output_dir=root / "site"
+            )
+            project = FortranScanner(config).scan()
+            proc = next(p for p in project.procedures if p.name == "aqu_read")
+
+            opened = next(op for op in proc.io if op.kind == "open")
+            read = next(op for op in proc.io if op.kind == "read")
+            self.assertEqual(opened.file_expr, "in_aqu%aqu")
+            self.assertEqual(opened.file_resolved, "aquifer.aqu")
+            self.assertEqual(read.file_resolved, "aquifer.aqu")
+
     def test_typed_prefixed_function_result_clause_keeps_only_dummy_args(self) -> None:
         source_text = """\
 module typed_function_module
