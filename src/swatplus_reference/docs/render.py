@@ -272,12 +272,38 @@ class Renderer:
     def block_io(self, page: Page, sym: Symbol) -> str:
         if not sym.io:
             return "*No file I/O statements.*"
-        lines = ["| Statement | Unit | File | Source |", "| --- | --- | --- | --- |"]
+
+        rich_proc = None
+        if self.rich is not None:
+            rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_proc is None:
+            lines = ["| Statement | Unit | File | Source |", "| --- | --- | --- | --- |"]
+            for st in sym.io:
+                loc = f"[`{sym.file}:{st.line}`]({self.source_url(sym, st.line)})"
+                lines.append(
+                    f"| `{st.kind}` | `{st.unit or '?'}` | `{st.file_expr or '—'}` | {loc} |"
+                )
+            return "\n".join(lines)
+
+        lines = ["| Statement | Unit | File | Resolved File | Fields | Condition | Source |", "| --- | --- | --- | --- | --- | --- | --- |"]
         for st in sym.io:
             loc = f"[`{sym.file}:{st.line}`]({self.source_url(sym, st.line)})"
+
+            rich_op = None
+            for op in rich_proc.io or []:
+                if op.location.line == st.line:
+                    rich_op = op
+                    break
+
+            resolved_file = f"`{rich_op.file_resolved}`" if rich_op and rich_op.file_resolved else "—"
+            fields = ", ".join(f"`{f}`" for f in rich_op.fields) if rich_op and rich_op.fields else "—"
+            condition = f"`{rich_op.condition}`" if rich_op and rich_op.condition else "—"
+
             lines.append(
-                f"| `{st.kind}` | `{st.unit or '?'}` | `{st.file_expr or '—'}` | {loc} |"
+                f"| `{st.kind}` | `{st.unit or '?'}` | `{st.file_expr or '—'}` | {resolved_file} | {fields} | {condition} | {loc} |"
             )
+
         return "\n".join(lines)
 
     def block_members(self, page: Page, sym: Symbol) -> str:

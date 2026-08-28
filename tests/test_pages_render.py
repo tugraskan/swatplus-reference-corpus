@@ -169,6 +169,22 @@ def test_block_uses_fallback_without_rich_store(cfg, store):
     assert "| Module | Source | Only | Why it matters here |" not in out
 
 
+def test_block_io_enriched_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_page(cfg, "<!-- facts:io -->\n\n")
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "demo.in" in out
+    assert "wrk" in out
+    assert "| Statement | Unit | File | Resolved File | Fields | Condition | Source |" in out
+
+
+def test_block_io_fallback_without_rich_store(cfg, store):
+    page = make_page(cfg, "<!-- facts:io -->\n\n")
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "| Statement | Unit | File | Source |" in out
+    assert "Resolved File" not in out
+
+
 def test_render_site_writes_indexes(cfg, store):
     make_page(cfg, "<!-- facts:header -->")
     out_dir = render_site(cfg, store)
