@@ -1,5 +1,10 @@
+from pathlib import Path
+
 from swatplus_reference.docs.pages import Page, load_page
 from swatplus_reference.docs.render import Renderer, render_site
+from swatplus_reference.parser.rich import RichStore
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def make_page(cfg, body, **kw):
@@ -51,6 +56,32 @@ def test_fact_injection(cfg, store):
     assert "`nonexistent_thing`" in out
     # io table carries a line-anchored source link
     assert "#L" in out
+
+
+def test_block_arguments_enriched_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_page(
+        cfg,
+        "<!-- facts:arguments -->\n\n",
+    )
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "Units" in out
+    assert "Description" in out
+    assert "none" in out
+    assert "fraction applied to storage" in out
+    assert "](https://example.test/src/demo_calc.f90#" in out
+
+
+def test_block_arguments_fallback_without_rich_store(cfg, store):
+    page = make_page(
+        cfg,
+        "<!-- facts:arguments -->\n\n",
+        extra={"args": {"frac": "storage fraction"}},
+    )
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "| `frac` | `real, intent(in)` | in | storage fraction |" in out
+    assert "Units" not in out
+    assert "Description" not in out
 
 
 def test_render_site_writes_indexes(cfg, store):

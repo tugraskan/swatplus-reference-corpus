@@ -121,13 +121,53 @@ class Renderer:
                 "*No dummy arguments — this procedure works entirely through "
                 "module state (see the modules it uses below).*"
             )
+
         meanings = page.extra.get("args", {}) or {}
-        lines = ["| Argument | Declared | Intent | Meaning |", "| --- | --- | --- | --- |"]
+
+        rich_proc = None
+        if self.rich is not None:
+            rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_proc is None:
+            lines = ["| Argument | Declared | Intent | Meaning |", "| --- | --- | --- | --- |"]
+            for a in sym.args:
+                meaning = meanings.get(a.name, "")
+                lines.append(
+                    f"| `{a.name}` | `{a.decl or '?'}` | {a.intent or '—'} | {meaning} |"
+                )
+            return "\n".join(lines)
+
+        lines = ["| Argument | Declared | Intent | Units | Description | Meaning |", "| --- | --- | --- | --- | --- | --- |"]
         for a in sym.args:
             meaning = meanings.get(a.name, "")
-            lines.append(
-                f"| `{a.name}` | `{a.decl or '?'}` | {a.intent or '—'} | {meaning} |"
-            )
+
+            var_ref = None
+            for v in rich_proc.variables:
+                if v.name.lower() == a.name.lower():
+                    var_ref = v
+                    break
+
+            if var_ref is not None:
+                doc = var_ref.doc
+                if "|" in doc:
+                    units, desc = (part.strip() for part in doc.split("|", 1))
+                else:
+                    units, desc = "", doc.strip()
+
+                if var_ref.location and var_ref.location.line:
+                    link = self.source_url(sym, line=var_ref.location.line)
+                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                else:
+                    decl_cell = f"`{var_ref.declaration}`"
+
+                lines.append(
+                    f"| `{a.name}` | {decl_cell} | {a.intent or '—'} | {units} | {desc} | {meaning} |"
+                )
+            else:
+                lines.append(
+                    f"| `{a.name}` | `{a.decl or '?'}` | {a.intent or '—'} | | | {meaning} |"
+                )
+
         return "\n".join(lines)
 
     def block_locals(self, page: Page, sym: Symbol) -> str:
