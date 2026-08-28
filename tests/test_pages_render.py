@@ -114,6 +114,46 @@ def test_block_locals_fallback_without_rich_store(cfg, store):
     assert "Initial" not in out
 
 
+def make_module_page(cfg, body, **kw):
+    page = Page(
+        path=cfg.abs_docs_dir / "modules" / "demo_module.md",
+        kind="module",
+        symbol="demo_module",
+        title="demo_module",
+        status=kw.pop("status", "filled"),
+        version_label=kw.pop("version_label", "TEST 1.0"),
+        body=body,
+        **kw,
+    )
+    page.save()
+    return page
+
+
+def test_block_variables_enriched_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_module_page(cfg, "<!-- facts:variables -->\n\n")
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "number of basins" in out
+    assert "ha" in out
+    assert "total basin area" in out
+    assert "0" in out
+    assert "0." in out
+    assert "](https://example.test/src/demo_module.f90#" in out
+
+
+def test_block_variables_fallback_without_rich_store(cfg, store):
+    page = make_module_page(
+        cfg,
+        "<!-- facts:variables -->\n\n",
+        extra={"variables": {"basin_count": "number of watersheds"}},
+    )
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "| `basin_count` |" in out
+    assert "number of watersheds" in out
+    assert "Units" not in out
+    assert "Initial" not in out
+
+
 def test_render_site_writes_indexes(cfg, store):
     make_page(cfg, "<!-- facts:header -->")
     out_dir = render_site(cfg, store)

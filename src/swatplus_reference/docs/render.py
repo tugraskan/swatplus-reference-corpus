@@ -304,14 +304,57 @@ class Renderer:
         notes = page.extra.get("variables", {}) or {}
         if not sym.variables and not notes:
             return "*No module-level variables.*"
+
+        rich_mod = None
+        if self.rich is not None:
+            rich_mod = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_mod is None:
+            decl_by_name = {v.name: v.decl for v in sym.variables}
+            names = [v.name for v in sym.variables]
+            names += [n for n in notes if n not in decl_by_name]
+            lines = ["| Variable | Declared | Meaning |", "| --- | --- | --- |"]
+            for n in names:
+                lines.append(
+                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {notes.get(n, '')} |"
+                )
+            return "\n".join(lines)
+
         decl_by_name = {v.name: v.decl for v in sym.variables}
         names = [v.name for v in sym.variables]
         names += [n for n in notes if n not in decl_by_name]
-        lines = ["| Variable | Declared | Meaning |", "| --- | --- | --- |"]
+
+        lines = ["| Variable | Declared | Meaning | Units | Description | Initial |", "| --- | --- | --- | --- | --- | --- |"]
         for n in names:
-            lines.append(
-                f"| `{n}` | `{decl_by_name.get(n, '?')}` | {notes.get(n, '')} |"
-            )
+            var_ref = None
+            for v in rich_mod.variables:
+                if v.name.lower() == n.lower():
+                    var_ref = v
+                    break
+
+            if var_ref is not None:
+                doc = var_ref.doc
+                if "|" in doc:
+                    units, desc = (part.strip() for part in doc.split("|", 1))
+                else:
+                    units, desc = "", doc.strip()
+
+                if var_ref.location and var_ref.location.line:
+                    link = self.source_url(sym, line=var_ref.location.line)
+                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                else:
+                    decl_cell = f"`{var_ref.declaration}`"
+
+                initial = var_ref.initial if var_ref.initial else ""
+
+                lines.append(
+                    f"| `{n}` | {decl_cell} | {notes.get(n, '')} | {units} | {desc} | {initial} |"
+                )
+            else:
+                lines.append(
+                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {notes.get(n, '')} | | | |"
+                )
+
         return "\n".join(lines)
 
 
