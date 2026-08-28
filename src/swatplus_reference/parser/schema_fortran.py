@@ -11,8 +11,11 @@ from .schema_model import (
     CallRef,
     ControlStep,
     DerivedTypeDoc,
+    IOFileDoc,
     IOOperation,
     ModuleDoc,
+    OutputFamilyDoc,
+    OutputFile,
     ProcedureDoc,
     ProgramDoc,
     ProjectIndex,
@@ -27,11 +30,11 @@ from .schema_model import (
 MODULE_RE = re.compile(r"^\s*module\s+(?!procedure\b)([a-z_]\w*)\b", re.I)
 PROGRAM_RE = re.compile(r"^\s*program\s+([a-z_]\w*)\b", re.I)
 SUBROUTINE_RE = re.compile(
-    r"^\s*(?:(?:recursive|pure|elemental|module)\s+)*subroutine\s+([a-z_]\w*)\s*(?:\((.*)\))?",
+    r"^\s*(?:(?:recursive|pure|elemental|module)\s+)*subroutine\s+([a-z_]\w*)\b(.*)",
     re.I,
 )
 FUNCTION_RE = re.compile(
-    r"^\s*(?:(?:recursive|pure|elemental|module)\s+)*(?:(?:[\w(),=*]+\s+)+)?function\s+([a-z_]\w*)\s*(?:\((.*)\))?",
+    r"^\s*(?:(?:recursive|pure|elemental|module)\s+)*(?:(?:[\w(),=*]+\s+)+)?function\s+([a-z_]\w*)\b(.*)",
     re.I,
 )
 # The space in `end type` / `end module` / ... is optional in Fortran, and
@@ -83,6 +86,10 @@ SELECT_CASE_RE = re.compile(r"^select\s+case\b", re.I)
 CASE_DEFAULT_RE = re.compile(r"^case\s+default\b", re.I)
 CASE_RE = re.compile(r"^case\b", re.I)
 END_SELECT_RE = re.compile(r"^end\s*select\b", re.I)
+OUTPUT_FILE_RE = re.compile(
+    r"^(?P<base>.+?)(?P<sep>[._-])(?P<freq>day|mon|yr|aa)(?P<ext>\.[^.\\/]+)?$",
+    re.I,
+)
 
 
 @dataclass(slots=True)
@@ -173,6 +180,26 @@ def parse_args(arg_text: str | None) -> list[str]:
     if not arg_text:
         return []
     return [part.strip() for part in split_top_level_commas(arg_text) if part.strip()]
+
+
+def parse_procedure_args(tail: str | None) -> list[str]:
+    if not tail:
+        return []
+    balanced = extract_balanced_parens(tail)
+    if balanced is None:
+        return []
+    return parse_args(balanced[0])
+
+
+def is_commented_out_declaration(text: str) -> bool:
+    code, _comment = split_fortran_comment(text)
+    match = DECL_RE.match(code)
+    if not match:
+        return False
+    if "::" in code:
+        return True
+    rest = match.group(2).strip()
+    return bool("," in rest or re.search(r"\b[a-z_]\w*\s*(?:=|\()", rest, re.I))
 
 
 def logical_lines(lines: list[str]) -> list[LogicalLine]:
@@ -395,12 +422,15 @@ class FortranScanner:
         for path in self._iter_source_files(source_root):
             file_doc = self._scan_file(path, source_root, project)
             project.files.append(file_doc)
+        self._populate_io_summaries(project)
         project.stats = {
             "files": len(project.files),
             "modules": len(project.modules),
             "programs": len(project.programs),
             "procedures": len(project.procedures),
             "types": len(project.types),
+            "io_files": len(project.io_files),
+            "output_families": len(project.output_families),
         }
         return project
 
@@ -518,7 +548,7 @@ class FortranScanner:
                     location=loc,
                     module=module_stack[-1].name if module_stack else None,
                     parent=proc_stack[-1].name if proc_stack else None,
-                    args=parse_args(proc_match.group(2)),
+                    args=parse_procedure_args(proc_match.group(2)),
                     doc=doc,
                 )
                 project.procedures.append(proc)
@@ -644,6 +674,9 @@ class FortranScanner:
                 if inline_idx is not None and cleaned.startswith("|"):
                     prev = continuations.get(inline_idx, "")
                     continuations[inline_idx] = (prev + "\n" + cleaned).strip() if prev else cleaned
+                elif is_commented_out_declaration(cleaned):
+                    inline_idx = None
+                    buffer = []
                 else:
                     inline_idx = None
                     buffer.append(cleaned)
@@ -818,3 +851,80 @@ class FortranScanner:
             return
         if stack and END_SELECT_RE.match(lowered):
             proc.select_cases.append(stack.pop())
+
+    def _populate_io_summaries(self, project: ProjectIndex) -> None:
+        by_file: dict[str, IOFileDoc] = {}
+        families: dict[str, OutputFamilyDoc] = {}
+        opened_files: dict[str, set[tuple[str, str | None]]] = {}
+
+        for proc in project.procedures:
+            for op in proc.io:
+                if not op.file_resolved:
+                    continue
+                display_name = op.file_resolved.strip()
+                if not display_name:
+                    continue
+
+                file_key = display_name.lower()
+                io_file = by_file.get(file_key)
+                if io_file is None:
+                    io_file = IOFileDoc(key=display_name, display_name=display_name)
+                    by_file[file_key] = io_file
+                io_file.operations.append(op)
+                if proc.name not in io_file.procedures:
+                    io_file.procedures.append(proc.name)
+
+                family_match = OUTPUT_FILE_RE.match(Path(display_name).name)
+                if not family_match:
+                    continue
+                base = family_match.group("base")
+                freq = family_match.group("freq").lower()
+                ext = (family_match.group("ext") or "").lstrip(".").lower()
+                fmt = ext if ext in {"txt", "csv"} else "unknown"
+                family_key = base.lower()
+                family = families.get(family_key)
+                if family is None:
+                    sep = family_match.group("sep")
+                    family = OutputFamilyDoc(
+                        key=base,
+                        display_name=f"{base}{sep}*",
+                        base=base,
+                    )
+                    families[family_key] = family
+                    opened_files[family_key] = set()
+                if op.kind == "open":
+                    if proc.name not in family.opened_by:
+                        family.opened_by.append(proc.name)
+                    open_key = (display_name.lower(), op.unit)
+                    if open_key not in opened_files[family_key]:
+                        opened_files[family_key].add(open_key)
+                        family.files.append(
+                            OutputFile(
+                                name=display_name,
+                                frequency=freq,
+                                fmt=fmt,
+                                unit=op.unit,
+                                open_location=op.location,
+                                open_condition=op.condition,
+                            )
+                        )
+                elif op.kind == "write" and proc.name not in family.written_by:
+                    family.written_by.append(proc.name)
+
+        project.io_files = sorted(
+            by_file.values(),
+            key=lambda item: item.display_name.lower(),
+        )
+        project.output_families = sorted(
+            families.values(),
+            key=lambda item: item.key.lower(),
+        )
+        for family in project.output_families:
+            family.opened_by.sort(key=str.lower)
+            family.written_by.sort(key=str.lower)
+            family.files.sort(
+                key=lambda item: (
+                    item.name.lower(),
+                    "" if item.unit is None else item.unit.lower(),
+                )
+            )

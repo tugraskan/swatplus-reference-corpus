@@ -197,6 +197,130 @@ endmodule gw_module
                 [v.name for v in module.variables], ["after_one", "after_two"]
             )
 
+    def test_function_result_clause_is_not_captured_as_argument(self) -> None:
+        source_text = """\
+module aqu_pesticide_module
+contains
+  function aqupest_add(aqu1, aqu2) result(aqu3)
+    integer :: aqu1, aqu2, aqu3
+  end function aqupest_add
+
+  function spaced_result(left, right) result (value)
+    integer :: left, right, value
+  end function spaced_result
+end module aqu_pesticide_module
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "aqu_pesticide_module.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+
+            by_name = {p.name: p for p in project.procedures}
+            self.assertEqual(by_name["aqupest_add"].args, ["aqu1", "aqu2"])
+            self.assertEqual(by_name["spaced_result"].args, ["left", "right"])
+            self.assertNotIn("result", " ".join(by_name["aqupest_add"].args).lower())
+
+    def test_typed_prefixed_function_result_clause_keeps_only_dummy_args(self) -> None:
+        source_text = """\
+module typed_function_module
+contains
+  pure real function weighted_sum(alpha, beta) result(total)
+    real :: alpha, beta
+    total = alpha + beta
+  end function weighted_sum
+end module typed_function_module
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "typed_function_module.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+
+            proc = next(p for p in project.procedures if p.name == "weighted_sum")
+            self.assertEqual(proc.kind, "function")
+            self.assertEqual(proc.args, ["alpha", "beta"])
+
+    def test_commented_out_declaration_does_not_leak_into_next_variable_doc(self) -> None:
+        source_text = """\
+module comment_doc_module
+  ! retained standalone documentation
+  integer :: documented = 1 !none | inline detail
+
+  !integer :: jj !none | counter
+  integer :: iburn = 0 !none | burn type
+
+  real :: wrapped = 0. !m | first line
+                       !| second line
+end module comment_doc_module
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "comment_doc_module.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+
+            module = next(m for m in project.modules if m.name == "comment_doc_module")
+            variables = {v.name: v for v in module.variables}
+            self.assertEqual(
+                variables["documented"].doc,
+                "retained standalone documentation\nnone | inline detail",
+            )
+            self.assertEqual(variables["iburn"].doc, "none | burn type")
+            self.assertNotIn("jj", variables["iburn"].doc)
+            self.assertNotIn("counter", variables["iburn"].doc)
+            self.assertEqual(variables["wrapped"].doc, "m | first line\n| second line")
+
+    def test_top_level_io_summaries_are_populated_from_procedure_io(self) -> None:
+        source_text = """\
+subroutine io_summary_fixture
+  integer :: first = 0
+  integer :: second = 0
+  open(unit=10,file="input.dat",status="old")
+  read(10,*) first, second
+  close(10)
+  open(unit=20,file="aquifer_day.txt",status="replace")
+  write(20,*) first
+  close(20)
+end subroutine io_summary_fixture
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "io_summary_fixture.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+
+            io_by_name = {io_file.display_name: io_file for io_file in project.io_files}
+            self.assertIn("input.dat", io_by_name)
+            self.assertEqual(io_by_name["input.dat"].procedures, ["io_summary_fixture"])
+            self.assertEqual(
+                [op.kind for op in io_by_name["input.dat"].operations],
+                ["open", "read", "close"],
+            )
+            input_read = next(op for op in io_by_name["input.dat"].operations if op.kind == "read")
+            self.assertEqual(input_read.file_resolved, "input.dat")
+            self.assertEqual(input_read.unit, "10")
+            self.assertEqual(input_read.fields, ["first", "second"])
+
+            family = next(f for f in project.output_families if f.key == "aquifer")
+            self.assertEqual(family.display_name, "aquifer_*")
+            self.assertEqual(family.opened_by, ["io_summary_fixture"])
+            self.assertEqual(family.written_by, ["io_summary_fixture"])
+            self.assertEqual(len(family.files), 1)
+            self.assertEqual(family.files[0].name, "aquifer_day.txt")
+            self.assertEqual(family.files[0].frequency, "day")
+            self.assertEqual(family.files[0].fmt, "txt")
+            self.assertEqual(family.files[0].unit, "20")
+            self.assertEqual(family.files[0].open_location.path, "io_summary_fixture.f90")
+
 
 class SplitIoStatementTests(unittest.TestCase):
     """Neither "first `)`" nor "greedy to last `)`" finds an I/O statement's
