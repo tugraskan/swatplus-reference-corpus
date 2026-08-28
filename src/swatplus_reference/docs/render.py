@@ -174,14 +174,57 @@ class Renderer:
         roles = page.extra.get("locals", {}) or {}
         if not sym.locals and not roles:
             return "*No local variables.*"
+
+        rich_proc = None
+        if self.rich is not None:
+            rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_proc is None:
+            decl_by_name = {v.name: v.decl for v in sym.locals}
+            names = [v.name for v in sym.locals]
+            names += [n for n in roles if n not in decl_by_name]
+            lines = ["| Local | Declared | Role |", "| --- | --- | --- |"]
+            for n in names:
+                lines.append(
+                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {roles.get(n, '')} |"
+                )
+            return "\n".join(lines)
+
         decl_by_name = {v.name: v.decl for v in sym.locals}
         names = [v.name for v in sym.locals]
         names += [n for n in roles if n not in decl_by_name]
-        lines = ["| Local | Declared | Role |", "| --- | --- | --- |"]
+
+        lines = ["| Local | Declared | Role | Units | Description | Initial |", "| --- | --- | --- | --- | --- | --- |"]
         for n in names:
-            lines.append(
-                f"| `{n}` | `{decl_by_name.get(n, '?')}` | {roles.get(n, '')} |"
-            )
+            var_ref = None
+            for v in rich_proc.variables:
+                if v.name.lower() == n.lower():
+                    var_ref = v
+                    break
+
+            if var_ref is not None:
+                doc = var_ref.doc
+                if "|" in doc:
+                    units, desc = (part.strip() for part in doc.split("|", 1))
+                else:
+                    units, desc = "", doc.strip()
+
+                if var_ref.location and var_ref.location.line:
+                    link = self.source_url(sym, line=var_ref.location.line)
+                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                else:
+                    decl_cell = f"`{var_ref.declaration}`"
+
+                initial = var_ref.initial if var_ref.initial else ""
+
+                lines.append(
+                    f"| `{n}` | {decl_cell} | {roles.get(n, '')} | {units} | {desc} | {initial} |"
+                )
+            else:
+                lines.append(
+                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {roles.get(n, '')} | | | |"
+                )
+
         return "\n".join(lines)
 
     def block_calls(self, page: Page, sym: Symbol) -> str:

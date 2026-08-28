@@ -84,6 +84,36 @@ def test_block_arguments_fallback_without_rich_store(cfg, store):
     assert "Description" not in out
 
 
+def test_block_locals_enriched_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_page(
+        cfg,
+        "<!-- facts:locals -->\n\n",
+    )
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "Units" in out
+    assert "Description" in out
+    assert "Initial" in out
+    assert "counter" in out
+    assert "working value" in out
+    assert "0." in out
+    assert "](https://example.test/src/demo_calc.f90#" in out
+
+
+def test_block_locals_fallback_without_rich_store(cfg, store):
+    page = make_page(
+        cfg,
+        "<!-- facts:locals -->\n\n",
+        extra={"locals": {"j": "loop counter", "wrk": "workspace"}},
+    )
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "| `j` |" in out and "loop counter" in out
+    assert "| `wrk` |" in out and "workspace" in out
+    assert "Units" not in out
+    assert "Description" not in out
+    assert "Initial" not in out
+
+
 def test_render_site_writes_indexes(cfg, store):
     make_page(cfg, "<!-- facts:header -->")
     out_dir = render_site(cfg, store)
