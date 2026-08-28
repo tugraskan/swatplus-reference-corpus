@@ -1,7 +1,14 @@
 from pathlib import Path
 from types import SimpleNamespace
 
-from swatplus_reference.cli import _rel, _report_is_current
+from swatplus_reference.cli import _rel, _report_is_current, _rich_report_index
+from swatplus_reference.parser.rich import RichStore
+from swatplus_reference.parser.schema_model import (
+    DerivedTypeDoc,
+    ProcedureDoc,
+    ProjectIndex,
+    SourceLocation,
+)
 from swatplus_reference.source.config import Config, SourceProfile, load_config
 from swatplus_reference.source.fetch import fetch_profile
 
@@ -86,3 +93,23 @@ def test_require_current_rejects_every_drift_bucket():
         drifted = SimpleNamespace(stale=[], affected=[], todo=[], orphaned=[], missing=[])
         setattr(drifted, field, ["item"])
         assert not _report_is_current(drifted)
+
+
+def test_rich_report_index_preserves_type_procedure_collisions():
+    loc = SourceLocation("fixture.f90", 1, 2)
+    proc = ProcedureDoc("cs_balance", "subroutine", loc)
+    dtype = DerivedTypeDoc("cs_balance", loc)
+    plain_type = DerivedTypeDoc("standalone", loc)
+    rich = RichStore(
+        ProjectIndex(
+            project_name="fixture",
+            source_root=".",
+            procedures=[proc],
+            types=[dtype, plain_type],
+        )
+    )
+
+    index = _rich_report_index(rich)
+    assert index["cs_balance"] is proc
+    assert index["type::cs_balance"] is dtype
+    assert index["standalone"] is plain_type

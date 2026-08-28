@@ -65,6 +65,40 @@ def test_rich_store_save_produces_valid_json(tmp_path):
     assert "modules" in data
 
 
+def test_rich_store_save_and_load_round_trip_with_source_provenance(tmp_path):
+    store = RichStore.build(FIXTURES)
+    out = tmp_path / "rich.json"
+    source_ref = "0123456789abcdef0123456789abcdef01234567"
+    store.save(
+        out,
+        provenance={
+            "profile": "fixture",
+            "repository": "https://example.test/swatplus",
+            "requested_ref": "fixture-tag",
+            "configured_commit": source_ref,
+            "resolved_commit": source_ref,
+        },
+    )
+
+    loaded = RichStore.load(out, expected_source_ref=source_ref)
+    assert loaded.get_of_kind("demo_calc", "subroutine", file="demo_calc.f90")
+    assert loaded.outside_state_refs_for("demo_calc", "subroutine", "demo_calc.f90")
+    assert json.loads(out.read_text())["source_root"] == "."
+
+
+def test_rich_store_rejects_snapshot_for_other_source(tmp_path):
+    out = tmp_path / "rich.json"
+    RichStore.build(FIXTURES).save(
+        out,
+        provenance={"resolved_commit": "a" * 40},
+    )
+
+    import pytest
+
+    with pytest.raises(ValueError, match="expected"):
+        RichStore.load(out, expected_source_ref="b" * 40)
+
+
 def test_rich_store_type_procedure_collision():
     proc = ProcedureDoc(
         name="cs_balance",

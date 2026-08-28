@@ -3,8 +3,8 @@
 ## Summary
 
 - Thin-only: 0
-- Rich-only: 3
-- Disagreements: 2
+- Rich-only: 0
+- Disagreements: 3
 - Kind collisions: 0
 
 ## Thin-only symbols
@@ -12,9 +12,6 @@
 
 ## Rich-only symbols
 
-- `type::field`
-- `type::object_salt_balance`
-- `type::output_saltbal_header`
 
 ## Kind collisions
 
@@ -23,3 +20,4 @@
 
 - `gwflow_floodplain`: arg_count: thin=0 rich=1
 - `output_saltbal_header`: span: thin=33 rich=17
+- `type::salt_balance`: span: thin=23 rich=9

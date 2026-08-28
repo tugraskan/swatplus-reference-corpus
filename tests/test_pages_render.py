@@ -72,6 +72,22 @@ def test_block_arguments_enriched_with_rich_store(cfg, store):
     assert "](https://example.test/src/demo_calc.f90#" in out
 
 
+def test_rich_table_cells_escape_pipe_characters(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    proc = rich.get_of_kind("demo_calc", "subroutine", file="demo_calc.f90")
+    assert proc is not None
+    frac = next(v for v in proc.variables if v.name == "frac")
+    frac.doc = "none | description with | pipe"
+    page = make_page(
+        cfg,
+        "<!-- facts:arguments -->\n\n",
+        extra={"args": {"frac": "meaning with | pipe"}},
+    )
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "description with &#124; pipe" in out
+    assert "meaning with &#124; pipe" in out
+
+
 def test_block_arguments_fallback_without_rich_store(cfg, store):
     page = make_page(
         cfg,
@@ -183,6 +199,60 @@ def test_block_io_fallback_without_rich_store(cfg, store):
     out = Renderer(cfg, store, [page]).render_page(page)
     assert "| Statement | Unit | File | Source |" in out
     assert "Resolved File" not in out
+
+
+def make_select_page(cfg, body, **kw):
+    page = Page(
+        path=cfg.abs_docs_dir / "procedures" / "demo_select.md",
+        kind="procedure",
+        symbol="demo_select",
+        title="demo_select",
+        status=kw.pop("status", "filled"),
+        version_label=kw.pop("version_label", "TEST 1.0"),
+        body=body,
+        **kw,
+    )
+    page.save()
+    return page
+
+
+def test_block_assignments_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_page(
+        cfg,
+        "<!-- facts:assignments -->\n\n",
+        extra={"state_changes": {"total_area": "published total"}},
+    )
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "wrk = wrk + dstate(j)%stor * frac" in out
+    assert "total_area = wrk" in out
+    assert "published total" in out
+    assert "](https://example.test/src/demo_calc.f90#" in out
+
+
+def test_block_assignments_without_rich_store(cfg, store):
+    page = make_page(cfg, "<!-- facts:assignments -->\n\n")
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "*No assignments recorded.*" in out
+
+
+def test_block_select_cases_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_select_page(cfg, "<!-- facts:select_cases -->\n\n")
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "low" in out
+    assert "mid" in out
+    assert "high" in out
+    assert "default" not in out
+    assert "](https://example.test/src/demo_select.f90#" in out
+
+
+def test_block_select_cases_empty_without_matching_select(cfg, store):
+    page = make_page(cfg, "<!-- facts:select_cases -->\n\n")
+    rich = RichStore.build(FIXTURES)
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "**Subject:**" not in out
+    assert "**Cases:**" not in out
 
 
 def test_render_site_writes_indexes(cfg, store):

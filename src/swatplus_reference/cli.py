@@ -12,12 +12,51 @@ from .parser.facts import FactStore
 from .parser.fortran import parse_tree
 from .parser.rich import RichStore
 from .parser.schema_model import ModuleDoc, ProcedureDoc, DerivedTypeDoc
-from .provenance.records import write_provenance
+from .provenance.records import SourceProvenance, write_provenance
 from .source.config import Config, load_config
 from .source.fetch import fetch_profile, resolve_profile
 
 
-def activate_docs_source(cfg: Config) -> None:
+def _rich_kind(record) -> str:
+    if isinstance(record, ModuleDoc):
+        return "module"
+    if isinstance(record, DerivedTypeDoc):
+        return "type"
+    if isinstance(record, ProcedureDoc):
+        return record.kind
+    return "unknown"
+
+
+def _rich_report_key(record, colliding_type_names: set[str]) -> str:
+    name = record.name.lower()
+    if isinstance(record, DerivedTypeDoc) and name in colliding_type_names:
+        return f"type::{name}"
+    return name
+
+
+def _rich_report_index(rich_store: RichStore) -> dict[str, object]:
+    records = [
+        *rich_store.index.modules,
+        *rich_store.index.procedures,
+        *rich_store.index.types,
+    ]
+    non_type_names = {
+        record.name.lower()
+        for record in records
+        if not isinstance(record, DerivedTypeDoc)
+    }
+    type_names = {
+        record.name.lower()
+        for record in rich_store.index.types
+    }
+    colliding_type_names = type_names & non_type_names
+    index: dict[str, object] = {}
+    for record in records:
+        index.setdefault(_rich_report_key(record, colliding_type_names), record)
+    return index
+
+
+def activate_docs_source(cfg: Config) -> SourceProvenance:
     """Verify the selected docs profile and expose its exact commit to builders."""
     source_dir, provenance = resolve_profile(cfg, cfg.docs_source)
     profile = cfg.source_profile(cfg.docs_source)
@@ -32,6 +71,7 @@ def activate_docs_source(cfg: Config) -> None:
         provenance,
         consumer="docs",
     )
+    return provenance
 
 
 def get_store(cfg: Config, refresh: bool = False) -> FactStore:
@@ -70,22 +110,43 @@ def cmd_parse(cfg: Config, args) -> int:
 
 
 def cmd_rich_parse(cfg: Config, args) -> int:
+    provenance = activate_docs_source(cfg)
     rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
+    rich_store = None
     if rich_path.exists() and not args.refresh:
-        print(f"rich parse already exists at {rich_path} (use --refresh to rebuild)")
-        return 0
-    rich_store = RichStore.build(cfg.abs_source_dir)
-    rich_store.save(rich_path)
-    print(f"rich parse written to {rich_path}")
+        try:
+            rich_store = RichStore.load(
+                rich_path, expected_source_ref=provenance.resolved_commit
+            )
+            print(f"rich parse already exists at {rich_path}")
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            print(f"rebuilding stale rich parse: {exc}", file=sys.stderr)
+    if rich_store is None:
+        rich_store = RichStore.build(cfg.abs_source_dir)
+        rich_store.save(rich_path, provenance=provenance.to_dict())
+        print(f"rich parse written to {rich_path}")
+    if args.snapshot is not None:
+        snapshot_dir = cfg.resolve(Path(args.snapshot))
+        snapshot_name = f"{provenance.profile}-{provenance.resolved_commit[:12]}.rich.json"
+        snapshot_path = snapshot_dir / snapshot_name
+        rich_store.save(snapshot_path, provenance=provenance.to_dict())
+        write_provenance(
+            snapshot_path.with_suffix(".provenance.json"),
+            provenance,
+            artifact=snapshot_path.name,
+            format="swatplus-reference-rich-v1",
+        )
+        print(f"portable snapshot written to {snapshot_path}")
     return 0
 
 
 def cmd_facts_diff(cfg: Config, args) -> int:
     thin_store = get_store(cfg, refresh=args.refresh_thin)
     rich_store = RichStore.build(cfg.abs_source_dir)
+    rich_index = _rich_report_index(rich_store)
 
     thin_names = set(thin_store.symbols.keys())
-    rich_names = set(rich_store.by_name.keys())
+    rich_names = set(rich_index.keys())
 
     thin_only = sorted(thin_names - rich_names)
     rich_only = sorted(rich_names - thin_names)
@@ -93,20 +154,12 @@ def cmd_facts_diff(cfg: Config, args) -> int:
     disagreements = []
     kind_collisions = []
     for name in sorted(thin_names & rich_names):
-        thin_sym = thin_store.get(name)
-        rich_obj = rich_store.get(name)
+        thin_sym = thin_store.symbols.get(name)
+        rich_obj = rich_index.get(name)
         if not thin_sym or not rich_obj:
             continue
 
-        # Derive rich object kind
-        if isinstance(rich_obj, ModuleDoc):
-            rich_kind = "module"
-        elif isinstance(rich_obj, DerivedTypeDoc):
-            rich_kind = "type"
-        elif isinstance(rich_obj, ProcedureDoc):
-            rich_kind = rich_obj.kind
-        else:
-            rich_kind = "unknown"
+        rich_kind = _rich_kind(rich_obj)
 
         # Check for kind collision
         if thin_sym.kind != rich_kind:
@@ -122,7 +175,8 @@ def cmd_facts_diff(cfg: Config, args) -> int:
             diffs.append(f"local_count: thin={len(thin_sym.locals)} rich={len(rich_obj.locals)}")
         if hasattr(rich_obj, 'location') and hasattr(rich_obj.location, 'line'):
             thin_span = thin_sym.end_line - thin_sym.start_line + 1
-            rich_span = rich_obj.location.end_line - rich_obj.location.line + 1
+            rich_end = rich_obj.location.end_line or rich_obj.location.line
+            rich_span = rich_end - rich_obj.location.line + 1
             if thin_span != rich_span:
                 diffs.append(f"span: thin={thin_span} rich={rich_span}")
 
@@ -369,7 +423,14 @@ def cmd_render(cfg: Config, args) -> int:
 
     store = get_store(cfg)
     rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
-    rich = RichStore.build(cfg.abs_source_dir) if rich_path.exists() else None
+    rich = None
+    if rich_path.exists():
+        try:
+            rich = RichStore.load(rich_path, expected_source_ref=store.source_ref)
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            # Rich data is strictly additive. An absent, stale, or unreadable
+            # side input must always leave the ordinary thin render intact.
+            print(f"ignoring rich parse: {exc}", file=sys.stderr)
     out = render_site(cfg, store, rich)
     print(f"rendered into {out}")
     return 0
@@ -595,6 +656,15 @@ def main(argv: list[str] | None = None) -> int:
 
     p = sub.add_parser("rich-parse")
     p.add_argument("--refresh", action="store_true", help="rebuild even if rich.json exists")
+    p.add_argument(
+        "--snapshot",
+        nargs="?",
+        const="snapshots/rich",
+        help=(
+            "also write a portable, commit-named JSON snapshot for external consumers "
+            "(default: snapshots/rich)"
+        ),
+    )
 
     p = sub.add_parser("facts-diff")
     p.add_argument("--refresh-thin", action="store_true", help="force reparse of thin store before diffing")

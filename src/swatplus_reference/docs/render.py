@@ -20,6 +20,27 @@ FACT_MARKER_RX = re.compile(r"<!--\s*facts:([a-z_]+)\s*-->")
 SYM_REF_RX = re.compile(r"\[sym:([A-Za-z_]\w*)\]")
 
 
+def table_cell(value, default: str = "") -> str:
+    if value is None:
+        return default
+    text = str(value)
+    if not text:
+        return default
+    return text.replace("\n", "<br>").replace("|", "&#124;")
+
+
+def code_cell(value, default: str = "—") -> str:
+    text = table_cell(value)
+    return f"`{text}`" if text else default
+
+
+def split_units_description(doc: str) -> tuple[str, str]:
+    if "|" not in doc:
+        return "", doc.strip()
+    units, desc = doc.split("|", 1)
+    return units.strip(), desc.strip()
+
+
 class Renderer:
     def __init__(self, cfg: Config, store: FactStore, pages: list[Page], rich=None):
         self.cfg = cfg
@@ -36,6 +57,9 @@ class Renderer:
         if line:
             return f"{base}#L{line}"
         return f"{base}#L{sym.start_line}-L{sym.end_line}"
+
+    def source_location_url(self, path: str, line: int) -> str:
+        return f"{self.cfg.source_link_base}/{path}#L{line}"
 
     def page_href(self, from_page: Page, sym_name: str) -> str | None:
         target = self.page_by_symbol.get(sym_name)
@@ -133,7 +157,8 @@ class Renderer:
             for a in sym.args:
                 meaning = meanings.get(a.name, "")
                 lines.append(
-                    f"| `{a.name}` | `{a.decl or '?'}` | {a.intent or '—'} | {meaning} |"
+                    f"| {code_cell(a.name)} | {code_cell(a.decl, '?')} | "
+                    f"{table_cell(a.intent, '—')} | {table_cell(meaning)} |"
                 )
             return "\n".join(lines)
 
@@ -148,24 +173,22 @@ class Renderer:
                     break
 
             if var_ref is not None:
-                doc = var_ref.doc
-                if "|" in doc:
-                    units, desc = (part.strip() for part in doc.split("|", 1))
-                else:
-                    units, desc = "", doc.strip()
+                units, desc = split_units_description(var_ref.doc)
 
                 if var_ref.location and var_ref.location.line:
                     link = self.source_url(sym, line=var_ref.location.line)
-                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                    decl_cell = f"[{code_cell(var_ref.declaration)}]({link})"
                 else:
-                    decl_cell = f"`{var_ref.declaration}`"
+                    decl_cell = code_cell(var_ref.declaration)
 
                 lines.append(
-                    f"| `{a.name}` | {decl_cell} | {a.intent or '—'} | {units} | {desc} | {meaning} |"
+                    f"| {code_cell(a.name)} | {decl_cell} | {table_cell(a.intent, '—')} | "
+                    f"{table_cell(units)} | {table_cell(desc)} | {table_cell(meaning)} |"
                 )
             else:
                 lines.append(
-                    f"| `{a.name}` | `{a.decl or '?'}` | {a.intent or '—'} | | | {meaning} |"
+                    f"| {code_cell(a.name)} | {code_cell(a.decl, '?')} | "
+                    f"{table_cell(a.intent, '—')} | | | {table_cell(meaning)} |"
                 )
 
         return "\n".join(lines)
@@ -186,7 +209,8 @@ class Renderer:
             lines = ["| Local | Declared | Role |", "| --- | --- | --- |"]
             for n in names:
                 lines.append(
-                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {roles.get(n, '')} |"
+                    f"| {code_cell(n)} | {code_cell(decl_by_name.get(n), '?')} | "
+                    f"{table_cell(roles.get(n, ''))} |"
                 )
             return "\n".join(lines)
 
@@ -203,26 +227,24 @@ class Renderer:
                     break
 
             if var_ref is not None:
-                doc = var_ref.doc
-                if "|" in doc:
-                    units, desc = (part.strip() for part in doc.split("|", 1))
-                else:
-                    units, desc = "", doc.strip()
+                units, desc = split_units_description(var_ref.doc)
 
                 if var_ref.location and var_ref.location.line:
                     link = self.source_url(sym, line=var_ref.location.line)
-                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                    decl_cell = f"[{code_cell(var_ref.declaration)}]({link})"
                 else:
-                    decl_cell = f"`{var_ref.declaration}`"
+                    decl_cell = code_cell(var_ref.declaration)
 
                 initial = var_ref.initial if var_ref.initial else ""
 
                 lines.append(
-                    f"| `{n}` | {decl_cell} | {roles.get(n, '')} | {units} | {desc} | {initial} |"
+                    f"| {code_cell(n)} | {decl_cell} | {table_cell(roles.get(n, ''))} | "
+                    f"{table_cell(units)} | {table_cell(desc)} | {code_cell(initial, '')} |"
                 )
             else:
                 lines.append(
-                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {roles.get(n, '')} | | | |"
+                    f"| {code_cell(n)} | {code_cell(decl_by_name.get(n), '?')} | "
+                    f"{table_cell(roles.get(n, ''))} | | | |"
                 )
 
         return "\n".join(lines)
@@ -251,7 +273,7 @@ class Renderer:
             for u in sym.uses:
                 only = ", ".join(f"`{o}`" for o in u.only) if u.only else "—"
                 lines.append(
-                    f"| {self.link_symbol(page, u.module)} | {only} | {notes.get(u.module, '')} |"
+                    f"| {self.link_symbol(page, u.module)} | {only} | {table_cell(notes.get(u.module, ''))} |"
                 )
             return "\n".join(lines)
 
@@ -265,7 +287,7 @@ class Renderer:
                     source_cell = f"[`{sym.file}:{ur.location.line}`]({self.source_url(sym, ur.location.line)})"
                     break
             lines.append(
-                f"| {self.link_symbol(page, u.module)} | {source_cell} | {only} | {notes.get(u.module, '')} |"
+                f"| {self.link_symbol(page, u.module)} | {source_cell} | {only} | {table_cell(notes.get(u.module, ''))} |"
             )
         return "\n".join(lines)
 
@@ -282,7 +304,8 @@ class Renderer:
             for st in sym.io:
                 loc = f"[`{sym.file}:{st.line}`]({self.source_url(sym, st.line)})"
                 lines.append(
-                    f"| `{st.kind}` | `{st.unit or '?'}` | `{st.file_expr or '—'}` | {loc} |"
+                    f"| {code_cell(st.kind)} | {code_cell(st.unit, '?')} | "
+                    f"{code_cell(st.file_expr)} | {loc} |"
                 )
             return "\n".join(lines)
 
@@ -296,12 +319,13 @@ class Renderer:
                     rich_op = op
                     break
 
-            resolved_file = f"`{rich_op.file_resolved}`" if rich_op and rich_op.file_resolved else "—"
-            fields = ", ".join(f"`{f}`" for f in rich_op.fields) if rich_op and rich_op.fields else "—"
-            condition = f"`{rich_op.condition}`" if rich_op and rich_op.condition else "—"
+            resolved_file = code_cell(rich_op.file_resolved) if rich_op and rich_op.file_resolved else "—"
+            fields = ", ".join(code_cell(f) for f in rich_op.fields) if rich_op and rich_op.fields else "—"
+            condition = code_cell(rich_op.condition) if rich_op and rich_op.condition else "—"
 
             lines.append(
-                f"| `{st.kind}` | `{st.unit or '?'}` | `{st.file_expr or '—'}` | {resolved_file} | {fields} | {condition} | {loc} |"
+                f"| {code_cell(st.kind)} | {code_cell(st.unit, '?')} | {code_cell(st.file_expr)} | "
+                f"{resolved_file} | {fields} | {condition} | {loc} |"
             )
 
         return "\n".join(lines)
@@ -362,7 +386,8 @@ class Renderer:
             lines = ["| Variable | Declared | Meaning |", "| --- | --- | --- |"]
             for n in names:
                 lines.append(
-                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {notes.get(n, '')} |"
+                    f"| {code_cell(n)} | {code_cell(decl_by_name.get(n), '?')} | "
+                    f"{table_cell(notes.get(n, ''))} |"
                 )
             return "\n".join(lines)
 
@@ -379,28 +404,110 @@ class Renderer:
                     break
 
             if var_ref is not None:
-                doc = var_ref.doc
-                if "|" in doc:
-                    units, desc = (part.strip() for part in doc.split("|", 1))
-                else:
-                    units, desc = "", doc.strip()
+                units, desc = split_units_description(var_ref.doc)
 
                 if var_ref.location and var_ref.location.line:
                     link = self.source_url(sym, line=var_ref.location.line)
-                    decl_cell = f"[`{var_ref.declaration}`]({link})"
+                    decl_cell = f"[{code_cell(var_ref.declaration)}]({link})"
                 else:
-                    decl_cell = f"`{var_ref.declaration}`"
+                    decl_cell = code_cell(var_ref.declaration)
 
                 initial = var_ref.initial if var_ref.initial else ""
 
                 lines.append(
-                    f"| `{n}` | {decl_cell} | {notes.get(n, '')} | {units} | {desc} | {initial} |"
+                    f"| {code_cell(n)} | {decl_cell} | {table_cell(notes.get(n, ''))} | "
+                    f"{table_cell(units)} | {table_cell(desc)} | {code_cell(initial, '')} |"
                 )
             else:
                 lines.append(
-                    f"| `{n}` | `{decl_by_name.get(n, '?')}` | {notes.get(n, '')} | | | |"
+                    f"| {code_cell(n)} | {code_cell(decl_by_name.get(n), '?')} | "
+                    f"{table_cell(notes.get(n, ''))} | | | |"
                 )
 
+        return "\n".join(lines)
+
+    def block_assignments(self, page: Page, sym: Symbol) -> str:
+        rich_proc = None
+        if self.rich is not None:
+            rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_proc is None or not rich_proc.assignments:
+            return "*No assignments recorded.*"
+
+        meanings = page.extra.get("state_changes", {}) or {}
+        lines = ["| Target | Statement | Meaning | Source |", "| --- | --- | --- | --- |"]
+        for step in rich_proc.assignments:
+            target = step.summary.removeprefix("Sets ").strip()
+            loc = f"[`{sym.file}:{step.location.line}`]({self.source_url(sym, step.location.line)})"
+            lines.append(
+                f"| {code_cell(target)} | {code_cell(step.raw)} | "
+                f"{table_cell(meanings.get(target, ''))} | {loc} |"
+            )
+
+        return "\n".join(lines)
+
+    def block_select_cases(self, page: Page, sym: Symbol) -> str:
+        rich_proc = None
+        if self.rich is not None:
+            rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_proc is None or not rich_proc.select_cases:
+            return ""
+
+        lines = []
+        for i, select_doc in enumerate(rich_proc.select_cases):
+            if i > 0:
+                lines.append("")
+            cases_str = ", ".join(f"`{c}`" for c in select_doc.cases)
+            loc = f"[`{sym.file}:{select_doc.location.line}`]({self.source_url(sym, select_doc.location.line)})"
+            lines.append(f"**Subject:** `{select_doc.subject}`  ")
+            lines.append(f"**Cases:** {cases_str}  ")
+            lines.append(f"**Source:** {loc}")
+
+        return "\n".join(lines)
+
+    def block_state_touched(self, page: Page, sym: Symbol) -> str:
+        """Live declaration receipts for imported module state.
+
+        These records are captured during the rich parse, never read by the
+        grounding or staleness paths, and retain ambiguous ownership instead
+        of silently choosing a module.
+        """
+        refs = []
+        if self.rich is not None:
+            refs = self.rich.outside_state_refs_for(sym.name, sym.kind, sym.file)
+        if not refs:
+            return "*No external module-state references resolved.*"
+
+        grouped = {}
+        for ref in refs:
+            key = (ref.module, ref.symbol, ref.candidates)
+            entry = grouped.setdefault(key, {"ref": ref, "components": []})
+            entry["components"].extend(ref.components)
+
+        lines = [
+            "| Module | Symbol | Declaration | Source | Components |",
+            "| --- | --- | --- | --- | --- |",
+        ]
+        for entry in grouped.values():
+            ref = entry["ref"]
+            if ref.ambiguous:
+                modules = ", ".join(self.link_symbol(page, name) for name in ref.candidates)
+                lines.append(f"| ambiguous: {modules} | {code_cell(ref.symbol)} | — | — | — |")
+                continue
+            assert ref.module is not None and ref.location is not None
+            source = (
+                f"[`{ref.location.path}:{ref.location.line}`]"
+                f"({self.source_location_url(ref.location.path, ref.location.line)})"
+            )
+            component_labels = dict.fromkeys(
+                f"`{component.type_name}%{component.name}`" for component in entry["components"]
+            )
+            components = ", ".join(component_labels) or "—"
+            lines.append(
+                f"| {self.link_symbol(page, ref.module)} | {code_cell(ref.symbol)} | "
+                f"{code_cell(ref.declaration, '?')} | {source} | {components} |"
+            )
         return "\n".join(lines)
 
 
