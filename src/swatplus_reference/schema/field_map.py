@@ -464,18 +464,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--spreadsheet",
-        default="data/modular_database_rev_61_0_nbs.csv",
+        default="schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv",
         help="Modular database CSV export",
     )
     parser.add_argument(
         "--editor-report",
-        default="reports/swatplus-62.0.0-editor-schema-report.json",
+        default="schema_artifacts/reports/swatplus-62.0.0-editor-schema-report.json",
         help="Editor schema report that pairs Editor and official field names",
     )
     parser.add_argument(
-        "--schema", default="schemas/swatplus-62.0.0.json", help="Official input schema"
+        "--schema",
+        default="schema_artifacts/releases/swatplus-62.0.0.json",
+        help="Official input schema",
     )
-    parser.add_argument("--output", default="reports", help="Directory for the report")
+    parser.add_argument(
+        "--output",
+        default="schema_artifacts/reports",
+        help="Directory for the report",
+    )
     args = parser.parse_args(argv)
 
     spreadsheet = Path(args.spreadsheet)

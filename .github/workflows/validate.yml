@@ -44,7 +44,7 @@ jobs:
           swatref schema build
           swatref schema ranges
           swatref schema field-map
-          git diff --exit-code -- schemas reports/schema
+          git diff --exit-code -- schema_artifacts
       - name: Upload rendered site
         uses: actions/upload-artifact@v4
         with:

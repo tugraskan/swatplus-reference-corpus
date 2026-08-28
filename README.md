@@ -34,19 +34,19 @@ docs_src/                         1,095 reviewed Markdown corpus pages
   io/                             192 input-file pages
   output_families/                103 output-family pages
 
-schemas/releases/
-  swatplus-62.0.0.json            source-derived input schema
-  swatplus-62.0.0-ranges.json     same schema with reviewed ranges
-  swatplus-62.0.0.provenance.json exact source commit used
-
-schema_data/
-  modular_database_rev_61_0_nbs.csv
+schema_artifacts/
+  inputs/
+    modular_database_rev_61_0_nbs.csv
                                     tracked range and field reference input
-
-reports/schema/
-  swatplus-62.0.0-editor-schema-report.json
-  swatplus-62.0.0-field-map.{json,md}
-  swatplus-62.0.0-range-crosswalk.{json,md}
+  releases/
+    swatplus-62.0.0.json          source-derived input schema
+    swatplus-62.0.0-ranges.json   same schema with reviewed ranges
+    swatplus-62.0.0.provenance.json
+                                    exact source commit used
+  reports/
+    swatplus-62.0.0-editor-schema-report.json
+    swatplus-62.0.0-field-map.{json,md}
+    swatplus-62.0.0-range-crosswalk.{json,md}
 
 reports/comparisons/
   pr-252/                         locked base-vs-candidate impact report
@@ -69,6 +69,16 @@ mkdocs.yml                         readable-site build
 Generated facts, rendered Markdown, the built website, test scratch space,
 and fetched upstream repositories are ignored. They can all be recreated.
 
+`swatref docs rich-parse --snapshot` also writes a tracked-ready handoff
+artifact at `snapshots/rich/<profile>-<resolved-commit>.rich.json` and an
+adjacent provenance sidecar. This is the supported handoff for TAMANDUA or
+another external consumer: it contains the rich scanner's `ProjectIndex`, is
+named by the exact SWAT+ commit, and records the selected profile, requested
+ref/tag, configured lock, and resolved commit. The renderer only consumes its
+local `.swatref/docs/rich.json` cache when that same resolved commit matches;
+otherwise it falls back to the thin fact store without failing a documentation
+build.
+
 ## Quick start
 
 ```sh
@@ -82,6 +92,7 @@ swatref source show release_62_0_0
 
 # Build and check the readable corpus.
 swatref docs parse
+swatref docs rich-parse --snapshot
 swatref docs status --require-current
 swatref docs check
 swatref docs render
@@ -146,6 +157,11 @@ The current corpus validates as:
 - 3,867 non-blocking identifier warnings.
 
 ## How schemas work
+
+Schema inputs, release outputs, and review reports live together under
+`schema_artifacts/`. The subdirectories keep their lifecycles explicit:
+`inputs/` is checked-in reference material, `releases/` is generated release
+schema JSON, and `reports/` is generated evidence for review.
 
 `swatref schema build` scans the configured release source and writes a
 deterministic JSON description of SWAT+ input files. Release 62.0.0 contains

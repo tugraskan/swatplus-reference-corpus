@@ -1,4 +1,4 @@
-# Release schemas
+# Schema Release Artifacts
 
 Each release has three tracked artifacts:
 

@@ -46,10 +46,10 @@ render = "docs"
 [schema]
 source = "release_62_0_0"
 version = "62.0.0"
-output_dir = "schemas/releases"
-range_csv = "schema_data/modular_database_rev_61_0_nbs.csv"
-editor_report = "reports/schema/swatplus-62.0.0-editor-schema-report.json"
-reports_dir = "reports/schema"
+output_dir = "schema_artifacts/releases"
+range_csv = "schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv"
+editor_report = "schema_artifacts/reports/swatplus-62.0.0-editor-schema-report.json"
+reports_dir = "schema_artifacts/reports"
 
 [comparisons.pr_252]
 base_source = "dev_pr252_base"

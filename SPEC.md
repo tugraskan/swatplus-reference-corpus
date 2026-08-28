@@ -34,9 +34,9 @@ swatref.toml
                                                |
                                       schema scanner
                                                |
-                                  schemas/releases/*.json
-                                               |
-                  Editor report + range CSV --+-- range and field reports
+                           schema_artifacts/releases/*.json
+                                                |
+                   Editor report + range CSV --+-- range and field reports
 ```
 
 The two consumers may select different profiles. This is intentional: readable
@@ -167,7 +167,7 @@ Unknown layouts are reported, never invented.
 
 1. the base source schema;
 2. the SWAT+ Editor effective-schema report; and
-3. `schema_data/modular_database_rev_61_0_nbs.csv`.
+3. `schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv`.
 
 A range is applied only when the Editor-to-Fortran name translation resolves
 and the value does not contradict the row's own type, units, or description.

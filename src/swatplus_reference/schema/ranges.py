@@ -2,18 +2,21 @@
 official SWAT+ input schema.
 
 The modular database workbook (``Modular Database_..._nbs.xlsb``, sheet
-``Rev_61_0_nbs``, exported as ``data/modular_database_rev_61_0_nbs.csv``) is the
-only place that records a ``Minimum_Range``/``Maximum_Range`` per parameter.
-Nothing in the builder has ever read those two columns.  The export is tracked
-because it is a hand-maintained input, not a regenerable artifact.
+``Rev_61_0_nbs``, exported as
+``schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv``) is the only
+place that records a ``Minimum_Range``/``Maximum_Range`` per parameter. Nothing
+in the builder has ever read those two columns.  The export is tracked because
+it is a hand-maintained input, not a regenerable artifact.
 
 The spreadsheet names parameters the way the SWAT+ Editor database does
 (``lai_noevap``, ``sw_init``, ``surq_lag``), while
-``schemas/swatplus-<version>.json`` names them the way the Fortran source does
-(``evlai``, ``ffcb``, ``surlag``).  Matching the two by name directly therefore
-fails on most rows.  The translation between the two vocabularies already
-exists: ``reports/swatplus-<version>-editor-schema-report.json`` pairs the Editor
-and official field lists per file.  This module routes ranges along that pairing:
+``schema_artifacts/releases/swatplus-<version>.json`` names them the way the
+Fortran source does (``evlai``, ``ffcb``, ``surlag``).  Matching the two by name
+directly therefore fails on most rows.  The translation between the two
+vocabularies already exists:
+``schema_artifacts/reports/swatplus-<version>-editor-schema-report.json`` pairs
+the Editor and official field lists per file.  This module routes ranges along
+that pairing:
 
     spreadsheet row -> Editor field name -> official Fortran field name
 
@@ -515,20 +518,24 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument(
         "--spreadsheet",
-        default="data/modular_database_rev_61_0_nbs.csv",
+        default="schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv",
         help="Modular database CSV export",
     )
     parser.add_argument(
         "--editor-report",
-        default="reports/swatplus-62.0.0-editor-schema-report.json",
+        default="schema_artifacts/reports/swatplus-62.0.0-editor-schema-report.json",
         help="Editor schema report that pairs Editor and official field names",
     )
     parser.add_argument(
         "--schema",
-        default="schemas/swatplus-62.0.0.json",
+        default="schema_artifacts/releases/swatplus-62.0.0.json",
         help="Official input schema to enrich",
     )
-    parser.add_argument("--output", default="schemas", help="Directory for the enriched schema")
+    parser.add_argument(
+        "--output",
+        default="schema_artifacts/releases",
+        help="Directory for the enriched schema",
+    )
     args = parser.parse_args(argv)
 
     spreadsheet = Path(args.spreadsheet)

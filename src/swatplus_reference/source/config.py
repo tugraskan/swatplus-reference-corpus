@@ -62,10 +62,12 @@ class SourceProfile:
 class SchemaPipelineConfig:
     source: str = "release_62_0_0"
     version: str = "62.0.0"
-    output_dir: Path = Path("schemas/releases")
-    range_csv: Path = Path("schema_data/modular_database_rev_61_0_nbs.csv")
-    editor_report: Path = Path("reports/schema/swatplus-62.0.0-editor-schema-report.json")
-    reports_dir: Path = Path("reports/schema")
+    output_dir: Path = Path("schema_artifacts/releases")
+    range_csv: Path = Path("schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv")
+    editor_report: Path = Path(
+        "schema_artifacts/reports/swatplus-62.0.0-editor-schema-report.json"
+    )
+    reports_dir: Path = Path("schema_artifacts/reports")
 
 
 @dataclass
@@ -177,15 +179,16 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
     schema = SchemaPipelineConfig(
         source=str(schema_raw.get("source", "release_62_0_0")),
         version=str(schema_raw.get("version", "62.0.0")),
-        output_dir=_path(schema_raw.get("output_dir"), Path("schemas/releases")),
+        output_dir=_path(schema_raw.get("output_dir"), Path("schema_artifacts/releases")),
         range_csv=_path(
-            schema_raw.get("range_csv"), Path("schema_data/modular_database_rev_61_0_nbs.csv")
+            schema_raw.get("range_csv"),
+            Path("schema_artifacts/inputs/modular_database_rev_61_0_nbs.csv"),
         ),
         editor_report=_path(
             schema_raw.get("editor_report"),
-            Path("reports/schema/swatplus-62.0.0-editor-schema-report.json"),
+            Path("schema_artifacts/reports/swatplus-62.0.0-editor-schema-report.json"),
         ),
-        reports_dir=_path(schema_raw.get("reports_dir"), Path("reports/schema")),
+        reports_dir=_path(schema_raw.get("reports_dir"), Path("schema_artifacts/reports")),
     )
     comparisons: dict[str, ComparisonConfig] = {}
     for name, raw in data.get("comparisons", {}).items():
