@@ -154,6 +154,21 @@ def test_block_variables_fallback_without_rich_store(cfg, store):
     assert "Initial" not in out
 
 
+def test_block_uses_enriched_with_rich_store(cfg, store):
+    rich = RichStore.build(FIXTURES)
+    page = make_page(cfg, "<!-- facts:uses -->\n\n")
+    out = Renderer(cfg, store, [page], rich=rich).render_page(page)
+    assert "| Module | Source | Only | Why it matters here |" in out
+    assert out.count("[`demo_calc.f90:") == 2
+
+
+def test_block_uses_fallback_without_rich_store(cfg, store):
+    page = make_page(cfg, "<!-- facts:uses -->\n\n")
+    out = Renderer(cfg, store, [page]).render_page(page)
+    assert "| Module | Only | Why it matters here |" in out
+    assert "| Module | Source | Only | Why it matters here |" not in out
+
+
 def test_render_site_writes_indexes(cfg, store):
     make_page(cfg, "<!-- facts:header -->")
     out_dir = render_site(cfg, store)

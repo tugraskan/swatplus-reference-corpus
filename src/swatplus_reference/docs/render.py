@@ -240,12 +240,32 @@ class Renderer:
     def block_uses(self, page: Page, sym: Symbol) -> str:
         if not sym.uses:
             return "*Uses no modules.*"
+
+        rich_holder = None
+        if self.rich is not None:
+            rich_holder = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+
+        if rich_holder is None:
+            notes = page.extra.get("uses", {}) or {}
+            lines = ["| Module | Only | Why it matters here |", "| --- | --- | --- |"]
+            for u in sym.uses:
+                only = ", ".join(f"`{o}`" for o in u.only) if u.only else "—"
+                lines.append(
+                    f"| {self.link_symbol(page, u.module)} | {only} | {notes.get(u.module, '')} |"
+                )
+            return "\n".join(lines)
+
         notes = page.extra.get("uses", {}) or {}
-        lines = ["| Module | Only | Why it matters here |", "| --- | --- | --- |"]
+        lines = ["| Module | Source | Only | Why it matters here |", "| --- | --- | --- | --- |"]
         for u in sym.uses:
             only = ", ".join(f"`{o}`" for o in u.only) if u.only else "—"
+            source_cell = "—"
+            for ur in rich_holder.uses:
+                if ur.module.lower() == u.module.lower() and ur.location is not None:
+                    source_cell = f"[`{sym.file}:{ur.location.line}`]({self.source_url(sym, ur.location.line)})"
+                    break
             lines.append(
-                f"| {self.link_symbol(page, u.module)} | {only} | {notes.get(u.module, '')} |"
+                f"| {self.link_symbol(page, u.module)} | {source_cell} | {only} | {notes.get(u.module, '')} |"
             )
         return "\n".join(lines)
 
