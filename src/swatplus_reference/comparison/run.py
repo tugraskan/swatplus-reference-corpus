@@ -20,7 +20,7 @@ from ..docs.pages import Page, load_all
 from ..docs.render import render_site
 from ..docs.staleness import StatusReport, compute_status
 from ..parser.facts import FactStore, enc_symbol
-from ..parser.fortran import parse_tree
+from ..parser.documentation import parse_documentation
 from ..parser.schema_config import BuildConfig
 from ..parser.schema_fortran import FortranScanner
 from ..parser.schema_model import IOOperation, ProcedureDoc, ProjectIndex
@@ -1471,9 +1471,15 @@ def run_comparison(
         }
 
     facts_dir = work_dir / "facts"
-    base_store = parse_tree(base_dir, base_provenance.resolved_commit)
-    candidate_store = parse_tree(candidate_dir, candidate_provenance.resolved_commit)
-    candidate_repeat = parse_tree(candidate_dir, candidate_provenance.resolved_commit)
+    base_store, _base_rich_docs = parse_documentation(
+        base_dir, base_provenance.resolved_commit
+    )
+    candidate_store, _candidate_rich_docs = parse_documentation(
+        candidate_dir, candidate_provenance.resolved_commit
+    )
+    candidate_repeat, _candidate_repeat_rich_docs = parse_documentation(
+        candidate_dir, candidate_provenance.resolved_commit
+    )
     base_facts = facts_dir / "base.json"
     candidate_facts = facts_dir / "candidate.json"
     candidate_repeat_facts = facts_dir / "candidate-repeat.json"
