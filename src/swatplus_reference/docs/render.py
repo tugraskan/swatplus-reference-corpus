@@ -86,6 +86,90 @@ class Renderer:
             return f"[`{name}`]({self.source_url(sym)})"
         return f"`{name}`"
 
+    @staticmethod
+    def mermaid_label(value: str) -> str:
+        """Keep source text safe inside a quoted Mermaid node label."""
+
+        return (
+            value.replace("&", "&amp;")
+            .replace('"', "&quot;")
+            .replace("<", "&lt;")
+            .replace(">", "&gt;")
+            .replace("|", "&#124;")
+        )
+
+    def call_graph(self, sym: Symbol) -> str:
+        callers = self.store.callers_of(sym.name)
+        callees = [self.store.get(name) for name in sym.calls]
+        callees = [callee for callee in callees if callee is not None]
+        if not callers and not callees:
+            return ""
+
+        records: dict[str, Symbol] = {sym.name: sym}
+        records.update({caller.name: caller for caller in callers})
+        records.update({callee.name: callee for callee in callees})
+        node_ids = {name: f"call_{index}" for index, name in enumerate(sorted(records))}
+        lines = ["### Call graph", "", "```mermaid", "flowchart LR"]
+        for name, record in sorted(records.items()):
+            node = node_ids[name]
+            label = self.mermaid_label(
+                f"{record.name}<br/>{record.file}:L{record.start_line}"
+            )
+            lines.append(f'    {node}["{label}"]')
+            lines.append(
+                f'    click {node} "{self.source_url(record, record.start_line)}" '
+                f'"Open {record.name} on GitHub" _blank'
+            )
+        for caller in callers:
+            lines.append(f"    {node_ids[caller.name]} --> {node_ids[sym.name]}")
+        for callee in callees:
+            lines.append(f"    {node_ids[sym.name]} --> {node_ids[callee.name]}")
+        lines += ["```", ""]
+        return "\n".join(lines)
+
+    def control_flow_outline(self, sym: Symbol) -> str:
+        if self.rich is None:
+            return ""
+        rich_proc = self.rich.get_of_kind(sym.name, sym.kind, file=sym.file)
+        steps = getattr(rich_proc, "control_steps", None) if rich_proc else None
+        if not steps:
+            return ""
+
+        # Very large routines remain usable in the browser while the omitted
+        # count stays explicit. This is an ordered structural outline, not a
+        # claim that every branch rejoins linearly.
+        limit = 40
+        shown = steps[:limit]
+        lines = [
+            "### Control-flow outline",
+            "",
+            "Source-order outline of parsed control statements. Select a node to open its exact source line.",
+            "",
+            "```mermaid",
+            "flowchart TD",
+        ]
+        previous = None
+        for index, step in enumerate(shown):
+            node = f"flow_{index}"
+            label = self.mermaid_label(
+                f"{step.kind}: {step.summary}<br/>L{step.location.line}"
+            )
+            lines.append(f'    {node}["{label}"]')
+            lines.append(
+                f'    click {node} "{self.source_url(sym, step.location.line)}" '
+                f'"Open line {step.location.line} on GitHub" _blank'
+            )
+            if previous is not None:
+                lines.append(f"    {previous} --> {node}")
+            previous = node
+        if len(steps) > limit:
+            omitted = len(steps) - limit
+            lines.append(f'    flow_more["{omitted} additional parsed steps"]')
+            if previous is not None:
+                lines.append(f"    {previous} --> flow_more")
+        lines += ["```", ""]
+        return "\n".join(lines)
+
     # -- fact blocks -------------------------------------------------------
 
     def render_page(self, page: Page) -> str:
@@ -257,7 +341,9 @@ class Renderer:
             self.link_symbol(page, s.name) for s in self.store.callers_of(sym.name)
         ]
         out.append("**Called by:** " + (", ".join(callers) if callers else "*nothing found*"))
-        return "  \n".join(out)
+        relationships = "  \n".join(out)
+        diagrams = [self.call_graph(sym), self.control_flow_outline(sym)]
+        return "\n\n".join([relationships, *(item for item in diagrams if item)])
 
     def block_uses(self, page: Page, sym: Symbol) -> str:
         if not sym.uses:
@@ -363,8 +449,13 @@ class Renderer:
             out.append("| --- | --- | --- | --- | --- |")
             for c in t.components:
                 note = t_notes.get(c.name, "")
+                declaration = code_cell(c.decl)
+                if c.line:
+                    declaration = (
+                        f"[{declaration}]({self.source_url(t, line=c.line)})"
+                    )
                 out.append(
-                    f"| `{c.name}` | `{c.decl}` | {c.units or '—'} | "
+                    f"| `{c.name}` | {declaration} | {c.units or '—'} | "
                     f"{c.description or ''} | {note} |"
                 )
             out.append("")
@@ -534,6 +625,12 @@ def render_site(cfg: Config, store: FactStore, rich=None) -> Path:
     for extra in docs_dir.glob("*.md"):
         if extra.name == "index.md":
             shutil.copy(extra, out_dir / extra.name)
+
+    # Static site assets are reviewed inputs too; keep them outside generated
+    # Markdown while copying them into the disposable render tree.
+    assets = docs_dir / "assets"
+    if assets.exists():
+        shutil.copytree(assets, out_dir / "assets", dirs_exist_ok=True)
 
     section_titles = {
         "procedures": "Procedures",
