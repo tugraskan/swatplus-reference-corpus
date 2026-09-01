@@ -2,6 +2,7 @@ from pathlib import Path
 
 from swatplus_reference.docs.pages import Page, load_page
 from swatplus_reference.docs.render import Renderer, render_site
+from swatplus_reference.parser.documentation import parse_documentation
 from swatplus_reference.parser.rich import RichStore
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -70,6 +71,20 @@ def test_block_arguments_enriched_with_rich_store(cfg, store):
     assert "none" in out
     assert "fraction applied to storage" in out
     assert "](https://example.test/src/demo_calc.f90#" in out
+
+
+def test_rich_main_store_renders_clickable_call_and_control_flow_graphs(cfg):
+    rich_store, rich = parse_documentation(FIXTURES, "test")
+    page = make_page(cfg, "<!-- facts:calls -->\n\n")
+
+    out = Renderer(cfg, rich_store, [page], rich=rich).render_page(page)
+
+    assert "### Call graph" in out
+    assert "### Control-flow outline" in out
+    assert out.count("```mermaid") == 2
+    assert "demo_module.f90#L17" in out
+    assert "demo_calc.f90#L13" in out
+    assert "click flow_" in out
 
 
 def test_rich_table_cells_escape_pipe_characters(cfg, store):
@@ -261,6 +276,19 @@ def test_render_site_writes_indexes(cfg, store):
     assert (out_dir / "procedures" / "demo_calc.md").exists()
     assert (out_dir / "procedures" / "index.md").exists()
     assert (out_dir / "index.md").exists()
+
+
+def test_render_site_copies_mermaid_assets(cfg, store):
+    make_page(cfg, "<!-- facts:header -->")
+    asset = cfg.abs_docs_dir / "assets" / "javascripts" / "mermaid.js"
+    asset.parent.mkdir(parents=True)
+    asset.write_text("mermaid.initialize({});", encoding="utf-8")
+
+    out_dir = render_site(cfg, store)
+
+    assert (out_dir / "assets" / "javascripts" / "mermaid.js").read_text(
+        encoding="utf-8"
+    ) == "mermaid.initialize({});"
 
 
 def test_status_badge_on_todo(cfg, store):

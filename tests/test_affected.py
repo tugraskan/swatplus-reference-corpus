@@ -7,9 +7,10 @@ from swatplus_reference.docs.staleness import apply_status, compute_status
 from swatplus_reference.parser.facts import FactStore, Symbol
 
 
-def sym(name, calls=None, hash="h") -> Symbol:
+def sym(name, calls=None, hash="h", depends_on=None) -> Symbol:
     return Symbol(kind="subroutine", name=name, file=f"{name}.f90",
-                  start_line=1, end_line=5, calls=calls or [], source_hash=hash)
+                  start_line=1, end_line=5, calls=calls or [],
+                  depends_on=depends_on or [], source_hash=hash)
 
 
 def page(tmp, name, source_hash, status=STATUS_FILLED) -> Page:
@@ -59,6 +60,22 @@ def test_no_stale_means_no_affected(tmp_path):
     r = compute_status(store, pages)
     assert r.affected == []
     assert {p.symbol for p in r.filled} == {"caller", "changed", "callee"}
+
+
+def test_changed_module_or_type_flags_declared_dependents(tmp_path):
+    store = FactStore(source_ref="t")
+    store.add(sym("shared_module", hash="module-new"))
+    store.add(sym("consumer", hash="consumer-same", depends_on=["shared_module"]))
+    pages = [
+        page(tmp_path, "shared_module", "module-old"),
+        page(tmp_path, "consumer", "consumer-same"),
+    ]
+
+    report = compute_status(store, pages)
+
+    assert {item.symbol for item in report.stale} == {"shared_module"}
+    assert {item.symbol for item in report.affected} == {"consumer"}
+    assert report.affected_by["consumer.md"] == ["shared_module (dependency)"]
 
 
 def test_stale_wins_over_affected(tmp_path):
