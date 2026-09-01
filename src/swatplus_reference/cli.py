@@ -8,10 +8,13 @@ import sys
 from pathlib import Path
 
 from .docs.pages import STATUS_STALE, STATUS_TODO, Page, load_all, page_dir
+from .parser.documentation import (
+    RICH_DOCUMENTATION_PRODUCER,
+    parse_documentation,
+)
 from .parser.facts import FactStore
-from .parser.fortran import parse_tree
 from .parser.rich import RichStore
-from .parser.schema_model import ModuleDoc, ProcedureDoc, DerivedTypeDoc
+from .parser.schema_model import DerivedTypeDoc, ModuleDoc, ProcedureDoc, ProgramDoc
 from .provenance.records import SourceProvenance, write_provenance
 from .source.config import Config, load_config
 from .source.fetch import fetch_profile, resolve_profile
@@ -20,6 +23,8 @@ from .source.fetch import fetch_profile, resolve_profile
 def _rich_kind(record) -> str:
     if isinstance(record, ModuleDoc):
         return "module"
+    if isinstance(record, ProgramDoc):
+        return "program"
     if isinstance(record, DerivedTypeDoc):
         return "type"
     if isinstance(record, ProcedureDoc):
@@ -37,6 +42,7 @@ def _rich_report_key(record, colliding_type_names: set[str]) -> str:
 def _rich_report_index(rich_store: RichStore) -> dict[str, object]:
     records = [
         *rich_store.index.modules,
+        *rich_store.index.programs,
         *rich_store.index.procedures,
         *rich_store.index.types,
     ]
@@ -75,22 +81,32 @@ def activate_docs_source(cfg: Config) -> SourceProvenance:
 
 
 def get_store(cfg: Config, refresh: bool = False) -> FactStore:
-    activate_docs_source(cfg)
+    provenance = activate_docs_source(cfg)
     path = cfg.abs_facts_path
+    rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
     if path.exists() and not refresh:
         store = FactStore.load(path)
-        if store.source_ref == cfg.source_ref:
-            return store
+        if (
+            store.source_ref == cfg.source_ref
+            and store.producer == RICH_DOCUMENTATION_PRODUCER
+            and rich_path.exists()
+        ):
+            try:
+                RichStore.load(rich_path, expected_source_ref=cfg.source_ref)
+                return store
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
     if not cfg.abs_source_dir.exists():
         sys.exit(
             f"source dir {cfg.abs_source_dir} not found — run `swatref source fetch {cfg.docs_source}` first"
         )
     print(f"parsing {cfg.abs_source_dir} ...", file=sys.stderr)
-    store = parse_tree(cfg.abs_source_dir, cfg.source_ref)
+    store, rich = parse_documentation(cfg.abs_source_dir, cfg.source_ref)
     store.save(path)
+    rich.save(rich_path, provenance=provenance.to_dict())
     print(
-        f"parsed {len(store.symbols)} symbols "
-        f"({len(store.fallback_files)} files via fallback scanner)",
+        f"rich-parsed {len(store.symbols)} documentation symbols; "
+        f"wrote {path} and {rich_path}",
         file=sys.stderr,
     )
     return store
@@ -112,19 +128,11 @@ def cmd_parse(cfg: Config, args) -> int:
 def cmd_rich_parse(cfg: Config, args) -> int:
     provenance = activate_docs_source(cfg)
     rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
-    rich_store = None
-    if rich_path.exists() and not args.refresh:
-        try:
-            rich_store = RichStore.load(
-                rich_path, expected_source_ref=provenance.resolved_commit
-            )
-            print(f"rich parse already exists at {rich_path}")
-        except (OSError, ValueError, json.JSONDecodeError) as exc:
-            print(f"rebuilding stale rich parse: {exc}", file=sys.stderr)
-    if rich_store is None:
-        rich_store = RichStore.build(cfg.abs_source_dir)
-        rich_store.save(rich_path, provenance=provenance.to_dict())
-        print(f"rich parse written to {rich_path}")
+    get_store(cfg, refresh=args.refresh)
+    rich_store = RichStore.load(
+        rich_path, expected_source_ref=provenance.resolved_commit
+    )
+    print(f"rich documentation parse is current at {rich_path}")
     if args.snapshot is not None:
         snapshot_dir = cfg.resolve(Path(args.snapshot))
         snapshot_name = f"{provenance.profile}-{provenance.resolved_commit[:12]}.rich.json"
@@ -141,8 +149,15 @@ def cmd_rich_parse(cfg: Config, args) -> int:
 
 
 def cmd_facts_diff(cfg: Config, args) -> int:
-    thin_store = get_store(cfg, refresh=args.refresh_thin)
-    rich_store = RichStore.build(cfg.abs_source_dir)
+    from .parser.fortran import parse_tree
+
+    activate_docs_source(cfg)
+    thin_store = parse_tree(cfg.abs_source_dir, cfg.source_ref)
+    get_store(cfg, refresh=False)
+    rich_store = RichStore.load(
+        cfg.root / ".swatref" / "docs" / "rich.json",
+        expected_source_ref=cfg.source_ref,
+    )
     rich_index = _rich_report_index(rich_store)
 
     thin_names = set(thin_store.symbols.keys())
@@ -360,14 +375,13 @@ def _stale_paths(cfg: Config, store, limit: int | None) -> list[Path]:
 
 def cmd_refill(cfg: Config, args) -> int:
     from .generation import refill
-    from .parser.fortran import parse_tree
 
     store = get_store(cfg)
     old_dir = Path(args.old_source_dir)
     if not old_dir.exists():
         sys.exit(f"--old-source-dir {old_dir} not found")
     print(f"parsing old source {old_dir} ...", file=sys.stderr)
-    old_store = parse_tree(old_dir, "old")
+    old_store, _old_rich = parse_documentation(old_dir, "old")
 
     paths = [Path(p) for p in args.pages] if args.pages else _stale_paths(cfg, store, args.limit)
     if not paths:
@@ -423,14 +437,7 @@ def cmd_render(cfg: Config, args) -> int:
 
     store = get_store(cfg)
     rich_path = cfg.root / ".swatref" / "docs" / "rich.json"
-    rich = None
-    if rich_path.exists():
-        try:
-            rich = RichStore.load(rich_path, expected_source_ref=store.source_ref)
-        except (OSError, ValueError, json.JSONDecodeError) as exc:
-            # Rich data is strictly additive. An absent, stale, or unreadable
-            # side input must always leave the ordinary thin render intact.
-            print(f"ignoring rich parse: {exc}", file=sys.stderr)
+    rich = RichStore.load(rich_path, expected_source_ref=store.source_ref)
     out = render_site(cfg, store, rich)
     print(f"rendered into {out}")
     return 0
