@@ -69,15 +69,16 @@ mkdocs.yml                         readable-site build
 Generated facts, rendered Markdown, the built website, test scratch space,
 and fetched upstream repositories are ignored. They can all be recreated.
 
-`swatref docs rich-parse --snapshot` also writes a tracked-ready handoff
+`swatref docs parse` runs the rich scanner once and writes both the compact
+documentation facts and the local `ProjectIndex` cache. `swatref docs
+rich-parse --snapshot` reuses that current parse to write a tracked-ready handoff
 artifact at `snapshots/rich/<profile>-<resolved-commit>.rich.json` and an
 adjacent provenance sidecar. This is the supported handoff for TAMANDUA or
 another external consumer: it contains the rich scanner's `ProjectIndex`, is
 named by the exact SWAT+ commit, and records the selected profile, requested
-ref/tag, configured lock, and resolved commit. The renderer only consumes its
-local `.swatref/docs/rich.json` cache when that same resolved commit matches;
-otherwise it falls back to the thin fact store without failing a documentation
-build.
+ref/tag, configured lock, and resolved commit. Both local documentation caches
+must match that resolved commit; an old thin-parser cache is rebuilt
+automatically instead of being mixed with current rich facts.
 
 ## Quick start
 
@@ -135,19 +136,25 @@ the repository variable `PUBLISH_PAGES=true` and only runs from corpus `main`.
 
 ## How the readable corpus works
 
-The parser first creates a temporary JSON fact store from the selected source.
-That store contains things the code can prove: symbols, arguments, variables,
-calls, module use, file I/O, source spans, and source hashes. It currently finds
-1,310 symbols; 2 source files use the recorded fallback scanner.
+The rich scanner first creates a structured `ProjectIndex` from the selected
+source. The documentation fact store is a compact projection of that same
+scan—not a second parse—and contains things the code can prove: symbols,
+arguments, variables, calls, module/type dependencies, file I/O, source spans,
+exact declaration lines, and source hashes. The older fparser2 implementation
+remains available only through `swatref docs facts-diff` as a migration
+cross-check.
 
 The tracked pages contain reviewed prose plus markers such as
 `<!-- facts:calls -->`. Rendering replaces those markers with current facts and
 resolves symbol links against the exact commit. This keeps generated facts out
-of the reviewed prose.
+of the reviewed prose. Procedure call relationships and parsed control-flow
+outlines render as clickable Mermaid diagrams; every diagram node opens the
+corresponding line in the commit-pinned GitHub source.
 
 Each page records the hash of its source symbol. `swatref docs status` reports
-which pages are current, changed, indirectly affected, unfinished, orphaned, or
-missing. `swatref docs check` mechanically checks prose against parser facts.
+which pages are current, changed, indirectly affected through calls, shared
+state, imported modules, or derived types, unfinished, orphaned, or missing.
+`swatref docs check` mechanically checks prose against parser facts.
 
 The current corpus validates as:
 

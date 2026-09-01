@@ -26,10 +26,16 @@ theme:
 markdown_extensions:
   - tables
   - admonition
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.arithmatex:
       generic: true
   - toc:
       permalink: true
 extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+  - https://unpkg.com/mermaid@11/dist/mermaid.min.js
+  - assets/javascripts/mermaid.js
