@@ -9,7 +9,13 @@ from typing import Any, Mapping, Union, get_args, get_origin, get_type_hints
 
 from swatplus_reference.parser.schema_config import BuildConfig
 from swatplus_reference.parser.schema_fortran import FortranScanner
-from swatplus_reference.parser.schema_model import ProjectIndex, ModuleDoc, ProcedureDoc, DerivedTypeDoc
+from swatplus_reference.parser.schema_model import (
+    DerivedTypeDoc,
+    ModuleDoc,
+    ProcedureDoc,
+    ProgramDoc,
+    ProjectIndex,
+)
 from swatplus_reference.parser.refs import (
     OutsideStateRef,
     extract_outside_state_refs,
@@ -70,7 +76,12 @@ class RichStore:
     def __post_init__(self) -> None:
         self.by_name = {}
         self.records_by_name = {}
-        for record in [*self.index.modules, *self.index.procedures, *self.index.types]:
+        for record in [
+            *self.index.modules,
+            *self.index.programs,
+            *self.index.procedures,
+            *self.index.types,
+        ]:
             key = record.name.lower()
             self.records_by_name.setdefault(key, []).append(record)
             # Keep the original simple lookup for callers that only have a
@@ -107,6 +118,8 @@ class RichStore:
                 continue
             if isinstance(candidate, ModuleDoc):
                 rich_kind = "module"
+            elif isinstance(candidate, ProgramDoc):
+                rich_kind = "program"
             elif isinstance(candidate, DerivedTypeDoc):
                 rich_kind = "type"
             elif isinstance(candidate, ProcedureDoc):

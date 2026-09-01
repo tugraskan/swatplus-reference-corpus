@@ -19,18 +19,21 @@ class Argument:
     name: str
     decl: str = ""  # declared type + attributes, e.g. "real, intent (in)"
     intent: str = ""
+    line: int = 0
 
 
 @dataclass
 class LocalVar:
     name: str
     decl: str = ""
+    line: int = 0
 
 
 @dataclass
 class UseDep:
     module: str
     only: list[str] = field(default_factory=list)
+    line: int = 0
 
 
 @dataclass
@@ -53,6 +56,7 @@ class Component:
     decl: str = ""         # declared type + attributes
     units: str = ""        # left of the `|` in the inline comment
     description: str = ""  # right of the `|` (or the whole comment if no `|`)
+    line: int = 0
 
 
 @dataclass
@@ -74,6 +78,9 @@ class Symbol:
     components: list[Component] = field(default_factory=list)  # derived-type fields
     reads: list[str] = field(default_factory=list)   # module vars this symbol reads
     writes: list[str] = field(default_factory=list)  # module vars this symbol writes
+    # Modules and derived types whose declaration changes may affect this
+    # symbol even when its own source slice is byte-identical.
+    depends_on: list[str] = field(default_factory=list)
     source_hash: str = ""  # sha256 of the symbol's own source slice
 
     @property
@@ -84,6 +91,10 @@ class Symbol:
 @dataclass
 class FactStore:
     source_ref: str = ""
+    # Identifies the parser contract that produced this cache. Old fact files
+    # omit the field and therefore load as ``thin-v1``; the CLI rebuilds those
+    # once with the rich scanner before using them for documentation.
+    producer: str = "thin-v1"
     symbols: dict[str, Symbol] = field(default_factory=dict)  # keyed by name
     parse_errors: dict[str, str] = field(default_factory=dict)  # file -> reason
     fallback_files: list[str] = field(default_factory=list)
@@ -149,6 +160,7 @@ class FactStore:
         return json.dumps(
             {
                 "source_ref": self.source_ref,
+                "producer": self.producer,
                 "symbols": {
                     key: enc_symbol(self.symbols[key])
                     for key in sorted(self.symbols)
@@ -163,7 +175,10 @@ class FactStore:
     @classmethod
     def from_json(cls, text: str) -> "FactStore":
         raw = json.loads(text)
-        store = cls(source_ref=raw.get("source_ref", ""))
+        store = cls(
+            source_ref=raw.get("source_ref", ""),
+            producer=raw.get("producer", "thin-v1"),
+        )
         store.parse_errors = raw.get("parse_errors", {})
         store.fallback_files = raw.get("fallback_files", [])
         for name, s in raw.get("symbols", {}).items():
@@ -183,6 +198,7 @@ class FactStore:
                 components=[Component(**c) for c in s.get("components", [])],
                 reads=s.get("reads", []),
                 writes=s.get("writes", []),
+                depends_on=s.get("depends_on", []),
                 source_hash=s.get("source_hash", ""),
             )
         return store
@@ -218,6 +234,7 @@ def enc_symbol(sym: Symbol) -> dict:
         "components": enc_list(sym.components),
         "reads": sym.reads,
         "writes": sym.writes,
+        "depends_on": sym.depends_on,
         "source_hash": sym.source_hash,
     }
 
