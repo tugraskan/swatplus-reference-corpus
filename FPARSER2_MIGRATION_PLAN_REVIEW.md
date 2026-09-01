@@ -1,4 +1,225 @@
-# Review — fparser2 Migration Plan
+# Review — fparser2 Migration Plan, Revision 2
+
+Reviewer: code review against `codex/fparser2-migration-plan-v2` @ `33b43ad`,
+with the pinned SWAT+ tree (`cb442f7c05fc`, 648 files) checked out and the
+pipeline actually run.
+
+## Verdict
+
+**REQUEST CHANGES** — narrowly. All eight blocking items from the Revision 1
+review are resolved, and the plan document itself is now sound. What blocks
+Phase 0 is not the plan's design: it is that the branch's new rich-primary
+pipeline has already changed two published contracts without a version signal,
+and the plan's "Current baseline" section does not record it. Phase 0's job is
+to freeze a baseline; right now the tracked baseline artifact does not
+reproduce.
+
+Three items, all small and concrete. Everything else is approved.
+
+## What I verified by running the branch
+
+| Claim | Result |
+|---|---|
+| Test suite | 274 passed, 23 skipped |
+| Page drift (`docs status`) | `filled=1095 stale=0 affected=0 todo=0 orphaned=0 missing-pages=0` |
+| Grounding baseline | `0 errors, 3867 warnings across 1095 pages` — matches the plan exactly |
+| Mermaid | 650 rendered pages carry diagrams; 15,765 clickable nodes; `mkdocs build --strict` succeeds; `mermaid.js` ships to `_site/assets/javascripts/` |
+| Determinism | `facts.json` and the portable snapshot are byte-identical across repeated runs |
+| `call_paths` / `ReviewFlag` | still 0 and 0 — the plan correctly calls these new work |
+
+The zero-drift result is the important one. Revision 1 warned that moving the
+`FactStore` to rich-scanner spans would re-hash all 1,092 pages and fail SPEC
+§7.1 gate 3. It does not: every hash survives the producer switch unchanged,
+with no re-baseline commit to `docs_src/`. Phase 0's new exit gate on page
+hashes is therefore already satisfied at the pinned commit.
+
+## Status of the Revision 1 blocking items
+
+| # | Item | Status |
+|---|---|---|
+| B1 | `source_hash` / staleness missing from matrix | **Resolved** — own matrix row, Phase 0 and Phase 2 exit gates, verified zero drift |
+| B2 | Dead fields presented as parity | **Resolved** — baseline section is accurate; `called_by`/`resolved` really are populated now, `call_paths`/ReviewFlags correctly marked new |
+| B3 | Mermaid not a real capability | **Resolved** — it is now, and I confirmed it renders |
+| B4 | Legacy removal unreachable | **Resolved** — Phase 8 permits a narrow fallback engine; the two rejection files and `expr*-1` are permanent regression cases |
+| B5 | Raw text from `str(node)` | **Resolved** — Phase 2 forbids it, names the byte-sensitive fields, Phase 6 forbids normalizing them |
+| B6 | Snapshot format fails open | **Resolved in the plan** — see C1 below for what the branch did in the meantime |
+| B7 | fparser unpinned, no parser version | **Resolved** — Phase 1 |
+| B8 | Snapshot size decided too late | **Resolved** — Phase 1 exit gate, with the 48.3 MB figure |
+
+The Revision 1 grounding figures (141 errors / 3,904 warnings) were the pr-252
+*candidate's* totals, not the main-source baseline. Revision 2's correction is
+right, and its instruction to baseline against main rather than a comparison
+candidate is the correct rule.
+
+## Blocking changes before Phase 0
+
+### C1. The `rich-v1` snapshot has already changed shape under the same version string
+
+I regenerated the portable snapshot at the same pinned commit and diffed it
+against the tracked `snapshots/rich/main-cb442f7c05fc.rich.json`:
+
+| Field | Tracked artifact | Branch output |
+|---|---|---|
+| `metadata.format` | 1 | 1 |
+| provenance `format` | `swatplus-reference-rich-v1` | `swatplus-reference-rich-v1` |
+| total `calls` | 8,785 | **788** |
+| — of kind `function` | 6,960 | 51 |
+| — of kind `subroutine` | 1,825 | 737 |
+| `called_by` entries | 0 | 778 |
+| `resolved` calls | 0 | 778 |
+| file size | 48.3 MB | 45.8 MB |
+
+`_resolve_calls()` in `parser/documentation.py:105` mutates the `ProjectIndex`
+in place before `RichStore.save()`, so the published Tamandua artifact now
+carries a 91%-smaller call collection under an unchanged version string. Two
+distinct losses are folded together:
+
+- **Unresolved function candidates are deleted** (6,960 → 51). Defensible as a
+  documentation view — it is exactly the filter `schema_fortran.py:719` says the
+  analyzer should apply — but it is destructive on the shared model.
+- **Duplicate call sites are collapsed** (1,825 → 737) by the `seen: set[(name,
+  kind)]` dedupe. I checked: no unique `(procedure, target)` pair is lost, so
+  the 1,088 removed records are repeat call sites with distinct `location`
+  values. **The canonical model can no longer express that a procedure calls
+  something from more than one line.** That contradicts the plan's own matrix
+  row "Calls | ... raw text, kind, location".
+
+This is precisely the failure Decision 4 exists to prevent, and it landed
+before Phase 0. It also breaks Decision 1: `ProjectIndex.calls` now means
+different things depending on which entry point produced the index —
+`swatref schema build` still goes through `FortranScanner` directly
+(`cli.py:472`) and sees all 8,785. A canonical model cannot have
+producer-dependent semantics.
+
+Required before Phase 0:
+- Make the call resolution non-destructive — annotate `resolved` and populate
+  `called_by` on the index, and apply the candidate filter and per-procedure
+  dedupe in the `FactStore` projection where they belong, not in the shared
+  model. Preserve per-call-site records and locations.
+- Regenerate the tracked snapshot, or bump the export version, so the artifact
+  in `snapshots/` reproduces from the code that claims to produce it.
+- Record this change in the plan's "Current baseline" section, and have Phase 1's
+  format-enforcement work explicitly cover the already-shipped divergence rather
+  than assuming v1 is pristine.
+
+### C2. Fallback and parse-error diagnostics are now permanently zero in tracked comparison reports
+
+`comparison/run.py` switched from `parse_tree()` to `parse_documentation()`
+(line 1474), but still reports:
+
+```
+"parser": {"base_fallback_files": len(base_store.fallback_files),
+           "candidate_fallback_files": len(candidate_store.fallback_files),
+           "fallback_set_changed": ...}
+```
+
+The rich projection never sets `parse_errors` or `fallback_files` — nothing in
+`project_documentation_facts()` touches them — so these fields are now
+structurally empty. `symbol-diff.json` emits the same always-empty
+`parse_errors` blocks at line 211. The tracked
+`reports/comparisons/pr-252/symbol-diff.json` still records two fallback files
+with their fparser2 errors, so the artifact and the code that regenerates it now
+disagree, and `fallback_set_changed` can never fire again.
+
+`swatref docs parse` has the same hole: `cmd_parse` still iterates
+`store.parse_errors`, which is now always empty, so the two known problem files
+are no longer surfaced by any ordinary command.
+
+This directly regresses Decision 5 ("make uncertainty visible") in the tree the
+plan proposes to build on. Required: either feed those fields from a real
+diagnostic source, or remove them and say in the plan that fparser2 rejection
+tracking is reintroduced in Phase 5 — but do not leave a gate reporting a
+hardcoded zero.
+
+### C3. The new `depends_on` affected-edge is uncapped, and Phase 0 must baseline it per edge kind
+
+`staleness.py` gained a third propagation kind (module/type dependency,
+line 137). The older data-flow edge is deliberately capped
+(`MAX_DATAFLOW_FANOUT = 12`, with a comment explaining that hub propagation "says
+nothing"). The new edge has no cap, and dependency hubs are far larger than
+variable hubs. Measured from the current fact store:
+
+```
+hydrograph_module 390   basin_module 251   constituent_mass_module 239
+hru_module 233   maximum_data_module 215   time_module 197
+53 symbols exceed the existing fanout cap of 12
+```
+
+So a release bump that touches `hydrograph_module` flags ~390 pages `affected`
+in one hop. SPEC §7.1 gate 3 requires no drift buckets for a release, and the
+pr-252 report's previous total was 235 affected pages overall.
+
+The feature is defensible and SPEC §5.4 was updated for it, but Phase 7's gate
+"Page hashes and direct/indirect staleness behave as before" is now ambiguous
+about which "before". Required:
+- Phase 0 must record affected-edge counts **per edge kind** (call graph,
+  dependency, data flow), not one total.
+- Decide now whether the dependency edge gets a fanout cap consistent with the
+  data-flow one, and state the decision in the plan.
+
+## Answers to the plan's questions
+
+**1. Canonical boundary.** Yes, with the C1 correction: the boundary only holds
+if the shared index is never mutated by one consumer's projection. Revision 2's
+Phase 1 split of internal model version from an allowlisted export schema is the
+right shape and directly addresses the `asdict(index)` problem.
+
+**2. Capabilities preserved.** Yes for Markdown, GitHub links, Mermaid, schema
+and comparison — verified by running them. Tamandua: not currently, per C1.
+
+**3. Missing facts.** The matrix is now complete against what I can find. The
+one thing it should sharpen is per-call-site call records (C1), which the matrix
+already implies with "Calls | ... location" but the code no longer honours.
+
+**4. AST plus raw-source overlay.** Appropriate, and Phase 2's ban on
+`str(node)` for consumer-visible text is the correct hard rule.
+
+**5. Fallback strength.** The plan's Phase 5 is now strong — "every fallback file
+produces the full required rich fact set" is exactly the right gate. But the
+*current* visibility is weaker than when Revision 1 was written (C2), so Phase 0
+freezes a baseline in which the diagnostic reports zero.
+
+**6. v1/v2 safety for Tamandua.** The strategy is right and the ordering
+(enforce formats before adding fields, v1 fixture in Phase 1) is right. It is
+unsafe today only because of C1.
+
+**7. Exit gates.** Strong enough, and materially better than Revision 1 — the
+hash gate, the byte-sensitive-field gate, the format-rejection gate, and the
+SPEC §7.1 gate 7 reference all close real holes. Add the per-edge-kind
+affected baseline from C3.
+
+**8. What to change before coding.** C1, C2, C3, plus one line in "Current
+baseline" recording that the snapshot contract has already moved.
+
+**9. Source-hash, raw text, collision lookup, outside-state refs, schema
+reproducibility.** Yes to all five in the plan, and I confirmed the hash and
+schema-reproducibility claims hold in the tree (the branch does not touch
+`schema/` or `schema_fortran.py` at all).
+
+**10. Format enforcement, export schema, fparser pin, size/performance.**
+Sufficient as written. They must additionally cover the already-shipped v1
+divergence rather than treating v1 as a fixed point.
+
+## Non-blocking suggestions
+
+- `cmd_render` now calls `RichStore.load()` unguarded (`cli.py:440`), replacing
+  the documented graceful degradation. It is safe because `get_store()` rebuilds
+  first, but the failure mode on a manually deleted `rich.json` is a traceback,
+  not a message. A one-line guard keeps the old behaviour.
+- `mkdocs.yml` loads `https://unpkg.com/mermaid@11/dist/mermaid.min.js` — a
+  floating major version from a third-party CDN, in a project that otherwise
+  pins everything to exact commits. Consider vendoring it next to
+  `assets/javascripts/mermaid.js`, or at least pinning the exact version.
+- `comparison/run.py:204` has a duplicate `"unchanged"` key in one dict literal
+  (pre-existing, from `2cf576f`, not this branch). Harmless — the second wins —
+  but it is dead code in a gate-checked report builder.
+- Phase 6 says the harness "may normalize collection order, identities, and
+  explicitly approved semantic equivalents". Worth naming where the approved
+  list lives, so "explicitly approved" cannot quietly grow during Phases 3–5.
+
+---
+
+# Appendix — Review of Revision 1
 
 Reviewer: code review against `main` @ `db6423d` (pinned SWAT+ `cb442f7c05fc`).
 
