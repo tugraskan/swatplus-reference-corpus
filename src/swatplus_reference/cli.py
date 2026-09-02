@@ -255,13 +255,19 @@ def cmd_status(cfg: Config, args) -> int:
             print(f"missing-page: {name}")
     if args.require_current and not _report_is_current(report):
         return 1
+    if args.fail_on_affected and report.affected:
+        return 1
     return 0
 
 
 def _report_is_current(report) -> bool:
-    return not any(
-        (report.stale, report.affected, report.todo, report.orphaned, report.missing)
-    )
+    """Return whether the corpus has no hard documentation drift.
+
+    ``affected`` remains a visible review signal, but it is intentionally
+    advisory unless the caller selects ``--fail-on-affected``.
+    """
+
+    return not any((report.stale, report.todo, report.orphaned, report.missing))
 
 
 def _rel(path: Path, root: Path) -> str:
@@ -681,7 +687,12 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument(
         "--require-current",
         action="store_true",
-        help="fail when any page is stale, affected, todo, orphaned, or missing",
+        help="fail when any page is stale, todo, orphaned, or missing",
+    )
+    p.add_argument(
+        "--fail-on-affected",
+        action="store_true",
+        help="also fail when dependency changes mark pages for review",
     )
 
     sub.add_parser("mark-stale")

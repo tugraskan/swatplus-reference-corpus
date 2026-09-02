@@ -21,6 +21,8 @@ from ..docs.render import render_site
 from ..docs.staleness import StatusReport, compute_status
 from ..parser.facts import FactStore, enc_symbol
 from ..parser.documentation import parse_documentation
+from ..parser.fortran import parse_tree
+from ..parser.rich import RichStore
 from ..parser.schema_config import BuildConfig
 from ..parser.schema_fortran import FortranScanner
 from ..parser.schema_model import IOOperation, ProcedureDoc, ProjectIndex
@@ -1237,6 +1239,7 @@ def _build_preview(
     cfg: Config,
     comparison: ComparisonConfig,
     candidate_store: FactStore,
+    candidate_rich: RichStore,
     candidate_commit: str,
 ) -> dict[str, Any]:
     work_dir = cfg.resolve(comparison.work_dir)
@@ -1253,7 +1256,7 @@ def _build_preview(
         facts_path=work_dir / "facts" / "candidate.json",
         render_dir=preview_docs,
     )
-    render_site(preview_cfg, candidate_store)
+    render_site(preview_cfg, candidate_store, candidate_rich)
 
     mkdocs_path = cfg.root / "mkdocs.yml"
     mkdocs_data = yaml.safe_load(mkdocs_path.read_text(encoding="utf-8")) or {}
@@ -1471,14 +1474,27 @@ def run_comparison(
         }
 
     facts_dir = work_dir / "facts"
-    base_store, _base_rich_docs = parse_documentation(
-        base_dir, base_provenance.resolved_commit
-    )
-    candidate_store, _candidate_rich_docs = parse_documentation(
+    base_diagnostics = parse_tree(base_dir, base_provenance.resolved_commit)
+    candidate_diagnostics = parse_tree(
         candidate_dir, candidate_provenance.resolved_commit
+    )
+    candidate_repeat_diagnostics = parse_tree(
+        candidate_dir, candidate_provenance.resolved_commit
+    )
+    base_store, _base_rich_docs = parse_documentation(
+        base_dir,
+        base_provenance.resolved_commit,
+        diagnostics=base_diagnostics,
+    )
+    candidate_store, candidate_rich_docs = parse_documentation(
+        candidate_dir,
+        candidate_provenance.resolved_commit,
+        diagnostics=candidate_diagnostics,
     )
     candidate_repeat, _candidate_repeat_rich_docs = parse_documentation(
-        candidate_dir, candidate_provenance.resolved_commit
+        candidate_dir,
+        candidate_provenance.resolved_commit,
+        diagnostics=candidate_repeat_diagnostics,
     )
     base_facts = facts_dir / "base.json"
     candidate_facts = facts_dir / "candidate.json"
@@ -1585,7 +1601,11 @@ def run_comparison(
 
     if build_preview:
         preview = _build_preview(
-            cfg, comparison, candidate_store, candidate_provenance.resolved_commit
+            cfg,
+            comparison,
+            candidate_store,
+            candidate_rich_docs,
+            candidate_provenance.resolved_commit,
         )
     else:
         preview = {"success": True, "skipped": True}

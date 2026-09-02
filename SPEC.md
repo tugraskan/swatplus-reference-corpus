@@ -144,7 +144,9 @@ store:
 | nearby call/data-flow/module/type dependency changed | `affected` |
 | hash matches | `filled` |
 
-Affected is a review signal; it does not rewrite the page.
+Affected is a review signal; it does not rewrite the page and does not fail
+`docs status --require-current`. Workflows that require every affected page to
+be reviewed use the explicit `--fail-on-affected` option.
 
 ### 5.5 Grounding
 
@@ -201,7 +203,9 @@ The following are build gates:
 
 1. source profile resolves and satisfies its optional commit lock;
 2. unit tests pass;
-3. documentation status has no drift buckets;
+3. documentation status has no hard drift buckets (`stale`, `todo`,
+   `orphaned`, or `missing`); `affected` is reported but only blocks workflows
+   that opt into `--fail-on-affected`;
 4. documentation grounding has no errors;
 5. rendering followed by `mkdocs build --strict` succeeds;
 6. base schema has no unexpected unresolved files; and

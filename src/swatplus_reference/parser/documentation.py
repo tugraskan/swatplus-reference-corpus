@@ -104,7 +104,13 @@ def _classify_line(line: str) -> tuple[str | None, list[str]]:
 
 
 def _resolve_calls(rich: RichStore) -> None:
-    """Resolve real function candidates and populate reverse call edges."""
+    """Resolve calls without deleting or deduplicating parsed observations.
+
+    ``CallRef`` records are source observations: repeated calls and unresolved
+    function-style candidates still carry useful locations and raw text.  The
+    documentation call graph is a separate, deduplicated projection built by
+    :func:`_resolved_call_names`.
+    """
 
     procedures = {procedure.name.lower(): procedure for procedure in rich.index.procedures}
     functions = {
@@ -113,31 +119,38 @@ def _resolve_calls(rich: RichStore) -> None:
         if procedure.kind == "function"
     }
     holders = [*rich.index.procedures, *rich.index.programs]
-    for procedure in holders:
+    for target in rich.index.procedures:
+        target.called_by = []
+    for holder in holders:
         resolved_names: list[str] = []
-        kept = []
-        seen: set[tuple[str, str]] = set()
-        for call in procedure.calls:
+        for call in holder.calls:
             name = call.name.lower()
             root = name.split("%", 1)[0]
-            if call.kind == "function" and root not in functions:
-                continue
-            key = (name, call.kind)
-            if key in seen:
-                continue
-            seen.add(key)
             call.name = name
-            call.resolved = root in procedures
-            kept.append(call)
+            call.resolved = (
+                root in functions if call.kind == "function" else root in procedures
+            )
             if call.resolved:
                 resolved_names.append(root)
-        procedure.calls = kept
         for name in dict.fromkeys(resolved_names):
             target = procedures[name]
-            if procedure.name.lower() not in target.called_by:
-                target.called_by.append(procedure.name.lower())
+            caller = holder.name.lower()
+            if caller not in target.called_by:
+                target.called_by.append(caller)
     for procedure in rich.index.procedures:
         procedure.called_by.sort()
+
+
+def _resolved_call_names(calls) -> list[str]:
+    """Return stable graph edges while leaving call-site observations intact."""
+
+    return list(
+        dict.fromkeys(
+            call.name.lower().split("%", 1)[0]
+            for call in calls
+            if call.resolved
+        )
+    )
 
 
 def _procedure_symbol(
@@ -189,7 +202,7 @@ def _procedure_symbol(
             )
             for use in procedure.uses
         ],
-        calls=[call.name.lower() for call in procedure.calls],
+        calls=_resolved_call_names(procedure.calls),
         io=[
             IoStatement(
                 kind=operation.kind,
@@ -290,7 +303,7 @@ def _program_symbol(
             )
             for use in program.uses
         ],
-        calls=[call.name.lower() for call in program.calls],
+        calls=_resolved_call_names(program.calls),
         depends_on=sorted(use.module.lower() for use in program.uses),
         source_hash=_hash_record(source_dir, program, cache),
     )
@@ -328,13 +341,24 @@ def _annotate_dataflow(store: FactStore, source_dir: Path) -> None:
 
 
 def project_documentation_facts(
-    rich: RichStore, source_dir: Path, source_ref: str = ""
+    rich: RichStore,
+    source_dir: Path,
+    source_ref: str = "",
+    diagnostics: FactStore | None = None,
 ) -> FactStore:
-    """Project a rich scan into the stable page/grounding fact contract."""
+    """Project a rich scan into the stable page/grounding fact contract.
+
+    During parser comparison, ``diagnostics`` is the fparser2 result for the
+    same source. Its error and fallback records must remain visible even though
+    the rich model supplies the documentation facts.
+    """
 
     source_dir = source_dir.resolve()
     _resolve_calls(rich)
     store = FactStore(source_ref=source_ref, producer=RICH_DOCUMENTATION_PRODUCER)
+    if diagnostics is not None:
+        store.parse_errors = dict(diagnostics.parse_errors)
+        store.fallback_files = sorted(set(diagnostics.fallback_files))
     cache: dict[str, list[str]] = {}
     for module in rich.index.modules:
         store.add(_module_symbol(source_dir, module, cache))
@@ -349,9 +373,16 @@ def project_documentation_facts(
 
 
 def parse_documentation(
-    source_dir: Path, source_ref: str = ""
+    source_dir: Path,
+    source_ref: str = "",
+    diagnostics: FactStore | None = None,
 ) -> tuple[FactStore, RichStore]:
     """Scan SWAT+ once and return both documentation views of that scan."""
 
     rich = RichStore.build(source_dir)
-    return project_documentation_facts(rich, source_dir, source_ref), rich
+    return (
+        project_documentation_facts(
+            rich, source_dir, source_ref, diagnostics=diagnostics
+        ),
+        rich,
+    )

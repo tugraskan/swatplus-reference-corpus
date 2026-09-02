@@ -719,20 +719,17 @@ class FortranScanner:
     def _collect_function_calls(self, line, loc, holder, subroutine_names) -> None:
         """Record identifier(...) tokens as candidate function-call references.
 
-        These are only candidates: the analyzer keeps an edge solely when the
-        name resolves to a defined function, which discards array references and
-        intrinsics.  Dedupe per holder so a function called on many lines does
-        not flood the call list.
+        These are only candidates. Semantic resolution later decides whether
+        each observation creates a graph edge, but it must not delete repeated
+        or unresolved observations because their source locations are evidence.
         """
-        existing = {c.name.lower() for c in holder.calls}
         for match in FUNCALL_RE.finditer(line):
             name = match.group(1)
             lowered = name.lower()
             if lowered in FORTRAN_CALL_NONCANDIDATES:
                 continue
-            if lowered in subroutine_names or lowered in existing:
+            if lowered in subroutine_names:
                 continue
-            existing.add(lowered)
             holder.calls.append(
                 CallRef(name=name, raw=line, location=loc, kind="function")
             )

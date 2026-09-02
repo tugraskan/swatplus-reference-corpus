@@ -1,7 +1,12 @@
 from pathlib import Path
 from types import SimpleNamespace
 
-from swatplus_reference.cli import _rel, _report_is_current, _rich_report_index
+from swatplus_reference.cli import (
+    _rel,
+    _report_is_current,
+    _rich_report_index,
+    cmd_status,
+)
 from swatplus_reference.parser.rich import RichStore
 from swatplus_reference.parser.schema_model import (
     DerivedTypeDoc,
@@ -85,14 +90,51 @@ version = "62.0.0"
     )
 
 
-def test_require_current_rejects_every_drift_bucket():
+def test_require_current_treats_affected_as_advisory():
     clean = SimpleNamespace(stale=[], affected=[], todo=[], orphaned=[], missing=[])
     assert _report_is_current(clean)
 
-    for field in ("stale", "affected", "todo", "orphaned", "missing"):
+    affected = SimpleNamespace(
+        stale=[], affected=["item"], todo=[], orphaned=[], missing=[]
+    )
+    assert _report_is_current(affected)
+
+    for field in ("stale", "todo", "orphaned", "missing"):
         drifted = SimpleNamespace(stale=[], affected=[], todo=[], orphaned=[], missing=[])
         setattr(drifted, field, ["item"])
         assert not _report_is_current(drifted)
+
+
+def test_status_only_blocks_affected_when_strict_option_is_selected(
+    tmp_path, monkeypatch
+):
+    affected_page = SimpleNamespace(path=tmp_path / "affected.md")
+    report = SimpleNamespace(
+        stale=[],
+        affected=[affected_page],
+        affected_by={"affected.md": ["hub_module (dependency)"]},
+        todo=[],
+        orphaned=[],
+        missing=[],
+        summary=lambda: "affected=1",
+    )
+    monkeypatch.setattr("swatplus_reference.cli.get_store", lambda cfg: object())
+    monkeypatch.setattr("swatplus_reference.cli.load_all", lambda path: [])
+    monkeypatch.setattr(
+        "swatplus_reference.docs.staleness.compute_status",
+        lambda store, pages: report,
+    )
+    cfg = Config(root=tmp_path)
+
+    advisory = SimpleNamespace(
+        verbose=False, require_current=True, fail_on_affected=False
+    )
+    strict = SimpleNamespace(
+        verbose=False, require_current=True, fail_on_affected=True
+    )
+
+    assert cmd_status(cfg, advisory) == 0
+    assert cmd_status(cfg, strict) == 1
 
 
 def test_rich_report_index_preserves_type_procedure_collisions():

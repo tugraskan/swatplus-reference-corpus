@@ -1,12 +1,16 @@
 from pathlib import Path
 
 from swatplus_reference.comparison.run import (
+    _build_preview,
     _input_contract_changes_markdown,
     _input_contract_diff,
     _input_file_inventory,
     _schema_diff,
     _symbol_diff,
 )
+from swatplus_reference.docs.pages import Page
+from swatplus_reference.docs.render import render_site
+from swatplus_reference.parser.documentation import parse_documentation
 from swatplus_reference.parser.facts import FactStore, Symbol
 from swatplus_reference.parser.schema_model import (
     DerivedTypeDoc,
@@ -17,7 +21,15 @@ from swatplus_reference.parser.schema_model import (
     SourceLocation,
     VariableRef,
 )
-from swatplus_reference.source.config import load_config
+from swatplus_reference.source.config import (
+    ComparisonConfig,
+    Config,
+    SourceProfile,
+    load_config,
+)
+
+
+FIXTURES = Path(__file__).parent / "fixtures"
 
 
 def _symbol(name: str, source_hash: str, calls: list[str] | None = None) -> Symbol:
@@ -203,6 +215,81 @@ work_dir = ".swatref/pr-252"
     assert comparison.base_source == "base"
     assert comparison.candidate_source == "candidate"
     assert comparison.output_dir == Path("reports/pr-252")
+
+
+def test_comparison_preview_matches_normal_rich_render(tmp_path, monkeypatch):
+    commit = "a" * 40
+    profile = SourceProfile(
+        name="candidate",
+        repository="https://github.com/example/swatplus",
+        ref="candidate",
+        commit=commit,
+        checkout=FIXTURES.parent,
+        subdir="fixtures",
+        label="candidate",
+    )
+    cfg = Config(
+        root=tmp_path,
+        source_ref=commit,
+        source_link_base=profile.source_link_base(commit),
+        docs_dir=Path("docs_src"),
+        render_dir=Path("normal"),
+        sources={"candidate": profile},
+        docs_source="candidate",
+    )
+    comparison = ComparisonConfig(
+        name="candidate",
+        base_source="candidate",
+        candidate_source="candidate",
+        output_dir=Path("reports/candidate"),
+        work_dir=Path("work/candidate"),
+    )
+    page = Page(
+        path=cfg.abs_docs_dir / "procedures" / "demo_calc.md",
+        kind="procedure",
+        symbol="demo_calc",
+        title="demo_calc",
+        status="filled",
+        body=(
+            "<!-- facts:arguments -->\n\n"
+            "<!-- facts:locals -->\n\n"
+            "<!-- facts:calls -->\n\n"
+            "<!-- facts:io -->\n\n"
+            "<!-- facts:assignments -->\n\n"
+            "<!-- facts:select_cases -->\n"
+        ),
+    )
+    page.save()
+    (tmp_path / "mkdocs.yml").write_text(
+        "site_name: test\ndocs_dir: docs\nsite_dir: site\n",
+        encoding="utf-8",
+    )
+    store, rich = parse_documentation(FIXTURES, commit)
+    normal_dir = render_site(cfg, store, rich)
+    normal_page = (normal_dir / "procedures" / "demo_calc.md").read_text(
+        encoding="utf-8"
+    )
+    monkeypatch.setattr(
+        "swatplus_reference.comparison.run._run_logged",
+        lambda *args, **kwargs: {"success": True, "returncode": 0},
+    )
+
+    result = _build_preview(cfg, comparison, store, rich, commit)
+
+    preview_page = (
+        tmp_path
+        / "work"
+        / "candidate"
+        / "preview"
+        / "docs"
+        / "procedures"
+        / "demo_calc.md"
+    ).read_text(encoding="utf-8")
+    assert result["success"] is True
+    assert preview_page == normal_page
+    assert "### Control-flow outline" in preview_page
+    assert "| Target | Statement | Meaning | Source |" in preview_page
+    assert "*No assignments recorded.*" not in preview_page
 
 
 def test_symbol_diff_reports_add_remove_and_structured_changes():

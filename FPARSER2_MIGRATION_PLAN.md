@@ -3,10 +3,11 @@
 Status: **proposal for review only**. Do not begin the parser migration until
 this plan has been reviewed and approved.
 
-Revision 2 incorporates the valid findings from Claude's review at
-`claude/plan-review-gksznb`. That review used GitHub `main` at `db6423d`, which
-predates the current local rich-parser documentation pipeline. The current
-code, not that older branch, is authoritative for the baseline below.
+Revision 3 incorporates the valid findings from both passes of Claude's review
+at `claude/plan-review-gksznb`, plus the repository verification performed on
+this branch. The original review used GitHub `main` at `db6423d`, which
+predates the current rich-parser documentation pipeline. The current branch,
+not that older commit, is authoritative for the baseline below.
 
 ## 1. Goal
 
@@ -36,6 +37,20 @@ shared source-fact model and every consumer of that model.
 - The documentation projection currently resolves `CallRef.resolved` and
   populates `called_by`. `call_paths` and the `ReviewFlag` collections are not
   meaningfully populated and must be treated as new or redesigned features.
+- The present documentation projection destructively rewrites shared rich call
+  data during `_resolve_calls()`: unresolved function candidates and repeated
+  call sites can be lost. Phase 0 must correct this before freezing the call
+  baseline.
+- The fparser2 comparison path currently loses `parse_errors` and
+  `fallback_files` when it projects rich documentation into `FactStore`.
+- The comparison preview currently renders without its already-built rich
+  store, so it validates degraded pages rather than the real published page
+  shape. Phase 0 must make preview and normal rendering use the same inputs.
+- Dependency-derived `affected` pages are described as a soft review signal,
+  but `docs status --require-current` currently treats them as release-blocking.
+  Revision 3 makes the soft behavior explicit and provides a separate strict
+  gate for workflows that intentionally require all affected pages to be
+  reviewed.
 - The pinned source currently exposes two known fparser2 failures:
   `gwflow_floodplain.f90` and `gwflow_heat.f90`, both involving the accepted
   `expr*-1` spelling.
@@ -58,6 +73,25 @@ shared source-fact model and every consumer of that model.
    unresolved types, and incomplete facts must produce structured diagnostics.
 6. **Keep the old scanner as the reference implementation.** It is removed only
    after all cutover gates in this plan pass.
+7. **Never destroy observations during resolution.** Every parsed call site,
+   including repeated, unresolved, and ambiguous calls, remains in the
+   canonical model with its source location. Resolved relationships and
+   `called_by` are derived indexes, not replacements for the observed calls.
+8. **Preserve diagnostics through every projection.** `parse_errors`, fallback
+   files, ambiguity, and provenance must survive the `ProjectIndex` to
+   `FactStore` path and appear in CLI and comparison reports.
+9. **Keep declared dependency edges uncapped.** A `use` or type dependency is
+   explicit source evidence and must not be hidden by a fanout cap. Heuristic
+   data-flow edges retain their separately documented cap. Baselines and
+   reports must identify the edge kind.
+10. **Keep `affected` advisory by default.** `docs status --require-current`
+    reports affected pages but does not fail solely because of them. Add an
+    explicit strict option, such as `--fail-on-affected`, for a release workflow
+    that intentionally requires review of every affected page. Update SPEC
+    section 7.1 to match this policy.
+11. **Preview the real page shape.** Comparison preview rendering receives the
+    same candidate rich store as normal rendering. A regression test compares
+    the generated rich block set so a degraded preview cannot pass cutover.
 
 ## 3. What the unified model must contain
 
@@ -128,6 +162,16 @@ Fortran.
 
 Deliverables:
 
+- Correct `_resolve_calls()` so resolution does not mutate or delete the
+  canonical call observations. Preserve each call-site identity and source
+  location, and derive resolved edges and `called_by` separately.
+- Preserve fparser2 `parse_errors` and `fallback_files` when building the
+  documentation `FactStore`; verify they appear in the CLI and comparison
+  reports.
+- Pass the candidate rich store into comparison preview rendering. Add a
+  regression test proving preview and normal rendering generate the same rich
+  block set, including assignments, control flow, select cases, outside-state
+  references, and enriched variable/use/I/O tables.
 - Save a deterministic rich-parser snapshot for the configured SWAT+ commit.
 - Build the machine-readable parity-harness schema before parser work begins.
 - Record counts and stable identities for every fact category in the matrix,
@@ -143,11 +187,24 @@ Deliverables:
   Phase 0 must recompute and confirm those values.
 - Document every known rich-parser limitation so an existing bug is not
   accidentally treated as required behavior.
+- Record call-observation counts before resolution, resolved-edge counts after
+  resolution, unresolved/ambiguous counts, and repeated call-site counts. The
+  resolver must never reduce the observation count.
+- Record affected-page fanout separately for declared module/type dependencies
+  and heuristic data-flow dependencies. Do not apply the heuristic fanout cap
+  to declared dependencies.
+- Implement and document the advisory `affected` status policy and the separate
+  strict affected-page gate before measuring release behavior.
 
 Exit gate:
 
 - Running the baseline twice produces identical normalized results.
 - The source commit and parser version are recorded with the baseline.
+- Call resolution preserves every observed call site and its location.
+- Known fparser2 failures remain visible after every model projection.
+- Comparison preview and normal rendering contain the same rich block set.
+- `--require-current` and the strict affected-page option follow the documented
+  policy, including a high-fanout dependency fixture.
 - All 1,092 currently hashed pages retain their current hash at the pinned
   commit unless a separately reviewed one-time re-baseline is approved.
 
@@ -241,7 +298,9 @@ Exit gate:
 Deliverables:
 
 - Resolve calls against defined procedures using scope, imports, and symbol
-  kinds. Keep unresolved or ambiguous calls with diagnostics.
+  kinds. Keep every observed call site, including duplicates at different
+  locations, and attach resolution results or diagnostics without rewriting
+  the observation collection.
 - Preserve the currently populated `resolved` and `called_by` behavior, and
   define call paths as a separately tested new capability.
 - Resolve derived types and component paths without reducing them to root
@@ -249,6 +308,9 @@ Deliverables:
 - Resolve I/O units and filename expressions across procedures and modules.
 - Reuse or port the current input/output-file and output-family aggregation.
 - Compute shared-state reads/writes and dependency edges.
+- Keep explicit module/type dependency propagation uncapped and label its edge
+  kind. Keep any fanout limit confined to the documented heuristic data-flow
+  edge kind.
 - Preserve the `swatplus_reference_outside_state_refs` metadata family and its
   `kind:name:file` identity contract.
 
@@ -256,6 +318,8 @@ Exit gate:
 
 - All derived relationships point back to source facts and locations.
 - Ambiguity is reported instead of guessed or silently discarded.
+- The number and identities of observed calls are unchanged by resolution.
+- High-fanout declared dependencies propagate to every real dependent page.
 
 ### Phase 5: Make fallback behavior complete and visible
 
@@ -265,6 +329,8 @@ Deliverables:
 - Produce a `SourceFileDoc` and diagnostic for every rejected source file.
 - Run a targeted raw-source fallback for supported facts.
 - Mark every fallback-derived record and its confidence/provenance.
+- Carry `parse_errors` and `fallback_files` through all model projections and
+  show them in CLI status and comparison output.
 - Keep fallback ordering and serialization deterministic.
 - Add `gwflow_floodplain.f90`, `gwflow_heat.f90`, and the `expr*-1` construct
   as permanent regression cases.
@@ -317,10 +383,15 @@ Exit gate:
 Documentation gates:
 
 - All Markdown pages render.
+- Candidate comparison previews receive the candidate rich store and render
+  the same rich fact-block set as normal site generation.
 - Every generated GitHub URL uses the configured source commit.
 - Every source link points to the correct current line or line span.
 - Mermaid call and control-flow graphs render with clickable source nodes.
 - Page hashes and direct/indirect staleness behave as before.
+- Declared dependency fanout remains complete. Affected pages are reported but
+  do not fail `--require-current`; the explicit strict option does fail while
+  affected pages remain unreviewed.
 - Grounding checks and strict MkDocs builds pass.
 
 Schema/comparison gates:
@@ -372,17 +443,21 @@ Exit gate:
 
 Keep changes reviewable and do not combine the model rewrite with the cutover.
 
-1. **PR 1:** parity inventory, baseline artifacts, and full comparison harness.
-2. **PR 2:** format enforcement, explicit export contract, exact fparser pin,
+1. **PR 1:** non-destructive call resolution and call-observation regression
+   tests.
+2. **PR 2:** diagnostic propagation and rich comparison-preview parity tests.
+3. **PR 3:** affected-status policy, dependency-edge-kind baselines, parity
+   inventory, baseline artifacts, and the full comparison harness.
+4. **PR 4:** format enforcement, explicit export contract, exact fparser pin,
    `ProjectIndex v2`, size/performance decisions, and compatibility tests.
-3. **PR 3:** shared source mapping, raw statement, and comment attachment.
-4. **PR 4:** AST symbols, scopes, declarations, uses, and derived types.
-5. **PR 5:** assignments, component paths, loops, select cases, and nesting.
-6. **PR 6:** calls, call resolution, I/O, file resolution, and output families.
-7. **PR 7:** fallback diagnostics and full-tree parity closure.
-8. **PR 8:** documentation, graph, schema, and Tamandua integration gates.
-9. **PR 9:** default-engine cutover.
-10. **PR 10:** legacy removal after the agreed compatibility period.
+5. **PR 5:** shared source mapping, raw statement, and comment attachment.
+6. **PR 6:** AST symbols, scopes, declarations, uses, and derived types.
+7. **PR 7:** assignments, component paths, loops, select cases, and nesting.
+8. **PR 8:** calls, call resolution, I/O, file resolution, and output families.
+9. **PR 9:** fallback diagnostics and full-tree parity closure.
+10. **PR 10:** documentation, graph, schema, and Tamandua integration gates.
+11. **PR 11:** default-engine cutover.
+12. **PR 12:** legacy removal after the agreed compatibility period.
 
 Each PR must add tests for the capabilities it introduces and must not weaken
 existing assertions merely to make parity numbers look better.
@@ -437,6 +512,10 @@ configuration.
 | fparser2 rejects valid project source | Per-file visible fallback; never drop the file |
 | AST loses comments or formatting | Raw-source overlay tied to exact node spans |
 | Function calls are confused with arrays | Scope/type resolution plus explicit ambiguity diagnostics |
+| Call resolution silently deletes observations | Keep immutable call-site observations and derive resolution indexes separately |
+| Parser failures disappear during projection | Carry structured diagnostics through every model and report |
+| Comparison preview validates degraded pages | Pass the rich store into preview and assert block-set parity with normal rendering |
+| A hub-module edit creates an impractical release block | Keep explicit dependency fanout complete, report affected pages as advisory, and use a separate opt-in strict gate |
 | Line links move or point to the wrong commit | Source-span tests and provenance-locked rendering tests |
 | Tamandua breaks on model changes | Versioned snapshots and consumer contract tests before cutover |
 | Parser output changes order between runs | Canonical identities, sorting, and byte-for-byte determinism tests |
@@ -468,7 +547,7 @@ The migration is complete only when all statements below are true:
 
 ## 10. Claude review request
 
-Please review Revision 2 on branch `codex/fparser2-migration-plan-v2` before
+Please review Revision 3 on branch `codex/fparser2-migration-plan-v2` before
 implementation. Use the code on that branch as the baseline rather than GitHub
 `main` at `db6423d`; the branch includes the current rich-primary documentation
 pipeline and Mermaid graph support. Answer the following:
@@ -491,6 +570,15 @@ pipeline and Mermaid graph support. Answer the following:
    reproducibility gate?
 10. Are snapshot format enforcement, the explicit export schema, exact fparser
     pinning, and Phase 1 size/performance decisions sufficient for Tamandua?
+11. Does Phase 0 now prevent `_resolve_calls()` from deleting call observations
+    or call-site locations while still deriving resolved edges and `called_by`?
+12. Do parse errors and fallback files now have complete model-to-CLI and
+    comparison coverage?
+13. Is the uncapped declared-dependency policy correctly separated from the
+    capped heuristic data-flow policy, and is the advisory/strict `affected`
+    gate split clear?
+14. Does the comparison-preview requirement guarantee the same rich block set
+    as normal rendering?
 
 Return one of:
 

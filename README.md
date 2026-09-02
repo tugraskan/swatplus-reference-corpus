@@ -154,6 +154,9 @@ corresponding line in the commit-pinned GitHub source.
 Each page records the hash of its source symbol. `swatref docs status` reports
 which pages are current, changed, indirectly affected through calls, shared
 state, imported modules, or derived types, unfinished, orphaned, or missing.
+Affected pages are advisory under `--require-current`; use
+`--fail-on-affected` when a workflow intentionally requires every indirectly
+affected page to be reviewed before it can pass.
 `swatref docs check` mechanically checks prose against parser facts.
 
 The current corpus validates as:
