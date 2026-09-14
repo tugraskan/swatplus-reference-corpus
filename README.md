@@ -69,15 +69,20 @@ mkdocs.yml                         readable-site build
 Generated facts, rendered Markdown, the built website, test scratch space,
 and fetched upstream repositories are ignored. They can all be recreated.
 
-`swatref docs rich-parse --snapshot` also writes a tracked-ready handoff
+`swatref docs parse` runs the rich scanner once and writes both the compact
+documentation facts and the local `ProjectIndex` cache. `swatref docs
+rich-parse --snapshot` reuses that current parse to write a tracked-ready handoff
 artifact at `snapshots/rich/<profile>-<resolved-commit>.rich.json` and an
 adjacent provenance sidecar. This is the supported handoff for TAMANDUA or
 another external consumer: it contains the rich scanner's `ProjectIndex`, is
 named by the exact SWAT+ commit, and records the selected profile, requested
-ref/tag, configured lock, and resolved commit. The renderer only consumes its
-local `.swatref/docs/rich.json` cache when that same resolved commit matches;
-otherwise it falls back to the thin fact store without failing a documentation
-build.
+ref/tag, configured lock, resolved commit, and explicit snapshot/export/model
+versions. The current portable format is v2; readers reject unsupported
+versions instead of silently misreading them. Metadata-bearing v1 snapshots
+remain readable; older metadata-less cache files are rejected and rebuilt by
+the normal CLI path. Both local documentation caches must match that resolved
+commit; an old thin-parser cache is rebuilt automatically instead of being
+mixed with current rich facts.
 
 ## Quick start
 
@@ -93,9 +98,11 @@ swatref source show release_62_0_0
 # Build and check the readable corpus.
 swatref docs parse
 swatref docs rich-parse --snapshot
+swatref docs baseline
 swatref docs status --require-current
 swatref docs check
 swatref docs render
+swatref docs check-links
 mkdocs build --strict
 
 # Rebuild the release schema and its range/field reports.
@@ -127,7 +134,8 @@ ignored under `.swatref/comparisons/`. The command never fills prose or edits
 `docs_src/`.
 
 The main validation workflow runs tests, source-backed documentation checks,
-schema reproduction, and a strict MkDocs build. A path-filtered comparison
+the Phase 0 parser/snapshot freshness gate, schema reproduction, and a strict
+MkDocs build. A path-filtered comparison
 workflow regenerates the locked PR reports whenever comparison inputs or code
 change. Full source compilation remains a manual release gate. The rendered site
 is always available as a workflow artifact; GitHub Pages deployment is gated by
@@ -135,26 +143,55 @@ the repository variable `PUBLISH_PAGES=true` and only runs from corpus `main`.
 
 ## How the readable corpus works
 
-The parser first creates a temporary JSON fact store from the selected source.
-That store contains things the code can prove: symbols, arguments, variables,
-calls, module use, file I/O, source spans, and source hashes. It currently finds
-1,310 symbols; 2 source files use the recorded fallback scanner.
+The rich scanner first creates a structured `ProjectIndex` from the selected
+source. The documentation fact store is a compact projection of that same rich
+scan and contains things the code can prove: symbols,
+arguments, variables, calls, module/type dependencies, file I/O, source spans,
+exact declaration lines, and source hashes. During migration, fparser2 also
+runs as a diagnostic check so its rejected files remain visible in `docs parse`
+and comparison reports; it does not supply the documentation facts yet.
 
 The tracked pages contain reviewed prose plus markers such as
 `<!-- facts:calls -->`. Rendering replaces those markers with current facts and
 resolves symbol links against the exact commit. This keeps generated facts out
-of the reviewed prose.
+of the reviewed prose. Procedure call relationships and parsed control-flow
+outlines render as clickable Mermaid diagrams; every diagram node opens the
+corresponding line in the commit-pinned GitHub source.
 
 Each page records the hash of its source symbol. `swatref docs status` reports
-which pages are current, changed, indirectly affected, unfinished, orphaned, or
-missing. `swatref docs check` mechanically checks prose against parser facts.
+which pages are current, changed, indirectly affected through calls, shared
+state, imported modules, or derived types, unfinished, orphaned, or missing.
+Affected pages are advisory under `--require-current`; use
+`--fail-on-affected` when a workflow intentionally requires every indirectly
+affected page to be reviewed before it can pass.
+`swatref docs check` mechanically checks prose against parser facts.
 
 The current corpus validates as:
 
 - 1,095 filled pages;
 - 0 stale, affected, unfinished, orphaned, or missing pages;
 - 0 grounding errors; and
-- 3,867 non-blocking identifier warnings.
+- 3,869 non-blocking identifier warnings.
+
+The migration baseline is tracked under `reports/parser-baseline/`. It records
+counts and stable identity hashes for every rich fact category, call-resolution
+and graph fanout behavior, documentation and grounding totals, schema summaries,
+artifact hashes, known parser failures, and named difficult source cases.
+`swatref docs baseline` reparses the pinned source and fails if either that
+normalized report or the portable rich snapshot has drifted. Use
+`swatref docs baseline --write` only when intentionally reviewing a new
+baseline.
+
+`swatref docs check-links` audits the rendered corpus against the pinned
+checkout: every emitted GitHub source link must sit on the pinned commit, name
+a file that exists in that tree, and cite lines that exist in that file. It
+resolves links locally rather than requesting them, so the gate does not depend
+on GitHub availability. Run it after `swatref docs render`.
+
+`fparser` is pinned to an exact version because its version string and its
+syntax-error text both appear inside byte-compared baseline artifacts; upgrading
+it is a reviewed baseline change, and `swatref docs baseline` names the moved
+contract when that is what drifted.
 
 ## How schemas work
 

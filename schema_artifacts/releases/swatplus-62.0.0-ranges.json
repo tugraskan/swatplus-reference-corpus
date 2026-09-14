@@ -1882,12 +1882,12 @@
           "units": null
         },
         {
-          "doc": "control on transformation of microbial biomass by soil texture and structure real :: xlslf = 0.         !               |control on potential transformation of structural litter by lignin fraction The following three parameters resolve the shape of the temperature effect equation: celsius         |minimum temperature bound",
+          "doc": "minimum temperature bound",
           "fortran_name": "tn",
           "fortran_type": "real",
           "numeric": true,
           "position": 12,
-          "units": "real :: xbmt = 0.          !"
+          "units": "celsius"
         },
         {
           "doc": "peak (optimum) temperature",
@@ -3276,7 +3276,7 @@
       "derived_type": "basin_control_codes",
       "fields": [
         {
-          "doc": "character(len=16) :: update !! pointer to basin updates in schedule.upd potential et filename",
+          "doc": "potential et filename",
           "fortran_name": "petfile",
           "fortran_type": "character",
           "numeric": false,
@@ -11960,12 +11960,12 @@
           "units": "frac"
         },
         {
-          "doc": "max fraction of above ground biomass that is leaf (assume constant over life of perennial) frac              |initial root to shoot ratio at the beg of growing season",
+          "doc": "initial root to shoot ratio at the beg of growing season",
           "fortran_name": "rsr1",
           "fortran_type": "real",
           "numeric": true,
           "position": 43,
-          "units": "real :: leaf_frac_mx             !frac"
+          "units": "frac"
         },
         {
           "doc": "root to shoot ratio at the end of the growing season",
@@ -12211,7 +12211,7 @@
               "units": null
             },
             {
-              "doc": "character(len=1) :: carbout = \"n\" !! code to print carbon output; d = end of day; m = end of month; y = end of year; a = end of simulation; code to read in the print.prt print objects respecting the label of",
+              "doc": "code to read in the print.prt print objects respecting the label of",
               "fortran_name": "use_obj_labels",
               "fortran_type": "character",
               "numeric": false,
@@ -15967,12 +15967,12 @@
               "units": "t/ha or t"
             },
             {
-              "doc": "organic n yield - or m3        |water yield ratio - total water yield/precip",
+              "doc": "water yield ratio - total water yield/precip",
               "fortran_name": "wyr",
               "fortran_type": "real",
               "numeric": true,
               "position": 8,
-              "units": "real :: orgn = 0.  !kg/ha or kg"
+              "units": "- or m3"
             },
             {
               "doc": "base flow ratio - base flow/precip - lat+prec+tile",
@@ -16087,12 +16087,12 @@
           "units": "t/ha or t"
         },
         {
-          "doc": "organic n yield - or m3        |water yield ratio - total water yield/precip",
+          "doc": "water yield ratio - total water yield/precip",
           "fortran_name": "wyr",
           "fortran_type": "real",
           "numeric": true,
           "position": 8,
-          "units": "real :: orgn = 0.  !kg/ha or kg"
+          "units": "- or m3"
         },
         {
           "doc": "base flow ratio - base flow/precip - lat+prec+tile",
@@ -16234,7 +16234,7 @@
           "units": null
         },
         {
-          "doc": "character (len=50) :: wst = \"\" !! weather station name weather generator name",
+          "doc": "weather generator name",
           "fortran_name": "wgn",
           "fortran_type": "character",
           "numeric": false,
@@ -17345,7 +17345,7 @@
                 "units": null
               },
               {
-                "doc": "character (len=25) :: dtbl_rob = \"\" !decision table name to set fraction to each receiving object soil layer to receive incoming tile flow",
+                "doc": "soil layer to receive incoming tile flow",
                 "fortran_name": "frac",
                 "fortran_type": "integer",
                 "numeric": true,
@@ -20924,7 +20924,7 @@
               "units": null
             },
             {
-              "doc": "character (len=25) :: init = \"\" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant",
+              "doc": "m3 !maximum storage in plant",
               "fortran_name": "stor_mx",
               "fortran_type": "real",
               "numeric": true,
@@ -21077,7 +21077,7 @@
               "units": null
             },
             {
-              "doc": "character (len=25) :: init = \"\" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant",
+              "doc": "m3 !maximum storage in plant",
               "fortran_name": "stor_mx",
               "fortran_type": "real",
               "numeric": true,

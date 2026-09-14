@@ -420,7 +420,7 @@ independent of whether the source-side pairing above resolved:
 | - | - | - | - | till_consf | real | - | `source_only` | - | - |
 | - | - | - | - | tmpf | integer | temperature factor approach used in cbn_zhang2 | `source_only` | - | - |
 | - | - | - | - | watf | integer | water factor approach used in cbn_zhang2 | `source_only` | - | - |
-| - | - | real :: xbmt = 0. ! | - | tn | real | control on transformation of microbial biomass by soil texture and structure real :: xlslf = 0. ! \|control on potential transformation of structural litter by lignin fraction The following three parameters resolve the shape of the temperature effect equation: celsius \|minimum temperature bound | `source_only` | - | - |
+| - | - | celsius | - | tn | real | minimum temperature bound | `source_only` | - | - |
 | - | - | celsius | - | top | real | peak (optimum) temperature | `source_only` | - | - |
 | - | - | celsius | - | tx | real | maximum temperature bound | `source_only` | - | - |
 | - | - | - | - | bmix_a | real | - | `source_only` | - | - |
@@ -2665,7 +2665,7 @@ independent of whether the source-side pairing above resolved:
 | monthly53 | string | none | - | - | - | Monthly output yes or no | `spreadsheet_only` | - | `mismatch` |
 | yearly53 | string | none | - | - | - | Yearly output yes or no | `spreadsheet_only` | - | `mismatch` |
 | aveann53 | string | none | - | - | - | Average annual output yes or no | `spreadsheet_only` | - | `mismatch` |
-| - | - | - | - | use_obj_labels | character | character(len=1) :: carbout = "n" !! code to print carbon output; d = end of day; m = end of month; y = end of year; a = end of simulation; code to read in the print.prt print objects respecting the label of | `source_only` | - | - |
+| - | - | - | - | use_obj_labels | character | code to read in the print.prt print objects respecting the label of | `source_only` | - | - |
 | - | - | - | - | name | character | - | `source_only` | - | - |
 | - | - | - | - | d | character | - | `source_only` | - | - |
 | - | - | - | - | m | character | - | `source_only` | - | - |
@@ -3630,7 +3630,7 @@ independent of whether the source-side pairing above resolved:
 | - | - | - | - | imax | integer | - | `source_only` | - | - |
 | - | - | - | - | i | integer | - | `source_only` | - | - |
 | - | - | - | - | name | character | name of the water treatment plant | `source_only` | - | - |
-| - | - | - | - | stor_mx | real | character (len=25) :: init = "" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant | `source_only` | - | - |
+| - | - | - | - | stor_mx | real | m3 !maximum storage in plant | `source_only` | - | - |
 | - | - | - | - | lag_days | real | days !treatement time - lag outflow | `source_only` | - | - |
 | - | - | - | - | loss_fr | real | water loss during treament | `source_only` | - | - |
 | - | - | - | - | org_min | character | sediment, carbon, and nutrients | `source_only` | - | - |
@@ -3649,7 +3649,7 @@ independent of whether the source-side pairing above resolved:
 | - | - | - | - | imax | integer | - | `source_only` | - | - |
 | - | - | - | - | i | integer | - | `source_only` | - | - |
 | - | - | - | - | name | character | name of the water treatment plant | `source_only` | - | - |
-| - | - | - | - | stor_mx | real | character (len=25) :: init = "" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant | `source_only` | - | - |
+| - | - | - | - | stor_mx | real | m3 !maximum storage in plant | `source_only` | - | - |
 | - | - | - | - | lag_days | real | days !treatement time - lag outflow | `source_only` | - | - |
 | - | - | - | - | loss_fr | real | water loss during treament | `source_only` | - | - |
 | - | - | - | - | org_min | character | sediment, carbon, and nutrients | `source_only` | - | - |

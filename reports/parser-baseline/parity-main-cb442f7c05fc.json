@@ -1,0 +1,135 @@
+{
+ "approved_corrections": [
+  {
+   "category": "procedures",
+   "fields": [
+    "assignments"
+   ],
+   "owners": [
+    "climate_control.f90",
+    "command.f90",
+    "gwflow_read.f90",
+    "hyd_connect.f90",
+    "res_control.f90",
+    "ru_read_elements.f90",
+    "salt_chem_aqu.f90",
+    "salt_chem_hru.f90",
+    "salt_chem_soil_single.f90",
+    "swr_percmacro.f90"
+   ],
+   "reason": "The scanner's assignment pattern cannot span a target whose own subscript contains parentheses, and cannot match past a leading statement label, so it dropped those statements outright. The AST path splits at the first `=` at paren depth zero and recovers 63 assignments the scanner never recorded."
+  },
+  {
+   "category": "procedures",
+   "fields": [
+    "control_steps",
+    "io"
+   ],
+   "owners": [
+    "carbon_layers_read.f90",
+    "gwflow_pond.f90"
+   ],
+   "reason": "Statement labels. `99 close (107)` is not recognised as I/O by a pattern anchored on the keyword, and `10  enddo` is not recognised as a block close, so the loop it ends stays open and swallows the enclosing `end if` -- leaving one construct unclosed tree-wide and every statement after it one level too deep."
+  },
+  {
+   "category": "procedures",
+   "fields": [
+    "reads",
+    "writes"
+   ],
+   "owners": [
+    "salt_chem_soil_single.f90"
+   ],
+   "reason": "`10    upion1 = Sul_Conc(salt_c4)` carries a statement label, so the scanner records no assignment and reports `upion1` as a read of the variable it writes. The same labelled-statement finding, surfacing in the shared-state family."
+  },
+  {
+   "category": "io_files",
+   "fields": [
+    "operations"
+   ],
+   "owners": [
+    "carbon_layers.prt",
+    "gwflow_pond_conc_day.txt",
+    "gwflow_pond_mass_day.txt"
+   ],
+   "reason": "Downstream of the same two labelled statements: the recovered `99 close (107)` joins `carbon_layers.prt`, and the pond writes carry a different condition trail because the scanner's stack never popped the labelled `enddo`."
+  }
+ ],
+ "categories": [
+  {
+   "approved_disagreements": [],
+   "ast_only": [],
+   "identical": 66,
+   "name": "modules",
+   "rich_only": [],
+   "shared": 66,
+   "unexpected_disagreements": []
+  },
+  {
+   "approved_disagreements": [],
+   "ast_only": [],
+   "identical": 0,
+   "name": "programs",
+   "rich_only": [],
+   "shared": 0,
+   "unexpected_disagreements": []
+  },
+  {
+   "approved_disagreements": [],
+   "ast_only": [],
+   "identical": 514,
+   "name": "types",
+   "rich_only": [],
+   "shared": 514,
+   "unexpected_disagreements": []
+  },
+  {
+   "approved_disagreements": [
+    "assignments:climate_control.f90",
+    "assignments:command.f90",
+    "assignments:gwflow_read.f90",
+    "assignments:hyd_connect.f90",
+    "assignments:res_control.f90",
+    "assignments:ru_read_elements.f90",
+    "assignments:salt_chem_aqu.f90",
+    "assignments:salt_chem_hru.f90",
+    "assignments:salt_chem_soil_single.f90",
+    "assignments:swr_percmacro.f90",
+    "control_steps:carbon_layers_read.f90",
+    "control_steps:gwflow_pond.f90",
+    "io:carbon_layers_read.f90",
+    "io:gwflow_pond.f90",
+    "reads:salt_chem_soil_single.f90",
+    "writes:salt_chem_soil_single.f90"
+   ],
+   "ast_only": [],
+   "identical": 722,
+   "name": "procedures",
+   "rich_only": [],
+   "shared": 734,
+   "unexpected_disagreements": []
+  },
+  {
+   "approved_disagreements": [
+    "operations:carbon_layers.prt",
+    "operations:gwflow_pond_conc_day.txt",
+    "operations:gwflow_pond_mass_day.txt"
+   ],
+   "ast_only": [],
+   "identical": 983,
+   "name": "io_files",
+   "rich_only": [],
+   "shared": 986,
+   "unexpected_disagreements": []
+  },
+  {
+   "approved_disagreements": [],
+   "ast_only": [],
+   "identical": 92,
+   "name": "output_families",
+   "rich_only": [],
+   "shared": 92,
+   "unexpected_disagreements": []
+  }
+ ]
+}

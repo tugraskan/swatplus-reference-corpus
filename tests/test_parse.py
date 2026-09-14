@@ -88,3 +88,62 @@ def test_type_name_collision_prefers_procedure():
     parse_file_ast(store, "m1.f90", text)
     assert store.get("balance").kind == "subroutine"
     assert store.get("type::balance").kind == "type"
+
+
+# --------------------------------------------------------------------------
+# Non-standard signed operands
+#
+# `a*-1` is rejected by fparser2 and accepted by gfortran. The rich path
+# (`ast_index`) parenthesises it for the parser; this layer did not, so two
+# SWAT+ files parsed cleanly into the rich store while falling back to the line
+# scanner here. These pin the rewrite and, just as importantly, its limits.
+# --------------------------------------------------------------------------
+
+
+def _parse(tmp_path, body: str) -> FactStore:
+    from swatplus_reference.parser.fortran import parse_tree
+
+    (tmp_path / "signs.f90").write_text(body)
+    return parse_tree(tmp_path)
+
+
+SIGNED = """\
+      subroutine signs
+      integer :: q = 0
+      integer :: stor = 0
+      if ((q*-1) >= stor) then
+        stor = q
+      end if
+      end subroutine signs
+"""
+
+
+def test_signed_operand_parses_without_falling_back(tmp_path):
+    store = _parse(tmp_path, SIGNED)
+    assert store.fallback_files == []
+    assert store.parse_errors == {}
+    assert store.get("signs") is not None
+
+
+def test_the_rewrite_is_recorded_not_silent(tmp_path):
+    store = _parse(tmp_path, SIGNED)
+    assert store.normalized_files == {"signs.f90": [4]}
+
+
+def test_normalized_files_survives_a_round_trip(tmp_path):
+    store = _parse(tmp_path, SIGNED)
+    assert FactStore.from_json(store.to_json()).normalized_files == store.normalized_files
+
+
+def test_a_file_needing_no_rewrite_records_nothing(tmp_path):
+    store = _parse(tmp_path, SIGNED.replace("(q*-1)", "(q * (-1))"))
+    assert store.normalized_files == {}
+    assert store.fallback_files == []
+
+
+def test_a_file_that_still_fails_claims_no_rewrite(tmp_path):
+    """A rewrite recorded before a parse that then dies describes input that
+    produced nothing, so it must not be reported alongside the fallback."""
+    store = _parse(tmp_path, SIGNED.replace("end subroutine signs", "end subroutin signs"))
+    assert store.fallback_files == ["signs.f90"]
+    assert "signs.f90" not in store.normalized_files

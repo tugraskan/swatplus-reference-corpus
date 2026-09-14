@@ -1,0 +1,76 @@
+{
+  "format": "swatplus-reference-regression-cases-v1",
+  "cases": [
+    {
+      "id": "fparser-expr-star-minus-floodplain",
+      "file": "gwflow_floodplain.f90",
+      "symbol_key": "gwflow_floodplain",
+      "concern": "fparser2 rejects the accepted Q*-1 spelling; the signed operand is parenthesised for the parser so the file is read from the AST instead of the line scanner",
+      "expected_normalized_lines": [
+        86
+      ]
+    },
+    {
+      "id": "fparser-expr-star-minus-heat",
+      "file": "gwflow_heat.f90",
+      "symbol_key": "gwflow_heat",
+      "concern": "fparser2 rejects the accepted cell_adv*-1 spelling; the signed operand is parenthesised for the parser so the file is read from the AST instead of the line scanner",
+      "expected_normalized_lines": [
+        61,
+        62,
+        104,
+        105
+      ]
+    },
+    {
+      "id": "thin-rich-floodplain-argument",
+      "file": "gwflow_floodplain.f90",
+      "symbol_key": "gwflow_floodplain",
+      "concern": "thin parser historically reported zero arguments here because fparser2 rejected the file and the line scanner never read the signature; parenthesising the signed operand lets the AST read it and both parsers now agree at one",
+      "comparison": {
+        "field": "arg_count",
+        "thin": 1,
+        "rich": 1
+      }
+    },
+    {
+      "id": "thin-rich-output-saltbal-span",
+      "file": "salt_module.f90",
+      "symbol_key": "output_saltbal_header",
+      "concern": "historical 33-vs-17 span disagreement compared different same-named derived types; kind-plus-file matching agrees at 33",
+      "comparison": {
+        "field": "span",
+        "thin": 33,
+        "rich": 33
+      }
+    },
+    {
+      "id": "thin-rich-salt-balance-type-span",
+      "file": "salt_module.f90",
+      "symbol_key": "type::salt_balance",
+      "concern": "historical 23-vs-9 span disagreement compared different same-named derived types; kind-plus-file matching agrees at 23",
+      "comparison": {
+        "field": "span",
+        "thin": 23,
+        "rich": 23
+      }
+    },
+    {
+      "id": "type-procedure-name-collision",
+      "file": "salt_module.f90",
+      "symbol_key": "type::salt_balance",
+      "concern": "a derived type and procedure share the bare name salt_balance, so the type keeps a qualified fact-store key while the procedure keeps the bare one",
+      "expected_symbol_keys": [
+        "salt_balance",
+        "type::salt_balance"
+      ]
+    },
+    {
+      "id": "declared-dependency-hub",
+      "file": "hydrograph_module.f90",
+      "symbol_key": "hydrograph_module",
+      "concern": "declared module dependency fanout is intentionally uncapped, so this hub must keep every dependent rather than being trimmed to a fanout limit",
+      "expected_min_dependents": 390
+    }
+  ]
+}

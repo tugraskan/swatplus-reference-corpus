@@ -1,0 +1,884 @@
+{
+  "files": [
+    {
+      "modules": [],
+      "path": "demo_calc.f90",
+      "procedures": [
+        "demo_calc"
+      ],
+      "programs": [],
+      "types": []
+    },
+    {
+      "modules": [
+        "demo_module"
+      ],
+      "path": "demo_module.f90",
+      "procedures": [
+        "demo_zero"
+      ],
+      "programs": [],
+      "types": [
+        "demo_state"
+      ]
+    },
+    {
+      "modules": [],
+      "path": "demo_select.f90",
+      "procedures": [
+        "demo_select"
+      ],
+      "programs": [],
+      "types": []
+    }
+  ],
+  "io_files": [
+    {
+      "display_name": "demo.in",
+      "key": "demo.in",
+      "operations": [
+        {
+          "condition": null,
+          "fields": [],
+          "file_expr": "\"demo.in\"",
+          "file_resolved": "demo.in",
+          "kind": "open",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_calc.f90"
+          },
+          "raw": "open (107, file = \"demo.in\")",
+          "unit": "107"
+        },
+        {
+          "condition": null,
+          "fields": [
+            "wrk"
+          ],
+          "file_expr": null,
+          "file_resolved": "demo.in",
+          "kind": "read",
+          "location": {
+            "end_line": null,
+            "line": 14,
+            "path": "demo_calc.f90"
+          },
+          "raw": "read (107,*,iostat=eof) wrk",
+          "unit": "107"
+        },
+        {
+          "condition": null,
+          "fields": [],
+          "file_expr": null,
+          "file_resolved": "demo.in",
+          "kind": "close",
+          "location": {
+            "end_line": null,
+            "line": 15,
+            "path": "demo_calc.f90"
+          },
+          "raw": "close (107)",
+          "unit": "107"
+        }
+      ],
+      "procedures": [
+        "demo_calc"
+      ],
+      "review_flags": []
+    }
+  ],
+  "metadata": {
+    "ast_parser_version": "fparser-ast-v1",
+    "swatplus_reference_outside_state_refs": {
+      "subroutine:demo_calc:demo_calc.f90": [
+        {
+          "candidates": [],
+          "components": [],
+          "declaration": "integer  :: basin_count = 0",
+          "location": {
+            "end_line": null,
+            "line": 5,
+            "path": "demo_module.f90"
+          },
+          "module": "demo_module",
+          "reference": "basin_count",
+          "symbol": "basin_count"
+        },
+        {
+          "candidates": [],
+          "components": [],
+          "declaration": "type (demo_state) , dimension(:), allocatable :: dstate",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_module.f90"
+          },
+          "module": "demo_module",
+          "reference": "dstate(j)",
+          "symbol": "dstate"
+        },
+        {
+          "candidates": [],
+          "components": [
+            {
+              "declaration": "real  :: stor = 0.",
+              "location": {
+                "end_line": null,
+                "line": 10,
+                "path": "demo_module.f90"
+              },
+              "name": "stor",
+              "type_name": "demo_module::demo_state"
+            }
+          ],
+          "declaration": "type (demo_state) , dimension(:), allocatable :: dstate",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_module.f90"
+          },
+          "module": "demo_module",
+          "reference": "dstate(j)%stor",
+          "symbol": "dstate"
+        },
+        {
+          "candidates": [],
+          "components": [],
+          "declaration": "real  :: total_area = 0.",
+          "location": {
+            "end_line": null,
+            "line": 6,
+            "path": "demo_module.f90"
+          },
+          "module": "demo_module",
+          "reference": "total_area",
+          "symbol": "total_area"
+        }
+      ],
+      "subroutine:demo_select:demo_select.f90": [],
+      "subroutine:demo_zero:demo_module.f90": []
+    },
+    "swatplus_reference_rich_snapshot": {
+      "export": "swatplus-reference-rich-v3",
+      "format": 3,
+      "model": "project-index-v2",
+      "parser": "fparser-ast-v1",
+      "source": {
+        "configured_commit": "cccccccccccccccccccccccccccccccccccccccc",
+        "profile": "contract",
+        "repository": "https://example.test/swatplus",
+        "requested_ref": "contract",
+        "resolved_commit": "cccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  },
+  "modules": [
+    {
+      "doc": "",
+      "identity": "module:demo_module:demo_module.f90",
+      "location": {
+        "end_line": 23,
+        "line": 1,
+        "path": "demo_module.f90"
+      },
+      "name": "demo_module",
+      "procedures": [
+        "demo_zero"
+      ],
+      "review_flags": [],
+      "types": [
+        "demo_state"
+      ],
+      "uses": [],
+      "variables": [
+        {
+          "declaration": "integer  :: basin_count = 0",
+          "doc": "number of basins",
+          "initial": "0",
+          "location": {
+            "end_line": null,
+            "line": 5,
+            "path": "demo_module.f90"
+          },
+          "name": "basin_count",
+          "vartype": "integer"
+        },
+        {
+          "declaration": "real  :: total_area = 0.",
+          "doc": "ha | total basin area",
+          "initial": "0.",
+          "location": {
+            "end_line": null,
+            "line": 6,
+            "path": "demo_module.f90"
+          },
+          "name": "total_area",
+          "vartype": "real"
+        },
+        {
+          "declaration": "type (demo_state) , dimension(:), allocatable :: dstate",
+          "doc": "",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_module.f90"
+          },
+          "name": "dstate",
+          "vartype": "type (demo_state)"
+        }
+      ]
+    }
+  ],
+  "output_families": [],
+  "procedures": [
+    {
+      "args": [
+        "frac"
+      ],
+      "assignments": [
+        {
+          "expression": "wrk + dstate(j)%stor * frac",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 19,
+            "path": "demo_calc.f90"
+          },
+          "raw": "wrk = wrk + dstate(j)%stor * frac",
+          "summary": "Sets wrk",
+          "target": "wrk",
+          "target_root": "wrk"
+        },
+        {
+          "expression": "wrk",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 21,
+            "path": "demo_calc.f90"
+          },
+          "raw": "total_area = wrk",
+          "summary": "Sets total_area",
+          "target": "total_area",
+          "target_root": "total_area"
+        }
+      ],
+      "call_paths": [
+        [
+          "subroutine:demo_calc:demo_calc.f90",
+          "subroutine:demo_zero:demo_module.f90:demo_module"
+        ]
+      ],
+      "called_by": [],
+      "calls": [
+        {
+          "kind": "subroutine",
+          "location": {
+            "end_line": null,
+            "line": 18,
+            "path": "demo_calc.f90"
+          },
+          "name": "demo_zero",
+          "raw": "call demo_zero (dstate(j))",
+          "resolved": true
+        }
+      ],
+      "control_steps": [
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": null,
+          "kind": "io",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": null,
+          "raw": "open (107, file = \"demo.in\")",
+          "summary": "open (107, file = \"demo.in\")"
+        },
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": null,
+          "kind": "io",
+          "location": {
+            "end_line": null,
+            "line": 14,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": null,
+          "raw": "read (107,*,iostat=eof) wrk",
+          "summary": "read (107,*,iostat=eof) wrk"
+        },
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": null,
+          "kind": "io",
+          "location": {
+            "end_line": null,
+            "line": 15,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": null,
+          "raw": "close (107)",
+          "summary": "close (107)"
+        },
+        {
+          "block_id": 0,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": 20,
+          "kind": "loop",
+          "location": {
+            "end_line": null,
+            "line": 17,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": null,
+          "raw": "do j = 1, basin_count",
+          "summary": "do j = 1, basin_count"
+        },
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 1,
+          "end_line": null,
+          "kind": "call",
+          "location": {
+            "end_line": null,
+            "line": 18,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": 0,
+          "raw": "call demo_zero (dstate(j))",
+          "summary": "call demo_zero (dstate(j))"
+        },
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": null,
+          "kind": "return",
+          "location": {
+            "end_line": null,
+            "line": 23,
+            "path": "demo_calc.f90"
+          },
+          "parent_id": null,
+          "raw": "return",
+          "summary": "return"
+        }
+      ],
+      "doc": "",
+      "identity": "subroutine:demo_calc:demo_calc.f90",
+      "io": [
+        {
+          "condition": null,
+          "fields": [],
+          "file_expr": "\"demo.in\"",
+          "file_resolved": "demo.in",
+          "kind": "open",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_calc.f90"
+          },
+          "raw": "open (107, file = \"demo.in\")",
+          "unit": "107"
+        },
+        {
+          "condition": null,
+          "fields": [
+            "wrk"
+          ],
+          "file_expr": null,
+          "file_resolved": "demo.in",
+          "kind": "read",
+          "location": {
+            "end_line": null,
+            "line": 14,
+            "path": "demo_calc.f90"
+          },
+          "raw": "read (107,*,iostat=eof) wrk",
+          "unit": "107"
+        },
+        {
+          "condition": null,
+          "fields": [],
+          "file_expr": null,
+          "file_resolved": "demo.in",
+          "kind": "close",
+          "location": {
+            "end_line": null,
+            "line": 15,
+            "path": "demo_calc.f90"
+          },
+          "raw": "close (107)",
+          "unit": "107"
+        }
+      ],
+      "kind": "subroutine",
+      "location": {
+        "end_line": 24,
+        "line": 1,
+        "path": "demo_calc.f90"
+      },
+      "module": null,
+      "name": "demo_calc",
+      "parent": null,
+      "review_flags": [],
+      "select_cases": [],
+      "uses": [
+        {
+          "intrinsic": false,
+          "location": {
+            "end_line": null,
+            "line": 3,
+            "path": "demo_calc.f90"
+          },
+          "module": "demo_module",
+          "only": []
+        },
+        {
+          "intrinsic": false,
+          "location": {
+            "end_line": null,
+            "line": 4,
+            "path": "demo_calc.f90"
+          },
+          "module": "time_module",
+          "only": [
+            "yrs_print"
+          ]
+        }
+      ],
+      "variables": [
+        {
+          "declaration": "real , intent (in) :: frac",
+          "doc": "none | fraction applied to storage",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 8,
+            "path": "demo_calc.f90"
+          },
+          "name": "frac",
+          "vartype": "real"
+        },
+        {
+          "declaration": "integer  :: j",
+          "doc": "counter",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 9,
+            "path": "demo_calc.f90"
+          },
+          "name": "j",
+          "vartype": "integer"
+        },
+        {
+          "declaration": "real  :: wrk = 0.",
+          "doc": "working value",
+          "initial": "0.",
+          "location": {
+            "end_line": null,
+            "line": 10,
+            "path": "demo_calc.f90"
+          },
+          "name": "wrk",
+          "vartype": "real"
+        },
+        {
+          "declaration": "integer  :: eof = 0",
+          "doc": "",
+          "initial": "0",
+          "location": {
+            "end_line": null,
+            "line": 11,
+            "path": "demo_calc.f90"
+          },
+          "name": "eof",
+          "vartype": "integer"
+        }
+      ]
+    },
+    {
+      "args": [
+        "ds"
+      ],
+      "assignments": [
+        {
+          "expression": "0.",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 19,
+            "path": "demo_module.f90"
+          },
+          "raw": "ds%flow = 0.",
+          "summary": "Sets ds%flow",
+          "target": "ds%flow",
+          "target_root": "ds"
+        },
+        {
+          "expression": "0.",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 20,
+            "path": "demo_module.f90"
+          },
+          "raw": "ds%stor = 0.",
+          "summary": "Sets ds%stor",
+          "target": "ds%stor",
+          "target_root": "ds"
+        }
+      ],
+      "call_paths": [],
+      "called_by": [
+        "demo_calc"
+      ],
+      "calls": [],
+      "control_steps": [],
+      "doc": "",
+      "identity": "subroutine:demo_zero:demo_module.f90:demo_module",
+      "io": [],
+      "kind": "subroutine",
+      "location": {
+        "end_line": 21,
+        "line": 17,
+        "path": "demo_module.f90"
+      },
+      "module": "demo_module",
+      "name": "demo_zero",
+      "parent": null,
+      "review_flags": [],
+      "select_cases": [],
+      "uses": [],
+      "variables": [
+        {
+          "declaration": "type (demo_state) , intent (inout) :: ds",
+          "doc": "",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 18,
+            "path": "demo_module.f90"
+          },
+          "name": "ds",
+          "vartype": "type (demo_state)"
+        }
+      ]
+    },
+    {
+      "args": [
+        "level"
+      ],
+      "assignments": [
+        {
+          "expression": "val + i",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 14,
+            "path": "demo_select.f90"
+          },
+          "raw": "val = val + i",
+          "summary": "Sets val",
+          "target": "val",
+          "target_root": "val"
+        },
+        {
+          "expression": "val - i",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 16,
+            "path": "demo_select.f90"
+          },
+          "raw": "val = val - i",
+          "summary": "Sets val",
+          "target": "val",
+          "target_root": "val"
+        },
+        {
+          "expression": "val * i",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 18,
+            "path": "demo_select.f90"
+          },
+          "raw": "val = val * i",
+          "summary": "Sets val",
+          "target": "val",
+          "target_root": "val"
+        },
+        {
+          "expression": "0.",
+          "kind": "assignment",
+          "location": {
+            "end_line": null,
+            "line": 20,
+            "path": "demo_select.f90"
+          },
+          "raw": "val = 0.",
+          "summary": "Sets val",
+          "target": "val",
+          "target_root": "val"
+        }
+      ],
+      "call_paths": [],
+      "called_by": [],
+      "calls": [],
+      "control_steps": [
+        {
+          "block_id": 0,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": 22,
+          "kind": "loop",
+          "location": {
+            "end_line": null,
+            "line": 11,
+            "path": "demo_select.f90"
+          },
+          "parent_id": null,
+          "raw": "do i = 1, 10",
+          "summary": "do i = 1, 10"
+        },
+        {
+          "block_id": 1,
+          "branch_of": null,
+          "depth": 1,
+          "end_line": 21,
+          "kind": "select",
+          "location": {
+            "end_line": null,
+            "line": 12,
+            "path": "demo_select.f90"
+          },
+          "parent_id": 0,
+          "raw": "select case (level)",
+          "summary": "select case (level)"
+        },
+        {
+          "block_id": null,
+          "branch_of": 1,
+          "depth": 1,
+          "end_line": null,
+          "kind": "case",
+          "location": {
+            "end_line": null,
+            "line": 13,
+            "path": "demo_select.f90"
+          },
+          "parent_id": 0,
+          "raw": "case (\"low\")",
+          "summary": "case (\"low\")"
+        },
+        {
+          "block_id": null,
+          "branch_of": 1,
+          "depth": 1,
+          "end_line": null,
+          "kind": "case",
+          "location": {
+            "end_line": null,
+            "line": 15,
+            "path": "demo_select.f90"
+          },
+          "parent_id": 0,
+          "raw": "case (\"mid\")",
+          "summary": "case (\"mid\")"
+        },
+        {
+          "block_id": null,
+          "branch_of": 1,
+          "depth": 1,
+          "end_line": null,
+          "kind": "case",
+          "location": {
+            "end_line": null,
+            "line": 17,
+            "path": "demo_select.f90"
+          },
+          "parent_id": 0,
+          "raw": "case (\"high\")",
+          "summary": "case (\"high\")"
+        },
+        {
+          "block_id": null,
+          "branch_of": 1,
+          "depth": 1,
+          "end_line": null,
+          "kind": "case",
+          "location": {
+            "end_line": null,
+            "line": 19,
+            "path": "demo_select.f90"
+          },
+          "parent_id": 0,
+          "raw": "case default",
+          "summary": "case default"
+        },
+        {
+          "block_id": null,
+          "branch_of": null,
+          "depth": 0,
+          "end_line": null,
+          "kind": "return",
+          "location": {
+            "end_line": null,
+            "line": 24,
+            "path": "demo_select.f90"
+          },
+          "parent_id": null,
+          "raw": "return",
+          "summary": "return"
+        }
+      ],
+      "doc": "",
+      "identity": "subroutine:demo_select:demo_select.f90",
+      "io": [],
+      "kind": "subroutine",
+      "location": {
+        "end_line": 25,
+        "line": 1,
+        "path": "demo_select.f90"
+      },
+      "module": null,
+      "name": "demo_select",
+      "parent": null,
+      "review_flags": [],
+      "select_cases": [
+        {
+          "cases": [
+            "low",
+            "mid",
+            "high"
+          ],
+          "location": {
+            "end_line": null,
+            "line": 12,
+            "path": "demo_select.f90"
+          },
+          "subject": "level"
+        }
+      ],
+      "uses": [
+        {
+          "intrinsic": false,
+          "location": {
+            "end_line": null,
+            "line": 3,
+            "path": "demo_select.f90"
+          },
+          "module": "demo_module",
+          "only": []
+        }
+      ],
+      "variables": [
+        {
+          "declaration": "character(len=*) , intent (in) :: level",
+          "doc": "select level",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 7,
+            "path": "demo_select.f90"
+          },
+          "name": "level",
+          "vartype": "character(len=*)"
+        },
+        {
+          "declaration": "integer  :: i",
+          "doc": "counter",
+          "initial": null,
+          "location": {
+            "end_line": null,
+            "line": 8,
+            "path": "demo_select.f90"
+          },
+          "name": "i",
+          "vartype": "integer"
+        },
+        {
+          "declaration": "real  :: val = 0.",
+          "doc": "result value",
+          "initial": "0.",
+          "location": {
+            "end_line": null,
+            "line": 9,
+            "path": "demo_select.f90"
+          },
+          "name": "val",
+          "vartype": "real"
+        }
+      ]
+    }
+  ],
+  "programs": [],
+  "project_name": "SWAT+",
+  "review_flags": [],
+  "source_root": ".",
+  "stats": {
+    "files": 3,
+    "io_files": 1,
+    "modules": 1,
+    "output_families": 0,
+    "procedures": 3,
+    "programs": 0,
+    "types": 1
+  },
+  "types": [
+    {
+      "components": [
+        {
+          "declaration": "real  :: flow = 0.",
+          "doc": "m3/s | current flow",
+          "initial": "0.",
+          "location": {
+            "end_line": null,
+            "line": 9,
+            "path": "demo_module.f90"
+          },
+          "name": "flow",
+          "vartype": "real"
+        },
+        {
+          "declaration": "real  :: stor = 0.",
+          "doc": "m3   | storage",
+          "initial": "0.",
+          "location": {
+            "end_line": null,
+            "line": 10,
+            "path": "demo_module.f90"
+          },
+          "name": "stor",
+          "vartype": "real"
+        }
+      ],
+      "doc": "",
+      "identity": "type:demo_state:demo_module.f90:demo_module",
+      "location": {
+        "end_line": 11,
+        "line": 8,
+        "path": "demo_module.f90"
+      },
+      "module": "demo_module",
+      "name": "demo_state",
+      "parent": null,
+      "review_flags": []
+    }
+  ]
+}

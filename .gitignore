@@ -13,6 +13,8 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
+# ad-hoc pytest --basetemp scratch trees (e.g. --basetemp=.pytest-phase4-full)
+.pytest-*/
 .venv/
 .coverage
 htmlcov/

@@ -20,7 +20,9 @@ from ..docs.pages import Page, load_all
 from ..docs.render import render_site
 from ..docs.staleness import StatusReport, compute_status
 from ..parser.facts import FactStore, enc_symbol
+from ..parser.documentation import parse_documentation
 from ..parser.fortran import parse_tree
+from ..parser.rich import RichStore
 from ..parser.schema_config import BuildConfig
 from ..parser.schema_fortran import FortranScanner
 from ..parser.schema_model import IOOperation, ProcedureDoc, ProjectIndex
@@ -365,7 +367,14 @@ def _read_role(op: IOOperation) -> str:
     return "data"
 
 
-def _io_blocks(proc: ProcedureDoc) -> list[tuple[IOOperation | None, list[IOOperation]]]:
+def _io_blocks(
+    proc: ProcedureDoc, kind: str = "read"
+) -> list[tuple[IOOperation | None, list[IOOperation]]]:
+    """Group a procedure's I/O into (open, statements) blocks for one kind.
+
+    `kind` selects reads (the input contract) or writes (the output contract);
+    the unit bookkeeping is identical for both.
+    """
     blocks: list[tuple[IOOperation | None, list[IOOperation]]] = []
     current_by_unit: dict[str, int] = {}
     current_index: int | None = None
@@ -376,7 +385,7 @@ def _io_blocks(proc: ProcedureDoc) -> list[tuple[IOOperation | None, list[IOOper
             current_index = len(blocks) - 1
             if op.unit:
                 current_by_unit[op.unit.lower()] = current_index
-        elif op.kind == "read":
+        elif op.kind == kind:
             if op.unit and "(" in op.unit:
                 if current_index is not None:
                     blocks[current_index][1].append(op)
@@ -457,6 +466,7 @@ def _block_payload(
     *,
     match: str,
     resolver: SchemaResolver | None = None,
+    statement_key: str = "reads",
 ) -> dict[str, Any]:
     resolved_defaults: list[str] = []
     source_expressions: list[str] = []
@@ -479,7 +489,7 @@ def _block_payload(
             "condition": open_op.condition,
             "raw": open_op.raw,
         },
-        "reads": [_read_payload(op) for op in reads],
+        statement_key: [_read_payload(op) for op in reads],
     }
 
 
@@ -642,18 +652,30 @@ def _source_read_evidence(
     return evidence
 
 
-def _contract_block_signature(block: dict[str, Any]) -> dict[str, Any]:
+def _block_statements(block: dict[str, Any]) -> list[dict[str, Any]]:
+    """The statements of a block, whichever contract it belongs to.
+
+    Input blocks carry `reads`, output blocks carry `writes`. The key is kept
+    accurate in the JSON rather than calling every statement a "read", so this
+    accessor is what lets the contract helpers serve both.
+    """
+    return block.get("reads") or block.get("writes") or []
+
+
+def _contract_block_signature(
+    block: dict[str, Any], statement_key: str = "reads"
+) -> dict[str, Any]:
     """Stable read contract: exclude source lines and raw formatting noise."""
     return {
         "procedure": block["procedure"],
         "open_condition": (block.get("open") or {}).get("condition"),
-        "reads": [
+        statement_key: [
             {
-                "role": read["role"],
-                "fields": read.get("fields") or [],
-                "condition": read.get("condition"),
+                "role": statement["role"],
+                "fields": statement.get("fields") or [],
+                "condition": statement.get("condition"),
             }
-            for read in block.get("reads") or []
+            for statement in _block_statements(block)
         ],
     }
 
@@ -738,8 +760,8 @@ def _flatten_contract_fields(entry: dict[str, Any]) -> list[str]:
     return [
         field
         for block in entry.get("contract") or []
-        for read in block.get("reads") or []
-        for field in read.get("fields") or []
+        for statement in _block_statements(block)
+        for field in statement.get("fields") or []
     ]
 
 
@@ -779,6 +801,67 @@ def _possible_input_replacements(
     return sorted(candidates, key=lambda item: (item["removed"], item["added"]))
 
 
+# Condition trails are built from raw statement text, so reformatting a
+# statement changes the string without changing the contract: rewriting
+# `do isalti=1,db_mx%fertparm` as `do isalti = 1, db_mx%fertparm` moved
+# salt_fertilizer.frt into "changed read contracts" with no field edit and no
+# block change -- a review request for a whitespace commit.
+#
+# Only the *comparison* is normalised. The stored condition stays byte-exact,
+# because it is a consumer-visible contract and is rendered verbatim.
+#
+# Whitespace is dropped around non-word characters (`=`, `,`, brackets, `%`,
+# operators) and otherwise collapsed to one space. Space *between* two word
+# characters is therefore preserved, so `do i` never collapses into `doi` and
+# two distinct identifiers cannot be merged into one token.
+_CONDITION_SPACE_RE = re.compile(r"\s+")
+_CONDITION_EDGE_RE = re.compile(r"\s*(?=[^\w\s])|(?<=[^\w\s])\s*")
+
+
+def _condition_key(condition: str | None) -> str | None:
+    """Compare conditions ignoring pure reformatting, never ignoring content."""
+    if condition is None:
+        return None
+    return _CONDITION_EDGE_RE.sub("", _CONDITION_SPACE_RE.sub(" ", condition)).strip()
+
+
+def _condition_trail(contract: list[dict[str, Any]]) -> list[Any]:
+    return [
+        (
+            _condition_key(block.get("open_condition")),
+            [
+                _condition_key(statement.get("condition"))
+                for statement in _block_statements(block)
+            ],
+        )
+        for block in contract
+    ]
+
+
+def _role_trail(contract: list[dict[str, Any]]) -> list[Any]:
+    return [
+        [statement.get("role") for statement in _block_statements(block)]
+        for block in contract
+    ]
+
+
+def _is_material_contract_change(details: dict[str, Any]) -> bool:
+    """Did anything about the contract actually change?
+
+    The stored contract is compared as raw data to decide *whether* to diff two
+    entries, but that string comparison also trips on pure reformatting. A file
+    only belongs in "changed read contracts" when one of the things this report
+    names has moved; otherwise a whitespace commit becomes a review request.
+    """
+    return bool(
+        details["field_edits"]
+        or details["conditions_changed"]
+        or details["block_count_changed"]
+        or details["reader_procedures_changed"]
+        or details["roles_changed"]
+    )
+
+
 def _contract_change_details(
     base_entry: dict[str, Any], candidate_entry: dict[str, Any]
 ) -> dict[str, Any]:
@@ -806,14 +889,9 @@ def _contract_change_details(
         )
         != sorted({block["procedure"] for block in candidate_contract}),
         "block_count_changed": len(base_contract) != len(candidate_contract),
-        "conditions_changed": [
-            (block.get("open_condition"), [read.get("condition") for read in block["reads"]])
-            for block in base_contract
-        ]
-        != [
-            (block.get("open_condition"), [read.get("condition") for read in block["reads"]])
-            for block in candidate_contract
-        ],
+        "roles_changed": _role_trail(base_contract) != _role_trail(candidate_contract),
+        "conditions_changed": _condition_trail(base_contract)
+        != _condition_trail(candidate_contract),
         "base_read_fields": base_fields,
         "candidate_read_fields": candidate_fields,
         "field_edits": field_edits,
@@ -829,6 +907,228 @@ def _unresolved_block_key(item: dict[str, Any]) -> str:
             "source_expressions": item.get("source_expressions") or [],
         }
     )
+
+
+# --------------------------------------------------------------------------
+# Output contracts
+#
+# The input report answers "which files does SWAT+ read, and with what
+# columns". Writes outnumber reads roughly 3:1 in the corpus and had no
+# equivalent, so a release that added, dropped or re-columned an output file
+# produced no line in any report. This mirrors the input side deliberately:
+# same block grouping, same contract signature, same change details, so the two
+# halves stay comparable and share their tests.
+#
+# Outputs carry no schema certification -- the schema describes inputs -- so
+# entries here have no `certification` field and are never `review_needed` on
+# that basis.
+# --------------------------------------------------------------------------
+
+
+# `unit_<unit>` is the index's own sentinel for an I/O operation whose filename
+# it could not resolve (see `ast_index._FileContext`, which assigns it only
+# `if not file_resolved and unit`). The unit part is whatever was written in the
+# source, so it is a number (`unit_107`), a variable (`unit_u_csv`, a dummy
+# argument carrying the unit into a helper) or `*`. Matching the prefix is
+# therefore matching the sentinel, not guessing at filenames.
+_UNRESOLVED_UNIT_RE = re.compile(r"unit_.+", re.DOTALL)
+
+
+def _output_file_inventory(project: ProjectIndex) -> dict[str, Any]:
+    """Inventory files SWAT+ writes, and the fields each write emits.
+
+    Built from the project's resolved `io_files`, not from per-procedure
+    open/write pairing. SWAT+ opens output units centrally (header routines,
+    `*_output_init`) and writes to them from everywhere else, so only ~4% of
+    write statements sit in the same procedure as their `open`. `io_files`
+    already carries the project-wide unit-to-filename binding, so grouping
+    there is what makes this report cover the corpus rather than a corner of it.
+
+    Outputs carry no schema certification: the schema describes inputs.
+    """
+    files: dict[str, dict[str, Any]] = {}
+    unresolved: list[dict[str, Any]] = []
+
+    for io_file in project.io_files:
+        writes = [op for op in io_file.operations if op.kind == "write"]
+        if not writes:
+            continue
+        name = io_file.display_name or io_file.key
+        # SWAT+ opens most output units in a header/init routine and writes to
+        # them from other files. The index binds a unit to a filename within a
+        # file, so a cross-file unit stays a `unit_NNN` placeholder. Reporting
+        # those as filenames would invent 700+ output "files" and make a diff
+        # of them meaningless, so they are counted as unresolved instead --
+        # resolving them needs project-wide unit binding in the parser, which
+        # is a change to the index rather than to this report.
+        if not name or _UNRESOLVED_UNIT_RE.fullmatch(name):
+            unresolved.append(
+                {
+                    "review_needed": True,
+                    "reason": (
+                        "written unit is opened in another file; no project-wide "
+                        "unit-to-filename binding"
+                    ),
+                    "unit": name,
+                    "write_count": len(writes),
+                    "source_expressions": sorted(
+                        {op.file_expr for op in io_file.operations if op.file_expr}
+                    ),
+                    "block": {
+                        "procedure": "",
+                        "reader": "",
+                        "match": "source_output",
+                        "writes": [_read_payload(op) for op in writes],
+                    },
+                }
+            )
+            continue
+
+        # One block per writing procedure, so a file written from several
+        # places reads the same way an input read from several places does.
+        by_procedure: dict[tuple[str, str], list[IOOperation]] = {}
+        for op in writes:
+            by_procedure.setdefault((op.location.path, ""), []).append(op)
+
+        blocks = []
+        for (path, _), ops in sorted(by_procedure.items()):
+            ops = sorted(ops, key=lambda op: op.location.line)
+            blocks.append(
+                {
+                    "procedure": _procedure_at(project, path, ops[0].location.line),
+                    "reader": path,
+                    "match": "source_output",
+                    "resolved_default_filenames": [name],
+                    "source_expressions": sorted(
+                        {op.file_expr for op in io_file.operations if op.file_expr}
+                    ),
+                    "open": None,
+                    "writes": [_read_payload(op) for op in ops],
+                }
+            )
+
+        entry = files.setdefault(
+            name,
+            {
+                "filename": name,
+                "source_expressions": sorted(
+                    {op.file_expr for op in io_file.operations if op.file_expr}
+                ),
+                "blocks": [],
+            },
+        )
+        entry["blocks"].extend(blocks)
+
+    for entry in files.values():
+        entry["contract"] = sorted(
+            (
+                _contract_block_signature(block, statement_key="writes")
+                for block in entry["blocks"]
+            ),
+            key=lambda item: _json_text(item),
+        )
+
+    resolved_writes = sum(
+        len(block["writes"]) for entry in files.values() for block in entry["blocks"]
+    )
+    unresolved_writes = sum(item["write_count"] for item in unresolved)
+    return {
+        "files": dict(sorted(files.items())),
+        "unresolved_open_blocks": sorted(
+            unresolved, key=lambda item: str(item.get("unit"))
+        ),
+        "coverage": {
+            "resolved_output_files": len(files),
+            "resolved_write_statements": resolved_writes,
+            "unresolved_units": len(unresolved),
+            "unresolved_write_statements": unresolved_writes,
+        },
+    }
+
+
+def _procedure_at(project: ProjectIndex, path: str, line: int) -> str:
+    """Name the procedure a write belongs to, for the block's identity."""
+    for proc in project.procedures:
+        if proc.location.path != path:
+            continue
+        end = proc.location.end_line or proc.location.line
+        if proc.location.line <= line <= end:
+            return proc.name
+    return ""
+
+
+def _output_contract_diff(
+    base_project: ProjectIndex, candidate_project: ProjectIndex
+) -> dict[str, Any]:
+    base_inventory = _output_file_inventory(base_project)
+    candidate_inventory = _output_file_inventory(candidate_project)
+    base_files = base_inventory["files"]
+    candidate_files = candidate_inventory["files"]
+    base_names = set(base_files)
+    candidate_names = set(candidate_files)
+
+    added = {
+        name: candidate_files[name] for name in sorted(candidate_names - base_names)
+    }
+    removed = {name: base_files[name] for name in sorted(base_names - candidate_names)}
+    changed: dict[str, Any] = {}
+    for name in sorted(base_names & candidate_names):
+        before = base_files[name]
+        after = candidate_files[name]
+        if before["contract"] == after["contract"]:
+            continue
+        details = _contract_change_details(before, after)
+        if not _is_material_contract_change(details):
+            continue
+        changed[name] = {
+            "filename": name,
+            "review_needed": True,
+            "changes": details,
+            "base": before,
+            "candidate": after,
+        }
+
+    base_unresolved = {
+        _unresolved_block_key(item): item
+        for item in base_inventory["unresolved_open_blocks"]
+    }
+    candidate_unresolved = {
+        _unresolved_block_key(item): item
+        for item in candidate_inventory["unresolved_open_blocks"]
+    }
+    introduced_unresolved = [
+        candidate_unresolved[key]
+        for key in sorted(candidate_unresolved.keys() - base_unresolved.keys())
+    ]
+
+    return {
+        "summary": {
+            "base_output_files": len(base_files),
+            "candidate_output_files": len(candidate_files),
+            "added": len(added),
+            "removed": len(removed),
+            "changed": len(changed),
+            "possible_renames_or_replacements": len(
+                _possible_input_replacements(removed, added)
+            ),
+            "base_unresolved_open_blocks": len(
+                base_inventory["unresolved_open_blocks"]
+            ),
+            "candidate_unresolved_open_blocks": len(
+                candidate_inventory["unresolved_open_blocks"]
+            ),
+            "new_unresolved_open_blocks": len(introduced_unresolved),
+            "base_coverage": base_inventory["coverage"],
+            "candidate_coverage": candidate_inventory["coverage"],
+        },
+        "added": added,
+        "removed": removed,
+        "changed": changed,
+        "possible_renames_or_replacements": _possible_input_replacements(
+            removed, added
+        ),
+        "unresolved_open_blocks": introduced_unresolved,
+    }
 
 
 def _input_contract_diff(
@@ -852,14 +1152,21 @@ def _input_contract_diff(
     for name in sorted(base_names & candidate_names):
         before = base_files[name]
         after = candidate_files[name]
-        if before["contract"] != after["contract"]:
-            changed[name] = {
-                "filename": name,
-                "review_needed": True,
-                "changes": _contract_change_details(before, after),
-                "base": before,
-                "candidate": after,
-            }
+        if before["contract"] == after["contract"]:
+            continue
+        details = _contract_change_details(before, after)
+        if not _is_material_contract_change(details):
+            # Reformatting only. Reported nowhere rather than as a change with
+            # every flag false, which is what a reviewer would have to open the
+            # entry to discover.
+            continue
+        changed[name] = {
+            "filename": name,
+            "review_needed": True,
+            "changes": details,
+            "base": before,
+            "candidate": after,
+        }
 
     base_unresolved = {
         _unresolved_block_key(item): item
@@ -918,9 +1225,10 @@ def _field_list(fields: list[str]) -> str:
 
 def _read_block_markdown(block: dict[str, Any]) -> list[str]:
     open_info = block.get("open") or {}
+    writes = "writes" in block
     lines = [
         f"- Procedure: `{block['procedure']}`",
-        f"- Reader: `{block['reader']}`",
+        f"- {'Writer' if writes else 'Reader'}: `{block['reader']}`",
         f"- Match: {block['match']}",
     ]
     defaults = block.get("resolved_default_filenames") or []
@@ -943,21 +1251,22 @@ def _read_block_markdown(block: dict[str, Any]) -> list[str]:
             f"parser value `{open_info.get('file_resolved')}`, "
             f"condition `{open_info.get('condition')}`"
         )
-    reads = block.get("reads") or []
-    if not reads:
-        lines.append("- Reads: _none captured_")
+    statements = _block_statements(block)
+    if not statements:
+        lines.append(f"- {'Writes' if writes else 'Reads'}: _none captured_")
         return lines
     lines.extend(
         [
             "",
-            "| Line | Role | Condition | Fields read |",
+            f"| Line | Role | Condition | Fields {'written' if writes else 'read'} |",
             "| --- | --- | --- | --- |",
         ]
     )
-    for read in reads:
+    for statement in statements:
         lines.append(
-            f"| {read['line']} | {read['role']} | `{read.get('condition')}` | "
-            f"{_field_list(read.get('fields') or [])} |"
+            f"| {statement['line']} | {statement['role']} | "
+            f"`{statement.get('condition')}` | "
+            f"{_field_list(statement.get('fields') or [])} |"
         )
     return lines
 
@@ -1024,9 +1333,14 @@ def _schema_read_evidence_markdown(schema_diff: dict[str, Any]) -> str:
 
 
 def _contract_entry_markdown(entry: dict[str, Any]) -> list[str]:
-    lines = [
-        f"- Schema status: `{entry.get('certification')}`",
-        f"- Review needed: {'yes' if entry.get('review_needed') else 'no'}",
+    lines = []
+    # Outputs carry no schema certification: the schema describes inputs.
+    if entry.get("certification") is not None:
+        lines.append(f"- Schema status: `{entry.get('certification')}`")
+        lines.append(
+            f"- Review needed: {'yes' if entry.get('review_needed') else 'no'}"
+        )
+    lines += [
         "- Source expression(s): "
         + (
             ", ".join(
@@ -1038,6 +1352,109 @@ def _contract_entry_markdown(entry: dict[str, Any]) -> list[str]:
     for block in entry.get("blocks") or []:
         lines.extend(["", *_read_block_markdown(block), ""])
     return lines
+
+
+def _output_contract_changes_markdown(result: dict[str, Any]) -> str:
+    summary = result["summary"]
+    lines = [
+        "# SWAT+ Output Contract Changes",
+        "",
+        "Source-level output change report: which files SWAT+ opens for writing, and the fields each write statement emits. Filenames are resolved from the same defaults used for inputs; a resolved default can still be overridden by runtime configuration. Outputs carry no schema certification, so entries here are not schema-reviewed.",
+        "",
+        "## Summary",
+        "",
+        f"- Added output files: **{summary['added']}**",
+        f"- Removed output files: **{summary['removed']}**",
+        f"- Changed write contracts: **{summary['changed']}**",
+        "- Possible renames or replacements: "
+        f"**{summary['possible_renames_or_replacements']}**",
+        "- Candidate open/write blocks with unresolved filenames: "
+        f"**{summary['candidate_unresolved_open_blocks']}**",
+        "- Newly unresolved units in the candidate: "
+        f"**{summary['new_unresolved_open_blocks']}**",
+        "",
+        "## Coverage",
+        "",
+        "SWAT+ opens most output units in a header or initialisation routine and writes to them from other files. Unit-to-filename binding is per-file, so a unit opened elsewhere cannot be named here and is counted as unresolved rather than reported under a `unit_NNN` pseudo-filename. This report therefore covers the writes below and not the rest; widening it needs project-wide unit binding in the parser.",
+        "",
+        f"- Output files resolved to a filename: **{summary['candidate_coverage']['resolved_output_files']}**",
+        f"- Write statements covered: **{summary['candidate_coverage']['resolved_write_statements']}**",
+        f"- Units whose filename is unresolved: **{summary['candidate_coverage']['unresolved_units']}**",
+        f"- Write statements not covered: **{summary['candidate_coverage']['unresolved_write_statements']}**",
+    ]
+
+    for heading, key in (
+        ("Added outputs", "added"),
+        ("Removed outputs", "removed"),
+    ):
+        lines.extend(["", f"## {heading}", ""])
+        entries = result[key]
+        if not entries:
+            lines.append("_None._")
+        for filename, entry in entries.items():
+            lines.extend([f"### `{filename}`", "", *_contract_entry_markdown(entry)])
+
+    lines.extend(["", "## Changed output write contracts", ""])
+    if not result["changed"]:
+        lines.append("_None._")
+    for filename, item in result["changed"].items():
+        details = item["changes"]
+        lines.extend(
+            [
+                f"### `{filename}`",
+                "",
+                "- Review needed: yes",
+                "- Writer procedures changed: "
+                f"{'yes' if details['reader_procedures_changed'] else 'no'}",
+                "- Write-block count changed: "
+                f"{'yes' if details['block_count_changed'] else 'no'}",
+                "- Write conditions changed: "
+                f"{'yes' if details['conditions_changed'] else 'no'}",
+                "- Write roles changed: "
+                f"{'yes' if details['roles_changed'] else 'no'}",
+                "- Base flattened write order: "
+                + _field_list(details["base_read_fields"]),
+                "- Candidate flattened write order: "
+                + _field_list(details["candidate_read_fields"]),
+                "",
+                "#### Write-order edits",
+                "",
+            ]
+        )
+        if not details["field_edits"]:
+            lines.append(
+                "_No field-order edits; the contract changed in structure or conditions._"
+            )
+        for edit in details["field_edits"]:
+            lines.append(
+                f"- `{edit['operation']}` at base index {edit['base_index']} / "
+                f"candidate index {edit['candidate_index']}: removed "
+                f"{_field_list(edit['removed'])}; added {_field_list(edit['added'])}"
+            )
+        lines.extend(
+            [
+                "",
+                "#### Base write structure",
+                "",
+                *_contract_entry_markdown(item["base"]),
+                "",
+                "#### Candidate write structure",
+                "",
+                *_contract_entry_markdown(item["candidate"]),
+            ]
+        )
+
+    lines.extend(["", "## Possible renames or replacements", ""])
+    replacements = result["possible_renames_or_replacements"]
+    if not replacements:
+        lines.append("_None._")
+    for item in replacements:
+        lines.append(
+            f"- `{item['removed']}` -> `{item['added']}`: "
+            + "; ".join(item.get("reasons") or [])
+        )
+
+    return "\n".join(lines).rstrip() + "\n"
 
 
 def _input_contract_changes_markdown(result: dict[str, Any]) -> str:
@@ -1237,6 +1654,7 @@ def _build_preview(
     cfg: Config,
     comparison: ComparisonConfig,
     candidate_store: FactStore,
+    candidate_rich: RichStore,
     candidate_commit: str,
 ) -> dict[str, Any]:
     work_dir = cfg.resolve(comparison.work_dir)
@@ -1253,7 +1671,7 @@ def _build_preview(
         facts_path=work_dir / "facts" / "candidate.json",
         render_dir=preview_docs,
     )
-    render_site(preview_cfg, candidate_store)
+    render_site(preview_cfg, candidate_store, candidate_rich)
 
     mkdocs_path = cfg.root / "mkdocs.yml"
     mkdocs_data = yaml.safe_load(mkdocs_path.read_text(encoding="utf-8")) or {}
@@ -1355,6 +1773,7 @@ def _summary_markdown(summary: dict[str, Any]) -> str:
     symbols = summary["symbols"]
     schemas = summary["schemas"]
     inputs = summary["inputs"]
+    outputs = summary["outputs"]
     pages = summary["pages"]
     grounding = summary["grounding"]
     readiness = (
@@ -1388,17 +1807,19 @@ def _summary_markdown(summary: dict[str, Any]) -> str:
         f"- Candidate facts deterministic: {check_label(checks['facts_deterministic'])}",
         f"- Candidate schema deterministic: {check_label(checks['schema_deterministic'])}",
         f"- Candidate input contracts repeat with zero changes: {check_label(checks['input_contract_deterministic'])}",
+        f"- Candidate output contracts repeat with zero changes: {check_label(checks['output_contract_deterministic'])}",
         f"- Strict isolated preview: {check_label(checks['preview'])}",
         f"- Parser fallback coverage: base={summary['parser']['base_fallback_files']} files, candidate={summary['parser']['candidate_fallback_files']} files",
         f"- Symbols: {symbols['added']} added, {symbols['removed']} removed, {symbols['changed']} changed",
         f"- Schema entries: {schemas['changed_entries']} added, removed, or changed; {schemas['new_unresolved']} newly unresolved",
         f"- Input contracts: {inputs['added']} added, {inputs['removed']} removed, {inputs['changed']} changed; {inputs['new_unresolved_open_blocks']} newly unresolved filename expressions ({inputs['candidate_unresolved_open_blocks']} candidate total)",
+        f"- Output contracts: {outputs['added']} added, {outputs['removed']} removed, {outputs['changed']} changed; {outputs['new_unresolved_open_blocks']} newly unresolved filename expressions ({outputs['candidate_unresolved_open_blocks']} candidate total)",
         f"- Corpus impact attributable to the PR: {pages['newly_stale']} newly stale, {pages['newly_affected']} newly affected, {pages['newly_orphaned']} newly orphaned, {pages['new_missing_pages']} new pages needed",
         f"- Grounding attributable to the PR: {grounding['introduced_errors']} new errors, {grounding['introduced_warnings']} new warnings",
         "",
         "## Human review focus",
         "",
-        "Start with `input-contract-changes.md` for added, removed, and changed SWAT+ inputs and their source read order. Use `schema-read-evidence.md` and `schema-diff.json` for extractor certification details. Generated candidate facts, schemas, rendered pages, site, and full logs stay in the ignored comparison workspace.",
+        "Start with `input-contract-changes.md` for added, removed, and changed SWAT+ inputs and their source read order, then `output-contract-changes.md` for the same view of files SWAT+ writes. Use `schema-read-evidence.md` and `schema-diff.json` for extractor certification details. Generated candidate facts, schemas, rendered pages, site, and full logs stay in the ignored comparison workspace.",
         "",
         "This run proves repeatable generation for the locked candidate commit. Differences between base and candidate are expected and are reported as review targets; only a repeat run of the same candidate is required to have zero byte difference.",
         "",
@@ -1471,9 +1892,28 @@ def run_comparison(
         }
 
     facts_dir = work_dir / "facts"
-    base_store = parse_tree(base_dir, base_provenance.resolved_commit)
-    candidate_store = parse_tree(candidate_dir, candidate_provenance.resolved_commit)
-    candidate_repeat = parse_tree(candidate_dir, candidate_provenance.resolved_commit)
+    base_diagnostics = parse_tree(base_dir, base_provenance.resolved_commit)
+    candidate_diagnostics = parse_tree(
+        candidate_dir, candidate_provenance.resolved_commit
+    )
+    candidate_repeat_diagnostics = parse_tree(
+        candidate_dir, candidate_provenance.resolved_commit
+    )
+    base_store, _base_rich_docs = parse_documentation(
+        base_dir,
+        base_provenance.resolved_commit,
+        diagnostics=base_diagnostics,
+    )
+    candidate_store, candidate_rich_docs = parse_documentation(
+        candidate_dir,
+        candidate_provenance.resolved_commit,
+        diagnostics=candidate_diagnostics,
+    )
+    candidate_repeat, _candidate_repeat_rich_docs = parse_documentation(
+        candidate_dir,
+        candidate_provenance.resolved_commit,
+        diagnostics=candidate_repeat_diagnostics,
+    )
     base_facts = facts_dir / "base.json"
     candidate_facts = facts_dir / "candidate.json"
     candidate_repeat_facts = facts_dir / "candidate-repeat.json"
@@ -1569,6 +2009,24 @@ def run_comparison(
         "candidate_commit": candidate_provenance.resolved_commit,
     }
 
+    output_contract_changes = _output_contract_diff(
+        base_schema_result.project, candidate_schema_result.project
+    )
+    repeat_output_summary = _output_contract_diff(
+        candidate_schema_result.project, candidate_schema_repeat_result.project
+    )["summary"]
+    output_contract_changes["determinism"] = {
+        "candidate_repeat_zero_change": all(
+            repeat_output_summary[key] == 0
+            for key in ("added", "removed", "changed", "new_unresolved_open_blocks")
+        ),
+        "repeat_comparison_summary": repeat_output_summary,
+    }
+    output_contract_changes["source"] = {
+        "base_commit": base_provenance.resolved_commit,
+        "candidate_commit": candidate_provenance.resolved_commit,
+    }
+
     pages = load_all(cfg.abs_docs_dir)
     base_status = compute_status(base_store, pages)
     candidate_status = compute_status(candidate_store, pages)
@@ -1579,7 +2037,11 @@ def run_comparison(
 
     if build_preview:
         preview = _build_preview(
-            cfg, comparison, candidate_store, candidate_provenance.resolved_commit
+            cfg,
+            comparison,
+            candidate_store,
+            candidate_rich_docs,
+            candidate_provenance.resolved_commit,
         )
     else:
         preview = {"success": True, "skipped": True}
@@ -1595,6 +2057,9 @@ def run_comparison(
         "schema_deterministic": bool(schema_diff["determinism"]["zero_byte_diff"]),
         "input_contract_deterministic": bool(
             input_contract_changes["determinism"]["candidate_repeat_zero_change"]
+        ),
+        "output_contract_deterministic": bool(
+            output_contract_changes["determinism"]["candidate_repeat_zero_change"]
         ),
         "preview": None if preview.get("skipped") else bool(preview["success"]),
     }
@@ -1632,6 +2097,7 @@ def run_comparison(
             "new_unresolved_files": new_unresolved_files,
         },
         "inputs": input_contract_changes["summary"],
+        "outputs": output_contract_changes["summary"],
         "pages": {
             "newly_stale": len(page_delta["newly_stale"]),
             "newly_affected": len(page_delta["newly_affected"]),
@@ -1659,6 +2125,7 @@ def run_comparison(
     _write_json(report_dir / "symbol-diff.json", symbol_diff)
     _write_json(report_dir / "schema-diff.json", schema_diff)
     _write_json(report_dir / "input-contract-changes.json", input_contract_changes)
+    _write_json(report_dir / "output-contract-changes.json", output_contract_changes)
     _write_json(report_dir / "page-status.json", page_status)
     _write_json(report_dir / "grounding-findings.json", grounding)
     (report_dir / "schema-read-evidence.md").write_text(
@@ -1666,6 +2133,9 @@ def run_comparison(
     )
     (report_dir / "input-contract-changes.md").write_text(
         _input_contract_changes_markdown(input_contract_changes), encoding="utf-8"
+    )
+    (report_dir / "output-contract-changes.md").write_text(
+        _output_contract_changes_markdown(output_contract_changes), encoding="utf-8"
     )
     (report_dir / "source-build.md").write_text(
         _source_build_markdown(source_builds), encoding="utf-8"
@@ -1682,9 +2152,10 @@ def run_comparison(
     line = (
         "compile base/candidate="
         f"{line_label(checks['base_compile'])}/{line_label(checks['candidate_compile'])}; "
-        f"facts zero-diff={checks['facts_deterministic']}; "
-        f"schema zero-diff={checks['schema_deterministic']}; "
-        f"input contracts zero-change={checks['input_contract_deterministic']}; "
+        f"facts repeatable={checks['facts_deterministic']}; "
+        f"schema repeatable={checks['schema_deterministic']}; "
+        f"input contracts repeatable={checks['input_contract_deterministic']}; "
+        f"output contracts repeatable={checks['output_contract_deterministic']}; "
         f"preview={line_label(checks['preview'])}"
     )
     return ComparisonRunResult(report_dir=report_dir, complete=complete, one_line_summary=line)

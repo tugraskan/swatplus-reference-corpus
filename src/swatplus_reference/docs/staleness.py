@@ -6,12 +6,10 @@ SWAT+ ref, re-parse and compare: only pages whose symbol actually changed
 are marked `stale` and re-filled. Unrelated edits in the same file do not
 invalidate a page.
 
-Because a page's prose also *describes* the symbols it calls and is called
-by, a change to a neighbour can make prose drift even when the page's own
-source is untouched. Such pages are marked `affected` (a soft
-review signal, not `stale`): for every stale symbol S, both its callers
-(they describe calling S) and its callees (their "called from S" context may
-have shifted) are flagged. Affected pages are surfaced for review, never
+Because a page's prose also *describes* calls, imported modules, derived
+types, and shared state, a dependency change can make prose drift even when
+the page's own source is untouched. Such pages are marked `affected` (a soft
+review signal, not `stale`). Affected pages are surfaced for review, never
 force-regenerated — `refill` targets `stale` only.
 """
 
@@ -116,9 +114,8 @@ def compute_status(
             (todo if page.status == STATUS_TODO else filled).append(page)
 
     # Soft propagation: a stale symbol's neighbours are "affected" (only pages
-    # that are otherwise filled — stale/todo/orphaned win). Two edge kinds:
-    # call-graph (callers/callees) and data-flow (readers of a narrowly-written
-    # variable the changed symbol writes).
+    # that are otherwise filled — stale/todo/orphaned win). Three edge kinds:
+    # call graph, declared module/type dependency, and data flow.
     filled_names = {p.path.name for p in filled}
     affected_by: dict[str, list[str]] = {}
 
@@ -131,16 +128,22 @@ def compute_status(
     # reverse data-flow index, built once
     var_readers: dict[str, list[str]] = {}
     var_writers: dict[str, list[str]] = {}
+    dependents: dict[str, list[str]] = {}
     for s in store.symbols.values():
         for v in s.reads:
             var_readers.setdefault(v, []).append(s.name)
         for v in s.writes:
             var_writers.setdefault(v, []).append(s.name)
+        for dependency in s.depends_on:
+            dependents.setdefault(dependency, []).append(s.name)
 
     stale_symbols = [p.symbol.lower() for p in stale if p.symbol]
     for changed in stale_symbols:
         for neighbour in _neighbours(store, changed):
             flag(neighbour, changed)
+        for dependent in dependents.get(changed, []):
+            if dependent != changed:
+                flag(dependent, f"{changed} (dependency)")
         sym = store.get(changed)
         if sym is None:
             continue

@@ -1,0 +1,41 @@
+{
+ "baseline_engine": "scanner",
+ "engine": "fparser2",
+ "gates": [
+  {
+   "detail": "1310 symbols (scanner: 1310)",
+   "name": "projection builds a fact store",
+   "passed": true
+  },
+  {
+   "detail": "0 errors, 3869 warnings",
+   "name": "grounding reports no errors",
+   "passed": true
+  },
+  {
+   "detail": "3869 vs 3869",
+   "name": "grounding warnings match the scanner baseline",
+   "passed": true
+  },
+  {
+   "detail": "{'filled': 1095, 'stale': 0, 'affected': 0, 'orphaned': 0, 'missing': 0}",
+   "name": "page status is unchanged",
+   "passed": true
+  },
+  {
+   "detail": "rendered into .swatref/verify-consumers",
+   "name": "every page renders",
+   "passed": true
+  },
+  {
+   "detail": "0 invalid across 44,599 links",
+   "name": "every source link resolves",
+   "passed": true
+  },
+  {
+   "detail": "44,602 links at cb442f7c05fc, 0 on another commit",
+   "name": "every source link uses the pinned commit",
+   "passed": true
+  }
+ ]
+}

@@ -3271,10 +3271,10 @@
         },
         "route": "",
         "source": {
-          "description": "control on transformation of microbial biomass by soil texture and structure real :: xlslf = 0.         !               |control on potential transformation of structural litter by lignin fraction The following three parameters resolve the shape of the temperature effect equation: celsius         |minimum temperature bound",
+          "description": "minimum temperature bound",
           "name": "tn",
           "type": "real",
-          "units": "real :: xbmt = 0.          !"
+          "units": "celsius"
         },
         "spreadsheet": {
           "description": null,
@@ -7305,7 +7305,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "character(len=16) :: update !! pointer to basin updates in schedule.upd potential et filename",
+          "description": "potential et filename",
           "name": "petfile",
           "type": "character",
           "units": null
@@ -35768,10 +35768,10 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "max fraction of above ground biomass that is leaf (assume constant over life of perennial) frac              |initial root to shoot ratio at the beg of growing season",
+          "description": "initial root to shoot ratio at the beg of growing season",
           "name": "rsr1",
           "type": "real",
-          "units": "real :: leaf_frac_mx             !frac"
+          "units": "frac"
         },
         "spreadsheet": {
           "description": "Root to shoot ratio at the beginning of the growing season",
@@ -41685,7 +41685,7 @@
         },
         "route": "",
         "source": {
-          "description": "character(len=1) :: carbout = \"n\" !! code to print carbon output; d = end of day; m = end of month; y = end of year; a = end of simulation; code to read in the print.prt print objects respecting the label of",
+          "description": "code to read in the print.prt print objects respecting the label of",
           "name": "use_obj_labels",
           "type": "character",
           "units": null
@@ -56467,10 +56467,10 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "organic n yield - or m3        |water yield ratio - total water yield/precip",
+          "description": "water yield ratio - total water yield/precip",
           "name": "wyr",
           "type": "real",
-          "units": "real :: orgn = 0.  !kg/ha or kg"
+          "units": "- or m3"
         },
         "spreadsheet": {
           "description": "water yield ration-total water yield/precip",
@@ -57326,7 +57326,7 @@
         },
         "route": "",
         "source": {
-          "description": "character (len=25) :: init = \"\" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant",
+          "description": "m3 !maximum storage in plant",
           "name": "stor_mx",
           "type": "real",
           "units": null
@@ -57650,7 +57650,7 @@
         },
         "route": "",
         "source": {
-          "description": "character (len=25) :: init = \"\" !name of the intitial concentrations in wtp storage m3 !maximum storage in plant",
+          "description": "m3 !maximum storage in plant",
           "name": "stor_mx",
           "type": "real",
           "units": null
@@ -58114,7 +58114,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "character (len=50) :: wst = \"\" !! weather station name weather generator name",
+          "description": "weather generator name",
           "name": "wgn",
           "type": "character",
           "units": null

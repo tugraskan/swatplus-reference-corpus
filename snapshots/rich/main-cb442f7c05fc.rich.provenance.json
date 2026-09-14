@@ -1,7 +1,7 @@
 {
   "artifact": "main-cb442f7c05fc.rich.json",
   "configured_commit": "cb442f7c05fc3bfc34349c446010f452d2737ca0",
-  "format": "swatplus-reference-rich-v1",
+  "format": "swatplus-reference-rich-v3",
   "profile": "main",
   "repository": "https://github.com/swat-model/swatplus",
   "requested_ref": "main",

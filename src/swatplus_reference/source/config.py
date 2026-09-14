@@ -97,6 +97,10 @@ class Config:
     docs_dir: Path = Path("docs_src")
     facts_path: Path = Path(".swatref/docs/facts.json")
     render_dir: Path = Path("docs")
+    # Which parser produces the documentation facts. `fparser2` is the default
+    # since the Phase 8 cutover; `scanner` selects the legacy line-oriented
+    # scanner for the compatibility period, after which it is removed.
+    docs_engine: str = "fparser2"
     fill: FillConfig = field(default_factory=FillConfig)
 
     sources: dict[str, SourceProfile] = field(default_factory=dict)
@@ -211,6 +215,7 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
         docs_dir=_path(docs.get("pages"), Path("docs_src")),
         facts_path=_path(docs.get("facts"), Path(".swatref/docs/facts.json")),
         render_dir=_path(docs.get("render"), Path("docs")),
+        docs_engine=str(docs.get("engine", "fparser2")),
         fill=fill,
         sources=sources,
         docs_source=docs_source,

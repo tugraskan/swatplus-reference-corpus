@@ -22,9 +22,11 @@ swatref.toml
     |
     +-- source profile: main ------------------+
     |                                          |
-    |                                  documentation parser
+    |                                  rich Fortran scanner
     |                                          |
-    |                         .swatref/docs/facts.json (temporary)
+    |                         .swatref/docs/rich.json (ProjectIndex)
+    |                                          |
+    |                         .swatref/docs/facts.json (projection)
     |                                          |
     |                    docs_src/ reviewed prose + generated facts
     |                                          |
@@ -78,7 +80,7 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | Package | Responsibility |
 |---|---|
 | `source` | configuration, named profiles, fetch, exact-SHA verification |
-| `parser` | documentation fact extraction and schema-oriented Fortran scan |
+| `parser` | one rich Fortran scan plus consumer-specific fact projections |
 | `docs` | tracked page model, grounding, staleness, fact injection, rendering |
 | `schema` | base schema, ranges, field maps, and Editor comparison |
 | `comparison` | locked source builds, symbol/schema diffs, page impact, preview |
@@ -86,15 +88,17 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | `provenance` | deterministic source/artifact records |
 | `cli.py` | `source`, `docs`, `schema`, and `compare` command groups |
 
-The two Fortran parsers have different contracts and are deliberately separate:
+The schema-oriented `FortranScanner` is the primary source parser. One scan
+produces a rich `ProjectIndex`; documentation projects that index into the
+compact `FactStore` contract used by pages, grounding, hashes, and status.
+Schemas and external consumers use the richer index directly. During migration,
+fparser2 runs alongside ordinary documentation parsing for diagnostics and in
+the explicit `facts-diff` comparison. It does not yet produce the documentation
+facts. Failures are retained in both the rich snapshot metadata and FactStore.
 
-- the documentation parser uses fparser2 and produces a compact symbol fact
-  store for pages and grounding; and
-- the schema scanner preserves the richer legacy I/O/control model required by
-  the reviewed schema resolver.
-
-Sharing source selection and provenance prevents those parsers from silently
-using different commits.
+Both projections share the same exact source selection and provenance. The CLI
+rejects or rebuilds caches whose parser producer or source commit does not
+match, preventing facts and line links from different revisions being mixed.
 
 ## 5. Documentation contract
 
@@ -112,17 +116,21 @@ prose. They do not own facts that can be derived from source.
 - arguments, locals, module variables, and derived-type components;
 - calls, uses, and file I/O;
 - module-state reads and writes;
+- imported-module and derived-type dependencies;
+- exact declaration and statement lines;
 - per-symbol source hashes;
 - exact source commit; and
-- parser fallback records.
+- the rich-parser producer version.
 
 The fact store is ignored and may be deleted at any time.
 
 ### 5.3 Rendering
 
 `swatref docs render` copies tracked pages into ignored `docs/`, replaces
-`<!-- facts:* -->` blocks, and resolves `[sym:name]` links. MkDocs writes the
-ignored `_site/` directory.
+`<!-- facts:* -->` blocks, resolves `[sym:name]` links, and generates clickable
+Mermaid call/control-flow diagrams from parser facts. Generated source links
+target the exact Git commit and current line. MkDocs writes the ignored `_site/`
+directory.
 
 ### 5.4 Staleness
 
@@ -134,10 +142,12 @@ store:
 | no prose/hash | `todo` |
 | symbol missing | `orphaned` |
 | symbol hash changed | `stale` |
-| nearby call/data-flow symbol changed | `affected` |
+| nearby call/data-flow/module/type dependency changed | `affected` |
 | hash matches | `filled` |
 
-Affected is a review signal; it does not rewrite the page.
+Affected is a review signal; it does not rewrite the page and does not fail
+`docs status --require-current`. Workflows that require every affected page to
+be reviewed use the explicit `--fail-on-affected` option.
 
 ### 5.5 Grounding
 
@@ -194,11 +204,17 @@ The following are build gates:
 
 1. source profile resolves and satisfies its optional commit lock;
 2. unit tests pass;
-3. documentation status has no drift buckets;
+3. documentation status has no hard drift buckets (`stale`, `todo`,
+   `orphaned`, or `missing`); `affected` is reported but only blocks workflows
+   that opt into `--fail-on-affected`;
 4. documentation grounding has no errors;
 5. rendering followed by `mkdocs build --strict` succeeds;
-6. base schema has no unexpected unresolved files; and
-7. rebuilding tracked schema/range/field artifacts leaves no Git diff.
+6. every rendered GitHub source link resolves against the pinned checkout by
+   commit, file, and line range;
+7. base schema has no unexpected unresolved files;
+8. the normalized Phase 0 parser baseline and portable rich snapshot reproduce
+   byte-for-byte; and
+9. rebuilding tracked schema/range/field artifacts leaves no Git diff.
 
 Verified migration results:
 
@@ -225,7 +241,7 @@ NAME` performs these independent checks without editing reviewed pages:
 5. inventory source-opened inputs using the schema resolver's literal, derived-
    type-slot, and reader-argument filename resolution;
 6. report added, removed, changed, replacement-candidate, unresolved, symbol,
-   parser-fallback, schema, page-status, and grounding changes;
+   parser, schema, page-status, and grounding changes;
 7. render the candidate into an isolated directory and run strict MkDocs; and
 8. require zero byte difference between repeated candidate facts and schemas,
    plus zero semantic changes between repeated candidate input contracts.

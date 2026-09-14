@@ -2,11 +2,21 @@
 from __future__ import annotations
 
 import json
+from dataclasses import fields
+
+import pytest
 from pathlib import Path
 
-from swatplus_reference.parser.rich import RichStore
+from swatplus_reference.parser.rich import (
+    RICH_EXPORT_SCHEMA,
+    SNAPSHOT_FORMAT,
+    _EXPORT_FIELDS,
+    _INTENTIONALLY_INTERNAL_EXPORT_FIELDS,
+    RichStore,
+)
 from swatplus_reference.parser.fortran import parse_tree
 from swatplus_reference.parser.schema_model import (
+    CallRef,
     ProjectIndex,
     ProcedureDoc,
     DerivedTypeDoc,
@@ -63,6 +73,19 @@ def test_rich_store_save_produces_valid_json(tmp_path):
     data = json.loads(out.read_text())
     assert isinstance(data, dict)
     assert "modules" in data
+    contract = data["metadata"]["swatplus_reference_rich_snapshot"]
+    assert contract["format"] == SNAPSHOT_FORMAT
+    assert contract["export"] == RICH_EXPORT_SCHEMA
+
+
+def test_portable_export_classifies_every_model_field():
+    for record_type, exported_names in _EXPORT_FIELDS.items():
+        declared_names = {item.name for item in fields(record_type)}
+        internal_names = set(
+            _INTENTIONALLY_INTERNAL_EXPORT_FIELDS.get(record_type, ())
+        )
+        assert set(exported_names).isdisjoint(internal_names)
+        assert set(exported_names) | internal_names == declared_names
 
 
 def test_rich_store_save_and_load_round_trip_with_source_provenance(tmp_path):
@@ -97,6 +120,81 @@ def test_rich_store_rejects_snapshot_for_other_source(tmp_path):
 
     with pytest.raises(ValueError, match="expected"):
         RichStore.load(out, expected_source_ref="b" * 40)
+
+
+def test_rich_store_loads_v1_and_rejects_unknown_snapshot_formats(tmp_path):
+    import pytest
+
+    out = tmp_path / "rich.json"
+    RichStore.build(FIXTURES).save(out)
+    payload = json.loads(out.read_text(encoding="utf-8"))
+    contract = payload["metadata"]["swatplus_reference_rich_snapshot"]
+
+    contract["format"] = 1
+    out.write_text(json.dumps(payload), encoding="utf-8")
+    assert RichStore.load(out).get("demo_calc") is not None
+
+    contract["format"] = 99
+    out.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError, match="supported formats"):
+        RichStore.load(out)
+
+
+def test_v2_export_keeps_real_calls_and_drops_unresolved_function_candidates(
+    tmp_path,
+):
+    location = SourceLocation("calls.f90", 1, 20)
+    caller = ProcedureDoc(
+        name="caller",
+        kind="subroutine",
+        location=location,
+        calls=[
+            CallRef(
+                "array_value",
+                "x = array_value(i)",
+                SourceLocation("calls.f90", 2),
+                kind="function",
+            ),
+            CallRef(
+                "real_function",
+                "x = real_function(i)",
+                SourceLocation("calls.f90", 3),
+                kind="function",
+            ),
+            CallRef(
+                "real_function",
+                "y = real_function(j)",
+                SourceLocation("calls.f90", 4),
+                kind="function",
+            ),
+            CallRef(
+                "external_subroutine",
+                "call external_subroutine()",
+                SourceLocation("calls.f90", 5),
+            ),
+        ],
+    )
+    target = ProcedureDoc(
+        name="real_function",
+        kind="function",
+        location=SourceLocation("calls.f90", 10, 12),
+    )
+    store = RichStore(
+        ProjectIndex(
+            project_name="test", source_root=".", procedures=[caller, target]
+        )
+    )
+    out = tmp_path / "rich.json"
+
+    store.save(out)
+
+    calls = json.loads(out.read_text(encoding="utf-8"))["procedures"][0]["calls"]
+    assert [(call["name"], call["location"]["line"]) for call in calls] == [
+        ("real_function", 3),
+        ("real_function", 4),
+        ("external_subroutine", 5),
+    ]
+    assert target.called_by == ["caller"]
 
 
 def test_rich_store_type_procedure_collision():
@@ -146,3 +244,84 @@ def test_rich_store_type_type_collision_disambiguated_by_file():
 
     assert store.get_of_kind("field", "type", file="hru_module.f90") is hru_type
     assert store.get_of_kind("field", "type", file="ru_module.f90") is ru_type
+
+
+def test_build_preserves_every_scanner_call_observation():
+    """The scan-to-store path must not drop or reorder a single call site.
+
+    This is the Phase 0 promise that the baseline's identity gate reports on,
+    checked here against the scanner's own output rather than against a later
+    copy of the already-resolved store.
+    """
+    from swatplus_reference.parser.schema_config import BuildConfig
+    from swatplus_reference.parser.schema_fortran import FortranScanner
+
+    scanned = RichStore(FortranScanner(BuildConfig(source_dir=FIXTURES)).scan())
+    expected = scanned.call_observations()
+
+    built = RichStore.build(FIXTURES)
+
+    assert expected
+    assert built.call_observations() == expected
+    assert built.scan_call_identity == built.call_observation_identity()
+
+
+@pytest.mark.parametrize("mutation", ["drop", "change_location"])
+def test_build_pins_calls_before_outside_state_enrichment(monkeypatch, mutation):
+    from swatplus_reference.parser import rich as rich_module
+    from swatplus_reference.parser.schema_config import BuildConfig
+    from swatplus_reference.parser.schema_fortran import FortranScanner
+
+    scanned = RichStore(FortranScanner(BuildConfig(source_dir=FIXTURES)).scan())
+    raw_identity = scanned.call_observation_identity()
+    real_extract = rich_module.extract_outside_state_refs
+    changed = []
+
+    def corrupt_during_enrichment(procedure, *args):
+        refs = real_extract(procedure, *args)
+        if procedure.calls and not changed:
+            if mutation == "drop":
+                procedure.calls.pop()
+            else:
+                procedure.calls[0].location.line += 1
+            changed.append(True)
+        return refs
+
+    monkeypatch.setattr(rich_module, "extract_outside_state_refs", corrupt_during_enrichment)
+    built = RichStore.build(FIXTURES)
+
+    assert changed
+    assert built.scan_call_identity == raw_identity
+    assert built.scan_call_identity != built.call_observation_identity()
+
+
+def test_resolve_calls_rejects_a_resolution_that_drops_observations(monkeypatch):
+    store = RichStore.build(FIXTURES)
+    real = RichStore.call_observations
+    seen = {"count": 0}
+
+    def losing_a_call(self):
+        rows = real(self)
+        seen["count"] += 1
+        # Stand in for a future resolution step that "tidies" the call list:
+        # the invariant must fail loudly rather than silently shrinking the
+        # portable export.
+        return rows if seen["count"] == 1 else rows[:-1]
+
+    monkeypatch.setattr(RichStore, "call_observations", losing_a_call)
+    with pytest.raises(RuntimeError, match="changed source observations"):
+        store.resolve_calls()
+
+
+def test_call_observation_identity_ignores_resolution_but_tracks_source():
+    store = RichStore.build(FIXTURES)
+    identity = store.call_observation_identity()
+
+    for procedure in store.index.procedures:
+        for call in procedure.calls:
+            call.resolved = not call.resolved
+    assert store.call_observation_identity() == identity
+
+    target = next(item for item in store.index.procedures if item.calls)
+    target.calls[0].location.line += 1
+    assert store.call_observation_identity() != identity

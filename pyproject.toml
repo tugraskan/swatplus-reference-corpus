@@ -14,7 +14,11 @@ authors = [
 ]
 keywords = ["SWAT+", "Fortran", "documentation", "reference corpus"]
 dependencies = [
-    "fparser>=0.2",
+    # Pinned exactly: the fparser version string and its FortranSyntaxError
+    # text are both inside byte-compared Phase 0 artifacts, so an upgrade is a
+    # reviewed baseline change rather than a routine dependency bump.
+    "fparser==0.2.4",
+    "jsonschema>=4.18",
     "PyYAML>=6.0",
     "mkdocs-material>=9.5",
 ]

@@ -11,6 +11,7 @@ from pathlib import Path
 import re
 
 from .schema_model import DerivedTypeDoc, ModuleDoc, ProcedureDoc, ProjectIndex, SourceLocation, VariableRef
+from .source_text import strip_fortran_comment, strip_string_literals
 
 
 @dataclass(frozen=True)
@@ -46,7 +47,7 @@ def use_allows_symbol(only: list[str], root: str) -> bool:
         return True
     root = root.lower()
     for item in only:
-        clean = item.strip().split("!", 1)[0].strip()
+        clean = strip_fortran_comment(item.strip()).strip()
         if not clean:
             continue
         if "=>" in clean:
@@ -66,10 +67,20 @@ def module_variable(module: ModuleDoc, name: str) -> VariableRef | None:
 def _visible_module_variables(use, module: ModuleDoc) -> list[tuple[str, VariableRef]]:
     """Return source-visible name and declaration for one USE statement."""
     if not use.only:
-        return [(variable.name.lower(), variable) for variable in module.variables]
+        renamed: dict[str, str] = {}
+        for item in use.renames:
+            clean = strip_fortran_comment(item.strip()).strip()
+            if "=>" not in clean:
+                continue
+            local, remote = (part.strip().lower() for part in clean.split("=>", 1))
+            renamed[remote] = local
+        return [
+            (renamed.get(variable.name.lower(), variable.name.lower()), variable)
+            for variable in module.variables
+        ]
     visible: list[tuple[str, VariableRef]] = []
     for item in use.only:
-        clean = item.strip().split("!", 1)[0].strip()
+        clean = strip_fortran_comment(item.strip()).strip()
         if not clean:
             continue
         if "=>" in clean:
@@ -197,8 +208,15 @@ def outside_state_ref_from_record(record: dict) -> OutsideStateRef:
 
 
 def _code(line: str) -> str:
-    line = re.sub(r"'(?:''|[^'])*'", "", line)
-    return line.split("!", 1)[0]
+    """The executable half of a line, with comments and literals removed.
+
+    Both halves matter here: a reference scanner must not read identifiers out
+    of a comment, nor out of quoted text. `1234 format(..." Time",...)` names no
+    variable, but `Time` is a module variable elsewhere in SWAT+, so leaving the
+    literal in reports a reference to state the statement never touches.
+    """
+
+    return strip_string_literals(strip_fortran_comment(line))
 
 
 def candidate_outside_refs(proc: ProcedureDoc, project: ProjectIndex, source_dir: Path) -> list[str]:

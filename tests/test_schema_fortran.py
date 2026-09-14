@@ -91,6 +91,30 @@ class FortranScannerTests(unittest.TestCase):
             self.assertIn("accepted", names)
             self.assertNotIn("template_only", names)
 
+    def test_pointer_association_keeps_its_operator_out_of_the_expression(self) -> None:
+        source_text = """\
+subroutine associate_table
+  type (decision_table), pointer :: d_tbl
+  integer :: value
+  d_tbl => dtbl_lum(id)
+  value = 1
+end subroutine associate_table
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "pointer.f90").write_text(source_text, encoding="utf-8")
+            project = FortranScanner(BuildConfig(source_dir=source)).scan()
+            procedure = next(item for item in project.procedures if item.name == "associate_table")
+
+            pointer, ordinary = procedure.assignments
+            self.assertEqual(pointer.kind, "pointer_association")
+            self.assertEqual(pointer.target, "d_tbl")
+            self.assertEqual(pointer.expression, "dtbl_lum(id)")
+            self.assertEqual(ordinary.kind, "assignment")
+            self.assertEqual(ordinary.expression, "1")
+
     def test_type_component_wrapped_inline_comment_attributed_correctly(self) -> None:
         # SWAT+ wraps a field's inline "!units |desc" comment onto the next gutter
         # line. That continuation belongs to the field above, not the field below.
@@ -125,6 +149,33 @@ end module plant_data_module
                 "|  1st point on optimal leaf area development curve",
                 comps["laimx1"].doc,
             )
+
+    def test_nested_character_length_declaration_is_not_dropped(self) -> None:
+        # `character(len=len(str))` nests parentheses inside the length
+        # selector. A `[^)]*` group stops at the first inner `)`, so the whole
+        # declaration failed to match and its variable was dropped outright --
+        # `lower` in the pinned tree's `utils.f90:222` was the one occurrence.
+        source_text = """\
+function to_lower(str) result(lower)
+  character(len=*), intent(in) :: str
+  character(len=len(str))      :: lower
+  integer                      :: i
+  lower = str
+end function to_lower
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "u.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+            procedure = project.procedures[0]
+            names = [variable.name for variable in procedure.variables]
+            self.assertEqual(["str", "lower", "i"], names)
+            lower = procedure.variables[1]
+            self.assertEqual("character(len=len(str))", lower.vartype)
+            self.assertIn("lower", lower.declaration)
 
     def test_star_kind_declaration_inside_derived_type_is_not_dropped(self) -> None:
         # Old-style `integer*8` / `character*10` kind specs (no parens) must

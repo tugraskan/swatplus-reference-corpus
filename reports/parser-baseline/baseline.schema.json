@@ -1,0 +1,857 @@
+{
+  "$defs": {
+    "category": {
+      "additionalProperties": false,
+      "properties": {
+        "count": {
+          "$ref": "#/$defs/count"
+        },
+        "identity_sha256": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "count",
+        "identity_sha256"
+      ],
+      "type": "object"
+    },
+    "count": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "digest": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "strings": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "additionalProperties": {
+        "additionalProperties": false,
+        "properties": {
+          "bytes": {
+            "$ref": "#/$defs/count"
+          },
+          "sha256": {
+            "$ref": "#/$defs/digest"
+          }
+        },
+        "required": [
+          "bytes",
+          "sha256"
+        ],
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "calls": {
+      "additionalProperties": false,
+      "properties": {
+        "ambiguity_model_supported": {
+          "type": "boolean"
+        },
+        "ambiguous": {
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "identity_after_resolution": {
+          "$ref": "#/$defs/digest"
+        },
+        "identity_at_scan": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/digest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "identity_before_resolution": {
+          "$ref": "#/$defs/digest"
+        },
+        "observations_after_resolution": {
+          "$ref": "#/$defs/count"
+        },
+        "observations_before_resolution": {
+          "$ref": "#/$defs/count"
+        },
+        "portable_exported": {
+          "$ref": "#/$defs/count"
+        },
+        "repeated_sites": {
+          "$ref": "#/$defs/count"
+        },
+        "resolved": {
+          "$ref": "#/$defs/count"
+        },
+        "unresolved_explicit_subroutine": {
+          "$ref": "#/$defs/count"
+        },
+        "unresolved_function_candidates": {
+          "$ref": "#/$defs/count"
+        }
+      },
+      "required": [
+        "observations_before_resolution",
+        "observations_after_resolution",
+        "resolved",
+        "unresolved_explicit_subroutine",
+        "unresolved_function_candidates",
+        "repeated_sites",
+        "portable_exported",
+        "ambiguous",
+        "ambiguity_model_supported",
+        "identity_at_scan",
+        "identity_before_resolution",
+        "identity_after_resolution"
+      ],
+      "type": "object"
+    },
+    "contracts": {
+      "additionalProperties": false,
+      "properties": {
+        "documentation_producer": {
+          "type": "string"
+        },
+        "fparser_version": {
+          "type": "string"
+        },
+        "rich_export": {
+          "type": "string"
+        },
+        "rich_model": {
+          "type": "string"
+        },
+        "rich_parser": {
+          "type": "string"
+        },
+        "snapshot_format": {
+          "$ref": "#/$defs/count"
+        }
+      },
+      "required": [
+        "documentation_producer",
+        "fparser_version",
+        "rich_export",
+        "rich_model",
+        "rich_parser",
+        "snapshot_format"
+      ],
+      "type": "object"
+    },
+    "diagnostics": {
+      "additionalProperties": false,
+      "properties": {
+        "fallback_files": {
+          "$ref": "#/$defs/strings"
+        },
+        "fparser_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "normalized_files": {
+          "additionalProperties": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "type": "object"
+        },
+        "parse_error_files": {
+          "$ref": "#/$defs/strings"
+        },
+        "rich_projection_matches": {
+          "type": "boolean"
+        },
+        "thin_rich_disagreements": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "field": {
+                "type": "string"
+              },
+              "rich": {
+                "$ref": "#/$defs/count"
+              },
+              "symbol_key": {
+                "type": "string"
+              },
+              "thin": {
+                "$ref": "#/$defs/count"
+              }
+            },
+            "required": [
+              "symbol_key",
+              "field",
+              "thin",
+              "rich"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "fallback_files",
+        "fparser_version",
+        "parse_error_files",
+        "rich_projection_matches",
+        "thin_rich_disagreements"
+      ],
+      "type": "object"
+    },
+    "documentation": {
+      "additionalProperties": false,
+      "properties": {
+        "grounding": {
+          "additionalProperties": false,
+          "properties": {
+            "errors": {
+              "$ref": "#/$defs/count"
+            },
+            "identity_sha256": {
+              "$ref": "#/$defs/digest"
+            },
+            "warnings": {
+              "$ref": "#/$defs/count"
+            }
+          },
+          "required": [
+            "errors",
+            "warnings",
+            "identity_sha256"
+          ],
+          "type": "object"
+        },
+        "hash_mismatches": {
+          "$ref": "#/$defs/strings"
+        },
+        "hashed_pages": {
+          "$ref": "#/$defs/count"
+        },
+        "page_hashes": {
+          "additionalProperties": {
+            "additionalProperties": false,
+            "properties": {
+              "current": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "recorded": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "recorded",
+              "current"
+            ],
+            "type": "object"
+          },
+          "type": "object"
+        },
+        "page_identity_sha256": {
+          "$ref": "#/$defs/digest"
+        },
+        "page_kinds": {
+          "additionalProperties": {
+            "$ref": "#/$defs/count"
+          },
+          "type": "object"
+        },
+        "page_status": {
+          "additionalProperties": false,
+          "properties": {
+            "affected": {
+              "$ref": "#/$defs/count"
+            },
+            "filled": {
+              "$ref": "#/$defs/count"
+            },
+            "missing": {
+              "$ref": "#/$defs/count"
+            },
+            "orphaned": {
+              "$ref": "#/$defs/count"
+            },
+            "stale": {
+              "$ref": "#/$defs/count"
+            },
+            "todo": {
+              "$ref": "#/$defs/count"
+            }
+          },
+          "required": [
+            "affected",
+            "filled",
+            "missing",
+            "orphaned",
+            "stale",
+            "todo"
+          ],
+          "type": "object"
+        },
+        "pages": {
+          "$ref": "#/$defs/count"
+        }
+      },
+      "required": [
+        "pages",
+        "hashed_pages",
+        "page_kinds",
+        "page_status",
+        "page_identity_sha256",
+        "page_hashes",
+        "hash_mismatches",
+        "grounding"
+      ],
+      "type": "object"
+    },
+    "facts": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "$ref": "#/$defs/category"
+        },
+        "assignments": {
+          "$ref": "#/$defs/category"
+        },
+        "call_observations": {
+          "$ref": "#/$defs/category"
+        },
+        "call_paths": {
+          "$ref": "#/$defs/category"
+        },
+        "control_steps": {
+          "$ref": "#/$defs/category"
+        },
+        "dataflow_reads": {
+          "$ref": "#/$defs/category"
+        },
+        "dataflow_writes": {
+          "$ref": "#/$defs/category"
+        },
+        "declared_dependencies": {
+          "$ref": "#/$defs/category"
+        },
+        "derived_types": {
+          "$ref": "#/$defs/category"
+        },
+        "io_files": {
+          "$ref": "#/$defs/category"
+        },
+        "io_operations": {
+          "$ref": "#/$defs/category"
+        },
+        "locals": {
+          "$ref": "#/$defs/category"
+        },
+        "locations": {
+          "$ref": "#/$defs/category"
+        },
+        "modules": {
+          "$ref": "#/$defs/category"
+        },
+        "name_collisions": {
+          "$ref": "#/$defs/category"
+        },
+        "output_families": {
+          "$ref": "#/$defs/category"
+        },
+        "output_files": {
+          "$ref": "#/$defs/category"
+        },
+        "outside_state_refs": {
+          "$ref": "#/$defs/category"
+        },
+        "parser_diagnostics": {
+          "$ref": "#/$defs/category"
+        },
+        "procedures": {
+          "$ref": "#/$defs/category"
+        },
+        "programs": {
+          "$ref": "#/$defs/category"
+        },
+        "resolved_call_edges": {
+          "$ref": "#/$defs/category"
+        },
+        "reverse_call_edges": {
+          "$ref": "#/$defs/category"
+        },
+        "review_flags": {
+          "$ref": "#/$defs/category"
+        },
+        "select_case_labels": {
+          "$ref": "#/$defs/category"
+        },
+        "select_cases": {
+          "$ref": "#/$defs/category"
+        },
+        "source_docs": {
+          "$ref": "#/$defs/category"
+        },
+        "source_files": {
+          "$ref": "#/$defs/category"
+        },
+        "source_hashes": {
+          "$ref": "#/$defs/category"
+        },
+        "uses": {
+          "$ref": "#/$defs/category"
+        },
+        "variables_and_components": {
+          "$ref": "#/$defs/category"
+        }
+      },
+      "required": [
+        "arguments",
+        "assignments",
+        "call_observations",
+        "control_steps",
+        "dataflow_reads",
+        "dataflow_writes",
+        "declared_dependencies",
+        "derived_types",
+        "io_files",
+        "io_operations",
+        "locations",
+        "modules",
+        "name_collisions",
+        "outside_state_refs",
+        "output_families",
+        "output_files",
+        "parser_diagnostics",
+        "procedures",
+        "programs",
+        "resolved_call_edges",
+        "reverse_call_edges",
+        "review_flags",
+        "select_cases",
+        "source_docs",
+        "source_files",
+        "source_hashes",
+        "variables_and_components",
+        "uses",
+        "call_paths",
+        "locals",
+        "select_case_labels"
+      ],
+      "type": "object"
+    },
+    "format": {
+      "const": "swatplus-reference-parser-baseline-v1"
+    },
+    "graphs": {
+      "additionalProperties": false,
+      "properties": {
+        "call": {
+          "additionalProperties": false,
+          "properties": {
+            "by_source": {
+              "additionalProperties": {
+                "$ref": "#/$defs/count"
+              },
+              "type": "object"
+            },
+            "edges": {
+              "$ref": "#/$defs/count"
+            },
+            "identity_sha256": {
+              "$ref": "#/$defs/digest"
+            },
+            "maximum": {
+              "$ref": "#/$defs/count"
+            },
+            "maximum_sources": {
+              "$ref": "#/$defs/strings"
+            },
+            "sources": {
+              "$ref": "#/$defs/count"
+            }
+          },
+          "required": [
+            "sources",
+            "edges",
+            "maximum",
+            "maximum_sources",
+            "by_source",
+            "identity_sha256"
+          ],
+          "type": "object"
+        },
+        "declared_dependency": {
+          "additionalProperties": false,
+          "properties": {
+            "by_source": {
+              "additionalProperties": {
+                "$ref": "#/$defs/count"
+              },
+              "type": "object"
+            },
+            "documented_targets": {
+              "additionalProperties": false,
+              "properties": {
+                "by_source": {
+                  "additionalProperties": {
+                    "$ref": "#/$defs/count"
+                  },
+                  "type": "object"
+                },
+                "edges": {
+                  "$ref": "#/$defs/count"
+                },
+                "identity_sha256": {
+                  "$ref": "#/$defs/digest"
+                },
+                "maximum": {
+                  "$ref": "#/$defs/count"
+                },
+                "maximum_sources": {
+                  "$ref": "#/$defs/strings"
+                },
+                "sources": {
+                  "$ref": "#/$defs/count"
+                }
+              },
+              "required": [
+                "sources",
+                "edges",
+                "maximum",
+                "maximum_sources",
+                "by_source",
+                "identity_sha256"
+              ],
+              "type": "object"
+            },
+            "edges": {
+              "$ref": "#/$defs/count"
+            },
+            "fanout_cap": {
+              "type": "null"
+            },
+            "identity_sha256": {
+              "$ref": "#/$defs/digest"
+            },
+            "maximum": {
+              "$ref": "#/$defs/count"
+            },
+            "maximum_sources": {
+              "$ref": "#/$defs/strings"
+            },
+            "sources": {
+              "$ref": "#/$defs/count"
+            }
+          },
+          "required": [
+            "sources",
+            "edges",
+            "maximum",
+            "maximum_sources",
+            "by_source",
+            "identity_sha256",
+            "fanout_cap",
+            "documented_targets"
+          ],
+          "type": "object"
+        },
+        "heuristic_dataflow": {
+          "additionalProperties": false,
+          "properties": {
+            "applied_edges": {
+              "$ref": "#/$defs/count"
+            },
+            "applied_fanout": {
+              "additionalProperties": false,
+              "properties": {
+                "by_source": {
+                  "additionalProperties": {
+                    "$ref": "#/$defs/count"
+                  },
+                  "type": "object"
+                },
+                "edges": {
+                  "$ref": "#/$defs/count"
+                },
+                "identity_sha256": {
+                  "$ref": "#/$defs/digest"
+                },
+                "maximum": {
+                  "$ref": "#/$defs/count"
+                },
+                "maximum_sources": {
+                  "$ref": "#/$defs/strings"
+                },
+                "sources": {
+                  "$ref": "#/$defs/count"
+                }
+              },
+              "required": [
+                "sources",
+                "edges",
+                "maximum",
+                "maximum_sources",
+                "by_source",
+                "identity_sha256"
+              ],
+              "type": "object"
+            },
+            "applied_identity_sha256": {
+              "$ref": "#/$defs/digest"
+            },
+            "candidate_edges": {
+              "$ref": "#/$defs/count"
+            },
+            "candidate_fanout": {
+              "additionalProperties": false,
+              "properties": {
+                "by_source": {
+                  "additionalProperties": {
+                    "$ref": "#/$defs/count"
+                  },
+                  "type": "object"
+                },
+                "edges": {
+                  "$ref": "#/$defs/count"
+                },
+                "identity_sha256": {
+                  "$ref": "#/$defs/digest"
+                },
+                "maximum": {
+                  "$ref": "#/$defs/count"
+                },
+                "maximum_sources": {
+                  "$ref": "#/$defs/strings"
+                },
+                "sources": {
+                  "$ref": "#/$defs/count"
+                }
+              },
+              "required": [
+                "sources",
+                "edges",
+                "maximum",
+                "maximum_sources",
+                "by_source",
+                "identity_sha256"
+              ],
+              "type": "object"
+            },
+            "candidate_identity_sha256": {
+              "$ref": "#/$defs/digest"
+            },
+            "documented_targets": {
+              "additionalProperties": false,
+              "properties": {
+                "by_source": {
+                  "additionalProperties": {
+                    "$ref": "#/$defs/count"
+                  },
+                  "type": "object"
+                },
+                "edges": {
+                  "$ref": "#/$defs/count"
+                },
+                "identity_sha256": {
+                  "$ref": "#/$defs/digest"
+                },
+                "maximum": {
+                  "$ref": "#/$defs/count"
+                },
+                "maximum_sources": {
+                  "$ref": "#/$defs/strings"
+                },
+                "sources": {
+                  "$ref": "#/$defs/count"
+                }
+              },
+              "required": [
+                "sources",
+                "edges",
+                "maximum",
+                "maximum_sources",
+                "by_source",
+                "identity_sha256"
+              ],
+              "type": "object"
+            },
+            "fanout_cap": {
+              "$ref": "#/$defs/count"
+            },
+            "max_writers": {
+              "$ref": "#/$defs/count"
+            },
+            "suppressed_sources": {
+              "$ref": "#/$defs/strings"
+            }
+          },
+          "required": [
+            "candidate_edges",
+            "candidate_identity_sha256",
+            "applied_edges",
+            "applied_identity_sha256",
+            "fanout_cap",
+            "max_writers",
+            "suppressed_sources",
+            "candidate_fanout",
+            "applied_fanout",
+            "documented_targets"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "call",
+        "declared_dependency",
+        "heuristic_dataflow"
+      ],
+      "type": "object"
+    },
+    "known_limitations": {
+      "type": "string"
+    },
+    "performance_reference": {
+      "type": "string"
+    },
+    "regression_cases": {
+      "additionalProperties": false,
+      "properties": {
+        "all_verified": {
+          "type": "boolean"
+        },
+        "checks": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "asserts_behavior": {
+                "type": "boolean"
+              },
+              "comparison_matches": {
+                "type": "boolean"
+              },
+              "dependents_match": {
+                "type": "boolean"
+              },
+              "fallback_matches": {
+                "type": "boolean"
+              },
+              "id": {
+                "type": "string"
+              },
+              "normalized_matches": {
+                "type": "boolean"
+              },
+              "source_exists": {
+                "type": "boolean"
+              },
+              "symbol_exists": {
+                "type": "boolean"
+              },
+              "symbol_keys_match": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "source_exists",
+              "symbol_exists",
+              "fallback_matches",
+              "normalized_matches",
+              "comparison_matches",
+              "symbol_keys_match",
+              "dependents_match",
+              "asserts_behavior"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "count": {
+          "$ref": "#/$defs/count"
+        },
+        "identity_sha256": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "count",
+        "identity_sha256",
+        "all_verified",
+        "checks"
+      ],
+      "type": "object"
+    },
+    "schemas": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "$ref": "#/$defs/count"
+        },
+        "type": "object"
+      },
+      "type": "object"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "configured_commit": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "requested_ref": {
+          "type": "string"
+        },
+        "resolved_commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "profile",
+        "repository",
+        "requested_ref",
+        "configured_commit",
+        "resolved_commit"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "format",
+    "source",
+    "contracts",
+    "facts",
+    "calls",
+    "graphs",
+    "documentation",
+    "diagnostics",
+    "schemas",
+    "artifacts",
+    "regression_cases",
+    "performance_reference",
+    "known_limitations"
+  ],
+  "title": "SWAT+ parser migration Phase 0 baseline",
+  "type": "object"
+}

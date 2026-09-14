@@ -47,6 +47,32 @@ def test_use_alias_resolves_to_the_declared_module_variable():
     assert ref.symbol == "remote_name"
 
 
+def test_non_only_use_alias_renames_one_symbol_and_keeps_other_imports():
+    loc = SourceLocation("fixture.f90", 1, 2)
+    proc = ProcedureDoc(
+        "reader",
+        "subroutine",
+        loc,
+        uses=[UseRef("source", renames=["local_name => remote_name"])],
+    )
+    module = ModuleDoc(
+        "source",
+        loc,
+        variables=[
+            VariableRef("remote_name", "integer :: remote_name", loc),
+            VariableRef("unchanged", "integer :: unchanged", loc),
+        ],
+    )
+    project = ProjectIndex("fixture", ".", modules=[module], procedures=[proc])
+
+    refs = resolve_outside_refs(proc, project, ["local_name", "unchanged"])
+    assert [(ref.reference, ref.symbol) for ref in refs] == [
+        ("local_name", "remote_name"),
+        ("unchanged", "unchanged"),
+    ]
+    assert resolve_outside_refs(proc, project, ["remote_name"]) == []
+
+
 def test_state_touched_block_renders_live_receipts(cfg, store):
     rich = RichStore.build(FIXTURES)
     page = Page(
@@ -65,3 +91,41 @@ def test_state_touched_block_renders_live_receipts(cfg, store):
     assert "demo_module" in rendered
     assert "demo_state%stor" in rendered
     assert "https://example.test/src/demo_module.f90#L" in rendered
+
+
+def test_text_inside_a_double_quoted_literal_is_not_a_state_reference(tmp_path):
+    """`write (*,*) " FERT-WET"` references no module variable.
+
+    The scanner strips comments and single-quoted literals before looking for
+    references, but not double-quoted ones -- so a name that happens to appear
+    in a message or a `case ("res")` label was reported as a reference to the
+    module state of the same name. The real subscripted reference on the line
+    above is a separate entry and is kept.
+    """
+
+    (tmp_path / "m.f90").write_text(
+        """\
+module hru_module
+  real :: wet = 0.
+  real :: fert = 0.
+end module hru_module
+
+subroutine s()
+  use hru_module
+  integer :: j
+  j = 1
+  if (wet(j) > 0.) then
+    write (2612,*) j, " FERT-WET", "    FERT "
+  end if
+end subroutine s
+""",
+        encoding="utf-8",
+    )
+    rich = RichStore.build(tmp_path)
+    refs = rich.outside_state_refs_for("s", "subroutine", "m.f90")
+    references = {ref.reference.lower() for ref in refs}
+
+    # The literal text contributes nothing...
+    assert "fert" not in references
+    # ...while the genuine subscripted reference survives.
+    assert "wet(j)" in references

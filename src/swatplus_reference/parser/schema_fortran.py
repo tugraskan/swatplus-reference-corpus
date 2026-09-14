@@ -7,8 +7,18 @@ import re
 
 from .schema_config import BuildConfig
 from .source_files import source_files
+from .source_text import (
+    LogicalLine,
+    clean_doc_line,
+    inline_doc_from_raw,
+    logical_lines,
+    split_fortran_comment,
+    split_statements,
+    strip_fortran_comment,
+)
 from .schema_model import (
     CallRef,
+    AssignmentDoc,
     ControlStep,
     DerivedTypeDoc,
     IOFileDoc,
@@ -47,7 +57,8 @@ END_PROGRAM_RE = re.compile(r"^\s*end\s*program\b", re.I)
 TYPE_RE = re.compile(r"^\s*type\s*(?:,\s*[^:]+)?::\s*([a-z_]\w*)\b|^\s*type\s+([a-z_]\w*)\b", re.I)
 END_TYPE_RE = re.compile(r"^\s*end\s*type\b", re.I)
 USE_RE = re.compile(
-    r"^\s*use\s*(?:,\s*(intrinsic|non_intrinsic))?\s*(?:::\s*)?([a-z_]\w*)\s*(?:,\s*only\s*:\s*(.*))?$",
+    r"^\s*use\s*(?:,\s*(intrinsic|non_intrinsic))?\s*(?:::\s*)?"
+    r"([a-z_]\w*)\s*(?:,\s*(?:(only)\s*:\s*)?(.*))?$",
     re.I,
 )
 CALL_RE = re.compile(r"\bcall\s+([a-z_]\w*(?:%[a-z_]\w*)?)\b", re.I)
@@ -68,7 +79,13 @@ FORTRAN_CALL_NONCANDIDATES = frozenset(
     }
 )
 DECL_RE = re.compile(
-    r"^\s*(integer|real|double\s+precision|logical|character(?:\s*\([^)]*\))?|type\s*\([^)]+\)|class\s*\([^)]+\))"
+    # A character length selector can nest one level -- `character(len=len(str))`
+    # -- and a `[^)]*` group stops at the first inner `)`, so the declaration
+    # failed to match at all and its variable was dropped rather than mis-read.
+    # `type(...)`/`class(...)` take a bare type name and are left as they were.
+    r"^\s*(integer|real|double\s+precision|logical"
+    r"|character(?:\s*\((?:[^()]|\([^()]*\))*\))?"
+    r"|type\s*\([^)]+\)|class\s*\([^)]+\))"
     r"(?:\s*\*\s*\d+)?"  # old-style star-kind, e.g. `integer*8`, `character*10`
     r"(?=\s|,|::)(.*)",
     re.I,
@@ -78,8 +95,72 @@ DECL_RE = re.compile(
 # subscripted targets constantly (1400+ times across the pinned source), and
 # missing the subscript meant the whole line failed to match at all.
 ASSIGN_RE = re.compile(
-    r"^\s*([a-z_]\w*(?:\([^()]*\))?(?:%[a-z_]\w*(?:\([^()]*\))?)*)\s*=\s*(.+)$", re.I
+    r"^\s*([a-z_]\w*(?:\([^()]*\))?(?:%[a-z_]\w*(?:\([^()]*\))?)*)\s*(=>|=)\s*(.+)$",
+    re.I,
 )
+# Only the three block constructs the pinned source actually uses. A survey of
+# it finds 5,277 `if ... then`, 2,654 `do` and 111 `select case`, and zero
+# `where` blocks, `forall`, `associate`, `block` or `critical` -- so the
+# constructs whose single-line and block forms are ambiguous simply do not
+# occur, and are left untracked rather than guessed at.
+BLOCK_OPEN_RE = re.compile(r"^(?:if\s*\(.*\)\s*then\b|do\b|select\s+case\b)", re.I)
+BLOCK_CLOSE_RE = re.compile(r"^end\s*(?:if|select|do)\b", re.I)
+BLOCK_BRANCH_RE = re.compile(r"^(?:else(?:\s*if)?|case)\b", re.I)
+
+
+class _BlockTracker:
+    """Place each control step in its procedure's block tree.
+
+    A single-line ``if (cond) stmt`` opens nothing, which is why the opener
+    pattern insists on the trailing ``then``. An ``end`` with no open block is
+    ignored rather than corrupting the stack, and a construct left open when the
+    procedure ends simply keeps ``end_line`` unset.
+    """
+
+    def __init__(self) -> None:
+        self.open_blocks: list[ControlStep] = []
+        self._next_id = 0
+
+    def track(self, line: str, step: ControlStep | None, end_line: int) -> None:
+        stripped = line.strip()
+        if BLOCK_CLOSE_RE.match(stripped):
+            if self.open_blocks:
+                self.open_blocks.pop().end_line = end_line
+            self._place(step)
+            return
+        if BLOCK_BRANCH_RE.match(stripped) and not BLOCK_OPEN_RE.match(stripped):
+            # An arm belongs to its construct without sitting inside it, so it
+            # takes the construct's own depth and parent, not the body's.
+            owner = self.open_blocks[-1] if self.open_blocks else None
+            if step is not None:
+                step.depth = max(len(self.open_blocks) - 1, 0)
+                step.branch_of = owner.block_id if owner is not None else None
+                step.parent_id = (
+                    self.open_blocks[-2].block_id if len(self.open_blocks) > 1 else None
+                )
+            return
+        self._place(step)
+        if step is not None and BLOCK_OPEN_RE.match(stripped):
+            step.block_id = self._next_id
+            self._next_id += 1
+            self.open_blocks.append(step)
+
+    def _place(self, step: ControlStep | None) -> None:
+        if step is None:
+            return
+        step.depth = len(self.open_blocks)
+        step.parent_id = self.open_blocks[-1].block_id if self.open_blocks else None
+
+
+def _target_root(target: str) -> str:
+    """Reduce an assignment target to the bare name a dataflow join keys on.
+
+    ``gw_state(cell_id)%stor`` -> ``gw_state``. Subscripts and the component
+    chain are dropped; the full text stays available on ``AssignmentDoc.target``.
+    """
+    return target.split("%", 1)[0].split("(", 1)[0].strip().lower()
+
+
 STRING_LITERAL_RE = re.compile(r"""["']([^"']+)["']""")
 IO_KEYWORD_RE = re.compile(r"^\s*(open|read|write|close|rewind|backspace)\b", re.I)
 SELECT_CASE_RE = re.compile(r"^select\s+case\b", re.I)
@@ -90,54 +171,6 @@ OUTPUT_FILE_RE = re.compile(
     r"^(?P<base>.+?)(?P<sep>[._-])(?P<freq>day|mon|yr|aa)(?P<ext>\.[^.\\/]+)?$",
     re.I,
 )
-
-
-@dataclass(slots=True)
-class LogicalLine:
-    text: str
-    start: int
-    end: int
-    raw: str
-
-
-def split_fortran_comment(line: str) -> tuple[str, str]:
-    quote: str | None = None
-    idx = 0
-    while idx < len(line):
-        char = line[idx]
-        if quote:
-            if char == quote:
-                if idx + 1 < len(line) and line[idx + 1] == quote:
-                    idx += 2
-                    continue
-                quote = None
-        elif char in {"'", '"'}:
-            quote = char
-        elif char == "!":
-            return line[:idx], line[idx + 1 :]
-        idx += 1
-    return line, ""
-
-
-def clean_doc_line(line: str) -> str:
-    stripped = line.strip()
-    if stripped.startswith("!>"):
-        return stripped[2:].strip()
-    if stripped.startswith("!!"):
-        return stripped[2:].strip()
-    if stripped.startswith("!"):
-        return stripped[1:].strip()
-    return stripped
-
-
-def inline_doc_from_raw(raw: str) -> str:
-    comments: list[str] = []
-    for physical in raw.splitlines():
-        code, comment = split_fortran_comment(physical)
-        if not code.strip() or not comment.strip():
-            continue
-        comments.append(clean_doc_line("!" + comment.strip()))
-    return "\n".join(comment for comment in comments if comment).strip()
 
 
 def combine_docs(*docs: str) -> str:
@@ -202,71 +235,19 @@ def is_commented_out_declaration(text: str) -> bool:
     return bool("," in rest or re.search(r"\b[a-z_]\w*\s*(?:=|\()", rest, re.I))
 
 
-def logical_lines(lines: list[str]) -> list[LogicalLine]:
-    output: list[LogicalLine] = []
-    buffer: list[str] = []
-    raw_buffer: list[str] = []
-    start_line = 1
-    continuing = False
-
-    for number, raw in enumerate(lines, start=1):
-        code, _comment = split_fortran_comment(raw.rstrip("\n"))
-        stripped = code.rstrip()
-        if not continuing and not stripped.strip():
-            continue
-
-        if not continuing:
-            start_line = number
-            buffer = []
-            raw_buffer = []
-
-        piece = stripped.strip()
-        if continuing and piece.startswith("&"):
-            piece = piece[1:].lstrip()
-
-        if piece.endswith("&"):
-            piece = piece[:-1].rstrip()
-            continuing = True
-        else:
-            continuing = False
-
-        buffer.append(piece)
-        raw_buffer.append(raw.rstrip("\n"))
-
-        if not continuing:
-            text = " ".join(part for part in buffer if part).strip()
-            if text:
-                output.append(
-                    LogicalLine(
-                        text=text,
-                        start=start_line,
-                        end=number,
-                        raw="\n".join(raw_buffer),
-                    )
-                )
-
-    if continuing and buffer:
-        text = " ".join(part for part in buffer if part).strip()
-        if text:
-            output.append(
-                LogicalLine(
-                    text=text,
-                    start=start_line,
-                    end=start_line + len(raw_buffer) - 1,
-                    raw="\n".join(raw_buffer),
-                )
-            )
-    return output
-
-
 def parse_use(line: str, loc: SourceLocation) -> UseRef | None:
     match = USE_RE.match(line)
     if not match:
         return None
-    only = parse_args(match.group(3))
+    items = parse_args(match.group(4))
+    has_only = match.group(3) is not None
+    if items and not has_only and not all("=>" in item for item in items):
+        return None
+    renames = [item for item in items if "=>" in item]
     return UseRef(
         module=match.group(2),
-        only=only,
+        only=items if has_only else [],
+        renames=renames,
         intrinsic=(match.group(1) or "").lower() == "intrinsic",
         location=loc,
     )
@@ -409,6 +390,13 @@ def extract_fields_from_io(line: str) -> list[str]:
     return fields
 
 
+def resolve_project_unit_files(project: ProjectIndex):
+    """Imported lazily: `unit_binding` imports helpers from this module."""
+    from .unit_binding import resolve_project_unit_files as _resolve
+
+    return _resolve(project)
+
+
 class FortranScanner:
     def __init__(self, config: BuildConfig):
         self.config = config
@@ -423,6 +411,13 @@ class FortranScanner:
             file_doc = self._scan_file(path, source_root, project)
             project.files.append(file_doc)
         self._resolve_project_file_expressions(project)
+        # Cross-file unit binding is a post-pass over a completed ProjectIndex,
+        # not an AST feature: both parsers emit the same `unit_<unit>` sentinel
+        # and the same operation records, so both resolve it the same way. The
+        # AST path calls this too. Keeping them level is what lets the parity
+        # harness stay a real comparison instead of approving a wholesale
+        # divergence that says nothing about the rest of the migration.
+        self.unit_binding = resolve_project_unit_files(project)
         self._populate_io_summaries(project)
         project.stats = {
             "files": len(project.files),
@@ -436,86 +431,11 @@ class FortranScanner:
         return project
 
     def _resolve_project_file_expressions(self, project: ProjectIndex) -> None:
-        """Resolve derived-component filenames after all files are scanned.
-
-        SWAT+ declares input filenames as defaults on derived-type components
-        in ``input_file_module.f90`` and opens them from separate procedures,
-        for example ``in_aqu%aqu`` in ``aqu_read.f90``.  The per-file scanner
-        cannot see that cross-file default while it parses the OPEN statement,
-        but the completed project has everything needed to resolve it:
-        module variable -> declared type -> component initializer.
-
-        Keep ``file_expr`` unchanged as source evidence and update only
-        ``file_resolved``.  Reads and closes inherit the symbolic OPEN target
-        during the per-file pass, so resolve their existing ``file_resolved``
-        value as well.
-        """
-        component_defaults: dict[str, dict[str, str]] = {}
-        for derived in project.types:
-            defaults: dict[str, str] = {}
-            for component in derived.components:
-                if component.initial:
-                    literal = self._string_literal(component.initial)
-                    if literal:
-                        defaults[component.name.lower()] = literal
-            if defaults:
-                component_defaults[derived.name.lower()] = defaults
-
-        module_by_name = {module.name.lower(): module for module in project.modules}
-
-        for procedure in project.procedures:
-            root_types: dict[str, set[str]] = {}
-
-            def add_variables(variables: list[VariableRef]) -> None:
-                for variable in variables:
-                    type_name = self._derived_type_name(variable.vartype)
-                    if type_name:
-                        root_types.setdefault(variable.name.lower(), set()).add(type_name)
-
-            add_variables(procedure.variables)
-
-            modules: list[ModuleDoc] = []
-            if procedure.module:
-                owner = module_by_name.get(procedure.module.lower())
-                if owner:
-                    modules.append(owner)
-            for use in procedure.uses:
-                imported = module_by_name.get(use.module.lower())
-                if imported:
-                    modules.append(imported)
-            for module in modules:
-                add_variables(module.variables)
-
-            for operation in procedure.io:
-                expression = operation.file_resolved or operation.file_expr
-                if not expression:
-                    continue
-                match = re.fullmatch(
-                    r"\s*([a-z_]\w*)\s*%\s*([a-z_]\w*)\s*",
-                    expression,
-                    re.I,
-                )
-                if not match:
-                    continue
-                root, component = (part.lower() for part in match.groups())
-                possible_types = root_types.get(root, set())
-                if len(possible_types) != 1:
-                    continue
-                type_name = next(iter(possible_types))
-                resolved = component_defaults.get(type_name, {}).get(component)
-                if resolved:
-                    operation.file_resolved = resolved
+        resolve_project_file_expressions(project)
 
     @staticmethod
     def _derived_type_name(vartype: str | None) -> str | None:
-        if not vartype:
-            return None
-        match = re.fullmatch(
-            r"\s*(?:type|class)\s*\(\s*([a-z_]\w*)\s*\)\s*",
-            vartype,
-            re.I,
-        )
-        return match.group(1).lower() if match else None
+        return derived_type_name(vartype)
 
     def iter_source_files(self) -> list[Path]:
         """The files scan() would parse, without parsing them (for cache keys)."""
@@ -547,6 +467,7 @@ class FortranScanner:
         unit_files: dict[str, str] = {}
         current_conditions: list[str] = []
         select_case_stack: list[SelectCaseDoc] = []
+        blocks = _BlockTracker()
 
         for logical in lines:
             line = logical.text
@@ -590,6 +511,7 @@ class FortranScanner:
                     project.programs.append(program)
                     file_doc.programs.append(program.name)
                     program_stack.append(program)
+                    blocks = _BlockTracker()
                     continue
 
             type_match = TYPE_RE.match(line)
@@ -610,6 +532,7 @@ class FortranScanner:
                     name=type_name,
                     location=loc,
                     module=module_stack[-1].name if module_stack else None,
+                    parent=proc_stack[-1].name if proc_stack else None,
                     doc=doc,
                 )
                 project.types.append(dtype)
@@ -642,6 +565,7 @@ class FortranScanner:
                 unit_files = {}
                 current_conditions = []
                 select_case_stack = []
+                blocks = _BlockTracker()
                 continue
 
             use_ref = parse_use(line, loc)
@@ -676,12 +600,23 @@ class FortranScanner:
 
             assignment = ASSIGN_RE.match(line)
             if assignment:
-                literal = self._string_literal(assignment.group(2))
-                if literal:
-                    string_defaults[assignment.group(1).lower()] = literal
+                target, operator, expression = assignment.groups()
+                literal = self._string_literal(expression) if operator == "=" else None
+                if literal is not None:
+                    string_defaults[target.lower()] = literal
                 if proc_stack:
+                    kind = "pointer_association" if operator == "=>" else "assignment"
+                    action = "Associates" if operator == "=>" else "Sets"
                     proc_stack[-1].assignments.append(
-                        ControlStep("assignment", f"Sets {assignment.group(1)}", line, loc)
+                        AssignmentDoc(
+                            kind,
+                            f"{action} {target}",
+                            line,
+                            loc,
+                            target=target,
+                            target_root=_target_root(target),
+                            expression=expression.strip(),
+                        )
                     )
 
             if proc_stack:
@@ -689,6 +624,7 @@ class FortranScanner:
                 self._update_condition_stack(line, current_conditions)
                 self._update_select_cases(line, loc, select_case_stack, proc)
                 control = self._control_step(line, loc)
+                blocks.track(line, control, logical.end)
                 if control:
                     proc.control_steps.append(control)
                 subroutine_names = set()
@@ -706,6 +642,7 @@ class FortranScanner:
             if program_stack:
                 program = program_stack[-1]
                 control = self._control_step(line, loc)
+                blocks.track(line, control, logical.end)
                 if control:
                     program.control_steps.append(control)
                 subroutine_names = set()
@@ -719,88 +656,29 @@ class FortranScanner:
     def _collect_function_calls(self, line, loc, holder, subroutine_names) -> None:
         """Record identifier(...) tokens as candidate function-call references.
 
-        These are only candidates: the analyzer keeps an edge solely when the
-        name resolves to a defined function, which discards array references and
-        intrinsics.  Dedupe per holder so a function called on many lines does
-        not flood the call list.
+        These are only candidates. Semantic resolution later decides whether
+        each observation creates a graph edge, but it must not delete repeated
+        or unresolved observations because their source locations are evidence.
         """
-        existing = {c.name.lower() for c in holder.calls}
         for match in FUNCALL_RE.finditer(line):
             name = match.group(1)
             lowered = name.lower()
             if lowered in FORTRAN_CALL_NONCANDIDATES:
                 continue
-            if lowered in subroutine_names or lowered in existing:
+            if lowered in subroutine_names:
                 continue
-            existing.add(lowered)
             holder.calls.append(
                 CallRef(name=name, raw=line, location=loc, kind="function")
             )
 
     def _collect_doc_blocks(self, lines: list[str]) -> tuple[dict[int, str], dict[int, str]]:
-        """Map line -> preceding comment block, and line -> inline-comment continuation.
-
-        SWAT+ wraps a declaration's inline ``!units |desc`` comment onto following
-        gutter lines (``!        |  more desc``). Those belong to the declaration above,
-        not the one below, so they are attributed as continuations of the previous code
-        line rather than buffered as the next declaration's preceding block.
-        """
-
-        docs: dict[int, str] = {}
-        continuations: dict[int, str] = {}
-        buffer: list[str] = []
-        inline_idx: int | None = None
-        for idx, raw in enumerate(lines, start=1):
-            stripped = raw.strip()
-            if stripped.startswith("!") and not stripped.startswith("!$"):
-                cleaned = clean_doc_line(stripped)
-                if inline_idx is not None and cleaned.startswith("|"):
-                    prev = continuations.get(inline_idx, "")
-                    continuations[inline_idx] = (prev + "\n" + cleaned).strip() if prev else cleaned
-                elif is_commented_out_declaration(cleaned):
-                    inline_idx = None
-                    buffer = []
-                else:
-                    inline_idx = None
-                    buffer.append(cleaned)
-                continue
-            if not stripped:
-                buffer = []
-                inline_idx = None
-                continue
-            code, comment = split_fortran_comment(raw)
-            if code.strip() and buffer:
-                docs[idx] = "\n".join(buffer).strip()
-            buffer = []
-            inline_idx = idx if (code.strip() and comment.strip()) else None
-        return docs, continuations
+        return collect_doc_blocks(lines)
 
     def _string_literal(self, text: str) -> str | None:
-        match = STRING_LITERAL_RE.search(text)
-        if not match:
-            return None
-        literal = match.group(1)
-        return literal if literal.strip() else None
+        return string_literal(text)
 
     def _resolve_file_expression(self, expr: str | None, defaults: dict[str, str]) -> str | None:
-        if not expr:
-            return None
-        stripped = strip_quotes(expr)
-        if not stripped:
-            return None
-        if "//" in stripped:
-            tail = stripped.rsplit("//", 1)[-1].strip()
-            return self._resolve_file_expression(tail, defaults) or stripped
-        wrapper = re.match(r"^(?:trim|adjustl)\((.*)\)$", stripped, re.I)
-        if wrapper:
-            return self._resolve_file_expression(wrapper.group(1), defaults) or stripped
-        literal_match = re.fullmatch(r"""["']([^"']+)["']""", stripped)
-        if literal_match and literal_match.group(1).strip():
-            return literal_match.group(1)
-        key = re.sub(r"\s+", "", stripped).lower()
-        if key in defaults and defaults[key].strip():
-            return defaults[key]
-        return stripped
+        return resolve_file_expression(expr, defaults)
 
     def _io_operation(
         self,
@@ -842,7 +720,7 @@ class FortranScanner:
         lowered = stripped.lower()
         patterns = [
             ("if", r"^if\s*\("),
-            ("else", r"^else\b"),
+            ("else", r"^else(?:\s*if)?\b"),
             ("select", r"^select\s+case\b"),
             ("case", r"^case\b"),
             ("loop", r"^do\b"),
@@ -858,10 +736,7 @@ class FortranScanner:
         return None
 
     def _summarize_step(self, line: str) -> str:
-        compact = re.sub(r"\s+", " ", line).strip()
-        if len(compact) > 120:
-            return compact[:117] + "..."
-        return compact
+        return summarize_step(line)
 
     def _update_condition_stack(self, line: str, stack: list[str]) -> None:
         lowered = line.lower().strip()
@@ -936,78 +811,268 @@ class FortranScanner:
             proc.select_cases.append(stack.pop())
 
     def _populate_io_summaries(self, project: ProjectIndex) -> None:
-        by_file: dict[str, IOFileDoc] = {}
-        families: dict[str, OutputFamilyDoc] = {}
-        opened_files: dict[str, set[tuple[str, str | None]]] = {}
+        populate_io_summaries(project)
 
-        for proc in project.procedures:
-            for op in proc.io:
-                if not op.file_resolved:
-                    continue
-                display_name = op.file_resolved.strip()
-                if not display_name:
-                    continue
 
-                file_key = display_name.lower()
-                io_file = by_file.get(file_key)
-                if io_file is None:
-                    io_file = IOFileDoc(key=display_name, display_name=display_name)
-                    by_file[file_key] = io_file
-                io_file.operations.append(op)
-                if proc.name not in io_file.procedures:
-                    io_file.procedures.append(proc.name)
+def collect_doc_blocks(lines: list[str]) -> tuple[dict[int, str], dict[int, str]]:
+    """Map line -> preceding comment block, and line -> inline-comment continuation.
 
-                family_match = OUTPUT_FILE_RE.match(Path(display_name).name)
-                if not family_match:
-                    continue
-                base = family_match.group("base")
-                freq = family_match.group("freq").lower()
-                ext = (family_match.group("ext") or "").lstrip(".").lower()
-                fmt = ext if ext in {"txt", "csv"} else "unknown"
-                family_key = base.lower()
-                family = families.get(family_key)
-                if family is None:
-                    sep = family_match.group("sep")
-                    family = OutputFamilyDoc(
-                        key=base,
-                        display_name=f"{base}{sep}*",
-                        base=base,
-                    )
-                    families[family_key] = family
-                    opened_files[family_key] = set()
-                if op.kind == "open":
-                    if proc.name not in family.opened_by:
-                        family.opened_by.append(proc.name)
-                    open_key = (display_name.lower(), op.unit)
-                    if open_key not in opened_files[family_key]:
-                        opened_files[family_key].add(open_key)
-                        family.files.append(
-                            OutputFile(
-                                name=display_name,
-                                frequency=freq,
-                                fmt=fmt,
-                                unit=op.unit,
-                                open_location=op.location,
-                                open_condition=op.condition,
-                            )
-                        )
-                elif op.kind == "write" and proc.name not in family.written_by:
-                    family.written_by.append(proc.name)
+    SWAT+ wraps a declaration's inline ``!units |desc`` comment onto following
+    gutter lines (``!        |  more desc``). Those belong to the declaration above,
+    not the one below, so they are attributed as continuations of the previous code
+    line rather than buffered as the next declaration's preceding block.
 
-        project.io_files = sorted(
-            by_file.values(),
-            key=lambda item: item.display_name.lower(),
-        )
-        project.output_families = sorted(
-            families.values(),
-            key=lambda item: item.key.lower(),
-        )
-        for family in project.output_families:
-            family.opened_by.sort(key=str.lower)
-            family.written_by.sort(key=str.lower)
-            family.files.sort(
-                key=lambda item: (
-                    item.name.lower(),
-                    "" if item.unit is None else item.unit.lower(),
-                )
+    Module-level so the AST path shares one implementation with the scanner
+    rather than re-deriving what counts as a documentation comment.
+    """
+
+    docs: dict[int, str] = {}
+    continuations: dict[int, str] = {}
+    buffer: list[str] = []
+    inline_idx: int | None = None
+    for idx, raw in enumerate(lines, start=1):
+        stripped = raw.strip()
+        if stripped.startswith("!") and not stripped.startswith("!$"):
+            cleaned = clean_doc_line(stripped)
+            if inline_idx is not None and cleaned.startswith("|"):
+                prev = continuations.get(inline_idx, "")
+                continuations[inline_idx] = (prev + "\n" + cleaned).strip() if prev else cleaned
+            elif is_commented_out_declaration(cleaned):
+                inline_idx = None
+                buffer = []
+            else:
+                inline_idx = None
+                buffer.append(cleaned)
+            continue
+        if not stripped:
+            buffer = []
+            inline_idx = None
+            continue
+        code, comment = split_fortran_comment(raw)
+        if code.strip() and buffer:
+            docs[idx] = "\n".join(buffer).strip()
+        buffer = []
+        inline_idx = idx if (code.strip() and comment.strip()) else None
+    return docs, continuations
+
+
+def summarize_step(line: str) -> str:
+    """Collapse a statement to a one-line outline summary.
+
+    Module-level so the AST path produces byte-identical `ControlStep.summary`
+    text rather than re-deriving the collapse and truncation rules.
+    """
+
+    compact = re.sub(r"\s+", " ", line).strip()
+    if len(compact) > 120:
+        return compact[:117] + "..."
+    return compact
+
+
+def resolve_file_expression(expr: str | None, defaults: dict[str, str]) -> str | None:
+    """Resolve an ``open(file=...)`` expression to a filename where it can be.
+
+    Module-level so the AST path resolves filenames identically instead of
+    re-deriving the concatenation, ``trim``/``adjustl`` and default-lookup
+    rules that decide what an I/O operation is named after.
+    """
+
+    if not expr:
+        return None
+    stripped = strip_quotes(expr)
+    if not stripped:
+        return None
+    if "//" in stripped:
+        tail = stripped.rsplit("//", 1)[-1].strip()
+        return resolve_file_expression(tail, defaults) or stripped
+    wrapper = re.match(r"^(?:trim|adjustl)\((.*)\)$", stripped, re.I)
+    if wrapper:
+        return resolve_file_expression(wrapper.group(1), defaults) or stripped
+    literal_match = re.fullmatch(r"""["']([^"']+)["']""", stripped)
+    if literal_match and literal_match.group(1).strip():
+        return literal_match.group(1)
+    key = re.sub(r"\s+", "", stripped).lower()
+    if key in defaults and defaults[key].strip():
+        return defaults[key]
+    return stripped
+
+
+def resolve_project_file_expressions(project: ProjectIndex) -> None:
+    """Resolve derived-component filenames after all files are scanned.
+
+    SWAT+ declares input filenames as defaults on derived-type components
+    in ``input_file_module.f90`` and opens them from separate procedures,
+    for example ``in_aqu%aqu`` in ``aqu_read.f90``.  The per-file scanner
+    cannot see that cross-file default while it parses the OPEN statement,
+    but the completed project has everything needed to resolve it:
+    module variable -> declared type -> component initializer.
+
+    Keep ``file_expr`` unchanged as source evidence and update only
+    ``file_resolved``.  Reads and closes inherit the symbolic OPEN target
+    during the per-file pass, so resolve their existing ``file_resolved``
+    value as well.
+    """
+    component_defaults: dict[str, dict[str, str]] = {}
+    for derived in project.types:
+        defaults: dict[str, str] = {}
+        for component in derived.components:
+            if component.initial:
+                literal = string_literal(component.initial)
+                if literal:
+                    defaults[component.name.lower()] = literal
+        if defaults:
+            component_defaults[derived.name.lower()] = defaults
+
+    module_by_name = {module.name.lower(): module for module in project.modules}
+
+    for procedure in project.procedures:
+        root_types: dict[str, set[str]] = {}
+
+        def add_variables(variables: list[VariableRef]) -> None:
+            for variable in variables:
+                type_name = derived_type_name(variable.vartype)
+                if type_name:
+                    root_types.setdefault(variable.name.lower(), set()).add(type_name)
+
+        add_variables(procedure.variables)
+
+        modules: list[ModuleDoc] = []
+        if procedure.module:
+            owner = module_by_name.get(procedure.module.lower())
+            if owner:
+                modules.append(owner)
+        for use in procedure.uses:
+            imported = module_by_name.get(use.module.lower())
+            if imported:
+                modules.append(imported)
+        for module in modules:
+            add_variables(module.variables)
+
+        for operation in procedure.io:
+            expression = operation.file_resolved or operation.file_expr
+            if not expression:
+                continue
+            match = re.fullmatch(
+                r"\s*([a-z_]\w*)\s*%\s*([a-z_]\w*)\s*",
+                expression,
+                re.I,
             )
+            if not match:
+                continue
+            root, component = (part.lower() for part in match.groups())
+            possible_types = root_types.get(root, set())
+            if len(possible_types) != 1:
+                continue
+            type_name = next(iter(possible_types))
+            resolved = component_defaults.get(type_name, {}).get(component)
+            if resolved:
+                operation.file_resolved = resolved
+
+
+
+def string_literal(text: str) -> str | None:
+    """The first non-blank quoted literal in *text*, if there is one."""
+
+    match = STRING_LITERAL_RE.search(text)
+    if not match:
+        return None
+    literal = match.group(1)
+    return literal if literal.strip() else None
+
+
+def derived_type_name(vartype: str | None) -> str | None:
+    """The type named by a ``type(x)`` / ``class(x)`` declaration prefix."""
+
+    if not vartype:
+        return None
+    match = re.fullmatch(
+        r"\s*(?:type|class)\s*\(\s*([a-z_]\w*)\s*\)\s*",
+        vartype,
+        re.I,
+    )
+    return match.group(1).lower() if match else None
+
+
+def populate_io_summaries(project: ProjectIndex) -> None:
+    """Aggregate resolved I/O operations into files and output families.
+
+    Module-level so the AST path builds the same `io_files` and
+    `output_families` from its own index instead of leaving them empty.
+    Operates purely on the completed index; it reads no source.
+    """
+
+    by_file: dict[str, IOFileDoc] = {}
+    families: dict[str, OutputFamilyDoc] = {}
+    opened_files: dict[str, set[tuple[str, str | None]]] = {}
+
+    for proc in project.procedures:
+        for op in proc.io:
+            if not op.file_resolved:
+                continue
+            display_name = op.file_resolved.strip()
+            if not display_name:
+                continue
+
+            file_key = display_name.lower()
+            io_file = by_file.get(file_key)
+            if io_file is None:
+                io_file = IOFileDoc(key=display_name, display_name=display_name)
+                by_file[file_key] = io_file
+            io_file.operations.append(op)
+            if proc.name not in io_file.procedures:
+                io_file.procedures.append(proc.name)
+
+            family_match = OUTPUT_FILE_RE.match(Path(display_name).name)
+            if not family_match:
+                continue
+            base = family_match.group("base")
+            freq = family_match.group("freq").lower()
+            ext = (family_match.group("ext") or "").lstrip(".").lower()
+            fmt = ext if ext in {"txt", "csv"} else "unknown"
+            family_key = base.lower()
+            family = families.get(family_key)
+            if family is None:
+                sep = family_match.group("sep")
+                family = OutputFamilyDoc(
+                    key=base,
+                    display_name=f"{base}{sep}*",
+                    base=base,
+                )
+                families[family_key] = family
+                opened_files[family_key] = set()
+            if op.kind == "open":
+                if proc.name not in family.opened_by:
+                    family.opened_by.append(proc.name)
+                open_key = (display_name.lower(), op.unit)
+                if open_key not in opened_files[family_key]:
+                    opened_files[family_key].add(open_key)
+                    family.files.append(
+                        OutputFile(
+                            name=display_name,
+                            frequency=freq,
+                            fmt=fmt,
+                            unit=op.unit,
+                            open_location=op.location,
+                            open_condition=op.condition,
+                        )
+                    )
+            elif op.kind == "write" and proc.name not in family.written_by:
+                family.written_by.append(proc.name)
+
+    project.io_files = sorted(
+        by_file.values(),
+        key=lambda item: item.display_name.lower(),
+    )
+    project.output_families = sorted(
+        families.values(),
+        key=lambda item: item.key.lower(),
+    )
+    for family in project.output_families:
+        family.opened_by.sort(key=str.lower)
+        family.written_by.sort(key=str.lower)
+        family.files.sort(
+            key=lambda item: (
+                item.name.lower(),
+                "" if item.unit is None else item.unit.lower(),
+            )
+        )

@@ -28,6 +28,11 @@ from .facts import (
     hash_slice,
 )
 from .source_files import source_files
+from .source_text import (
+    normalize_nonstandard_signs,
+    split_fortran_comment,
+    strip_fortran_comment,
+)
 
 _PARSER = None
 
@@ -37,6 +42,22 @@ def _parser():
     if _PARSER is None:
         _PARSER = ParserFactory().create(std="f2008")
     return _PARSER
+
+
+def fparser_version() -> str:
+    """Report the installed fparser, which is part of the cache identity.
+
+    fparser is pinned exactly because its version string and its syntax-error
+    text both land inside byte-compared artifacts. A cache built by a different
+    fparser is not interchangeable with one built by the pinned version, even
+    when the two happen to reject the same files.
+    """
+    from importlib.metadata import PackageNotFoundError, version
+
+    try:
+        return version("fparser")
+    except PackageNotFoundError:  # pragma: no cover - fparser is a hard dependency
+        return "unavailable"
 
 
 def parse_tree(source_dir: Path, source_ref: str = "") -> FactStore:
@@ -50,6 +71,10 @@ def parse_tree(source_dir: Path, source_ref: str = "") -> FactStore:
         except (FortranSyntaxError, Exception) as exc:  # noqa: BLE001
             store.parse_errors[rel] = f"{type(exc).__name__}: {exc}"
             store.fallback_files.append(rel)
+            # The AST attempt is abandoned whole, so any normalisation it
+            # recorded describes input nothing ended up using. Drop it rather
+            # than report a rewrite that did not produce this file's facts.
+            store.normalized_files.pop(rel, None)
             parse_file_fallback(store, rel, text)
     annotate_dataflow(store, source_dir)
     return store
@@ -78,7 +103,7 @@ _KEYWORD_LINE = re.compile(
 
 def _classify_line(line: str) -> tuple[str | None, list[str]]:
     """Return (write_base | None, [read identifiers]) for one code line."""
-    code = line.split("!", 1)[0]
+    code = strip_fortran_comment(line)
     if not code.strip() or "::" in code:
         return None, []
     if not _KEYWORD_LINE.match(code):
@@ -144,12 +169,25 @@ _SCOPE_CLASSES = (
 
 
 def parse_file_ast(store: FactStore, rel: str, text: str) -> None:
-    reader = FortranStringReader(text, ignore_comments=True)
+    lines = text.splitlines()
+
+    # fparser2 rejects a whole file over `a*-1`, which gfortran accepts, and
+    # SWAT+ writes it (`if ((Q*-1) >= ...)`). Parenthesising the signed operand
+    # is a change of spelling, not of meaning, so it is applied to the parser's
+    # input only: `lines` stays the unchanged source and remains the sole origin
+    # of every raw string, span and hash below. Line count is preserved, so the
+    # spans still line up. This mirrors the rich path in `ast_index`; without it
+    # this layer falls back to the line scanner on files the rich path reads
+    # fine, which is a silent asymmetry between the two stores.
+    parsed_lines, normalized = normalize_nonstandard_signs(lines)
+    if normalized:
+        store.normalized_files[rel] = normalized
+
+    reader = FortranStringReader("\n".join(parsed_lines), ignore_comments=True)
     # .f90 files are free-form by definition; never trust content sniffing
     # (files whose first line starts in column 6 get misread as fixed-form).
     reader.set_format(FortranFormat(True, False))
     tree = _parser()(reader)
-    lines = text.splitlines()
 
     for node in walk(tree, _SCOPE_CLASSES):
         sym = _symbol_for_scope(node, rel, lines)
@@ -393,7 +431,7 @@ def parse_components(lines: list[str], start: int, end: int) -> list[Component]:
             ("end type", "contains", "procedure", "generic", "private", "sequence")
         ):
             continue
-        code, _, comment = raw.partition("!")
+        code, comment = split_fortran_comment(raw)
         comment = comment.lstrip("!").strip()
         units, desc = "", comment
         if "|" in comment:
@@ -438,7 +476,7 @@ def parse_file_fallback(store: FactStore, rel: str, text: str) -> None:
         store.add(sym)
 
     for i, raw in enumerate(lines, start=1):
-        line = raw.split("!")[0].rstrip()
+        line = strip_fortran_comment(raw).rstrip()
         if not line.strip():
             continue
         m = _RX_UNIT.match(line)
