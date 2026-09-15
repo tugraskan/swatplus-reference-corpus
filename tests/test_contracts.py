@@ -15,6 +15,7 @@ from swatplus_reference.parser.rich import (
     RICH_EXPORT_SCHEMA,
     RICH_MODEL_VERSION,
     DEFAULT_ENGINE,
+    SCANNER_ENGINE,
     parser_version,
     SNAPSHOT_FORMAT,
     SNAPSHOT_METADATA_KEY,
@@ -113,7 +114,9 @@ def test_v2_snapshot_remains_readable():
     assert snapshot["format"] == 2
     assert snapshot["export"] == "swatplus-reference-rich-v2"
     assert "identity" not in payload["procedures"][0]
-    assert RichStore.load(V2).get("demo_calc") is not None
+    store = RichStore.load(V2)
+    assert store.get("demo_calc") is not None
+    assert store.engine == SCANNER_ENGINE
 
 
 def test_v1_converts_to_a_valid_but_incomplete_v3_snapshot(tmp_path):

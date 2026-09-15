@@ -342,6 +342,17 @@ TARGET_FILES: tuple[str, ...] = (
     "manure_allo.mnu",
 )
 
+# Source branches can rename or replace release-62 inputs, and can add inputs
+# that do not exist in the pinned release at all.  These candidates are only
+# emitted when their reader resolves in the scanned source, so keeping them
+# here does not add false "reader not found" entries to the release artifact.
+# When a resolved candidate replaces a release target whose reader is absent,
+# the obsolete target is removed from that source's payload.
+EVOLVING_TARGET_FILES: tuple[str, ...] = (
+    "transplant.ops",
+    "point_of_diver.wro",
+)
+
 # Investigated 2026-08: the 8 files 5eeaf58 flagged as unresolved-even-when-
 # targeted inside gwflow_read.f90 and its siblings (chan_depth.gw,
 # hru_pump.gw, pond_div.gw, sw_group.gw, transit.gw, soil_lyr_depths.sol,
@@ -510,6 +521,11 @@ MULTI_RECORD_FILES: tuple[str, ...] = (
     "weather-wgn.cli",
 )
 
+EVOLVING_MULTI_RECORD_FILES: tuple[str, ...] = (
+    "place_of_use.wro",
+    "water_hru_irr.wal",
+)
+
 # Multi-section files: one physical file contains more than one logical read
 # section/pass, so it cannot be represented honestly as one flat row shape.
 # The measured-weather station lists count data rows, reread station names, then
@@ -527,6 +543,10 @@ MULTI_SECTION_FILES: tuple[str, ...] = (
     "slr.cli",
     "tmp.cli",
     "wnd.cli",
+)
+
+EVOLVING_MULTI_SECTION_FILES: tuple[str, ...] = (
+    "wtps_wuses.wal",
 )
 
 _CONSTITUENTS_CS_SECTIONS: tuple[tuple[str, str, str], ...] = (
@@ -575,6 +595,16 @@ RUNTIME_ARITY_FILES: tuple[str, ...] = (
     "ponds.gw",
     "gwflow_canal.con",
 )
+
+EVOLVING_RUNTIME_ARITY_FILES: tuple[str, ...] = (
+    "outside_src.wal",
+)
+
+_EVOLVING_REPLACEMENTS: dict[str, str] = {
+    "transplant.ops": "transplant.plt",
+    "place_of_use.wro": "water_allocation.wro",
+    "outside_src.wal": "out_src.wal",
+}
 
 # Pinned-source filename attribution fixes: SWAT+ 62.0.0 has a small number of
 # readers whose `open(file=...)` expression points at the wrong sibling
@@ -2510,11 +2540,93 @@ class SchemaResolver:
     ) -> tuple[MultiSectionSchema | None, str | None]:
         """Resolve curated files with multiple logical read sections."""
         filenames = _filenames_for_block(block, proc, self)
-        if not any(name in MULTI_SECTION_FILES for name in filenames):
+        if not any(
+            name in MULTI_SECTION_FILES + EVOLVING_MULTI_SECTION_FILES
+            for name in filenames
+        ):
             return None, None
         if "constituents.cs" in filenames:
             return self._resolve_constituents_cs_block(block, proc)
+        if "wtps_wuses.wal" in filenames:
+            return self._resolve_wtps_wuses_block(block, proc)
         return self._resolve_station_list_block(block, proc)
+
+    def _resolve_wtps_wuses_block(
+        self, block: _IOBlock, proc: ProcedureDoc
+    ) -> tuple[MultiSectionSchema | None, str | None]:
+        """Resolve the object counts and two runtime-width name lists."""
+
+        count_op = next(
+            (
+                op
+                for op in block.reads
+                if [_normalised_field_name(field) for field in op.fields]
+                == ["wtps", "wuses"]
+            ),
+            None,
+        )
+        list_ops: dict[str, tuple[IOOperation, str]] = {}
+        for op in block.reads:
+            if len(op.fields) != 1:
+                continue
+            implied = _parse_implied_do(op.fields[0])
+            if implied is None or len(implied[0]) != 1:
+                continue
+            items, _loop_var, _lower, upper = implied
+            field_name = _normalised_field_name(items[0])
+            count_name = upper.strip().lower()
+            if field_name in {"wtp_name", "wuse_name"} and count_name in {
+                "wtps",
+                "wuses",
+            }:
+                list_ops[field_name] = (op, count_name)
+
+        if count_op is None or set(list_ops) != {"wtp_name", "wuse_name"}:
+            return None, "wtps_wuses.wal missing counts or runtime-width name lists"
+
+        count_fields, _count_type, err = self._resolve_read_fields(count_op, proc)
+        if err:
+            return None, err
+        if count_fields is None or len(count_fields) != 2:
+            return None, "wtps_wuses.wal counts did not resolve to two scalar fields"
+
+        sections = [
+            MultiSectionSection(
+                name="object_counts",
+                fields=count_fields,
+                count_source="literal_1",
+                reader_line=count_op.location.line,
+            )
+        ]
+        for field_name, section_name in (
+            ("wtp_name", "water_treatment_plant_names"),
+            ("wuse_name", "water_use_names"),
+        ):
+            op, count_name = list_ops[field_name]
+            implied = _parse_implied_do(op.fields[0])
+            assert implied is not None
+            fields, _field_type, err = self._resolve_field_expr(implied[0][0], proc)
+            if err:
+                return None, err
+            if len(fields) != 1:
+                return None, f"wtps_wuses.wal {field_name} did not resolve to one field"
+            sections.append(
+                MultiSectionSection(
+                    name=section_name,
+                    fields=fields,
+                    count_source=f"object_counts:{count_name}",
+                    reader_line=op.location.line,
+                )
+            )
+
+        return (
+            MultiSectionSchema(
+                sections=sections,
+                reader=proc.location.path,
+                reader_line=count_op.location.line,
+            ),
+            None,
+        )
 
     def _resolve_station_list_block(
         self, block: _IOBlock, proc: ProcedureDoc
@@ -2821,6 +2933,7 @@ class SchemaResolver:
             "water_treat.wal",
             "water_use.wal",
             "out_src.wal",
+            "outside_src.wal",
         }
         for filename in wal_specs:
             if filename in filenames:
@@ -4667,8 +4780,7 @@ class SchemaResolver:
                 op
                 for op in block.reads
                 if len(op.fields) >= 5
-                and op.fields[0].strip().lower() == "i"
-                and any(_normalised_field_name(field) == "name" for field in op.fields[1:])
+                and any(_normalised_field_name(field) == "name" for field in op.fields)
                 and (count_op is None or op.location.line > count_op.location.line)
             ),
             None,
@@ -5415,6 +5527,31 @@ def analyze_decision_tables(
     return results, unresolved_reasons
 
 
+def _targets_for_scanned_source(
+    targets: tuple[str, ...],
+    resolved: dict[str, Any],
+    evolving: tuple[str, ...],
+) -> tuple[str, ...]:
+    """Add only source-resolved evolving inputs and retire absent predecessors.
+
+    The release target tuples remain the compatibility contract for 62.0.0.
+    Branch comparisons, however, need schemas for newly introduced readers
+    without reporting every future-only filename as unresolved against older
+    sources.  Presence of a resolved reader is the sole activation signal.
+    """
+
+    selected = list(targets)
+    for filename in evolving:
+        if filename not in resolved:
+            continue
+        predecessor = _EVOLVING_REPLACEMENTS.get(filename)
+        if predecessor in selected and predecessor not in resolved:
+            selected.remove(predecessor)
+        if filename not in selected:
+            selected.append(filename)
+    return tuple(selected)
+
+
 def build_decision_tables(
     project: ProjectIndex,
     resolver: SchemaResolver,
@@ -5482,7 +5619,12 @@ def build_multi_records(
 
     files: dict[str, Any] = {}
     unresolved: list[dict[str, str]] = []
-    for filename in targets:
+    active_targets = (
+        _targets_for_scanned_source(targets, resolved, EVOLVING_MULTI_RECORD_FILES)
+        if targets == MULTI_RECORD_FILES
+        else targets
+    )
+    for filename in active_targets:
         result = resolved.get(filename)
         if result is None:
             reason = unresolved_reasons.get(filename, "reader not found for filename")
@@ -5530,7 +5672,12 @@ def build_multi_sections(
 
     files: dict[str, Any] = {}
     unresolved: list[dict[str, str]] = []
-    for filename in targets:
+    active_targets = (
+        _targets_for_scanned_source(targets, resolved, EVOLVING_MULTI_SECTION_FILES)
+        if targets == MULTI_SECTION_FILES
+        else targets
+    )
+    for filename in active_targets:
         result = resolved.get(filename)
         if result is None:
             reason = unresolved_reasons.get(filename, "reader not found for filename")
@@ -5555,11 +5702,11 @@ def analyze_runtime_arity(
             if schema is None:
                 if reason:
                     for name in _filenames_for_block(block, proc, resolver):
-                        if name in RUNTIME_ARITY_FILES:
+                        if name in RUNTIME_ARITY_FILES + EVOLVING_RUNTIME_ARITY_FILES:
                             unresolved_reasons.setdefault(name, reason)
                 continue
             for name in _filenames_for_block(block, proc, resolver):
-                if name in RUNTIME_ARITY_FILES:
+                if name in RUNTIME_ARITY_FILES + EVOLVING_RUNTIME_ARITY_FILES:
                     results.append(
                         RuntimeArityResult(
                             filename=name, reader=proc.location.path, schema=schema
@@ -5582,7 +5729,12 @@ def build_runtime_arity(
 
     files: dict[str, Any] = {}
     unresolved: list[dict[str, str]] = []
-    for filename in targets:
+    active_targets = (
+        _targets_for_scanned_source(targets, resolved, EVOLVING_RUNTIME_ARITY_FILES)
+        if targets == RUNTIME_ARITY_FILES
+        else targets
+    )
+    for filename in active_targets:
         result = resolved.get(filename)
         if result is None:
             reason = unresolved_reasons.get(filename, "reader not found for filename")
@@ -5625,7 +5777,12 @@ def build_schema(
 
     files: dict[str, Any] = {}
     unresolved: list[dict[str, str]] = []
-    for filename in targets:
+    active_targets = (
+        _targets_for_scanned_source(targets, resolved, EVOLVING_TARGET_FILES)
+        if targets == TARGET_FILES
+        else targets
+    )
+    for filename in active_targets:
         result = resolved.get(filename)
         if result is None:
             reason = unresolved_reasons.get(

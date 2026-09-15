@@ -9,6 +9,7 @@ from swatplus_reference.parser.schema_fortran import FortranScanner
 from swatplus_reference.schema.input import (
     TARGET_FILES,
     SchemaResolver,
+    _targets_for_scanned_source,
     analyze_procedure,
     array_multiplicity,
     build_decision_tables,
@@ -2067,6 +2068,165 @@ class ConstituentsCsMultiSectionSchemaTests(unittest.TestCase):
         self.assertEqual(
             [f["fortran_name"] for f in by_name["pests_names"]["fields"]],
             ["pests"],
+        )
+
+
+WTPS_WUSES_FIXTURE = """
+      subroutine wallo_wtps_wuses
+      character (len=80) :: titldum = ""
+      character (len=25), dimension(:), allocatable :: wtp_name
+      character (len=25), dimension(:), allocatable :: wuse_name
+      integer :: eof = 0, wtps = 0, wuses = 0, iwtp = 0, iwuse = 0
+      open (107,file='wtps_wuses.wal')
+      read (107,*,iostat=eof) titldum
+      read (107,*,iostat=eof) wtps, wuses
+      read (107,*,iostat=eof) titldum
+      read (107,*,iostat=eof) (wtp_name(iwtp), iwtp = 1, wtps)
+      read (107,*,iostat=eof) (wuse_name(iwuse), iwuse = 1, wuses)
+      read (107,*,iostat=eof) titldum
+      close (107)
+      end subroutine wallo_wtps_wuses
+"""
+
+
+class EvolvingMultiSectionSchemaTests(unittest.TestCase):
+    def test_wtps_wuses_resolves_counts_and_runtime_width_name_lists(self) -> None:
+        project = scan_source(WTPS_WUSES_FIXTURE)
+        files, unresolved = build_multi_sections(
+            project, SchemaResolver(project), targets=("wtps_wuses.wal",)
+        )
+        self.assertEqual(unresolved, [])
+        sections = files["wtps_wuses.wal"]["sections"]
+        self.assertEqual(
+            [section["name"] for section in sections],
+            ["object_counts", "water_treatment_plant_names", "water_use_names"],
+        )
+        self.assertEqual(
+            [field["fortran_name"] for field in sections[0]["fields"]],
+            ["wtps", "wuses"],
+        )
+        self.assertEqual(sections[1]["count_source"], "object_counts:wtps")
+        self.assertEqual(sections[2]["count_source"], "object_counts:wuses")
+
+
+OUTSIDE_SOURCE_FIXTURE = """
+      module water_allocation_module
+      type concentration_levels
+        character(len=6) :: org_min_typ = ""
+        character(len=25) :: org_min_name = ""
+        character(len=6) :: pests_typ = ""
+        character(len=25) :: pests_name = ""
+        character(len=6) :: paths_typ = ""
+        character(len=25) :: paths_name = ""
+        character(len=6) :: salts_typ = ""
+        character(len=25) :: salts_name = ""
+        character(len=6) :: constit_typ = ""
+        character(len=25) :: constit_name = ""
+      end type concentration_levels
+      type water_treatment_use_data
+        character(len=25) :: name = ""
+        type (concentration_levels), dimension(:), allocatable :: conc
+        character(len=80) :: descrip = ""
+      end type water_treatment_use_data
+      type (water_treatment_use_data), dimension(:), allocatable :: osrc
+      end module water_allocation_module
+
+      module constituent_mass_module
+      type constituent_counts
+        integer :: num_pests = 0
+        integer :: num_paths = 0
+      end type constituent_counts
+      type constituent_mass
+        real, dimension(:), allocatable :: pest
+        real, dimension(:), allocatable :: path
+      end type constituent_mass
+      type (constituent_counts) :: cs_db
+      type (constituent_mass), dimension(:), allocatable :: osrc_cs
+      end module constituent_mass_module
+
+      subroutine water_osrc_read
+      use water_allocation_module
+      use constituent_mass_module
+      character (len=80) :: titldum = "", header = ""
+      integer :: eof = 0, imax = 0, isrc = 0, lev = 1
+      open (107,file='outside_src.wal')
+      read (107,*,iostat=eof) titldum
+      read (107,*,iostat=eof) imax
+      read (107,*,iostat=eof) header
+      do isrc = 1, imax
+        read (107,*,iostat=eof) osrc(isrc)%name, &
+          osrc(isrc)%conc(lev)%org_min_typ, osrc(isrc)%conc(lev)%org_min_name, &
+          osrc(isrc)%conc(lev)%pests_typ, osrc(isrc)%conc(lev)%pests_name, &
+          osrc(isrc)%conc(lev)%paths_typ, osrc(isrc)%conc(lev)%paths_name, &
+          osrc(isrc)%conc(lev)%salts_typ, osrc(isrc)%conc(lev)%salts_name, &
+          osrc(isrc)%conc(lev)%constit_typ, osrc(isrc)%conc(lev)%constit_name, &
+          osrc(isrc)%descrip
+        if (cs_db%num_pests > 0) then
+          read (107,*,iostat=eof) header
+          read (107,*,iostat=eof) osrc_cs(isrc)%pest
+        end if
+        if (cs_db%num_paths > 0) then
+          read (107,*,iostat=eof) header
+          read (107,*,iostat=eof) osrc_cs(isrc)%path
+        end if
+      end do
+      close (107)
+      end subroutine water_osrc_read
+"""
+
+
+class EvolvingRuntimeAritySchemaTests(unittest.TestCase):
+    def test_outside_source_resolves_main_and_constituent_sections(self) -> None:
+        project = scan_source(OUTSIDE_SOURCE_FIXTURE)
+        files, unresolved = build_runtime_arity(
+            project, SchemaResolver(project), targets=("outside_src.wal",)
+        )
+        self.assertEqual(unresolved, [])
+        sections = files["outside_src.wal"]["sections"]
+        by_name = {section["name"]: section for section in sections}
+        self.assertEqual(
+            [field["fortran_name"] for field in by_name["main_rows"]["fields"]],
+            [
+                "name", "org_min_typ", "org_min_name", "pests_typ", "pests_name",
+                "paths_typ", "paths_name", "salts_typ", "salts_name",
+                "constit_typ", "constit_name", "descrip",
+            ],
+        )
+        self.assertEqual(
+            by_name["pest_concentrations"]["fields"][0]["count_expr"],
+            "cs_db%num_pests",
+        )
+        self.assertEqual(
+            by_name["pathogen_concentrations"]["fields"][0]["count_expr"],
+            "cs_db%num_paths",
+        )
+
+
+class EvolvingTargetSelectionTests(unittest.TestCase):
+    def test_resolved_replacement_retires_absent_release_target(self) -> None:
+        targets = ("transplant.plt", "other.dat")
+        resolved = {"transplant.ops": object()}
+        self.assertEqual(
+            _targets_for_scanned_source(targets, resolved, ("transplant.ops",)),
+            ("other.dat", "transplant.ops"),
+        )
+
+    def test_unresolved_evolving_target_does_not_pollute_release_targets(self) -> None:
+        targets = ("transplant.plt", "other.dat")
+        self.assertEqual(
+            _targets_for_scanned_source(targets, {}, ("transplant.ops",)),
+            targets,
+        )
+
+    def test_explicit_custom_target_list_is_not_broadened(self) -> None:
+        project = scan_source(WTPS_WUSES_FIXTURE)
+        files, unresolved = build_multi_sections(
+            project, SchemaResolver(project), targets=("absent.dat",)
+        )
+        self.assertEqual(files, {})
+        self.assertEqual(
+            unresolved,
+            [{"file": "absent.dat", "reason": "reader not found for filename"}],
         )
 
 

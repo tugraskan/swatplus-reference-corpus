@@ -123,6 +123,10 @@ def get_store(cfg: Config, refresh: bool = False) -> FactStore:
                 cached_rich = RichStore.load(rich_path, expected_source_ref=cfg.source_ref)
                 expected_diagnostics = {
                     "fallback_files": sorted(set(store.fallback_files)),
+                    "normalized_files": {
+                        key: list(store.normalized_files[key])
+                        for key in sorted(store.normalized_files)
+                    },
                     "parse_errors": dict(sorted(store.parse_errors.items())),
                     # A cache produced by a different fparser is not
                     # interchangeable with one produced by the pinned version,

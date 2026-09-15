@@ -285,7 +285,14 @@ def test_comparison_preview_matches_normal_rich_render(tmp_path, monkeypatch):
     for page in pages:
         page.save()
     (tmp_path / "mkdocs.yml").write_text(
-        "site_name: test\ndocs_dir: docs\nsite_dir: site\n",
+        "site_name: test\n"
+        "docs_dir: docs\n"
+        "site_dir: site\n"
+        "markdown_extensions:\n"
+        "  - pymdownx.superfences:\n"
+        "      custom_fences:\n"
+        "        - name: mermaid\n"
+        "          format: !!python/name:pymdownx.superfences.fence_code_format\n",
         encoding="utf-8",
     )
     store, rich = parse_documentation(FIXTURES, commit)
@@ -308,6 +315,10 @@ def test_comparison_preview_matches_normal_rich_render(tmp_path, monkeypatch):
         for path in relative_pages
     }
     assert result["success"] is True
+    preview_config = (tmp_path / "work" / "candidate" / "preview" / "mkdocs.yml").read_text(
+        encoding="utf-8"
+    )
+    assert "!!python/name:pymdownx.superfences.fence_code_format" in preview_config
     assert preview_pages == normal_pages
     calc = preview_pages["procedures/demo_calc.md"]
     assert "### Control-flow outline" in calc

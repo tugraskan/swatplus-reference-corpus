@@ -22,7 +22,7 @@ swatref.toml
     |
     +-- source profile: main ------------------+
     |                                          |
-    |                                  rich Fortran scanner
+    |                                 fparser2 AST parser
     |                                          |
     |                         .swatref/docs/rich.json (ProjectIndex)
     |                                          |
@@ -88,13 +88,14 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | `provenance` | deterministic source/artifact records |
 | `cli.py` | `source`, `docs`, `schema`, and `compare` command groups |
 
-The schema-oriented `FortranScanner` is the primary source parser. One scan
-produces a rich `ProjectIndex`; documentation projects that index into the
-compact `FactStore` contract used by pages, grounding, hashes, and status.
-Schemas and external consumers use the richer index directly. During migration,
-fparser2 runs alongside ordinary documentation parsing for diagnostics and in
-the explicit `facts-diff` comparison. It does not yet produce the documentation
-facts. Failures are retained in both the rich snapshot metadata and FactStore.
+The fparser2 AST parser is the primary documentation parser. It produces a rich
+`ProjectIndex`, and documentation projects that index into the compact
+`FactStore` contract used by pages, grounding, hashes, and status. Exact source
+text and comments come from the shared source-text layer rather than fparser2's
+normalized node rendering. Schemas and external consumers use the richer index
+directly. The legacy `FortranScanner` remains selectable for one compatibility
+period and supplies the comparison baseline. Parser failures and input
+normalizations are retained in rich snapshot metadata and `FactStore`.
 
 Both projections share the same exact source selection and provenance. The CLI
 rejects or rebuilds caches whose parser producer or source commit does not
