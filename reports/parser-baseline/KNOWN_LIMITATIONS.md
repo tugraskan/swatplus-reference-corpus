@@ -1,12 +1,12 @@
 # Phase 0 known parser limitations
 
-These are known properties of the reference rich scanner. They are recorded so
-the fparser2 migration does not accidentally turn an existing limitation into a
-required feature.
+These are known properties of the reference parser pipeline. They remain
+recorded after the fparser2 cutover so reviewed limitations do not disappear
+behind the engine change.
 
 - Function-style calls start as broad `name(...)` candidates. Semantic
   resolution distinguishes internal functions from arrays and intrinsics; an
-  unresolved candidate is retained in memory but omitted from the portable v2
+  unresolved candidate is retained in memory but omitted from the portable v3
   snapshot.
 - The portable snapshot records unresolved explicit `CALL` statements, but the
   compact Markdown `FactStore` exposes resolved internal graph edges only.
@@ -39,8 +39,9 @@ required feature.
   retained deliberately: it is the only record of the statement as written.
   Assignments inside a conditional are still a flat source-order list, so the
   branch an assignment sits in is not represented.
-- The rich scanner is line-oriented; nested or unusually formatted declarations
-  remain migration risks. Two historical span disagreements (`salt_balance`
+- The legacy compatibility scanner is line-oriented. The default AST parser
+  uses the shared source-text layer for exact declaration bytes. Two historical
+  span disagreements (`salt_balance`
   and `output_saltbal_header`) were actually name-only comparison collisions:
   the old report compared types in `output_ls_salt_module.f90` with types in
   `salt_module.f90`. Kind-plus-file matching agrees at 23 and 33 lines,
@@ -51,8 +52,10 @@ required feature.
   `unit_code_val`, from `gwflow_read.f90`'s `read(code_val,*)` statements.
   Telling an internal read from a file read needs the declared type of the
   unit expression, which is Phase 3 semantic work.
-- fparser2 rejects the accepted `expr*-1` spelling in two pinned SWAT+ files.
-  Those files use fallback parsing and must remain visible in diagnostics.
+- fparser2 ordinarily rejects the accepted `expr*-1` spelling in two pinned
+  SWAT+ files. The source layer parenthesizes the signed operand in parser input
+  only; the unchanged bytes remain authoritative, and the normalized lines stay
+  visible in diagnostics.
 - The compact fact store uses qualified fallback keys such as
   `type::salt_balance` when a type and a procedure share one bare name.
 - Same-kind duplicate names can still collapse in `FactStore`; `RichStore`

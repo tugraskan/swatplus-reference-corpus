@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from yaml.nodes import MappingNode, ScalarNode
 
 from .. import __version__
 from ..docs.grounding import check_all
@@ -1650,6 +1651,37 @@ def _grounding_payload(base_findings: list[Any], candidate_findings: list[Any]) 
     }
 
 
+def _preview_mkdocs_config(source: str, updates: dict[str, str]) -> str:
+    """Update top-level MkDocs paths without constructing tagged YAML values."""
+
+    document = yaml.compose(source)
+    if not isinstance(document, MappingNode):
+        raise ValueError("mkdocs.yml must contain a top-level mapping")
+
+    found: set[str] = set()
+    values: list[tuple[yaml.Node, yaml.Node]] = []
+    for key, value in document.value:
+        if isinstance(key, ScalarNode) and key.value in updates:
+            found.add(key.value)
+            value = ScalarNode(
+                tag="tag:yaml.org,2002:str",
+                value=updates[key.value],
+                style=value.style if isinstance(value, ScalarNode) else None,
+            )
+        values.append((key, value))
+
+    for key, value in updates.items():
+        if key not in found:
+            values.append(
+                (
+                    ScalarNode(tag="tag:yaml.org,2002:str", value=key),
+                    ScalarNode(tag="tag:yaml.org,2002:str", value=value),
+                )
+            )
+    document.value = values
+    return yaml.serialize(document)
+
+
 def _build_preview(
     cfg: Config,
     comparison: ComparisonConfig,
@@ -1674,17 +1706,19 @@ def _build_preview(
     render_site(preview_cfg, candidate_store, candidate_rich)
 
     mkdocs_path = cfg.root / "mkdocs.yml"
-    mkdocs_data = yaml.safe_load(mkdocs_path.read_text(encoding="utf-8")) or {}
-    mkdocs_data["site_name"] = f"{comparison.title or comparison.name} preview"
-    mkdocs_data["site_description"] = (
-        f"Isolated preview for candidate {candidate_commit}"
+    mkdocs_data = _preview_mkdocs_config(
+        mkdocs_path.read_text(encoding="utf-8"),
+        {
+            "site_name": f"{comparison.title or comparison.name} preview",
+            "site_description": f"Isolated preview for candidate {candidate_commit}",
+            "docs_dir": str(preview_docs.resolve()),
+            "site_dir": str(preview_site.resolve()),
+        },
     )
-    mkdocs_data["docs_dir"] = str(preview_docs.resolve())
-    mkdocs_data["site_dir"] = str(preview_site.resolve())
     preview_config = work_dir / "preview" / "mkdocs.yml"
     preview_config.parent.mkdir(parents=True, exist_ok=True)
     preview_config.write_text(
-        yaml.safe_dump(mkdocs_data, sort_keys=False, allow_unicode=True),
+        mkdocs_data,
         encoding="utf-8",
     )
     command = [

@@ -201,10 +201,12 @@ def test_docs_cache_requires_matching_rich_diagnostics(tmp_path, monkeypatch, ca
     store = FactStore(
         source_ref=source_ref, producer=RICH_DOCUMENTATION_PRODUCER,
         parse_errors={"broken.f90": "bad expression"}, fallback_files=["broken.f90"],
+        normalized_files={"signs.f90": [4, 9]},
     )
     expected = {
         "parse_errors": store.parse_errors,
         "fallback_files": store.fallback_files,
+        "normalized_files": store.normalized_files,
         "fparser_version": fparser_version(),
     }
     stale = {

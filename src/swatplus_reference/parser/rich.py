@@ -569,6 +569,12 @@ class RichStore:
                     f"rich snapshot source is {actual or 'unrecorded'}, expected {expected_source_ref}"
                 )
         store = cls(index=_restore(raw, ProjectIndex))
+        parser_identity = snapshot.get("parser")
+        if isinstance(parser_identity, str):
+            if parser_identity.startswith("fortran-scanner-"):
+                store.engine = SCANNER_ENGINE
+            elif parser_identity.startswith("fparser-ast-"):
+                store.engine = AST_ENGINE
         store.stamp_identities()
         return store
 

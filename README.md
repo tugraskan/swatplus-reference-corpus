@@ -69,20 +69,21 @@ mkdocs.yml                         readable-site build
 Generated facts, rendered Markdown, the built website, test scratch space,
 and fetched upstream repositories are ignored. They can all be recreated.
 
-`swatref docs parse` runs the rich scanner once and writes both the compact
-documentation facts and the local `ProjectIndex` cache. `swatref docs
+`swatref docs parse` builds one AST-backed `ProjectIndex` with fparser2 and
+writes both the compact documentation facts and the local rich cache. The
+legacy scanner remains selectable through `[docs].engine = "scanner"` for the
+compatibility period. `swatref docs
 rich-parse --snapshot` reuses that current parse to write a tracked-ready handoff
 artifact at `snapshots/rich/<profile>-<resolved-commit>.rich.json` and an
 adjacent provenance sidecar. This is the supported handoff for TAMANDUA or
-another external consumer: it contains the rich scanner's `ProjectIndex`, is
+another external consumer: it contains the selected engine's `ProjectIndex`, is
 named by the exact SWAT+ commit, and records the selected profile, requested
 ref/tag, configured lock, resolved commit, and explicit snapshot/export/model
-versions. The current portable format is v2; readers reject unsupported
-versions instead of silently misreading them. Metadata-bearing v1 snapshots
-remain readable; older metadata-less cache files are rejected and rebuilt by
-the normal CLI path. Both local documentation caches must match that resolved
-commit; an old thin-parser cache is rebuilt automatically instead of being
-mixed with current rich facts.
+versions. The current portable format is v3; metadata-bearing v1 and v2
+snapshots remain readable, while unsupported or metadata-less files are
+rejected or rebuilt by the normal CLI path. Both local documentation caches
+must match that resolved commit and parser engine; stale caches are rebuilt
+instead of being mixed with current facts.
 
 ## Quick start
 
@@ -143,13 +144,14 @@ the repository variable `PUBLISH_PAGES=true` and only runs from corpus `main`.
 
 ## How the readable corpus works
 
-The rich scanner first creates a structured `ProjectIndex` from the selected
-source. The documentation fact store is a compact projection of that same rich
-scan and contains things the code can prove: symbols,
+The fparser2 AST parser creates a structured `ProjectIndex` from the selected
+source. Exact source bytes and comments come from the shared source-text layer,
+while the AST supplies ownership and structure. The documentation fact store is
+a compact projection of that same index and contains things the code can prove: symbols,
 arguments, variables, calls, module/type dependencies, file I/O, source spans,
-exact declaration lines, and source hashes. During migration, fparser2 also
-runs as a diagnostic check so its rejected files remain visible in `docs parse`
-and comparison reports; it does not supply the documentation facts yet.
+exact declaration lines, and source hashes. Parser diagnostics and any
+normalization applied only to parser input remain visible in `docs parse`, the
+rich snapshot, and comparison reports.
 
 The tracked pages contain reviewed prose plus markers such as
 `<!-- facts:calls -->`. Rendering replaces those markers with current facts and

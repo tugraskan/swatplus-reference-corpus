@@ -431,6 +431,11 @@ def test_each_engine_stamps_its_own_identity(tmp_path):
         store.save(saved, provenance={"resolved_commit": "0" * 40})
 
         reloaded = RichStore.load(saved)
+        assert reloaded.engine == engine
         assert reloaded.has_current_contract(engine), engine
         other = SCANNER_ENGINE if engine == AST_ENGINE else AST_ENGINE
         assert not reloaded.has_current_contract(other), engine
+
+        roundtrip = tmp_path / f"{engine}-roundtrip.json"
+        reloaded.save(roundtrip, provenance={"resolved_commit": "0" * 40})
+        assert RichStore.load(roundtrip).has_current_contract(engine), engine
