@@ -822,6 +822,22 @@ def collect_doc_blocks(lines: list[str]) -> tuple[dict[int, str], dict[int, str]
     not the one below, so they are attributed as continuations of the previous code
     line rather than buffered as the next declaration's preceding block.
 
+    A continuation is recognised two ways. A leading ``|`` marks the units-and-
+    description form. Otherwise the test is the column the comment starts at:
+    a declaration's inline comment opens a gutter, and a following comment at or
+    right of that column continues it, while one starting left of it is a new
+    thought at statement indentation::
+
+        integer :: pet = 0       !! potential ET method code
+                                 !!   0 = Priestley-Taylor      <- continues pet
+        integer :: nam1 = 0      !! not used
+
+    Matching only ``|`` attributed those aligned lines to the *next* declaration,
+    so ``nam1`` was documented as "0 = Priestley-Taylor ... not used" -- a wrong
+    meaning carried by a correct file and line. Across SWAT+ 62.0.0 the column
+    test separates cleanly: 106 comment lines sit at or right of the gutter and
+    continue the declaration above, 294 start left of it and do not.
+
     Module-level so the AST path shares one implementation with the scanner
     rather than re-deriving what counts as a documentation comment.
     """
@@ -830,29 +846,39 @@ def collect_doc_blocks(lines: list[str]) -> tuple[dict[int, str], dict[int, str]
     continuations: dict[int, str] = {}
     buffer: list[str] = []
     inline_idx: int | None = None
+    inline_col: int | None = None
     for idx, raw in enumerate(lines, start=1):
         stripped = raw.strip()
         if stripped.startswith("!") and not stripped.startswith("!$"):
             cleaned = clean_doc_line(stripped)
-            if inline_idx is not None and cleaned.startswith("|"):
+            # len(code) is the comment's column and is quote-aware, so a `!`
+            # inside a string literal does not move the gutter.
+            in_gutter = (
+                inline_col is not None
+                and len(split_fortran_comment(raw)[0]) >= inline_col
+            )
+            if inline_idx is not None and (cleaned.startswith("|") or in_gutter):
                 prev = continuations.get(inline_idx, "")
                 continuations[inline_idx] = (prev + "\n" + cleaned).strip() if prev else cleaned
             elif is_commented_out_declaration(cleaned):
-                inline_idx = None
+                inline_idx = inline_col = None
                 buffer = []
             else:
-                inline_idx = None
+                inline_idx = inline_col = None
                 buffer.append(cleaned)
             continue
         if not stripped:
             buffer = []
-            inline_idx = None
+            inline_idx = inline_col = None
             continue
         code, comment = split_fortran_comment(raw)
         if code.strip() and buffer:
             docs[idx] = "\n".join(buffer).strip()
         buffer = []
-        inline_idx = idx if (code.strip() and comment.strip()) else None
+        if code.strip() and comment.strip():
+            inline_idx, inline_col = idx, len(code)
+        else:
+            inline_idx = inline_col = None
     return docs, continuations
 
 

@@ -699,9 +699,9 @@ independent of whether the source-side pairing above resolved:
 | stor_max | integer | - | 0..1 | smax | integer | max depressional storage selection code | `matched` | stor_max | `verified` |
 | i_fpwet | integer | - | 0..1 | - | - | floodplain calculation code 0=off; 1=on; | `spreadsheet_only` | - | `mismatch` |
 | gwflow | integer | - | 0..1 | gwflow | integer | code for using groundwater flow routines; 0=off; 1=on; | `matched` | gwflow | `verified` |
-| - | - | - | - | swift_out | integer | 1 = compute flow in cracks write to SWIFT input file | `source_only` | - | - |
-| - | - | - | - | qual2e | integer | 0 = instream nutrient routing using QUAL2E | `source_only` | - | - |
-| - | - | - | - | idc_till | integer | 1 = Use dssat tillage method to use if cswat = 2 | `source_only` | - | - |
+| - | - | - | - | swift_out | integer | write to SWIFT input file 0 = do not write 1 = write to swift_hru.inp | `source_only` | - | - |
+| - | - | - | - | qual2e | integer | 0 = instream nutrient routing using QUAL2E 1 = instream nutrient routing using QUAL2E - with simplified nutrient transformations | `source_only` | - | - |
+| - | - | - | - | idc_till | integer | 1 = Use dssat tillage method to use if cswat = 2 2 = Use epic tillage method to use if cswat = 2 3 = Use Kemanian tillage method to use if cswat = 2 4 = Use dndc tillage method to use if cswat = 2 | `source_only` | - | - |
 
 ## codes.sft
 
@@ -1172,9 +1172,9 @@ independent of whether the source-side pairing above resolved:
 
 | Spreadsheet name | Type | Units | Range | Source name | Type | Description | Status | Editor DB name | Editor check |
 |---|---|---|---|---|---|---|---|---|---|
-| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number | `source_only` | - | - |
+| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn"t have to be sequential) | `source_only` | - | - |
 | - | - | - | - | name | character | - | `source_only` | - | - |
-| - | - | - | - | gis_id | integer | this is the first column in hru_dat (doesn"t have to be sequential) gis number for database purposes | `source_only` | - | - |
+| - | - | - | - | gis_id | integer | gis number for database purposes | `source_only` | - | - |
 | - | - | - | - | area_ha | real | input drainag area - ha | `source_only` | - | - |
 | - | - | - | - | lat | real | latitude (degrees) | `source_only` | - | - |
 | - | - | - | - | long | real | longitude (degrees) | `source_only` | - | - |
@@ -1410,9 +1410,9 @@ independent of whether the source-side pairing above resolved:
 | epco | numeric | none | 0..1 | epco | real | Plant water uptake compensation factor | `matched` | epco | `verified` |
 | orgn_enrich | numeric | none | 0..5 | erorgn | real | Organic N enrichment ratio, if left blank the model will calculate for every event | `matched` | orgn_enrich | `verified` |
 | orgp_enrich | numeric | none | 0..5 | erorgp | real | Organic P enrichment ratio, if left blank the model will calculate for every event | `matched` | orgp_enrich | `verified` |
-| cn3_swf | numeric | % | 0..1 | cn3_swf | real | Soil water at cn3 0=fc; .99=near saturation | `matched` | cn3_swf | `verified` |
+| cn3_swf | numeric | none | 0..1 | cn3_swf | real | Soil water at cn3 0=fc; .99=near saturation | `matched` | cn3_swf | `verified` |
 | bio_mix | numeric | none | - | biomix | real | Biological mixing efficiency | `matched` | bio_mix | `verified` |
-| perco | numeric | % | - | perco | real | percolation coefficient -adjusts soil moisture for perc to occur (1.0 = fc) | `matched` | perco | `verified` |
+| perco | numeric | none | - | perco | real | percolation coefficient -adjusts soil moisture for perc to occur (1.0 = fc) | `matched` | perco | `verified` |
 | lat_orgn | numeric | mg/L | 0..200 | lat_orgn | real | Organic N concentration in lateral flow | `matched` | lat_orgn | `verified` |
 | lat_orgp | numeric | mg/L | 0..200 | lat_orgp | real | Organic P concentration in lateral flow | `matched` | lat_orgp | `verified` |
 | harg_pet | numeric | - | - | - | - | Coefficient related to radiation used in Hargreaves equation | `spreadsheet_only` | - | `mismatch` |
@@ -1750,7 +1750,7 @@ independent of whether the source-side pairing above resolved:
 
 | Spreadsheet name | Type | Units | Range | Source name | Type | Description | Status | Editor DB name | Editor check |
 |---|---|---|---|---|---|---|---|---|---|
-| - | - | - | - | name | character | Identifier used to crosswalk fertilizer entries, constructed from | `source_only` | - | - |
+| - | - | - | - | name | character | Identifier used to crosswalk fertilizer entries, constructed from manure_region, manure_source, and manure_type | `source_only` | - | - |
 | - | - | kg water/(kg manure + kg_water) | - | frac_water | real | frac of manure which is water | `source_only` | - | - |
 | - | - | kg C/kg frt | - | fcbn | real | frac of fert which is carbon | `source_only` | - | - |
 | - | - | kg minN/kg frt | - | fminn | real | frac of fert which is mineral nitrogen (NO3+NH3) | `source_only` | - | - |
@@ -2052,7 +2052,7 @@ independent of whether the source-side pairing above resolved:
 | hyd_typ | string | - | - | - | - | Outflow hydrograph type | `spreadsheet_only` | - | `unavailable` |
 | frac | numeric | - | 0..1 | frac_out | real | Fraction of hydrograph set to object | `matched` | - | `unavailable` |
 | description | string | none | - | - | - | - | `spreadsheet_only` (structural) | - | `unavailable` |
-| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number | `source_only` | - | - |
+| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn"t have to be sequential) | `source_only` | - | - |
 | - | - | - | - | props | integer | properties number from data base (ie hru.dat, sub.dat) - change props to data | `source_only` | - | - |
 | - | - | - | - | wst_c | character | weather station name | `source_only` | - | - |
 | - | - | - | - | props2 | integer | overbank connectivity pointer to landscape units - change props2 to overbank | `source_only` | - | - |
@@ -2665,7 +2665,7 @@ independent of whether the source-side pairing above resolved:
 | monthly53 | string | none | - | - | - | Monthly output yes or no | `spreadsheet_only` | - | `mismatch` |
 | yearly53 | string | none | - | - | - | Yearly output yes or no | `spreadsheet_only` | - | `mismatch` |
 | aveann53 | string | none | - | - | - | Average annual output yes or no | `spreadsheet_only` | - | `mismatch` |
-| - | - | - | - | use_obj_labels | character | code to read in the print.prt print objects respecting the label of | `source_only` | - | - |
+| - | - | - | - | use_obj_labels | character | code to read in the print.prt print objects respecting the label of in the row (1st column) to identify name of the print object | `source_only` | - | - |
 | - | - | - | - | name | character | - | `source_only` | - | - |
 | - | - | - | - | d | character | - | `source_only` | - | - |
 | - | - | - | - | m | character | - | `source_only` | - | - |
@@ -2761,7 +2761,7 @@ independent of whether the source-side pairing above resolved:
 | hyd_typ | string | - | - | - | - | Outflow hydrograph type | `spreadsheet_only` | - | `unavailable` |
 | frac | numeric | - | 0..1 | frac_out | real | Fraction of hydrograph set to object | `matched` | - | `unavailable` |
 | description | string | none | - | - | - | - | `spreadsheet_only` (structural) | - | `unavailable` |
-| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number | `source_only` | - | - |
+| - | - | - | - | num | integer | spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn"t have to be sequential) | `source_only` | - | - |
 | - | - | - | - | wst_c | character | weather station name | `source_only` | - | - |
 | - | - | - | - | obtypno_out | integer | outflow object type name | `source_only` | - | - |
 | - | - | - | - | htyp_out | character | outflow hyd type (ie 1=tot, 2= recharge, 3=surf, etc) | `source_only` | - | - |
