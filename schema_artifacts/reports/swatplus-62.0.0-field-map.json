@@ -1099,7 +1099,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -1145,7 +1145,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -5290,7 +5290,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -5336,7 +5336,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -6101,7 +6101,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -6147,7 +6147,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -7351,7 +7351,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "potential ET method code",
+          "description": "potential ET method code 0 = Priestley-Taylor 1 = Penman-Monteith 2 = Hargreaves method",
           "name": "pet",
           "type": "integer",
           "units": null
@@ -7374,7 +7374,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = Priestley-Taylor 1 = Penman-Monteith 2 = Hargreaves method not used",
+          "description": "not used",
           "name": "nam1",
           "type": "integer",
           "units": null
@@ -7397,7 +7397,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "crack flow code",
+          "description": "crack flow code 1 = compute flow in cracks",
           "name": "crk",
           "type": "integer",
           "units": null
@@ -7443,7 +7443,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = do not write 1 = write to swift_hru.inp peak rate method",
+          "description": "peak rate method 0 = NRCS dimensionless hydrograph with PRF 1 = half hour rainfall intensity method",
           "name": "sed_det",
           "type": "integer",
           "units": null
@@ -7466,7 +7466,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = NRCS dimensionless hydrograph with PRF 1 = half hour rainfall intensity method water routing method",
+          "description": "water routing method 0 variable storage method 1 Muskingum method",
           "name": "rte",
           "type": "integer",
           "units": null
@@ -7489,7 +7489,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 variable storage method 1 Muskingum method not used",
+          "description": "not used",
           "name": "deg",
           "type": "integer",
           "units": null
@@ -7535,7 +7535,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "redefined to the sequence number -- changed to no nutrient stress",
+          "description": "redefined to the sequence number -- changed to no nutrient stress 0 = all stresses applied 1 = turn off all plant stress 2 = turn off nutrient plant stress only",
           "name": "nostress",
           "type": "integer",
           "units": null
@@ -7558,7 +7558,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = all stresses applied 1 = turn off all plant stress 2 = turn off nutrient plant stress only not used",
+          "description": "not used",
           "name": "cn",
           "type": "integer",
           "units": null
@@ -7604,7 +7604,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "carbon code: 0 = off (static), 1 = C-FARM (reserved,",
+          "description": "carbon code: 0 = off (static), 1 = C-FARM (reserved, not implemented), 2 = dynamic CENTURY/SWAT-C model. numbering aligned with legacy SWAT as directed by Srinivasan. = 0 Static soil carbon (old mineralization routines) = 1 C-FARM one carbon pool model = 2 Century model",
           "name": "cswat",
           "type": "integer",
           "units": null
@@ -7627,7 +7627,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "not implemented), 2 = dynamic CENTURY/SWAT-C model. numbering aligned with legacy SWAT as directed by Srinivasan. = 0 Static soil carbon (old mineralization routines) = 1 C-FARM one carbon pool model = 2 Century model precip and temperature lapse rate control",
+          "description": "precip and temperature lapse rate control 0 = do not adjust for elevation 1 = adjust for elevation",
           "name": "lapse",
           "type": "integer",
           "units": null
@@ -7650,7 +7650,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = do not adjust for elevation 1 = adjust for elevation Unit hydrograph method:",
+          "description": "Unit hydrograph method: 0 = triangular UH 1 = gamma function UH",
           "name": "uhyd",
           "type": "integer",
           "units": null
@@ -7673,7 +7673,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = triangular UH 1 = gamma function UH not used",
+          "description": "not used",
           "name": "sed_ch",
           "type": "integer",
           "units": null
@@ -7696,7 +7696,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "tile drainage eq code",
+          "description": "tile drainage eq code 0 = tile flow using drawdown days equation 1 = tile flow using drainmod equations",
           "name": "tdrn",
           "type": "integer",
           "units": null
@@ -7719,7 +7719,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = tile flow using drawdown days equation 1 = tile flow using drainmod equations shallow water table depth algorithms code",
+          "description": "shallow water table depth algorithms code 0 = depth using orig water table depth routine - fill to upper limit 1 = depth using drainmod water table depth routine",
           "name": "wtdn",
           "type": "integer",
           "units": null
@@ -7742,7 +7742,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = depth using orig water table depth routine - fill to upper limit 1 = depth using drainmod water table depth routine 0 = original soil P model in SWAT documentation",
+          "description": "0 = original soil P model in SWAT documentation 1 = new soil P model in Vadas and White (2010)",
           "name": "sol_p_model",
           "type": "integer",
           "units": null
@@ -7765,7 +7765,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "1 = new soil P model in Vadas and White (2010) 0 = curve number; 1 = Green and Ampt",
+          "description": "0 = curve number; 1 = Green and Ampt",
           "name": "gampt",
           "type": "integer",
           "units": null
@@ -7857,7 +7857,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "1 = instream nutrient routing using QUAL2E - with simplified nutrient transformations 0 = gwflow module not active; 1 = gwflow module active",
+          "description": "0 = gwflow module not active; 1 = gwflow module active",
           "name": "gwflow",
           "type": "integer",
           "units": null
@@ -7880,7 +7880,7 @@
         },
         "route": "",
         "source": {
-          "description": "1 = compute flow in cracks write to SWIFT input file",
+          "description": "write to SWIFT input file 0 = do not write 1 = write to swift_hru.inp",
           "name": "swift_out",
           "type": "integer",
           "units": null
@@ -7903,7 +7903,7 @@
         },
         "route": "",
         "source": {
-          "description": "0 = instream nutrient routing using QUAL2E",
+          "description": "0 = instream nutrient routing using QUAL2E 1 = instream nutrient routing using QUAL2E - with simplified nutrient transformations",
           "name": "qual2e",
           "type": "integer",
           "units": null
@@ -7926,7 +7926,7 @@
         },
         "route": "",
         "source": {
-          "description": "1 = Use dssat tillage method to use if cswat = 2",
+          "description": "1 = Use dssat tillage method to use if cswat = 2 2 = Use epic tillage method to use if cswat = 2 3 = Use Kemanian tillage method to use if cswat = 2 4 = Use dndc tillage method to use if cswat = 2",
           "name": "idc_till",
           "type": "integer",
           "units": null
@@ -7974,7 +7974,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "if a, calibrate all hydrologic balance processes for hru by land use in each region",
+          "description": "if a, calibrate all hydrologic balance processes for hru by land use in each region if b, calibrate baseflow and total runoff for hru by land use in each region if y, defaults to b for existing NAM simulations",
           "name": "hyd_hru",
           "type": "character",
           "units": null
@@ -7997,7 +7997,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "if b, calibrate baseflow and total runoff for hru by land use in each region if y, defaults to b for existing NAM simulations if y, calibrate hydrologic balance for hru_lte by land use in each region",
+          "description": "if y, calibrate hydrologic balance for hru_lte by land use in each region",
           "name": "hyd_hrul",
           "type": "character",
           "units": null
@@ -9347,7 +9347,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -9393,7 +9393,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -11180,7 +11180,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -11226,7 +11226,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -13339,7 +13339,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "fraction of flow entering the most concentrated 10% of the VFS.",
+          "description": "fraction of flow entering the most concentrated 10% of the VFS. which is fully channelized",
           "name": "vfsch",
           "type": "real",
           "units": null
@@ -14194,7 +14194,7 @@
         },
         "route": "editor_map_alias",
         "source": {
-          "description": "action option - specific to type of action (ie for reservoir, option to",
+          "description": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
           "name": "option",
           "type": "character",
           "units": null
@@ -14217,7 +14217,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+          "description": "constant used for rate, days, etc",
           "name": "const",
           "type": "real",
           "units": null
@@ -15030,7 +15030,7 @@
         },
         "route": "",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -15076,7 +15076,7 @@
         },
         "route": "",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -15611,7 +15611,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "harvest efficiency: fraction of harvested yield that is removed",
+          "description": "harvest efficiency: fraction of harvested yield that is removed the remainder becomes residue on the soil surface",
           "name": "eff",
           "type": "real",
           "units": "none"
@@ -16148,7 +16148,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -16194,7 +16194,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -17417,7 +17417,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -17463,7 +17463,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -18989,7 +18989,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "organic N enrichment ratio, if left blank",
+          "description": "organic N enrichment ratio, if left blank %             |the model will calculate for every event",
           "name": "erorgn",
           "type": "real",
           "units": "none"
@@ -19012,10 +19012,10 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "the model will calculate for every event none          |organic P enrichment ratio, if left blank",
+          "description": "organic P enrichment ratio, if left blank %             |the model will calculate for every event",
           "name": "erorgp",
           "type": "real",
-          "units": "%"
+          "units": "none"
         },
         "spreadsheet": {
           "description": "Organic P enrichment ratio, if left blank  the model will calculate for every event",
@@ -19035,10 +19035,10 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "the model will calculate for every event none          |soil water at cn3 - 0=fc; .99=near saturation",
+          "description": "soil water at cn3 - 0=fc; .99=near saturation",
           "name": "cn3_swf",
           "type": "real",
-          "units": "%"
+          "units": "none"
         },
         "spreadsheet": {
           "description": "Soil water at cn3 0=fc; .99=near saturation",
@@ -19058,7 +19058,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "biological mixing efficiency.",
+          "description": "biological mixing efficiency. %             |Mixing of soil due to activity of earthworms and other soil biota. %             |Mixing is performed at the end of every calendar year.",
           "name": "biomix",
           "type": "real",
           "units": "none"
@@ -19081,10 +19081,10 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "Mixing of soil due to activity of earthworms and other soil biota. %             |Mixing is performed at the end of every calendar year. none          |0-1           |percolation coefficient - linear adjustment to daily perc",
+          "description": "0-1           |percolation coefficient - linear adjustment to daily perc",
           "name": "perco",
           "type": "real",
-          "units": "%"
+          "units": "none"
         },
         "spreadsheet": {
           "description": "percolation coefficient -adjusts soil moisture for perc to occur (1.0 = fc)",
@@ -19336,7 +19336,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "vol of water needed to fill the res to the princ spillway (read in as ha-m",
+          "description": "vol of water needed to fill the res to the princ spillway (read in as ha-m and converted to m^3)",
           "name": "pvol",
           "type": "real",
           "units": "ha-m"
@@ -19382,7 +19382,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "vol of water needed to fill the res to the emerg spillway (read in as ha-m",
+          "description": "vol of water needed to fill the res to the emerg spillway (read in as ha-m and converted to m^3)",
           "name": "evol",
           "type": "real",
           "units": "ha-m"
@@ -20985,7 +20985,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "urban runoff model",
+          "description": "urban runoff model \"usgs_reg\", simulate using USGS regression eqs \"buildup_washoff\", simulate using build up/wash off alg",
           "name": "urb_ro",
           "type": "character",
           "units": null
@@ -21008,7 +21008,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "\"usgs_reg\", simulate using USGS regression eqs \"buildup_washoff\", simulate using build up/wash off alg Manning\"s \"n\" land use type for overland flow (ovn_table.lum)",
+          "description": "Manning\"s \"n\" land use type for overland flow (ovn_table.lum)",
           "name": "ovn",
           "type": "character",
           "units": null
@@ -22699,7 +22699,7 @@
         },
         "route": "editor_map_alias",
         "source": {
-          "description": "action option - specific to type of action (ie for reservoir, option to",
+          "description": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
           "name": "option",
           "type": "character",
           "units": null
@@ -22722,7 +22722,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+          "description": "constant used for rate, days, etc",
           "name": "const",
           "type": "real",
           "units": null
@@ -24595,7 +24595,7 @@
         },
         "route": "",
         "source": {
-          "description": "Identifier used to crosswalk fertilizer entries, constructed from",
+          "description": "Identifier used to crosswalk fertilizer entries, constructed from manure_region, manure_source, and manure_type",
           "name": "name",
           "type": "character",
           "units": null
@@ -25427,7 +25427,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "Qual2E light averaging option. Qual2E defines four light averaging options. The only option",
+          "description": "Qual2E light averaging option. Qual2E defines four light averaging options. The only option currently available in SWAT is #2.",
           "name": "lao",
           "type": "real",
           "units": "NA"
@@ -25450,7 +25450,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "Qual2E option for calculating the local specific growth rate of algae",
+          "description": "Qual2E option for calculating the local specific growth rate of algae 1: multiplicative: u = mumax * fll * fnn * fpp 2: limiting nutrient: u = mumax * fll * Min(fnn, fpp) 3: harmonic mean: u = mumax * fll * 2. / ((1/fnn)+(1/fpp))",
           "name": "igropt",
           "type": "integer",
           "units": "none"
@@ -25680,7 +25680,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "fraction of solar radiation computed in the temperature heat balance that is",
+          "description": "fraction of solar radiation computed in the temperature heat balance that is photosynthetically active",
           "name": "tfact",
           "type": "real",
           "units": "none"
@@ -29658,7 +29658,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -30072,7 +30072,7 @@
         },
         "route": "",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -30793,7 +30793,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "nitrate perc coeff (0-1)",
+          "description": "nitrate perc coeff (0-1) 0 = conc of nitrate in surface runoff is zero 1 = perc has same conc of nitrate as surf runoff",
           "name": "nperco",
           "type": "real",
           "units": null
@@ -30816,7 +30816,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = conc of nitrate in surface runoff is zero 1 = perc has same conc of nitrate as surf runoff phos perc coeff (0-1)",
+          "description": "phos perc coeff (0-1) 0 = conc of sol P in surf runoff is zero 1 = percolate has some conc of sol P as surf runoff",
           "name": "pperco",
           "type": "real",
           "units": null
@@ -30839,7 +30839,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "0 = conc of sol P in surf runoff is zero 1 = percolate has some conc of sol P as surf runoff phos soil partitioning coef",
+          "description": "phos soil partitioning coef",
           "name": "phoskd",
           "type": "real",
           "units": null
@@ -30931,7 +30931,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "calibration coeff to control impact of the storage",
+          "description": "calibration coeff to control impact of the storage time constant for the reach at bankfull depth",
           "name": "msk_co1",
           "type": "real",
           "units": null
@@ -30954,7 +30954,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "time constant for the reach at bankfull depth calibration coefficient used to control impact of the",
+          "description": "calibration coefficient used to control impact of the storage time constant for low flow (where low flow is when river is at 0.1 bankfull depth) upon the Km value calculated for the reach",
           "name": "msk_co2",
           "type": "real",
           "units": null
@@ -30977,7 +30977,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "storage time constant for low flow (where low flow is when river is at 0.1 bankfull depth) upon the Km value calculated for the reach weighting factor control relative importance of inflow rate",
+          "description": "weighting factor control relative importance of inflow rate and outflow rate in determining storage on reach",
           "name": "msk_x",
           "type": "real",
           "units": null
@@ -31000,7 +31000,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "and outflow rate in determining storage on reach n concentration coeff for tile flow and leach from bottom layer",
+          "description": "n concentration coeff for tile flow and leach from bottom layer",
           "name": "nperco_lchtile",
           "type": "real",
           "units": null
@@ -31460,7 +31460,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "scaling parameter for cover and management factor for",
+          "description": "scaling parameter for cover and management factor for overland flow erosion",
           "name": "c_factor",
           "type": "real",
           "units": null
@@ -31483,7 +31483,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "overland flow erosion median particle diameter of main channel (mm)",
+          "description": "median particle diameter of main channel (mm)",
           "name": "ch_d50",
           "type": "real",
           "units": null
@@ -31529,7 +31529,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "max days to lag hydrographs for hru, ru and channels",
+          "description": "max days to lag hydrographs for hru, ru and channels non-draining soils",
           "name": "day_lag_mx",
           "type": "integer",
           "units": null
@@ -31552,7 +31552,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "non-draining soils random generator code:",
+          "description": "random generator code: 0 = use default numbers 1 = generate new numbers in every simulation",
           "name": "igen",
           "type": "integer",
           "units": null
@@ -32248,7 +32248,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "Threshold detection level for less pers bac when pathogen levels",
+          "description": "Threshold detection level for less pers bac when pathogen levels drop to this amt the model considers bac in the soil to be insignificant and sets the levels to zero",
           "name": "det_thrshd",
           "type": "real",
           "units": "# cfu/m^2"
@@ -35469,7 +35469,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "fraction of max stomatal conductance that is",
+          "description": "fraction of max stomatal conductance that is achieved at the vapor pressure deficit defined by VPDFR",
           "name": "gmaxfr",
           "type": "real",
           "units": "none"
@@ -35515,7 +35515,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "CO2 concentration higher than the ambient corresponding",
+          "description": "CO2 concentration higher than the ambient corresponding to the 2nd point on radiation use efficiency curve",
           "name": "co2hi",
           "type": "real",
           "units": "uL CO2/L air"
@@ -35538,7 +35538,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "biomass-energy ratio when plant is in an environment with",
+          "description": "biomass-energy ratio when plant is in an environment with CO2 level equal to the value of CO2HI.",
           "name": "bioehi",
           "type": "real",
           "units": "(kg/ha)/(MJ/m**2)"
@@ -35814,7 +35814,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "plant population corresponding to the 1st point on the",
+          "description": "plant population corresponding to the 1st point on the population lai curve",
           "name": "pop1",
           "type": "real",
           "units": "plants/m^2"
@@ -35837,7 +35837,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "frac of max leaf area index corresponding to the 1st",
+          "description": "frac of max leaf area index corresponding to the 1st point on the leaf area development curve",
           "name": "frlai1",
           "type": "real",
           "units": "frac"
@@ -35860,7 +35860,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "plant population corresponding to the 2nd point on the",
+          "description": "plant population corresponding to the 2nd point on the population lai curve",
           "name": "pop2",
           "type": "real",
           "units": "plants/m^2"
@@ -35883,7 +35883,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "frac of max leaf area index corresponding to the 2nd",
+          "description": "frac of max leaf area index corresponding to the 2nd point on the leaf area development curve",
           "name": "frlai2",
           "type": "real",
           "units": "frac"
@@ -35906,7 +35906,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "30 day sum of P-PET to initiate growth of tropical",
+          "description": "30 day sum of P-PET to initiate growth of tropical plants during monsoon season - pcom()%plcur()%iseason",
           "name": "frsw_gro",
           "type": "real",
           "units": "frac"
@@ -41685,7 +41685,7 @@
         },
         "route": "",
         "source": {
-          "description": "code to read in the print.prt print objects respecting the label of",
+          "description": "code to read in the print.prt print objects respecting the label of in the row (1st column) to identify name of the print object",
           "name": "use_obj_labels",
           "type": "character",
           "units": null
@@ -42801,7 +42801,7 @@
         },
         "route": "direct_name",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -43215,7 +43215,7 @@
         },
         "route": "",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -45136,7 +45136,7 @@
         },
         "route": "editor_map_alias",
         "source": {
-          "description": "action option - specific to type of action (ie for reservoir, option to",
+          "description": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
           "name": "option",
           "type": "character",
           "units": null
@@ -45159,7 +45159,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+          "description": "constant used for rate, days, etc",
           "name": "const",
           "type": "real",
           "units": null
@@ -45531,7 +45531,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -45577,7 +45577,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -46296,7 +46296,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "spatial object number- ie hru number corresponding to sequential command number",
+          "description": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "name": "num",
           "type": "integer",
           "units": null
@@ -46342,7 +46342,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "description": "gis number for database purposes",
           "name": "gis_id",
           "type": "integer",
           "units": null
@@ -49080,7 +49080,7 @@
         },
         "route": "editor_map_alias",
         "source": {
-          "description": "action option - specific to type of action (ie for reservoir, option to",
+          "description": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
           "name": "option",
           "type": "character",
           "units": null
@@ -49103,7 +49103,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+          "description": "constant used for rate, days, etc",
           "name": "const",
           "type": "real",
           "units": null
@@ -49820,7 +49820,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "sediment routine methods:",
+          "description": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn 2 = Kodatie 3 = Molinas WU 4 = Yang",
           "name": "eqn",
           "type": "integer",
           "units": null
@@ -50073,7 +50073,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(1)",
           "type": "real",
           "units": null
@@ -50096,7 +50096,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(2)",
           "type": "real",
           "units": null
@@ -50119,7 +50119,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(3)",
           "type": "real",
           "units": null
@@ -50142,7 +50142,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(4)",
           "type": "real",
           "units": null
@@ -50165,7 +50165,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(5)",
           "type": "real",
           "units": null
@@ -50188,7 +50188,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(6)",
           "type": "real",
           "units": null
@@ -50211,7 +50211,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(7)",
           "type": "real",
           "units": null
@@ -50234,7 +50234,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(8)",
           "type": "real",
           "units": null
@@ -50257,7 +50257,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(9)",
           "type": "real",
           "units": null
@@ -50280,7 +50280,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(10)",
           "type": "real",
           "units": null
@@ -50303,7 +50303,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(11)",
           "type": "real",
           "units": null
@@ -50326,7 +50326,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "value of 0.0 indicates a non-erosive channel while a value",
+          "description": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "name": "erod(12)",
           "type": "real",
           "units": null
@@ -52993,7 +52993,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "availability factor, the fraction of the",
+          "description": "availability factor, the fraction of the curb length that is sweepable",
           "name": "fr_curb",
           "type": "real",
           "units": "none"
@@ -54015,7 +54015,7 @@
         },
         "route": "editor_map",
         "source": {
-          "description": "number of time steps in a day for rainfall, runoff and routing",
+          "description": "number of time steps in a day for rainfall, runoff and routing 0 = daily; 1=increment(12 hrs); 24=hourly; 96=15 mins; 1440=minute;",
           "name": "step",
           "type": "integer",
           "units": null

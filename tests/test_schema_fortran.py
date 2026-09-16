@@ -150,6 +150,65 @@ end module plant_data_module
                 comps["laimx1"].doc,
             )
 
+    def test_gutter_continuation_without_a_pipe_stays_with_its_own_field(self) -> None:
+        # basin_module.f90 wraps a field's description onto aligned gutter lines
+        # that carry no "|". Matching only "|" left those lines buffered as the
+        # NEXT declaration's preceding block, so `nam1` was documented as
+        # "0 = Priestley-Taylor ... not used" -- a wrong meaning under a correct
+        # file and line, which is the worst shape for a facts-only index.
+        source_text = """\
+module basin_module
+  type basin_control_codes
+    integer :: pet = 0       !! potential ET method code
+                             !!   0 = Priestley-Taylor
+                             !!   1 = Penman-Monteith
+    integer :: nam1 = 0      !! not used
+    integer :: crk = 0       !! crack flow code
+  end type basin_control_codes
+end module basin_module
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "basin_module.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+            comps = {c.name: c for t in project.types for c in t.components}
+
+            self.assertEqual(
+                "potential ET method code\n0 = Priestley-Taylor\n1 = Penman-Monteith",
+                comps["pet"].doc,
+            )
+            self.assertEqual("not used", comps["nam1"].doc)
+            self.assertEqual("crack flow code", comps["crk"].doc)
+
+    def test_a_comment_left_of_the_gutter_is_not_a_continuation(self) -> None:
+        # The column is what separates the two: a comment starting left of the
+        # declaration's inline comment is a new thought at statement
+        # indentation, and must still document the declaration below it.
+        # Across SWAT+ 62.0.0, 294 comment lines are of this kind.
+        source_text = """\
+module demo_module
+  type demo_type
+    integer :: first = 0     !! first field
+    !! documents the second field
+    integer :: second = 0
+  end type demo_type
+end module demo_module
+"""
+        with temp_dir() as tmp:
+            root = Path(tmp)
+            source = root / "source"
+            source.mkdir()
+            (source / "demo_module.f90").write_text(source_text, encoding="utf-8")
+            config = BuildConfig(project_name="Fixture", source_dir=source, output_dir=root / "site")
+            project = FortranScanner(config).scan()
+            comps = {c.name: c for t in project.types for c in t.components}
+
+            self.assertEqual("first field", comps["first"].doc)
+            self.assertEqual("documents the second field", comps["second"].doc)
+
     def test_nested_character_length_declaration_is_not_dropped(self) -> None:
         # `character(len=len(str))` nests parentheses inside the length
         # selector. A `[^)]*` group stops at the first inner `)`, so the whole

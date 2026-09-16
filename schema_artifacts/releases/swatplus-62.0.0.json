@@ -37,7 +37,7 @@
               "units": null
             },
             {
-              "doc": "action option - specific to type of action (ie for reservoir, option to",
+              "doc": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
               "fortran_name": "option",
               "fortran_type": "character",
               "numeric": false,
@@ -45,7 +45,7 @@
               "units": null
             },
             {
-              "doc": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+              "doc": "constant used for rate, days, etc",
               "fortran_name": "const",
               "fortran_type": "real",
               "numeric": true,
@@ -291,7 +291,7 @@
               "units": null
             },
             {
-              "doc": "action option - specific to type of action (ie for reservoir, option to",
+              "doc": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
               "fortran_name": "option",
               "fortran_type": "character",
               "numeric": false,
@@ -299,7 +299,7 @@
               "units": null
             },
             {
-              "doc": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+              "doc": "constant used for rate, days, etc",
               "fortran_name": "const",
               "fortran_type": "real",
               "numeric": true,
@@ -562,7 +562,7 @@
               "units": null
             },
             {
-              "doc": "action option - specific to type of action (ie for reservoir, option to",
+              "doc": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
               "fortran_name": "option",
               "fortran_type": "character",
               "numeric": false,
@@ -570,7 +570,7 @@
               "units": null
             },
             {
-              "doc": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+              "doc": "constant used for rate, days, etc",
               "fortran_name": "const",
               "fortran_type": "real",
               "numeric": true,
@@ -826,7 +826,7 @@
               "units": null
             },
             {
-              "doc": "action option - specific to type of action (ie for reservoir, option to",
+              "doc": "action option - specific to type of action (ie for reservoir, option to input rate, days of drawdown, weir equation pointer, etc",
               "fortran_name": "option",
               "fortran_type": "character",
               "numeric": false,
@@ -834,7 +834,7 @@
               "units": null
             },
             {
-              "doc": "input rate, days of drawdown, weir equation pointer, etc constant used for rate, days, etc",
+              "doc": "constant used for rate, days, etc",
               "fortran_name": "const",
               "fortran_type": "real",
               "numeric": true,
@@ -1431,7 +1431,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -1447,7 +1447,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -2550,7 +2550,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -2566,7 +2566,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -2816,7 +2816,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -2832,7 +2832,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -3181,7 +3181,7 @@
           "units": null
         },
         {
-          "doc": "potential ET method code",
+          "doc": "potential ET method code 0 = Priestley-Taylor 1 = Penman-Monteith 2 = Hargreaves method",
           "fortran_name": "pet",
           "fortran_type": "integer",
           "numeric": true,
@@ -3189,7 +3189,7 @@
           "units": null
         },
         {
-          "doc": "0 = Priestley-Taylor 1 = Penman-Monteith 2 = Hargreaves method not used",
+          "doc": "not used",
           "fortran_name": "nam1",
           "fortran_type": "integer",
           "numeric": true,
@@ -3197,7 +3197,7 @@
           "units": null
         },
         {
-          "doc": "crack flow code",
+          "doc": "crack flow code 1 = compute flow in cracks",
           "fortran_name": "crk",
           "fortran_type": "integer",
           "numeric": true,
@@ -3205,7 +3205,7 @@
           "units": null
         },
         {
-          "doc": "1 = compute flow in cracks write to SWIFT input file",
+          "doc": "write to SWIFT input file 0 = do not write 1 = write to swift_hru.inp",
           "fortran_name": "swift_out",
           "fortran_type": "integer",
           "numeric": true,
@@ -3213,7 +3213,7 @@
           "units": null
         },
         {
-          "doc": "0 = do not write 1 = write to swift_hru.inp peak rate method",
+          "doc": "peak rate method 0 = NRCS dimensionless hydrograph with PRF 1 = half hour rainfall intensity method",
           "fortran_name": "sed_det",
           "fortran_type": "integer",
           "numeric": true,
@@ -3221,7 +3221,7 @@
           "units": null
         },
         {
-          "doc": "0 = NRCS dimensionless hydrograph with PRF 1 = half hour rainfall intensity method water routing method",
+          "doc": "water routing method 0 variable storage method 1 Muskingum method",
           "fortran_name": "rte",
           "fortran_type": "integer",
           "numeric": true,
@@ -3229,7 +3229,7 @@
           "units": null
         },
         {
-          "doc": "0 variable storage method 1 Muskingum method not used",
+          "doc": "not used",
           "fortran_name": "deg",
           "fortran_type": "integer",
           "numeric": true,
@@ -3245,7 +3245,7 @@
           "units": null
         },
         {
-          "doc": "redefined to the sequence number -- changed to no nutrient stress",
+          "doc": "redefined to the sequence number -- changed to no nutrient stress 0 = all stresses applied 1 = turn off all plant stress 2 = turn off nutrient plant stress only",
           "fortran_name": "nostress",
           "fortran_type": "integer",
           "numeric": true,
@@ -3253,7 +3253,7 @@
           "units": null
         },
         {
-          "doc": "0 = all stresses applied 1 = turn off all plant stress 2 = turn off nutrient plant stress only not used",
+          "doc": "not used",
           "fortran_name": "cn",
           "fortran_type": "integer",
           "numeric": true,
@@ -3269,7 +3269,7 @@
           "units": null
         },
         {
-          "doc": "carbon code: 0 = off (static), 1 = C-FARM (reserved,",
+          "doc": "carbon code: 0 = off (static), 1 = C-FARM (reserved, not implemented), 2 = dynamic CENTURY/SWAT-C model. numbering aligned with legacy SWAT as directed by Srinivasan. = 0 Static soil carbon (old mineralization routines) = 1 C-FARM one carbon pool model = 2 Century model",
           "fortran_name": "cswat",
           "fortran_type": "integer",
           "numeric": true,
@@ -3277,7 +3277,7 @@
           "units": null
         },
         {
-          "doc": "not implemented), 2 = dynamic CENTURY/SWAT-C model. numbering aligned with legacy SWAT as directed by Srinivasan. = 0 Static soil carbon (old mineralization routines) = 1 C-FARM one carbon pool model = 2 Century model precip and temperature lapse rate control",
+          "doc": "precip and temperature lapse rate control 0 = do not adjust for elevation 1 = adjust for elevation",
           "fortran_name": "lapse",
           "fortran_type": "integer",
           "numeric": true,
@@ -3285,7 +3285,7 @@
           "units": null
         },
         {
-          "doc": "0 = do not adjust for elevation 1 = adjust for elevation Unit hydrograph method:",
+          "doc": "Unit hydrograph method: 0 = triangular UH 1 = gamma function UH",
           "fortran_name": "uhyd",
           "fortran_type": "integer",
           "numeric": true,
@@ -3293,7 +3293,7 @@
           "units": null
         },
         {
-          "doc": "0 = triangular UH 1 = gamma function UH not used",
+          "doc": "not used",
           "fortran_name": "sed_ch",
           "fortran_type": "integer",
           "numeric": true,
@@ -3301,7 +3301,7 @@
           "units": null
         },
         {
-          "doc": "tile drainage eq code",
+          "doc": "tile drainage eq code 0 = tile flow using drawdown days equation 1 = tile flow using drainmod equations",
           "fortran_name": "tdrn",
           "fortran_type": "integer",
           "numeric": true,
@@ -3309,7 +3309,7 @@
           "units": null
         },
         {
-          "doc": "0 = tile flow using drawdown days equation 1 = tile flow using drainmod equations shallow water table depth algorithms code",
+          "doc": "shallow water table depth algorithms code 0 = depth using orig water table depth routine - fill to upper limit 1 = depth using drainmod water table depth routine",
           "fortran_name": "wtdn",
           "fortran_type": "integer",
           "numeric": true,
@@ -3317,7 +3317,7 @@
           "units": null
         },
         {
-          "doc": "0 = depth using orig water table depth routine - fill to upper limit 1 = depth using drainmod water table depth routine 0 = original soil P model in SWAT documentation",
+          "doc": "0 = original soil P model in SWAT documentation 1 = new soil P model in Vadas and White (2010)",
           "fortran_name": "sol_p_model",
           "fortran_type": "integer",
           "numeric": true,
@@ -3325,7 +3325,7 @@
           "units": null
         },
         {
-          "doc": "1 = new soil P model in Vadas and White (2010) 0 = curve number; 1 = Green and Ampt",
+          "doc": "0 = curve number; 1 = Green and Ampt",
           "fortran_name": "gampt",
           "fortran_type": "integer",
           "numeric": true,
@@ -3349,7 +3349,7 @@
           "units": null
         },
         {
-          "doc": "0 = instream nutrient routing using QUAL2E",
+          "doc": "0 = instream nutrient routing using QUAL2E 1 = instream nutrient routing using QUAL2E - with simplified nutrient transformations",
           "fortran_name": "qual2e",
           "fortran_type": "integer",
           "numeric": true,
@@ -3357,7 +3357,7 @@
           "units": null
         },
         {
-          "doc": "1 = instream nutrient routing using QUAL2E - with simplified nutrient transformations 0 = gwflow module not active; 1 = gwflow module active",
+          "doc": "0 = gwflow module not active; 1 = gwflow module active",
           "fortran_name": "gwflow",
           "fortran_type": "integer",
           "numeric": true,
@@ -3365,7 +3365,7 @@
           "units": null
         },
         {
-          "doc": "1 = Use dssat tillage method to use if cswat = 2",
+          "doc": "1 = Use dssat tillage method to use if cswat = 2 2 = Use epic tillage method to use if cswat = 2 3 = Use Kemanian tillage method to use if cswat = 2 4 = Use dndc tillage method to use if cswat = 2",
           "fortran_name": "idc_till",
           "fortran_type": "integer",
           "numeric": true,
@@ -3382,7 +3382,7 @@
       "derived_type": "soft_calibration_codes",
       "fields": [
         {
-          "doc": "if a, calibrate all hydrologic balance processes for hru by land use in each region",
+          "doc": "if a, calibrate all hydrologic balance processes for hru by land use in each region if b, calibrate baseflow and total runoff for hru by land use in each region if y, defaults to b for existing NAM simulations",
           "fortran_name": "hyd_hru",
           "fortran_type": "character",
           "numeric": false,
@@ -3390,7 +3390,7 @@
           "units": null
         },
         {
-          "doc": "if b, calibrate baseflow and total runoff for hru by land use in each region if y, defaults to b for existing NAM simulations if y, calibrate hydrologic balance for hru_lte by land use in each region",
+          "doc": "if y, calibrate hydrologic balance for hru_lte by land use in each region",
           "fortran_name": "hyd_hrul",
           "fortran_type": "character",
           "numeric": false,
@@ -3488,7 +3488,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -3504,7 +3504,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -3923,7 +3923,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -3939,7 +3939,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -4488,7 +4488,7 @@
           "units": null
         },
         {
-          "doc": "fraction of flow entering the most concentrated 10% of the VFS.",
+          "doc": "fraction of flow entering the most concentrated 10% of the VFS. which is fully channelized",
           "fortran_name": "vfsch",
           "fortran_type": "real",
           "numeric": true,
@@ -4709,7 +4709,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -4725,7 +4725,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -4910,7 +4910,7 @@
           "units": "(kg/ha)/(kg/ha)"
         },
         {
-          "doc": "harvest efficiency: fraction of harvested yield that is removed",
+          "doc": "harvest efficiency: fraction of harvested yield that is removed the remainder becomes residue on the soil surface",
           "fortran_name": "eff",
           "fortran_type": "real",
           "numeric": true,
@@ -5024,7 +5024,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -5040,7 +5040,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -5465,7 +5465,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -5481,7 +5481,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -5988,7 +5988,7 @@
           "units": "none"
         },
         {
-          "doc": "organic N enrichment ratio, if left blank",
+          "doc": "organic N enrichment ratio, if left blank %             |the model will calculate for every event",
           "fortran_name": "erorgn",
           "fortran_type": "real",
           "numeric": true,
@@ -5996,23 +5996,23 @@
           "units": "none"
         },
         {
-          "doc": "the model will calculate for every event none          |organic P enrichment ratio, if left blank",
+          "doc": "organic P enrichment ratio, if left blank %             |the model will calculate for every event",
           "fortran_name": "erorgp",
           "fortran_type": "real",
           "numeric": true,
           "position": 7,
-          "units": "%"
+          "units": "none"
         },
         {
-          "doc": "the model will calculate for every event none          |soil water at cn3 - 0=fc; .99=near saturation",
+          "doc": "soil water at cn3 - 0=fc; .99=near saturation",
           "fortran_name": "cn3_swf",
           "fortran_type": "real",
           "numeric": true,
           "position": 8,
-          "units": "%"
+          "units": "none"
         },
         {
-          "doc": "biological mixing efficiency.",
+          "doc": "biological mixing efficiency. %             |Mixing of soil due to activity of earthworms and other soil biota. %             |Mixing is performed at the end of every calendar year.",
           "fortran_name": "biomix",
           "fortran_type": "real",
           "numeric": true,
@@ -6020,12 +6020,12 @@
           "units": "none"
         },
         {
-          "doc": "Mixing of soil due to activity of earthworms and other soil biota. %             |Mixing is performed at the end of every calendar year. none          |0-1           |percolation coefficient - linear adjustment to daily perc",
+          "doc": "0-1           |percolation coefficient - linear adjustment to daily perc",
           "fortran_name": "perco",
           "fortran_type": "real",
           "numeric": true,
           "position": 10,
-          "units": "%"
+          "units": "none"
         },
         {
           "doc": "organic N concentration in lateral flow",
@@ -6101,7 +6101,7 @@
           "units": "ha"
         },
         {
-          "doc": "vol of water needed to fill the res to the princ spillway (read in as ha-m",
+          "doc": "vol of water needed to fill the res to the princ spillway (read in as ha-m and converted to m^3)",
           "fortran_name": "pvol",
           "fortran_type": "real",
           "numeric": true,
@@ -6117,7 +6117,7 @@
           "units": "ha"
         },
         {
-          "doc": "vol of water needed to fill the res to the emerg spillway (read in as ha-m",
+          "doc": "vol of water needed to fill the res to the emerg spillway (read in as ha-m and converted to m^3)",
           "fortran_name": "evol",
           "fortran_type": "real",
           "numeric": true,
@@ -6677,7 +6677,7 @@
           "units": null
         },
         {
-          "doc": "urban runoff model",
+          "doc": "urban runoff model \"usgs_reg\", simulate using USGS regression eqs \"buildup_washoff\", simulate using build up/wash off alg",
           "fortran_name": "urb_ro",
           "fortran_type": "character",
           "numeric": false,
@@ -6685,7 +6685,7 @@
           "units": null
         },
         {
-          "doc": "\"usgs_reg\", simulate using USGS regression eqs \"buildup_washoff\", simulate using build up/wash off alg Manning\"s \"n\" land use type for overland flow (ovn_table.lum)",
+          "doc": "Manning\"s \"n\" land use type for overland flow (ovn_table.lum)",
           "fortran_name": "ovn",
           "fortran_type": "character",
           "numeric": false,
@@ -7702,7 +7702,7 @@
       "derived_type": "manure_attributes",
       "fields": [
         {
-          "doc": "Identifier used to crosswalk fertilizer entries, constructed from",
+          "doc": "Identifier used to crosswalk fertilizer entries, constructed from manure_region, manure_source, and manure_type",
           "fortran_name": "name",
           "fortran_type": "character",
           "numeric": false,
@@ -7943,7 +7943,7 @@
           "units": "1/hr"
         },
         {
-          "doc": "Qual2E light averaging option. Qual2E defines four light averaging options. The only option",
+          "doc": "Qual2E light averaging option. Qual2E defines four light averaging options. The only option currently available in SWAT is #2.",
           "fortran_name": "lao",
           "fortran_type": "real",
           "numeric": true,
@@ -7951,7 +7951,7 @@
           "units": "NA"
         },
         {
-          "doc": "Qual2E option for calculating the local specific growth rate of algae",
+          "doc": "Qual2E option for calculating the local specific growth rate of algae 1: multiplicative: u = mumax * fll * fnn * fpp 2: limiting nutrient: u = mumax * fll * Min(fnn, fpp) 3: harmonic mean: u = mumax * fll * 2. / ((1/fnn)+(1/fpp))",
           "fortran_name": "igropt",
           "fortran_type": "integer",
           "numeric": true,
@@ -8031,7 +8031,7 @@
           "units": "1/day or 1/hr"
         },
         {
-          "doc": "fraction of solar radiation computed in the temperature heat balance that is",
+          "doc": "fraction of solar radiation computed in the temperature heat balance that is photosynthetically active",
           "fortran_name": "tfact",
           "fortran_type": "real",
           "numeric": true,
@@ -9369,7 +9369,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -9385,7 +9385,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -9725,7 +9725,7 @@
           "units": null
         },
         {
-          "doc": "nitrate perc coeff (0-1)",
+          "doc": "nitrate perc coeff (0-1) 0 = conc of nitrate in surface runoff is zero 1 = perc has same conc of nitrate as surf runoff",
           "fortran_name": "nperco",
           "fortran_type": "real",
           "numeric": true,
@@ -9733,7 +9733,7 @@
           "units": null
         },
         {
-          "doc": "0 = conc of nitrate in surface runoff is zero 1 = perc has same conc of nitrate as surf runoff phos perc coeff (0-1)",
+          "doc": "phos perc coeff (0-1) 0 = conc of sol P in surf runoff is zero 1 = percolate has some conc of sol P as surf runoff",
           "fortran_name": "pperco",
           "fortran_type": "real",
           "numeric": true,
@@ -9741,7 +9741,7 @@
           "units": null
         },
         {
-          "doc": "0 = conc of sol P in surf runoff is zero 1 = percolate has some conc of sol P as surf runoff phos soil partitioning coef",
+          "doc": "phos soil partitioning coef",
           "fortran_name": "phoskd",
           "fortran_type": "real",
           "numeric": true,
@@ -9773,7 +9773,7 @@
           "units": null
         },
         {
-          "doc": "calibration coeff to control impact of the storage",
+          "doc": "calibration coeff to control impact of the storage time constant for the reach at bankfull depth",
           "fortran_name": "msk_co1",
           "fortran_type": "real",
           "numeric": true,
@@ -9781,7 +9781,7 @@
           "units": null
         },
         {
-          "doc": "time constant for the reach at bankfull depth calibration coefficient used to control impact of the",
+          "doc": "calibration coefficient used to control impact of the storage time constant for low flow (where low flow is when river is at 0.1 bankfull depth) upon the Km value calculated for the reach",
           "fortran_name": "msk_co2",
           "fortran_type": "real",
           "numeric": true,
@@ -9789,7 +9789,7 @@
           "units": null
         },
         {
-          "doc": "storage time constant for low flow (where low flow is when river is at 0.1 bankfull depth) upon the Km value calculated for the reach weighting factor control relative importance of inflow rate",
+          "doc": "weighting factor control relative importance of inflow rate and outflow rate in determining storage on reach",
           "fortran_name": "msk_x",
           "fortran_type": "real",
           "numeric": true,
@@ -9797,7 +9797,7 @@
           "units": null
         },
         {
-          "doc": "and outflow rate in determining storage on reach n concentration coeff for tile flow and leach from bottom layer",
+          "doc": "n concentration coeff for tile flow and leach from bottom layer",
           "fortran_name": "nperco_lchtile",
           "fortran_type": "real",
           "numeric": true,
@@ -9957,7 +9957,7 @@
           "units": null
         },
         {
-          "doc": "scaling parameter for cover and management factor for",
+          "doc": "scaling parameter for cover and management factor for overland flow erosion",
           "fortran_name": "c_factor",
           "fortran_type": "real",
           "numeric": true,
@@ -9965,7 +9965,7 @@
           "units": null
         },
         {
-          "doc": "overland flow erosion median particle diameter of main channel (mm)",
+          "doc": "median particle diameter of main channel (mm)",
           "fortran_name": "ch_d50",
           "fortran_type": "real",
           "numeric": true,
@@ -9981,7 +9981,7 @@
           "units": null
         },
         {
-          "doc": "max days to lag hydrographs for hru, ru and channels",
+          "doc": "max days to lag hydrographs for hru, ru and channels non-draining soils",
           "fortran_name": "day_lag_mx",
           "fortran_type": "integer",
           "numeric": true,
@@ -9989,7 +9989,7 @@
           "units": null
         },
         {
-          "doc": "non-draining soils random generator code:",
+          "doc": "random generator code: 0 = use default numbers 1 = generate new numbers in every simulation",
           "fortran_name": "igen",
           "fortran_type": "integer",
           "numeric": true,
@@ -10102,7 +10102,7 @@
           "units": "none"
         },
         {
-          "doc": "Threshold detection level for less pers bac when pathogen levels",
+          "doc": "Threshold detection level for less pers bac when pathogen levels drop to this amt the model considers bac in the soil to be insignificant and sets the levels to zero",
           "fortran_name": "det_thrshd",
           "fortran_type": "real",
           "numeric": true,
@@ -10997,7 +10997,7 @@
           "units": "kPa"
         },
         {
-          "doc": "fraction of max stomatal conductance that is",
+          "doc": "fraction of max stomatal conductance that is achieved at the vapor pressure deficit defined by VPDFR",
           "fortran_name": "gmaxfr",
           "fortran_type": "real",
           "numeric": true,
@@ -11013,7 +11013,7 @@
           "units": "none"
         },
         {
-          "doc": "CO2 concentration higher than the ambient corresponding",
+          "doc": "CO2 concentration higher than the ambient corresponding to the 2nd point on radiation use efficiency curve",
           "fortran_name": "co2hi",
           "fortran_type": "real",
           "numeric": true,
@@ -11021,7 +11021,7 @@
           "units": "uL CO2/L air"
         },
         {
-          "doc": "biomass-energy ratio when plant is in an environment with",
+          "doc": "biomass-energy ratio when plant is in an environment with CO2 level equal to the value of CO2HI.",
           "fortran_name": "bioehi",
           "fortran_type": "real",
           "numeric": true,
@@ -11117,7 +11117,7 @@
           "units": "frac"
         },
         {
-          "doc": "plant population corresponding to the 1st point on the",
+          "doc": "plant population corresponding to the 1st point on the population lai curve",
           "fortran_name": "pop1",
           "fortran_type": "real",
           "numeric": true,
@@ -11125,7 +11125,7 @@
           "units": "plants/m^2"
         },
         {
-          "doc": "frac of max leaf area index corresponding to the 1st",
+          "doc": "frac of max leaf area index corresponding to the 1st point on the leaf area development curve",
           "fortran_name": "frlai1",
           "fortran_type": "real",
           "numeric": true,
@@ -11133,7 +11133,7 @@
           "units": "frac"
         },
         {
-          "doc": "plant population corresponding to the 2nd point on the",
+          "doc": "plant population corresponding to the 2nd point on the population lai curve",
           "fortran_name": "pop2",
           "fortran_type": "real",
           "numeric": true,
@@ -11141,7 +11141,7 @@
           "units": "plants/m^2"
         },
         {
-          "doc": "frac of max leaf area index corresponding to the 2nd",
+          "doc": "frac of max leaf area index corresponding to the 2nd point on the leaf area development curve",
           "fortran_name": "frlai2",
           "fortran_type": "real",
           "numeric": true,
@@ -11149,7 +11149,7 @@
           "units": "frac"
         },
         {
-          "doc": "30 day sum of P-PET to initiate growth of tropical",
+          "doc": "30 day sum of P-PET to initiate growth of tropical plants during monsoon season - pcom()%plcur()%iseason",
           "fortran_name": "frsw_gro",
           "fortran_type": "real",
           "numeric": true,
@@ -11337,7 +11337,7 @@
               "units": null
             },
             {
-              "doc": "code to read in the print.prt print objects respecting the label of",
+              "doc": "code to read in the print.prt print objects respecting the label of in the row (1st column) to identify name of the print object",
               "fortran_name": "use_obj_labels",
               "fortran_type": "character",
               "numeric": false,
@@ -11829,7 +11829,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -11845,7 +11845,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -12393,7 +12393,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -12409,7 +12409,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -12659,7 +12659,7 @@
       "derived_type": "object_connectivity",
       "fields": [
         {
-          "doc": "spatial object number- ie hru number corresponding to sequential command number",
+          "doc": "spatial object number- ie hru number corresponding to sequential command number this is the first column in hru_dat (doesn\"t have to be sequential)",
           "fortran_name": "num",
           "fortran_type": "integer",
           "numeric": true,
@@ -12675,7 +12675,7 @@
           "units": null
         },
         {
-          "doc": "this is the first column in hru_dat (doesn\"t have to be sequential) gis number for database purposes",
+          "doc": "gis number for database purposes",
           "fortran_name": "gis_id",
           "fortran_type": "integer",
           "numeric": true,
@@ -13298,7 +13298,7 @@
           "units": null
         },
         {
-          "doc": "sediment routine methods:",
+          "doc": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn 2 = Kodatie 3 = Molinas WU 4 = Yang",
           "fortran_name": "eqn",
           "fortran_type": "integer",
           "numeric": true,
@@ -13386,7 +13386,7 @@
           "units": "N/m2"
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(1)",
           "fortran_type": "real",
           "numeric": true,
@@ -13394,7 +13394,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(2)",
           "fortran_type": "real",
           "numeric": true,
@@ -13402,7 +13402,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(3)",
           "fortran_type": "real",
           "numeric": true,
@@ -13410,7 +13410,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(4)",
           "fortran_type": "real",
           "numeric": true,
@@ -13418,7 +13418,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(5)",
           "fortran_type": "real",
           "numeric": true,
@@ -13426,7 +13426,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(6)",
           "fortran_type": "real",
           "numeric": true,
@@ -13434,7 +13434,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(7)",
           "fortran_type": "real",
           "numeric": true,
@@ -13442,7 +13442,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(8)",
           "fortran_type": "real",
           "numeric": true,
@@ -13450,7 +13450,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(9)",
           "fortran_type": "real",
           "numeric": true,
@@ -13458,7 +13458,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(10)",
           "fortran_type": "real",
           "numeric": true,
@@ -13466,7 +13466,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(11)",
           "fortran_type": "real",
           "numeric": true,
@@ -13474,7 +13474,7 @@
           "units": null
         },
         {
-          "doc": "value of 0.0 indicates a non-erosive channel while a value",
+          "doc": "value of 0.0 indicates a non-erosive channel while a value of 1.0 indicates no resistance to erosion",
           "fortran_name": "erod(12)",
           "fortran_type": "real",
           "numeric": true,
@@ -14171,7 +14171,7 @@
           "units": "none"
         },
         {
-          "doc": "availability factor, the fraction of the",
+          "doc": "availability factor, the fraction of the curb length that is sweepable",
           "fortran_name": "fr_curb",
           "fortran_type": "real",
           "numeric": true,
@@ -14504,7 +14504,7 @@
           "units": null
         },
         {
-          "doc": "number of time steps in a day for rainfall, runoff and routing",
+          "doc": "number of time steps in a day for rainfall, runoff and routing 0 = daily; 1=increment(12 hrs); 24=hourly; 96=15 mins; 1440=minute;",
           "fortran_name": "step",
           "fortran_type": "integer",
           "numeric": true,

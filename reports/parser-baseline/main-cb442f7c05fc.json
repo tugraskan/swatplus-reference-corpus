@@ -1,12 +1,12 @@
 {
   "artifacts": {
     "schema_artifacts/releases/swatplus-62.0.0-ranges.json": {
-      "bytes": 616415,
-      "sha256": "82a792e2f7497d2e205a137149cc61224beca86001f5807e0520c9f8c29e73cb"
+      "bytes": 618196,
+      "sha256": "39dd20df2b112457a65a0389e2d347f938a8b44b7b2368db4662954759a01690"
     },
     "schema_artifacts/releases/swatplus-62.0.0.json": {
-      "bytes": 566421,
-      "sha256": "24b29edc8eaaf00c3860ef3a4485f6864fb604234d26332d992a5d4bac1384d1"
+      "bytes": 568202,
+      "sha256": "6a32a416bdbb602d52df3b622d491f60f9285f11ebbd5ea8a3fbbeff331292d1"
     },
     "schema_artifacts/releases/swatplus-62.0.0.provenance.json": {
       "bytes": 323,
@@ -17,12 +17,12 @@
       "sha256": "f0c43c4b5124acecc1a7b4ccd023388e8f9ad507e359fe510b2b42bd7ed0ab36"
     },
     "schema_artifacts/reports/swatplus-62.0.0-field-map.json": {
-      "bytes": 1507603,
-      "sha256": "de2fd1a0b546226024ba024475e724adc799875d940705b89f96fdb98470c706"
+      "bytes": 1509384,
+      "sha256": "38bb8674a27bd5ef68812cb06e8df0a821bd2c2da462e7fb9fab1cec63fa80c9"
     },
     "schema_artifacts/reports/swatplus-62.0.0-field-map.md": {
-      "bytes": 333508,
-      "sha256": "d9ca65cf7938a612aeede751782db0d8a6acd46ed53a792ae20e232a11ffe19d"
+      "bytes": 334008,
+      "sha256": "488c73c39ae0193059dff8cfce10d3ce53ed7241d29fe5e88d715b0690080369"
     },
     "schema_artifacts/reports/swatplus-62.0.0-range-crosswalk.json": {
       "bytes": 133144,
@@ -33,8 +33,8 @@
       "sha256": "f2ec13218dc8246da826a9575fc04b2d2118b587d2e89cb00ed92a46beb21c7d"
     },
     "snapshots/rich/main-cb442f7c05fc.rich.json": {
-      "bytes": 58777114,
-      "sha256": "ffa9dc02fcf2539b7840831b3341022492fd0ee1fbeb715b678217b61801d72b"
+      "bytes": 58777558,
+      "sha256": "cc98ee8027afd9e9801e6dda8273757133f646c91f1a1625c7750b6ae831ed3f"
     },
     "snapshots/rich/main-cb442f7c05fc.rich.provenance.json": {
       "bytes": 328,
@@ -4599,7 +4599,7 @@
     },
     "variables_and_components": {
       "count": 15937,
-      "identity_sha256": "c51c57ffd43c5e6dcc8bed03896bf388fd004caf7cbfcd38efc2f355eccb2715"
+      "identity_sha256": "b72dbd32e979292e1ad89b4572ce14aae3004b73996ba43bd80089d381339578"
     }
   },
   "format": "swatplus-reference-parser-baseline-v1",
