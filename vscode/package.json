@@ -1,0 +1,150 @@
+{
+  "name": "swatplus-corpus",
+  "displayName": "SWAT+ Corpus",
+  "description": "Add, build, and compare SWAT+ reference corpus source versions from buttons",
+  "version": "0.1.0",
+  "publisher": "taciugraskan",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tugraskan/swatplus-reference-corpus"
+  },
+  "engines": {
+    "vscode": "^1.106.1"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "workspaceContains:swatref.toml",
+    "onView:swatplusCorpusSources"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "swatplusCorpus",
+          "title": "SWAT+ Corpus",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "swatplusCorpus": [
+        {
+          "id": "swatplusCorpusSources",
+          "name": "Sources",
+          "icon": "resources/icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "swatplusCorpus.addVersion",
+        "title": "Add Version…",
+        "category": "SWAT+ Corpus",
+        "icon": "$(add)"
+      },
+      {
+        "command": "swatplusCorpus.build",
+        "title": "Build…",
+        "category": "SWAT+ Corpus",
+        "icon": "$(tools)"
+      },
+      {
+        "command": "swatplusCorpus.compare",
+        "title": "Compare With…",
+        "category": "SWAT+ Corpus",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "swatplusCorpus.fetch",
+        "title": "Fetch",
+        "category": "SWAT+ Corpus",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "swatplusCorpus.refresh",
+        "title": "Refresh",
+        "category": "SWAT+ Corpus",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "swatplusCorpus.showOutput",
+        "title": "Show Output",
+        "category": "SWAT+ Corpus"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "swatplusCorpus.addVersion",
+          "when": "view == swatplusCorpusSources",
+          "group": "navigation@1"
+        },
+        {
+          "command": "swatplusCorpus.refresh",
+          "when": "view == swatplusCorpusSources",
+          "group": "navigation@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "swatplusCorpus.fetch",
+          "when": "view == swatplusCorpusSources && viewItem == swatplusCorpusSource",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "swatplusCorpus.build",
+          "when": "view == swatplusCorpusSources && viewItem == swatplusCorpusSource",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "swatplusCorpus.compare",
+          "when": "view == swatplusCorpusSources && viewItem == swatplusCorpusSource",
+          "group": "1_actions@3"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "SWAT+ Corpus",
+      "properties": {
+        "swatplusCorpus.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a Python interpreter with swatplus_reference installed. Falls back to SWATPLUS_PYTHON, then the platform default (python3/python or py on Windows)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "npm run check-types && npm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "npm run check-types && npm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test",
+    "test:unit": "npm run compile-tests && mocha",
+    "package:vsix": "npm run package && vsce package"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.106.1",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.27.1",
+    "eslint": "^9.39.1",
+    "mocha": "^11.7.6",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3"
+  }
+}
