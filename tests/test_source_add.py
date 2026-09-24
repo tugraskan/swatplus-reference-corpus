@@ -221,3 +221,32 @@ def test_cli_compare_base_candidate_builds_an_unconfigured_comparison(
     assert (comparison.base_source, comparison.candidate_source) == ("main", "other")
     assert str(comparison.output_dir) == "reports/comparisons/main_vs_other"
     assert isinstance(load_config(config_path).sources["other"], SourceProfile)
+
+
+def test_cli_source_list_reports_profiles_and_fetch_state(upstream, config_path, capsys):
+    _, url = upstream
+    add_profile(config_path, "63.0.0", repository=url)
+    fetch_profile(load_config(config_path), "release_63_0_0")
+    capsys.readouterr()
+
+    assert main(["--config", str(config_path), "source", "list"]) == 0
+    rows = {row["name"]: row for row in json.loads(capsys.readouterr().out)}
+
+    assert rows["main"]["docs_default"] and not rows["main"]["fetched"]
+    assert rows["release_63_0_0"]["fetched"]
+    assert rows["release_63_0_0"]["label"] == "SWAT+ 63.0.0"
+
+
+def test_cli_source_refs_lists_releases_newest_first(upstream, capsys):
+    repo, url = upstream
+    _git(repo, "tag", "-a", "62.0.0", "HEAD", "-m", "older")
+    _git(repo, "tag", "-a", "63.10.0", "HEAD", "-m", "newer")
+
+    assert main(["source", "refs", "--repository", url]) == 0
+    out = json.loads(capsys.readouterr().out)
+
+    tags = [t["ref"] for t in out["tags"]]
+    assert tags[:3] == ["63.10.0", "63.0.0", "62.0.0"]  # numeric, not string, order
+    assert tags[-1] == "light" and not out["tags"][-1]["release"]
+    assert out["tags"][0]["commit"] == _git(repo, "rev-parse", "HEAD")  # peeled
+    assert {b["ref"] for b in out["branches"]} == {"main", "feature/foo"}

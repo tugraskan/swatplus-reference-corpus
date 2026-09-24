@@ -81,6 +81,36 @@ def resolve_remote_ref(repository: str, ref: str) -> str:
     return next(iter(commits.values()))
 
 
+def list_remote_refs(repository: str = DEFAULT_REPOSITORY) -> dict[str, list[dict[str, str]]]:
+    """Branches and tags available upstream; release tags newest first."""
+    output = _git("ls-remote", "--heads", "--tags", repository)
+    branches: dict[str, str] = {}
+    tags: dict[str, str] = {}
+    for line in output.splitlines():
+        sha, _, name = line.partition("\t")
+        if name.startswith("refs/heads/"):
+            branches[name.removeprefix("refs/heads/")] = sha
+        elif name.startswith("refs/tags/"):
+            tag = name.removeprefix("refs/tags/")
+            peeled = tag.endswith("^{}")
+            tag = tag.removesuffix("^{}")
+            if peeled or tag not in tags:
+                tags[tag] = sha
+
+    def version_key(tag: str) -> tuple[int, ...]:
+        match = RELEASE_TAG.match(tag)
+        return tuple(int(part) for part in match.group(1).split(".")) if match else ()
+
+    ordered = sorted(tags, key=lambda t: (bool(RELEASE_TAG.match(t)), version_key(t), t), reverse=True)
+    return {
+        "tags": [
+            {"ref": t, "commit": tags[t], "release": bool(RELEASE_TAG.match(t))}
+            for t in ordered
+        ],
+        "branches": [{"ref": b, "commit": branches[b]} for b in sorted(branches)],
+    }
+
+
 def _label(ref: str, commit: str) -> str:
     if match := RELEASE_TAG.match(ref):
         return f"SWAT+ {match.group(1)}"

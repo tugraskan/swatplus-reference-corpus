@@ -924,19 +924,45 @@ def _repository_id(url: str) -> str:
     return clean.split(marker, 1)[1] if marker in clean else clean
 
 
+def _profile_listing(cfg: Config) -> list[dict[str, object]]:
+    """Every configured profile, for tools that drive swatref (the VS Code extension)."""
+    return [
+        {
+            "name": profile.name,
+            "repository": profile.repository,
+            "ref": profile.ref,
+            "commit": profile.commit,
+            "label": profile.version_label,
+            "checkout": str(profile.checkout),
+            "fetched": (profile.abs_checkout(cfg.root) / ".git").exists(),
+            "docs_default": profile.name == cfg.docs_source,
+            "schema_default": profile.name == cfg.schema.source,
+        }
+        for profile in cfg.sources.values()
+    ]
+
+
 def cmd_source(cfg: Config, argv: list[str], config_path: str = "swatref.toml") -> int:
     parser = argparse.ArgumentParser(prog="swatref source")
-    parser.add_argument("action", choices=["show", "fetch", "add"])
+    parser.add_argument("action", choices=["show", "fetch", "add", "list", "refs"])
     parser.add_argument(
         "profile", nargs="?",
         help="profile name (show, fetch; default [docs].source) or a branch, tag, or ref to lock (add)",
     )
     parser.add_argument("--name", help="add: profile name (default derived from the ref)")
     parser.add_argument(
-        "--repository", default=DEFAULT_REPOSITORY, help="add: repository to resolve the ref in"
+        "--repository", default=DEFAULT_REPOSITORY, help="add, refs: repository to read refs from"
     )
     args = parser.parse_args(argv)
     try:
+        if args.action == "list":
+            print(json.dumps(_profile_listing(cfg), indent=2))
+            return 0
+        if args.action == "refs":
+            from .source.add import list_remote_refs
+
+            print(json.dumps(list_remote_refs(args.repository), indent=2))
+            return 0
         if args.action == "add":
             from .source.add import add_profile
 
