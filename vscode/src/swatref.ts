@@ -194,6 +194,30 @@ export function comparisonSummaryPath(base: string, candidate: string): string {
 	return `reports/comparisons/${base}_vs_${candidate}/summary.md`;
 }
 
+export type CompareOutcome = 'complete' | 'incomplete' | 'failed';
+
+/**
+ * What a finished `swatref compare` run means. Exit 1 is "incomplete", but an
+ * uncaught Python exception also exits 1, so a summary counts only if this run
+ * wrote it: an older summary.md from the same pair is never shown as current.
+ * `summaryMtimeMs` is undefined when the file does not exist.
+ */
+export function compareOutcome(
+	status: number | null,
+	summaryMtimeMs: number | undefined,
+	startedAtMs: number
+): CompareOutcome {
+	// A little slack for filesystems that store coarse modification times.
+	const fresh = summaryMtimeMs !== undefined && summaryMtimeMs >= startedAtMs - 2000;
+	if (!fresh) {
+		return 'failed';
+	}
+	if (status === 0) {
+		return 'complete';
+	}
+	return status === 1 ? 'incomplete' : 'failed';
+}
+
 export function shortCommit(commit: string): string {
 	return commit.slice(0, 12);
 }

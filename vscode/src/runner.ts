@@ -158,9 +158,11 @@ export function runSwatref(
 		const cancelSubscription = token?.onCancellationRequested(() => {
 			cancelled = true;
 			// SIGTERM lets Python unwind; the process is killed outright if it ignores it.
+			// Not `child.killed`: that turns true once SIGTERM is *sent*, so it
+			// would never let the SIGKILL through.
 			child.kill('SIGTERM');
 			setTimeout(() => {
-				if (!settled && !child.killed) {
+				if (!settled && child.exitCode === null && child.signalCode === null) {
 					child.kill('SIGKILL');
 				}
 			}, 2000).unref?.();

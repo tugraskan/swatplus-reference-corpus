@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import {
+	compareOutcome,
 	RELEASE_TAG_RE,
 	compareArgs,
 	docsSnapshotArgs,
@@ -242,5 +243,25 @@ suite('output locations and small formatters', () => {
 	test('lastNonEmptyLine returns the final non-blank stderr line', () => {
 		assert.strictEqual(lastNonEmptyLine('a\nb\n\n'), 'b');
 		assert.strictEqual(lastNonEmptyLine('   \n'), undefined);
+	});
+});
+
+suite('compareOutcome', () => {
+	const started = 1_000_000;
+
+	test('a summary this run wrote follows the exit code', () => {
+		assert.strictEqual(compareOutcome(0, started + 5_000, started), 'complete');
+		assert.strictEqual(compareOutcome(1, started + 5_000, started), 'incomplete');
+		assert.strictEqual(compareOutcome(2, started + 5_000, started), 'failed');
+	});
+
+	test('a crash (exit 1) never shows an older run\'s summary', () => {
+		assert.strictEqual(compareOutcome(1, started - 60_000, started), 'failed');
+		assert.strictEqual(compareOutcome(0, started - 60_000, started), 'failed');
+	});
+
+	test('no summary at all is a failure', () => {
+		assert.strictEqual(compareOutcome(1, undefined, started), 'failed');
+		assert.strictEqual(compareOutcome(null, undefined, started), 'failed');
 	});
 });

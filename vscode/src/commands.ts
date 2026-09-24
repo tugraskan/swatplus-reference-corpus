@@ -1,6 +1,7 @@
 /** Registers swatplusCorpus.* commands: the three flows, plus fetch/refresh/showOutput. */
 
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import * as path from 'path';
 import { checkPrerequisites, loadSourceList, reportFailure, runSwatref } from './runner';
 import { SourceItem, SourcesTreeProvider } from './sourcesTree';
@@ -11,6 +12,7 @@ import {
 	SourceProfile,
 	comparisonSummaryPath,
 	compareArgs,
+	compareOutcome,
 	docsSnapshotArgs,
 	groupRemoteRefs,
 	isAddResult,
@@ -392,6 +394,7 @@ async function compare(ctx: Ctx, tree: SourcesTreeProvider, presetCandidateName?
 		buildPreview: chosen.some(c => c.key === 'buildPreview'),
 	};
 
+	const startedAt = Date.now();
 	const result = await vscode.window.withProgress(
 		{ location: vscode.ProgressLocation.Notification, title: `Comparing ${base.name} → ${candidate.name}`, cancellable: true },
 		(progress, token) =>
@@ -409,13 +412,22 @@ async function compare(ctx: Ctx, tree: SourcesTreeProvider, presetCandidateName?
 
 	tree.refresh();
 	const summaryPath = comparisonSummaryPath(base.name, candidate.name);
-	if (result.status === 0) {
+	const outcome = compareOutcome(result.status, fileMtimeMs(ctx.corpusRoot, summaryPath), startedAt);
+	if (outcome === 'complete') {
 		await openMarkdownPreview(ctx.corpusRoot, summaryPath);
-	} else if (result.status === 1) {
+	} else if (outcome === 'incomplete') {
 		await openMarkdownPreview(ctx.corpusRoot, summaryPath);
 		await vscode.window.showWarningMessage('Comparison incomplete: see summary.');
 	} else {
 		await reportFailure(ctx.outputChannel, result, 'swatref compare');
+	}
+}
+
+function fileMtimeMs(corpusRoot: string, relativePath: string): number | undefined {
+	try {
+		return fs.statSync(path.join(corpusRoot, relativePath)).mtimeMs;
+	} catch {
+		return undefined;
 	}
 }
 
