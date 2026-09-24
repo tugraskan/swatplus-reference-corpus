@@ -2,13 +2,16 @@
 
 from __future__ import annotations
 
+import re
 import tomllib
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 
 DEFAULT_REPOSITORY = "https://github.com/swat-model/swatplus"
 DEFAULT_MAIN_COMMIT = "cb442f7c05fc3bfc34349c446010f452d2737ca0"
+# A SWAT+ release tag: 62.0.0, optionally written v62.0.0.
+RELEASE_TAG = re.compile(r"^v?(\d+(?:\.\d+)+)$")
 
 
 @dataclass
@@ -224,10 +227,41 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
     )
 
     if sources:
-        profile = cfg.source_profile(docs_source)
-        cfg.source_repo_url = profile.repository
-        cfg.source_ref = profile.commit or profile.ref
-        cfg.source_dir = profile.checkout / profile.subdir
-        cfg.source_link_base = profile.source_link_base()
-        cfg.version_label = str(docs.get("version_label", profile.version_label))
+        _select_docs_source(cfg, docs_source, docs.get("version_label"))
     return cfg
+
+
+def _select_docs_source(cfg: Config, name: str, version_label: object = None) -> None:
+    """Point the documentation compatibility fields at one source profile."""
+    profile = cfg.source_profile(name)
+    cfg.docs_source = profile.name
+    cfg.source_repo_url = profile.repository
+    cfg.source_ref = profile.commit or profile.ref
+    cfg.source_dir = profile.checkout / profile.subdir
+    cfg.source_link_base = profile.source_link_base()
+    cfg.version_label = str(version_label or profile.version_label)
+
+
+def with_docs_source(cfg: Config, name: str) -> Config:
+    """Return a copy of ``cfg`` whose documentation commands read ``name``."""
+    selected = replace(cfg, sources=dict(cfg.sources))
+    _select_docs_source(selected, name)
+    return selected
+
+
+def with_schema_source(cfg: Config, name: str, version: str | None = None) -> Config:
+    """Return a copy of ``cfg`` whose schema commands read ``name``.
+
+    The schema version names every output file, so it must be explicit unless
+    the profile's ref is itself a release tag such as ``63.0.0``.
+    """
+    profile = cfg.source_profile(name)
+    if not version:
+        match = RELEASE_TAG.match(profile.ref)
+        if not match:
+            raise ValueError(
+                f"source profile {name!r} is not a release tag ({profile.ref!r}); "
+                "pass --version"
+            )
+        version = match.group(1)
+    return replace(cfg, schema=replace(cfg.schema, source=profile.name, version=version))

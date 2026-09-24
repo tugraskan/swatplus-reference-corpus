@@ -117,9 +117,32 @@ swatref source fetch pr_252
 swatref compare pr_252
 ```
 
+## Building any branch, tag, or pull request
+
+`swatref source add REF` resolves a branch, tag, or full ref name in the SWAT+
+repository and appends a `[sources.*]` profile locked to the commit it points
+at right now. The name is derived from the ref (`63.0.0` → `release_63_0_0`,
+`refs/pull/252/head` → `pr_252`, `feature/foo` → `feature_foo`) unless
+`--name` is given. Adding a ref that is already configured never relocks it;
+the printed `moved` flag and `current_commit` show when its branch has moved
+on since the lock.
+
+`--source PROFILE` points any `docs` or `schema` command at that profile instead
+of `[docs].source` or `[schema].source`. Schema outputs are named by the
+profile's release tag, or by an explicit `--version`.
+
+```sh
+swatref source add 63.0.0
+swatref source fetch release_63_0_0
+swatref schema build --source release_63_0_0          # swatplus-63.0.0.json
+swatref docs rich-parse --snapshot --source release_63_0_0
+swatref compare --base release_62_0_0 --candidate release_63_0_0
+```
+
 ## Comparing a branch or pull request
 
-A `[comparisons.NAME]` entry selects two source profiles: an exact base and an
+`swatref compare --base A --candidate B` compares two profiles without a
+configured entry, writing to `reports/comparisons/A_vs_B`. A `[comparisons.NAME]` entry selects two source profiles: an exact base and an
 exact candidate. `swatref compare NAME` compiles both with the same settings,
 parses the candidate twice, generates its schema twice, inventories source-opened
 inputs, measures reviewed-page impact, runs grounding checks, and builds an
