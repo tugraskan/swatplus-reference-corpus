@@ -25,7 +25,14 @@ from .parser.rich import (
 )
 from .parser.schema_model import DerivedTypeDoc, ModuleDoc, ProcedureDoc, ProgramDoc
 from .provenance.records import SourceProvenance, write_provenance
-from .source.config import Config, load_config
+from .source.config import (
+    DEFAULT_REPOSITORY,
+    ComparisonConfig,
+    Config,
+    load_config,
+    with_docs_source,
+    with_schema_source,
+)
 from .source.fetch import fetch_profile, resolve_profile
 
 
@@ -917,16 +924,60 @@ def _repository_id(url: str) -> str:
     return clean.split(marker, 1)[1] if marker in clean else clean
 
 
-def cmd_source(cfg: Config, argv: list[str]) -> int:
+def _profile_listing(cfg: Config) -> list[dict[str, object]]:
+    """Every configured profile, for tools that drive swatref (the VS Code extension)."""
+    return [
+        {
+            "name": profile.name,
+            "repository": profile.repository,
+            "ref": profile.ref,
+            "commit": profile.commit,
+            "label": profile.version_label,
+            "checkout": str(profile.checkout),
+            "fetched": (profile.abs_checkout(cfg.root) / ".git").exists(),
+            "docs_default": profile.name == cfg.docs_source,
+            "schema_default": profile.name == cfg.schema.source,
+        }
+        for profile in cfg.sources.values()
+    ]
+
+
+def cmd_source(cfg: Config, argv: list[str], config_path: str = "swatref.toml") -> int:
     parser = argparse.ArgumentParser(prog="swatref source")
-    parser.add_argument("action", choices=["show", "fetch"])
-    parser.add_argument("profile", nargs="?", default=cfg.docs_source)
+    parser.add_argument("action", choices=["show", "fetch", "add", "list", "refs"])
+    parser.add_argument(
+        "profile", nargs="?",
+        help="profile name (show, fetch; default [docs].source) or a branch, tag, or ref to lock (add)",
+    )
+    parser.add_argument("--name", help="add: profile name (default derived from the ref)")
+    parser.add_argument(
+        "--repository", default=DEFAULT_REPOSITORY, help="add, refs: repository to read refs from"
+    )
     args = parser.parse_args(argv)
     try:
+        if args.action == "list":
+            print(json.dumps(_profile_listing(cfg), indent=2))
+            return 0
+        if args.action == "refs":
+            from .source.add import list_remote_refs
+
+            print(json.dumps(list_remote_refs(args.repository), indent=2))
+            return 0
+        if args.action == "add":
+            from .source.add import add_profile
+
+            if not args.profile:
+                parser.error("add needs a branch, tag, or ref")
+            result = add_profile(
+                config_path, args.profile, name=args.name, repository=args.repository
+            )
+            print(json.dumps(result.to_dict(), indent=2, sort_keys=True))
+            return 0
+        profile = args.profile or cfg.docs_source
         if args.action == "fetch":
-            provenance = fetch_profile(cfg, args.profile)
+            provenance = fetch_profile(cfg, profile)
         else:
-            _, provenance = resolve_profile(cfg, args.profile)
+            _, provenance = resolve_profile(cfg, profile)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))
     print(json.dumps(provenance.to_dict(), indent=2, sort_keys=True))
@@ -1034,7 +1085,14 @@ def cmd_schema_editor_report(cfg: Config, editor_root: str) -> int:
 
 
 def cmd_schema(cfg: Config, argv: list[str]) -> int:
-    parser = argparse.ArgumentParser(prog="swatref schema")
+    # Popped rather than declared so they work before or after the action.
+    source, argv = _pop_option(argv, "--source")
+    version, argv = _pop_option(argv, "--version")
+    parser = argparse.ArgumentParser(
+        prog="swatref schema",
+        epilog="--source PROFILE builds another profile; --version names its outputs "
+        "(default: the profile's release tag)",
+    )
     sub = parser.add_subparsers(dest="action", required=True)
     sub.add_parser("build", help="generate the deterministic base input schema")
     sub.add_parser("ranges", help="apply reviewed parameter ranges")
@@ -1043,6 +1101,8 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     editor.add_argument("--editor-root", required=True)
     args = parser.parse_args(argv)
     try:
+        if source or version:
+            cfg = with_schema_source(cfg, source or cfg.schema.source, version)
         if args.action == "build":
             return cmd_schema_build(cfg)
         if args.action == "ranges":
@@ -1058,7 +1118,11 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
 def cmd_compare(cfg: Config, argv: list[str]) -> int:
     """Run a configured, locked source impact comparison."""
     parser = argparse.ArgumentParser(prog="swatref compare")
-    parser.add_argument("name", help="comparison name from swatref.toml")
+    parser.add_argument(
+        "name", nargs="?", help="comparison name from swatref.toml (or use --base/--candidate)"
+    )
+    parser.add_argument("--base", help="base source profile, for a comparison not in swatref.toml")
+    parser.add_argument("--candidate", help="candidate source profile, paired with --base")
     parser.add_argument(
         "--fetch", action="store_true", help="fetch and verify both locked source profiles"
     )
@@ -1069,12 +1133,32 @@ def cmd_compare(cfg: Config, argv: list[str]) -> int:
         "--skip-preview", action="store_true", help="skip the isolated strict MkDocs preview"
     )
     args = parser.parse_args(argv)
+    if bool(args.base) != bool(args.candidate):
+        parser.error("--base and --candidate go together")
+    if bool(args.name) == bool(args.base):
+        parser.error("give a comparison name or --base and --candidate, not both")
     try:
         from .comparison.run import run_comparison
 
+        name = args.name
+        if args.base:
+            cfg.source_profile(args.base)
+            cfg.source_profile(args.candidate)
+            name = f"{args.base}_vs_{args.candidate}"
+            cfg.comparisons.setdefault(
+                name,
+                ComparisonConfig(
+                    name=name,
+                    base_source=args.base,
+                    candidate_source=args.candidate,
+                    output_dir=Path("reports") / "comparisons" / name,
+                    work_dir=Path(".swatref") / "comparisons" / name,
+                    title=f"{args.base} vs {args.candidate}",
+                ),
+            )
         result = run_comparison(
             cfg,
-            args.name,
+            name,
             fetch=args.fetch,
             build_sources=not args.skip_source_build,
             build_preview=not args.skip_preview,
@@ -1086,17 +1170,23 @@ def cmd_compare(cfg: Config, argv: list[str]) -> int:
     return 0 if result.complete else 1
 
 
+def _pop_option(argv: list[str], option: str) -> tuple[str | None, list[str]]:
+    """Remove ``option VALUE`` from anywhere in ``argv`` and return VALUE."""
+    args = list(argv)
+    if option not in args:
+        return None, args
+    index = args.index(option)
+    if index + 1 >= len(args):
+        raise SystemExit(f"{option} requires a value")
+    value = args[index + 1]
+    del args[index : index + 2]
+    return value, args
+
+
 def _config_from_argv(argv: list[str]) -> tuple[str, list[str]]:
     """Accept --config before or after the docs/schema/source namespace."""
-    args = list(argv)
-    config = "swatref.toml"
-    if "--config" in args:
-        index = args.index("--config")
-        if index + 1 >= len(args):
-            raise SystemExit("--config requires a path")
-        config = args[index + 1]
-        del args[index : index + 2]
-    return config, args
+    config, args = _pop_option(argv, "--config")
+    return config or "swatref.toml", args
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -1115,13 +1205,21 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     cfg = load_config(config_path)
     if argv and argv[0] == "source":
-        return cmd_source(cfg, argv[1:])
+        return cmd_source(cfg, argv[1:], config_path)
     if argv and argv[0] == "schema":
         return cmd_schema(cfg, argv[1:])
     if argv and argv[0] == "compare":
         return cmd_compare(cfg, argv[1:])
     if argv and argv[0] == "docs":
         argv = argv[1:]
+    # Any docs command can read another profile than [docs].source; the caches
+    # are keyed by resolved commit, so switching never mixes facts.
+    docs_source, argv = _pop_option(argv, "--source")
+    if docs_source:
+        try:
+            cfg = with_docs_source(cfg, docs_source)
+        except ValueError as exc:
+            raise SystemExit(f"swatref docs: error: {exc}") from exc
 
     parser = argparse.ArgumentParser(prog="swatref docs", description=__doc__)
     sub = parser.add_subparsers(dest="command", required=True)

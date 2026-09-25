@@ -106,7 +106,7 @@
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (.not. i_exist .or. 'outside_src.wal' == \"null\") then / else > do",
@@ -183,9 +183,11 @@
         }
       ],
       "filename": "outside_src.wal",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "runtime_arity"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
@@ -199,7 +201,7 @@
           "open": {
             "condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
             "file_expr": "in_wallo%pou",
-            "file_resolved": "in_wallo%pou",
+            "file_resolved": "place_of_use.wro",
             "line": 40,
             "raw": "open (107,file=in_wallo%pou)"
           },
@@ -305,11 +307,12 @@
             "place_of_use.wro"
           ],
           "source_expressions": [
-            "in_wallo%pou"
+            "in_wallo%pou",
+            "place_of_use.wro"
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (.not. i_exist .or. in_wallo%pou /= \"null\") then > do",
@@ -399,13 +402,16 @@
         }
       ],
       "filename": "place_of_use.wro",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "multi_record"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
-        "in_wallo%pou"
+        "in_wallo%pou",
+        "place_of_use.wro"
       ]
     },
     "point_of_diver.wro": {
@@ -415,7 +421,7 @@
           "open": {
             "condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
             "file_expr": "in_wallo%pod",
-            "file_resolved": "in_wallo%pod",
+            "file_resolved": "point_of_diver.wro",
             "line": 194,
             "raw": "open (107,file=in_wallo%pod)"
           },
@@ -481,11 +487,12 @@
             "point_of_diver.wro"
           ],
           "source_expressions": [
-            "in_wallo%pod"
+            "in_wallo%pod",
+            "point_of_diver.wro"
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (.not. i_exist .or. in_wallo%pod /= \"null\") then > do",
@@ -539,13 +546,16 @@
         }
       ],
       "filename": "point_of_diver.wro",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "files"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
-        "in_wallo%pod"
+        "in_wallo%pod",
+        "point_of_diver.wro"
       ]
     },
     "recall.rec": {
@@ -785,7 +795,7 @@
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (.not. i_exist .or. \"transplant.ops\" == \" null\") then / else > do",
@@ -837,9 +847,11 @@
         }
       ],
       "filename": "transplant.ops",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "files"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
@@ -916,7 +928,7 @@
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (i_exist) then > do",
@@ -963,9 +975,11 @@
         }
       ],
       "filename": "water_hru_irr.wal",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "multi_record"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
@@ -1050,7 +1064,7 @@
           ]
         }
       ],
-      "certification": "readable_needs_schema_review",
+      "certification": "certified",
       "contract": [
         {
           "open_condition": "if (i_exist .or. 'wtps_wuses.wal' /= \"null\") then > do",
@@ -1103,9 +1117,11 @@
         }
       ],
       "filename": "wtps_wuses.wal",
-      "review_needed": true,
+      "review_needed": false,
       "schema_presence": {
-        "resolved_sections": [],
+        "resolved_sections": [
+          "multi_section"
+        ],
         "unresolved_sections": []
       },
       "source_expressions": [
@@ -2487,7 +2503,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": false
       },
       "filename": "file.cio",
       "review_needed": true
@@ -2882,213 +2899,10 @@
             "removed": []
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": false
       },
       "filename": "recall_db.rec",
-      "review_needed": true
-    },
-    "salt_fertilizer.frt": {
-      "base": {
-        "blocks": [
-          {
-            "match": "source_input",
-            "open": {
-              "condition": "if (i_exist) then",
-              "file_expr": "\"salt_fertilizer.frt\"",
-              "file_resolved": "salt_fertilizer.frt",
-              "line": 24,
-              "raw": "open (107,file=\"salt_fertilizer.frt\")"
-            },
-            "procedure": "salt_fert_read",
-            "reader": "salt_fert_read.f90",
-            "reads": [
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "titldum"
-                ],
-                "line": 25,
-                "raw": "read (107,*,iostat=eof) titldum",
-                "role": "title"
-              },
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "header"
-                ],
-                "line": 26,
-                "raw": "read (107,*,iostat=eof) header",
-                "role": "header"
-              },
-              {
-                "condition": "if (i_exist) then > do isalti=1,db_mx%fertparm",
-                "fields": [
-                  "fert_salt(isalti)"
-                ],
-                "line": 36,
-                "raw": "read (107,*) fert_salt(isalti)",
-                "role": "data"
-              }
-            ],
-            "resolved_default_filenames": [
-              "salt_fertilizer.frt"
-            ],
-            "source_expressions": [
-              "salt_fertilizer.frt"
-            ]
-          }
-        ],
-        "certification": "certified",
-        "contract": [
-          {
-            "open_condition": "if (i_exist) then",
-            "procedure": "salt_fert_read",
-            "reads": [
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "titldum"
-                ],
-                "role": "title"
-              },
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "header"
-                ],
-                "role": "header"
-              },
-              {
-                "condition": "if (i_exist) then > do isalti=1,db_mx%fertparm",
-                "fields": [
-                  "fert_salt(isalti)"
-                ],
-                "role": "data"
-              }
-            ]
-          }
-        ],
-        "filename": "salt_fertilizer.frt",
-        "review_needed": false,
-        "schema_presence": {
-          "resolved_sections": [
-            "files"
-          ],
-          "unresolved_sections": []
-        },
-        "source_expressions": [
-          "salt_fertilizer.frt"
-        ]
-      },
-      "candidate": {
-        "blocks": [
-          {
-            "match": "source_input",
-            "open": {
-              "condition": "if (i_exist) then",
-              "file_expr": "\"salt_fertilizer.frt\"",
-              "file_resolved": "salt_fertilizer.frt",
-              "line": 24,
-              "raw": "open (107,file=\"salt_fertilizer.frt\")"
-            },
-            "procedure": "salt_fert_read",
-            "reader": "salt_fert_read.f90",
-            "reads": [
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "titldum"
-                ],
-                "line": 25,
-                "raw": "read (107,*,iostat=eof) titldum",
-                "role": "title"
-              },
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "header"
-                ],
-                "line": 26,
-                "raw": "read (107,*,iostat=eof) header",
-                "role": "header"
-              },
-              {
-                "condition": "if (i_exist) then > do isalti = 1, db_mx%fertparm",
-                "fields": [
-                  "fert_salt(isalti)"
-                ],
-                "line": 36,
-                "raw": "read (107,*) fert_salt(isalti)",
-                "role": "data"
-              }
-            ],
-            "resolved_default_filenames": [
-              "salt_fertilizer.frt"
-            ],
-            "source_expressions": [
-              "salt_fertilizer.frt"
-            ]
-          }
-        ],
-        "certification": "certified",
-        "contract": [
-          {
-            "open_condition": "if (i_exist) then",
-            "procedure": "salt_fert_read",
-            "reads": [
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "titldum"
-                ],
-                "role": "title"
-              },
-              {
-                "condition": "if (i_exist) then",
-                "fields": [
-                  "header"
-                ],
-                "role": "header"
-              },
-              {
-                "condition": "if (i_exist) then > do isalti = 1, db_mx%fertparm",
-                "fields": [
-                  "fert_salt(isalti)"
-                ],
-                "role": "data"
-              }
-            ]
-          }
-        ],
-        "filename": "salt_fertilizer.frt",
-        "review_needed": false,
-        "schema_presence": {
-          "resolved_sections": [
-            "files"
-          ],
-          "unresolved_sections": []
-        },
-        "source_expressions": [
-          "salt_fertilizer.frt"
-        ]
-      },
-      "changes": {
-        "base_read_fields": [
-          "titldum",
-          "header",
-          "fert_salt(isalti)"
-        ],
-        "block_count_changed": false,
-        "candidate_read_fields": [
-          "titldum",
-          "header",
-          "fert_salt(isalti)"
-        ],
-        "conditions_changed": true,
-        "field_edits": [],
-        "reader_procedures_changed": false
-      },
-      "filename": "salt_fertilizer.frt",
       "review_needed": true
     },
     "water_canal.wal": {
@@ -3598,7 +3412,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": false
       },
       "filename": "water_canal.wal",
       "review_needed": true
@@ -3982,7 +3797,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": false
       },
       "filename": "water_pipe.wal",
       "review_needed": true
@@ -4271,7 +4087,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": true
       },
       "filename": "water_tower.wal",
       "review_needed": true
@@ -4587,7 +4404,7 @@
             ]
           }
         ],
-        "certification": "schema_unresolved_but_readable",
+        "certification": "certified",
         "contract": [
           {
             "open_condition": "if (.not. i_exist .or. 'water_treat.wal' == \"null\") then / else > do",
@@ -4674,12 +4491,12 @@
           }
         ],
         "filename": "water_treat.wal",
-        "review_needed": true,
+        "review_needed": false,
         "schema_presence": {
-          "resolved_sections": [],
-          "unresolved_sections": [
-            "runtime_arity_unresolved"
-          ]
+          "resolved_sections": [
+            "runtime_arity"
+          ],
+          "unresolved_sections": []
         },
         "source_expressions": [
           "water_treat.wal"
@@ -4769,7 +4586,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": true
       },
       "filename": "water_treat.wal",
       "review_needed": true
@@ -5076,7 +4894,7 @@
             ]
           }
         ],
-        "certification": "schema_unresolved_but_readable",
+        "certification": "certified",
         "contract": [
           {
             "open_condition": "if (.not. i_exist .or. 'water_use.wal' == \"null\") then / else > do",
@@ -5156,12 +4974,12 @@
           }
         ],
         "filename": "water_use.wal",
-        "review_needed": true,
+        "review_needed": false,
         "schema_presence": {
-          "resolved_sections": [],
-          "unresolved_sections": [
-            "runtime_arity_unresolved"
-          ]
+          "resolved_sections": [
+            "runtime_arity"
+          ],
+          "unresolved_sections": []
         },
         "source_expressions": [
           "water_use.wal"
@@ -5249,7 +5067,8 @@
             ]
           }
         ],
-        "reader_procedures_changed": false
+        "reader_procedures_changed": false,
+        "roles_changed": false
       },
       "filename": "water_use.wal",
       "review_needed": true
@@ -5785,7 +5604,7 @@
           "open": {
             "condition": "if (.not. i_exist .or. in_watrts%transfer_wro == \"null\") then / else > do",
             "file_expr": "in_watrts%transfer_wro",
-            "file_resolved": "in_watrts%transfer_wro",
+            "file_resolved": "water_allocation.wro",
             "line": 47,
             "raw": "open (107,file=in_watrts%transfer_wro)"
           },
@@ -5884,7 +5703,8 @@
             "water_allocation.wro"
           ],
           "source_expressions": [
-            "in_watrts%transfer_wro"
+            "in_watrts%transfer_wro",
+            "water_allocation.wro"
           ]
         }
       ],
@@ -5977,7 +5797,8 @@
         "unresolved_sections": []
       },
       "source_expressions": [
-        "in_watrts%transfer_wro"
+        "in_watrts%transfer_wro",
+        "water_allocation.wro"
       ]
     }
   },
@@ -5991,7 +5812,7 @@
     "base_unresolved_open_blocks": 27,
     "candidate_input_files": 210,
     "candidate_unresolved_open_blocks": 27,
-    "changed": 8,
+    "changed": 7,
     "new_unresolved_open_blocks": 1,
     "possible_renames_or_replacements": 4,
     "removed": 4,

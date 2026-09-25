@@ -1,0 +1,20 @@
+.vscode/**
+.vscode-test/**
+.tmp/**
+out/**
+node_modules/**
+src/**
+.gitignore
+esbuild.js
+**/tsconfig.json
+**/eslint.config.mjs
+**/*.map
+**/*.ts
+**/.vscode-test.*
+**/.mocharc.json
+
+# Packaged artifacts should never ship inside the package
+*.vsix
+
+# Spec, not user-facing packaging
+SPEC.md
