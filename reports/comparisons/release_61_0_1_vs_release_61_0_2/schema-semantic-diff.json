@@ -15,6 +15,10 @@
     "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522",
     "candidate_version": "pr-252-candidate"
   },
+  "resolved_unresolved_transitions": {
+    "genuinely_new_files": [],
+    "previously_unresolved_now_resolved": []
+  },
   "semantic_sections": {
     "decision_tables": {
       "added": [],
@@ -2570,7 +2574,9 @@
     "changed_unresolved_reasons": 0,
     "documentation_changes": 2,
     "documentation_only_changes": 1,
+    "genuinely_new_files": 0,
     "new_unresolved": 0,
+    "previously_unresolved_now_resolved": 0,
     "source_location_changes": 71,
     "source_location_only_changes": 69,
     "source_organization_changes": 0,

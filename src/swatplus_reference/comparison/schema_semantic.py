@@ -51,7 +51,7 @@ _STRUCTURAL_KEYS = frozenset({
     "nested_file_field", "numeric", "other", "other_vocabularies",
     "position", "read_pattern", "repeat", "repeat_expr", "repeat_fields",
     "repeat_source", "row", "row_count_field", "row_fields", "row_repeat",
-    "row_suffix_fields", "sections", "subject", "tag", "tag_field",
+    "row_suffix_fields", "sections", "subject", "suffix_fields", "tag", "tag_field",
     "units", "variable_arity", "variable_width", "variants", "vocabulary",
 })
 _DYNAMIC_STRUCTURAL_MAPS = frozenset({
@@ -474,6 +474,8 @@ def _semantic_schema_diff(
     unresolved: dict[str, Any] = {}
     new_unresolved_total = 0
     changed_unresolved_reasons = 0
+    base_unresolved_files: set[str] = set()
+    candidate_unresolved_files: set[str] = set()
     for section in UNRESOLVED_SECTIONS:
         before = _unresolved_map(base, section)
         after = _unresolved_map(candidate, section)
@@ -486,6 +488,8 @@ def _semantic_schema_diff(
         }
         new_unresolved_total += len(new)
         changed_unresolved_reasons += len(changed)
+        base_unresolved_files.update(before.keys())
+        candidate_unresolved_files.update(after.keys())
         unresolved[section] = {
             "base_count": len(before),
             "candidate_count": len(after),
@@ -493,6 +497,21 @@ def _semantic_schema_diff(
             "resolved": resolved,
             "changed_reasons": changed,
         }
+
+    # Cross-reference: which newly-added schema entries were previously
+    # unresolved in the base?  These are "unresolved → resolved" transitions
+    # rather than genuinely new input files.
+    added_names = set()
+    for section in SCHEMA_SECTIONS:
+        diff = semantic_sections[section]
+        added_names.update(diff["added"])
+
+    previously_unresolved_now_added = sorted(
+        name for name in added_names if name in base_unresolved_files
+    )
+    genuinely_new_files = sorted(
+        name for name in added_names if name not in base_unresolved_files
+    )
 
     return {
         "summary": {
@@ -513,6 +532,10 @@ def _semantic_schema_diff(
             },
             "new_unresolved": new_unresolved_total,
             "changed_unresolved_reasons": changed_unresolved_reasons,
+            "previously_unresolved_now_resolved": len(
+                previously_unresolved_now_added
+            ),
+            "genuinely_new_files": len(genuinely_new_files),
         },
         "counting": {
             "changed_schema_entries": "Sum of added, removed, and changed entries across schema sections.",
@@ -521,6 +544,10 @@ def _semantic_schema_diff(
         },
         "semantic_sections": semantic_sections,
         "unresolved_sections": unresolved,
+        "resolved_unresolved_transitions": {
+            "previously_unresolved_now_resolved": previously_unresolved_now_added,
+            "genuinely_new_files": genuinely_new_files,
+        },
         "metadata": {
             "base_commit": base.get("source_ref"),
             "candidate_commit": candidate.get("source_ref"),

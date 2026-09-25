@@ -1,9 +1,9 @@
-# release_61_0_1 vs release_61_0_2 impact report
+# release_61_0_2 vs release_62_0_0 impact report
 
-Comparison: release_61_0_1 vs release_61_0_2
+Comparison: release_61_0_2 vs release_62_0_0
 
-- Exact base: `5108ef15230e214a1a10aefabf317e2e1731e41d` (`61.0.1`)
-- Exact candidate: `5f932baf276792c28db0e0d8faa6e8ed30003522` (`61.0.2`)
+- Exact base: `5f932baf276792c28db0e0d8faa6e8ed30003522` (`61.0.2`)
+- Exact candidate: `de210d64db4f1d75e110bd6af33ea9c333d27b8a` (`62.0.0`)
 - Existing reviewed corpus pages were read only; no AI filling was run.
 
 ## Result
@@ -16,14 +16,14 @@ Overall: **requires corpus and schema updates before adoption**.
 - Candidate input contracts repeat with zero changes: pass
 - Candidate output contracts repeat with zero changes: pass
 - Strict isolated preview: skipped
-- Parser fallback coverage: base=0 files, candidate=1 files
-- Symbols: 7 added, 2 removed, 889 changed
-- Schema entries: 71 added, removed, or changed; 0 newly unresolved
-- Semantic schema: 71 changed section entries across 71 unique input filenames; 1 structural, 1 documentation-only, 69 source-location-only, 0 source-organization, 0 uncertain; 0 previously unresolved now resolved, 0 genuinely new files
-- Input contracts: 0 added, 0 removed, 0 changed; 1 newly unresolved filename expressions (28 candidate total)
-- Output contracts: 4 added, 1 removed, 10 changed; 0 newly unresolved filename expressions (64 candidate total)
-- Corpus impact attributable to the PR: 0 newly stale, 130 newly affected, 1 newly orphaned, 0 new pages needed
-- Grounding attributable to the PR: 7 new errors, 2 new warnings
+- Parser fallback coverage: base=1 files, candidate=0 files
+- Symbols: 161 added, 88 removed, 807 changed
+- Schema entries: 126 added, removed, or changed; 0 newly unresolved
+- Semantic schema: 126 changed section entries across 126 unique input filenames; 55 structural, 6 documentation-only, 64 source-location-only, 2 source-organization, 0 uncertain; 36 previously unresolved now resolved, 0 genuinely new files
+- Input contracts: 46 added, 21 removed, 15 changed; 2 newly unresolved filename expressions (27 candidate total)
+- Output contracts: 93 added, 91 removed, 113 changed; 0 newly unresolved filename expressions (56 candidate total)
+- Corpus impact attributable to the PR: 0 newly stale, 72 newly affected, 0 newly orphaned, 0 new pages needed
+- Grounding attributable to the PR: 0 new errors, 222 new warnings
 
 ## Human review focus
 
