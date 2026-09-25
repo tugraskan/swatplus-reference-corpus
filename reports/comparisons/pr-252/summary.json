@@ -4,6 +4,7 @@
     "candidate_compile": null,
     "facts_deterministic": true,
     "input_contract_deterministic": true,
+    "output_contract_deterministic": true,
     "preview": null,
     "schema_deterministic": true
   },
@@ -11,8 +12,8 @@
   "grounding": {
     "candidate_counts": {
       "errors": 141,
-      "total": 4045,
-      "warnings": 3904
+      "total": 4047,
+      "warnings": 3906
     },
     "introduced_errors": 139,
     "introduced_warnings": 50
@@ -23,44 +24,62 @@
     "base_unresolved_open_blocks": 27,
     "candidate_input_files": 210,
     "candidate_unresolved_open_blocks": 27,
-    "changed": 8,
+    "changed": 7,
     "new_unresolved_open_blocks": 1,
     "possible_renames_or_replacements": 4,
     "removed": 4,
     "resolved_unresolved_open_blocks": 1
   },
+  "outputs": {
+    "added": 15,
+    "base_coverage": {
+      "resolved_output_files": 673,
+      "resolved_write_statements": 4309,
+      "unresolved_units": 56,
+      "unresolved_write_statements": 215
+    },
+    "base_output_files": 673,
+    "base_unresolved_open_blocks": 56,
+    "candidate_coverage": {
+      "resolved_output_files": 687,
+      "resolved_write_statements": 4377,
+      "unresolved_units": 60,
+      "unresolved_write_statements": 234
+    },
+    "candidate_output_files": 687,
+    "candidate_unresolved_open_blocks": 60,
+    "changed": 11,
+    "new_unresolved_open_blocks": 0,
+    "possible_renames_or_replacements": 1,
+    "removed": 1
+  },
   "pages": {
     "candidate_counts": {
-      "affected": 235,
-      "filled": 709,
+      "affected": 552,
+      "filled": 392,
       "missing": 8,
       "orphaned": 9,
       "stale": 142,
       "todo": 0
     },
     "new_missing_pages": 8,
-    "newly_affected": 184,
+    "newly_affected": 302,
     "newly_orphaned": 9,
     "newly_stale": 100
   },
   "parser": {
-    "base_fallback_files": 2,
-    "candidate_fallback_files": 2,
+    "base_fallback_files": 0,
+    "candidate_fallback_files": 0,
     "fallback_set_changed": false
   },
   "ready_for_adoption": false,
   "schemas": {
     "base_flat_files": 145,
-    "candidate_flat_files": 143,
-    "changed_entries": 44,
-    "new_unresolved": 6,
+    "candidate_flat_files": 145,
+    "changed_entries": 50,
+    "new_unresolved": 1,
     "new_unresolved_files": [
-      "manure.frt",
-      "out_src.wal",
-      "transplant.plt",
-      "water_allocation.wro",
-      "water_treat.wal",
-      "water_use.wal"
+      "manure.frt"
     ]
   },
   "source": {

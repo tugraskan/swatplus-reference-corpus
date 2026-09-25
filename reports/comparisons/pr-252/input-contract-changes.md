@@ -6,7 +6,7 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 - Added input defaults: **7**
 - Removed input defaults: **4**
-- Changed read contracts: **8**
+- Changed read contracts: **7**
 - Possible renames or replacements: **4**
 - Candidate open/read blocks with unresolved filenames: **27**
 - Newly unresolved filename expressions in the candidate: **1**
@@ -15,8 +15,8 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `outside_src.wal`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `outside_src.wal`
 
 - Procedure: `water_osrc_read`
@@ -39,16 +39,16 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `place_of_use.wro`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
-- Source expression(s): `in_wallo%pou`
+- Schema status: `certified`
+- Review needed: no
+- Source expression(s): `in_wallo%pou`, `place_of_use.wro`
 
 - Procedure: `water_allocation_read`
 - Reader: `water_allocation_read.f90`
 - Match: source_input
 - Resolved default filename(s): `place_of_use.wro`
-- Source filename expression(s): `in_wallo%pou`
-- Open: line 40, file expression `in_wallo%pou`, parser value `in_wallo%pou`, condition `if (.not. i_exist .or. in_wallo%pou /= "null") then > do`
+- Source filename expression(s): `in_wallo%pou`, `place_of_use.wro`
+- Open: line 40, file expression `in_wallo%pou`, parser value `place_of_use.wro`, condition `if (.not. i_exist .or. in_wallo%pou /= "null") then > do`
 
 | Line | Role | Condition | Fields read |
 | --- | --- | --- | --- |
@@ -62,16 +62,16 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `point_of_diver.wro`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
-- Source expression(s): `in_wallo%pod`
+- Schema status: `certified`
+- Review needed: no
+- Source expression(s): `in_wallo%pod`, `point_of_diver.wro`
 
 - Procedure: `water_allocation_read`
 - Reader: `water_allocation_read.f90`
 - Match: source_input
 - Resolved default filename(s): `point_of_diver.wro`
-- Source filename expression(s): `in_wallo%pod`
-- Open: line 194, file expression `in_wallo%pod`, parser value `in_wallo%pod`, condition `if (.not. i_exist .or. in_wallo%pod /= "null") then > do`
+- Source filename expression(s): `in_wallo%pod`, `point_of_diver.wro`
+- Open: line 194, file expression `in_wallo%pod`, parser value `point_of_diver.wro`, condition `if (.not. i_exist .or. in_wallo%pod /= "null") then > do`
 
 | Line | Role | Condition | Fields read |
 | --- | --- | --- | --- |
@@ -106,8 +106,8 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `transplant.ops`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `transplant.ops`
 
 - Procedure: `plant_transplant_read`
@@ -128,8 +128,8 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `water_hru_irr.wal`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `water_hru_irr.wal`
 
 - Procedure: `water_hru_irr_read`
@@ -149,8 +149,8 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 ### `wtps_wuses.wal`
 
-- Schema status: `readable_needs_schema_review`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `wtps_wuses.wal`
 
 - Procedure: `wallo_wtps_wuses`
@@ -244,14 +244,14 @@ This is the primary source-level input change report. Filenames are resolved fro
 
 - Schema status: `certified`
 - Review needed: no
-- Source expression(s): `in_watrts%transfer_wro`
+- Source expression(s): `in_watrts%transfer_wro`, `water_allocation.wro`
 
 - Procedure: `water_allocation_read`
 - Reader: `water_allocation_read.f90`
 - Match: source_input
 - Resolved default filename(s): `water_allocation.wro`
-- Source filename expression(s): `in_watrts%transfer_wro`
-- Open: line 47, file expression `in_watrts%transfer_wro`, parser value `in_watrts%transfer_wro`, condition `if (.not. i_exist .or. in_watrts%transfer_wro == "null") then / else > do`
+- Source filename expression(s): `in_watrts%transfer_wro`, `water_allocation.wro`
+- Open: line 47, file expression `in_watrts%transfer_wro`, parser value `water_allocation.wro`, condition `if (.not. i_exist .or. in_watrts%transfer_wro == "null") then / else > do`
 
 | Line | Role | Condition | Fields read |
 | --- | --- | --- | --- |
@@ -436,58 +436,6 @@ This is the primary source-level input change report. Filenames are resolved fro
 | 42 | header | `if (i_exist .or. "recall_db.rec" /= "null") then > do` | `header` |
 | 46 | data | `if (i_exist .or. "recall_db.rec" /= "null") then > do > do ii = 1, imax` | `i` |
 | 49 | data | `if (i_exist .or. "recall_db.rec" /= "null") then > do > do ii = 1, imax` | `k`, `recall_db(i)%name`, `recall_db(i)%org_min`, `recall_db(i)%pest`, `recall_db(i)%path`, `recall_db(i)%hmet`, `recall_db(i)%salt`, `recall_db(i)%constit`, `recall_db(i)%descrip` |
-
-### `salt_fertilizer.frt`
-
-- Review needed: yes
-- Reader procedures changed: no
-- Read-block count changed: no
-- Read conditions changed: yes
-- Base flattened read order: `titldum`, `header`, `fert_salt(isalti)`
-- Candidate flattened read order: `titldum`, `header`, `fert_salt(isalti)`
-
-#### Read-order edits
-
-_No field-order edits; the contract changed in structure or conditions._
-
-#### Base read structure
-
-- Schema status: `certified`
-- Review needed: no
-- Source expression(s): `salt_fertilizer.frt`
-
-- Procedure: `salt_fert_read`
-- Reader: `salt_fert_read.f90`
-- Match: source_input
-- Resolved default filename(s): `salt_fertilizer.frt`
-- Source filename expression(s): `salt_fertilizer.frt`
-- Open: line 24, file expression `"salt_fertilizer.frt"`, parser value `salt_fertilizer.frt`, condition `if (i_exist) then`
-
-| Line | Role | Condition | Fields read |
-| --- | --- | --- | --- |
-| 25 | title | `if (i_exist) then` | `titldum` |
-| 26 | header | `if (i_exist) then` | `header` |
-| 36 | data | `if (i_exist) then > do isalti=1,db_mx%fertparm` | `fert_salt(isalti)` |
-
-
-#### Candidate read structure
-
-- Schema status: `certified`
-- Review needed: no
-- Source expression(s): `salt_fertilizer.frt`
-
-- Procedure: `salt_fert_read`
-- Reader: `salt_fert_read.f90`
-- Match: source_input
-- Resolved default filename(s): `salt_fertilizer.frt`
-- Source filename expression(s): `salt_fertilizer.frt`
-- Open: line 24, file expression `"salt_fertilizer.frt"`, parser value `salt_fertilizer.frt`, condition `if (i_exist) then`
-
-| Line | Role | Condition | Fields read |
-| --- | --- | --- | --- |
-| 25 | title | `if (i_exist) then` | `titldum` |
-| 26 | header | `if (i_exist) then` | `header` |
-| 36 | data | `if (i_exist) then > do isalti = 1, db_mx%fertparm` | `fert_salt(isalti)` |
 
 ### `water_canal.wal`
 
@@ -703,8 +651,8 @@ _No field-order edits; the contract changed in structure or conditions._
 
 #### Candidate read structure
 
-- Schema status: `schema_unresolved_but_readable`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `water_treat.wal`
 
 - Procedure: `water_treatment_read`
@@ -767,8 +715,8 @@ _No field-order edits; the contract changed in structure or conditions._
 
 #### Candidate read structure
 
-- Schema status: `schema_unresolved_but_readable`
-- Review needed: yes
+- Schema status: `certified`
+- Review needed: no
 - Source expression(s): `water_use.wal`
 
 - Procedure: `water_use_read`

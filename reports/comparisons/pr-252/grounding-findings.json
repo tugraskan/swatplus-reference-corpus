@@ -1,13 +1,13 @@
 {
   "base_counts": {
     "errors": 0,
-    "total": 3867,
-    "warnings": 3867
+    "total": 3869,
+    "warnings": 3869
   },
   "candidate_counts": {
     "errors": 141,
-    "total": 4045,
-    "warnings": 3904
+    "total": 4047,
+    "warnings": 3906
   },
   "candidate_findings": [
     {
@@ -21349,6 +21349,12 @@
     {
       "code": "unknown-backtick",
       "level": "warning",
+      "message": "`DATE_AND_TIME` not resolvable in this page's scope",
+      "page": "proc_date_time.md"
+    },
+    {
+      "code": "unknown-backtick",
+      "level": "warning",
       "message": "`df07e3f` not resolvable in this page's scope",
       "page": "proc_date_time.md"
     },
@@ -21699,6 +21705,12 @@
       "level": "warning",
       "message": "`e08326e` not resolvable in this page's scope",
       "page": "res_allo.md"
+    },
+    {
+      "code": "unknown-backtick",
+      "level": "warning",
+      "message": "`move_alloc` not resolvable in this page's scope",
+      "page": "res_control.md"
     },
     {
       "code": "unknown-backtick",
