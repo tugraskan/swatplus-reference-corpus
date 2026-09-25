@@ -1,0 +1,127 @@
+{
+  "checks": {
+    "base_compile": null,
+    "candidate_compile": null,
+    "facts_deterministic": true,
+    "input_contract_deterministic": true,
+    "output_contract_deterministic": true,
+    "preview": null,
+    "schema_deterministic": true
+  },
+  "comparison": "release_61_0_1_vs_release_61_0_2",
+  "grounding": {
+    "candidate_counts": {
+      "errors": 1189,
+      "total": 5196,
+      "warnings": 4007
+    },
+    "introduced_errors": 7,
+    "introduced_warnings": 2
+  },
+  "inputs": {
+    "added": 0,
+    "base_input_files": 182,
+    "base_unresolved_open_blocks": 27,
+    "candidate_input_files": 182,
+    "candidate_unresolved_open_blocks": 28,
+    "changed": 0,
+    "new_unresolved_open_blocks": 1,
+    "possible_renames_or_replacements": 0,
+    "removed": 0,
+    "resolved_unresolved_open_blocks": 0
+  },
+  "outputs": {
+    "added": 4,
+    "base_coverage": {
+      "resolved_output_files": 668,
+      "resolved_write_statements": 4494,
+      "unresolved_units": 65,
+      "unresolved_write_statements": 144
+    },
+    "base_output_files": 668,
+    "base_unresolved_open_blocks": 65,
+    "candidate_coverage": {
+      "resolved_output_files": 671,
+      "resolved_write_statements": 4499,
+      "unresolved_units": 64,
+      "unresolved_write_statements": 143
+    },
+    "candidate_output_files": 671,
+    "candidate_unresolved_open_blocks": 64,
+    "changed": 10,
+    "new_unresolved_open_blocks": 0,
+    "possible_renames_or_replacements": 0,
+    "removed": 1
+  },
+  "pages": {
+    "candidate_counts": {
+      "affected": 189,
+      "filled": 114,
+      "missing": 57,
+      "orphaned": 147,
+      "stale": 645,
+      "todo": 0
+    },
+    "new_missing_pages": 0,
+    "newly_affected": 130,
+    "newly_orphaned": 1,
+    "newly_stale": 0
+  },
+  "parser": {
+    "base_fallback_files": 0,
+    "candidate_fallback_files": 1,
+    "fallback_set_changed": true
+  },
+  "ready_for_adoption": false,
+  "schemas": {
+    "base_flat_files": 119,
+    "candidate_flat_files": 119,
+    "changed_entries": 71,
+    "new_unresolved": 0,
+    "new_unresolved_files": [],
+    "semantic": {
+      "base_flat_files": 119,
+      "candidate_flat_files": 119,
+      "changed_schema_entries": 71,
+      "changed_unresolved_reasons": 0,
+      "documentation_changes": 2,
+      "documentation_only_changes": 1,
+      "new_unresolved": 0,
+      "source_location_changes": 71,
+      "source_location_only_changes": 69,
+      "source_organization_changes": 0,
+      "structural_changes": 1,
+      "uncertain_changes": 0,
+      "unique_changed_input_files": 71,
+      "unique_input_files_by_category": {
+        "documentation": 2,
+        "source_location": 71,
+        "source_organization": 0,
+        "structural": 1,
+        "uncertain": 0
+      }
+    }
+  },
+  "source": {
+    "base_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+    "base_profile": "release_61_0_1",
+    "base_ref": "61.0.1",
+    "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522",
+    "candidate_profile": "release_61_0_2",
+    "candidate_ref": "61.0.2"
+  },
+  "symbols": {
+    "added": 7,
+    "base_symbols": 1232,
+    "candidate_symbols": 1237,
+    "changed": 889,
+    "removed": 2,
+    "unchanged": 341
+  },
+  "title": "release_61_0_1 vs release_61_0_2",
+  "url": "",
+  "workspace": {
+    "ignored_artifacts": ".swatref/comparisons/release_61_0_1_vs_release_61_0_2",
+    "tracked_reports": "reports/comparisons/release_61_0_1_vs_release_61_0_2"
+  }
+}

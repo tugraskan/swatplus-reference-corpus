@@ -8,6 +8,14 @@ from swatplus_reference.comparison.run import (
     _schema_diff,
     _symbol_diff,
 )
+from swatplus_reference.comparison.schema_semantic import (
+    MAX_COMPARISON_DEPTH,
+    _semantic_field_diff,
+    _semantic_schema_diff,
+    _semantic_section_diff,
+    _split_type_source,
+    _strip_and_normalize,
+)
 from swatplus_reference.docs.pages import Page
 from swatplus_reference.docs.render import render_site
 from swatplus_reference.parser.documentation import parse_documentation
@@ -761,3 +769,795 @@ def test_a_unit_carried_as_a_dummy_argument_is_also_unresolved():
 
     assert inventory["files"] == {}
     assert inventory["unresolved_open_blocks"][0]["unit"] == "unit_u_txt"
+
+
+# --------------------------------------------------------------------------
+# Semantic schema diff tests
+# --------------------------------------------------------------------------
+
+
+def _field(name: str, ftype: str = "integer", doc: str | None = None) -> dict:
+    return {
+        "position": 0,
+        "fortran_name": name,
+        "fortran_type": ftype,
+        "numeric": ftype in ("integer", "real", "double precision"),
+        "units": None,
+        "doc": doc,
+    }
+
+
+def test_split_type_source_separates_file_and_line_range():
+    assert _split_type_source("module.f90:191-196") == ("module.f90", "191-196")
+    assert _split_type_source("module.f90:42") == ("module.f90", "42")
+    assert _split_type_source("module.f90") == ("module.f90", None)
+    assert _split_type_source(None) == (None, None)
+    assert _split_type_source("") == (None, None)
+
+
+def test_strip_metadata_removes_reader_line_and_reader():
+    payload = {
+        "reader_line": 42,
+        "reader": "some_reader.f90",
+        "fields": [_field("x")],
+        "nested": {"reader_line": 10, "name": "inner"},
+    }
+    result = _strip_and_normalize(payload)
+    assert "reader_line" not in result
+    assert "reader" not in result
+    assert "reader_line" not in result["nested"]
+    assert result["fields"] == [_field("x")]
+    assert result["nested"]["name"] == "inner"
+
+
+def test_semantic_diff_ignores_reader_line_changes():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "reader": "test_read.f90",
+                "type_source": "module.f90:191-196",
+                "fields": [_field("x", "integer")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 58,
+                "reader": "test_read.f90",
+                "type_source": "module.f90:191-196",
+                "fields": [_field("x", "integer")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["documentation_only_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 1
+    assert result["summary"]["uncertain_changes"] == 0
+    assert "test.dat" in result["semantic_sections"]["files"]["source_location_only_changes"]
+
+
+def test_semantic_diff_ignores_type_source_line_range_changes():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "type_source": "module.f90:191-196",
+                "fields": [_field("x", "integer")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "type_source": "module.f90:190-195",
+                "fields": [_field("x", "integer")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 1
+
+
+def test_semantic_diff_ignores_nested_block_line_number_changes():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "type_source": "module.f90:191-196",
+                "fields": [_field("x")],
+                "blocks": [
+                    {
+                        "reader_line": 50,
+                        "type_source": "module.f90:191-196",
+                        "fields": [_field("y", "real")],
+                    }
+                ],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 58,
+                "type_source": "module.f90:191-196",
+                "fields": [_field("x")],
+                "blocks": [
+                    {
+                        "reader_line": 62,
+                        "type_source": "module.f90:191-196",
+                        "fields": [_field("y", "real")],
+                    }
+                ],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 1
+
+
+def test_semantic_diff_ignores_nested_runtime_section_line_number_changes():
+    base = {
+        "runtime_arity": {
+            "test.ini": {
+                "reader_line": 31,
+                "sections": [
+                    {
+                        "name": "row_count_pass",
+                        "reader_line": 31,
+                        "count_source": "until_eof_group",
+                        "fields": [_field("titldum", "character")],
+                    }
+                ],
+            }
+        }
+    }
+    candidate = {
+        "runtime_arity": {
+            "test.ini": {
+                "reader_line": 32,
+                "sections": [
+                    {
+                        "name": "row_count_pass",
+                        "reader_line": 32,
+                        "count_source": "until_eof_group",
+                        "fields": [_field("titldum", "character")],
+                    }
+                ],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 1
+
+
+def test_semantic_diff_field_rename_is_structural():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("old_name", "integer")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("new_name", "integer")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+    assert result["summary"]["documentation_only_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 0
+
+
+def test_semantic_diff_field_type_change_is_structural():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("x", "integer")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("x", "real")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+    assert result["summary"]["documentation_only_changes"] == 0
+
+
+def test_semantic_diff_field_reorder_is_structural():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("a"), _field("b")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("b"), _field("a")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+
+
+def test_semantic_diff_doc_only_change_is_documentation():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("x", "integer", doc="old doc")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "fields": [_field("x", "integer", doc="new doc")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["documentation_only_changes"] == 1
+    assert result["summary"]["source_location_only_changes"] == 0
+
+
+def test_semantic_diff_reader_file_change_is_source_organization():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "reader": "old_reader.f90",
+                "fields": [_field("x")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "reader": "new_reader.f90",
+                "fields": [_field("x")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["source_organization_changes"] == 1
+    assert "test.dat" in result["semantic_sections"]["files"]["source_organization_changes"]
+
+
+def test_semantic_diff_type_source_file_change_is_source_organization():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "type_source": "old_module.f90:191-196",
+                "fields": [_field("x")],
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 42,
+                "type_source": "new_module.f90:191-196",
+                "fields": [_field("x")],
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["source_organization_changes"] == 1
+    assert "test.dat" in result["semantic_sections"]["files"]["source_organization_changes"]
+
+
+def test_semantic_diff_added_file_is_structural():
+    base = {"files": {}}
+    candidate = {"files": {"new.dat": {"reader_line": 1, "fields": [_field("x")]}}}
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+    assert result["semantic_sections"]["files"]["added"] == ["new.dat"]
+
+
+def test_semantic_diff_removed_file_is_structural():
+    base = {"files": {"old.dat": {"reader_line": 1, "fields": [_field("x")]}}}
+    candidate = {"files": {}}
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+    assert result["semantic_sections"]["files"]["removed"] == ["old.dat"]
+
+
+def test_semantic_diff_field_added_is_structural():
+    base = {"files": {"test.dat": {"reader_line": 1, "fields": [_field("x")]}}}
+    candidate = {
+        "files": {
+            "test.dat": {"reader_line": 1, "fields": [_field("x"), _field("y")]}
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+
+
+def test_semantic_diff_field_removed_is_structural():
+    base = {
+        "files": {
+            "test.dat": {"reader_line": 1, "fields": [_field("x"), _field("y")]}
+        }
+    }
+    candidate = {"files": {"test.dat": {"reader_line": 1, "fields": [_field("x")]}}}
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+
+
+def test_semantic_diff_repeat_group_change_is_structural():
+    base = {
+        "files": {
+            "test.dat": {
+                "reader_line": 1,
+                "fields": [_field("nspu")],
+                "repeat": {
+                    "count_field": "nspu",
+                    "count_expr": "nspu",
+                    "fields": [_field("elem_cnt")],
+                },
+            }
+        }
+    }
+    candidate = {
+        "files": {
+            "test.dat": {
+                "reader_line": 1,
+                "fields": [_field("nspu")],
+                "repeat": {
+                    "count_field": "nspu",
+                    "count_expr": "nspu",
+                    "fields": [_field("elem_cnt"), _field("extra")],
+                },
+            }
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 1
+
+
+def test_semantic_diff_undeterministic_metadata_only_changes():
+    """When only reader_line and type_source line range differ, the semantic
+    diff should report zero structural changes."""
+    base = {
+        "files": {
+            "a.con": {
+                "reader_line": 100,
+                "type_source": "mod.f90:50-60",
+                "fields": [_field("x", "real", doc="old")],
+            },
+            "b.con": {
+                "reader_line": 200,
+                "type_source": "mod.f90:70-80",
+                "fields": [_field("y", "integer", doc="same")],
+            },
+        }
+    }
+    candidate = {
+        "files": {
+            "a.con": {
+                "reader_line": 105,
+                "type_source": "mod.f90:49-59",
+                "fields": [_field("x", "real", doc="old")],
+            },
+            "b.con": {
+                "reader_line": 200,
+                "type_source": "mod.f90:70-80",
+                "fields": [_field("y", "integer", doc="same")],
+            },
+        }
+    }
+    result = _semantic_schema_diff(base, candidate)
+    assert result["summary"]["structural_changes"] == 0
+    assert result["summary"]["documentation_only_changes"] == 0
+    assert result["summary"]["source_location_only_changes"] == 1
+
+
+def _semantic_categories(base_entry, candidate_entry, section="files"):
+    result = _semantic_schema_diff(
+        {section: {"test.dat": base_entry}},
+        {section: {"test.dat": candidate_entry}},
+    )
+    details = result["semantic_sections"][section]["entry_details"]["test.dat"]
+    return result, set(details["categories"]), details["changes"]
+
+
+def test_semantic_nested_source_locations_and_reader_move_stay_separate():
+    base = {
+        "blocks": [{
+            "reader": "old.f90",
+            "reader_line": 11,
+            "type_source": "module.f90:20-25",
+            "fields": [_field("x")],
+        }]
+    }
+    candidate = {
+        "blocks": [{
+            "reader": "new.f90",
+            "reader_line": 12,
+            "type_source": "module.f90:21-26",
+            "fields": [_field("x")],
+        }]
+    }
+    result, categories, changes = _semantic_categories(base, candidate)
+    assert categories == {"source_location", "source_organization"}
+    assert {change["path"] for change in changes} == {
+        "/blocks/0/reader",
+        "/blocks/0/reader_line",
+        "/blocks/0/type_source",
+    }
+    assert result["summary"]["source_location_only_changes"] == 0
+
+
+def test_semantic_nested_type_source_path_and_line_change_keeps_both():
+    base = {"sections": [{"type_source": "old.f90:1-2"}]}
+    candidate = {"sections": [{"type_source": "new.f90:3-4"}]}
+    _, categories, changes = _semantic_categories(
+        base, candidate, section="runtime_arity"
+    )
+    assert categories == {"source_location", "source_organization"}
+    assert [change["category"] for change in changes] == [
+        "source_organization", "source_location"
+    ]
+
+
+def test_semantic_nested_docs_in_repeat_and_variant_are_documentation_only():
+    for key, before_value, after_value in (
+        ("repeat", {"fields": [_field("x", doc="old")]},
+         {"fields": [_field("x", doc="new")]}),
+        ("variants", {"a": {"fields": [_field("x", doc="old")]}},
+         {"a": {"fields": [_field("x", doc="new")]}}),
+    ):
+        result, categories, changes = _semantic_categories(
+            {key: before_value}, {key: after_value}
+        )
+        assert categories == {"documentation"}
+        assert changes[0]["path"].endswith("/doc")
+        assert result["summary"]["documentation_only_changes"] == 1
+
+
+def test_semantic_runtime_section_structural_change_and_line_shift():
+    base = {"sections": [{"reader_line": 10, "fields": [_field("x")]}]}
+    candidate = {
+        "sections": [{
+            "reader_line": 11,
+            "fields": [_field("x"), _field("y")],
+        }]
+    }
+    result, categories, _ = _semantic_categories(
+        base, candidate, section="runtime_arity"
+    )
+    assert categories == {"structural", "source_location"}
+    assert result["summary"]["structural_changes"] == 1
+    assert result["summary"]["source_location_only_changes"] == 0
+
+
+def test_semantic_mixed_structural_documentation_and_location_are_retained():
+    base = {
+        "reader_line": 1,
+        "fields": [_field("old", doc="old doc")],
+    }
+    candidate = {
+        "reader_line": 2,
+        "fields": [_field("new", doc="new doc")],
+    }
+    result, categories, changes = _semantic_categories(base, candidate)
+    assert categories == {"structural", "documentation", "source_location"}
+    assert {change["path"] for change in changes} == {
+        "/reader_line", "/fields/0/fortran_name", "/fields/0/doc"
+    }
+    assert result["summary"]["documentation_changes"] == 1
+    assert result["summary"]["documentation_only_changes"] == 0
+
+
+def test_semantic_location_and_documentation_preserve_doc_only_headline():
+    result, categories, _ = _semantic_categories(
+        {"reader_line": 1, "doc": "old"},
+        {"reader_line": 2, "doc": "new"},
+    )
+    assert categories == {"documentation", "source_location"}
+    assert result["summary"]["documentation_only_changes"] == 1
+    assert result["summary"]["source_location_only_changes"] == 0
+
+
+def test_semantic_reader_move_and_doc_change_preserve_both():
+    result, categories, _ = _semantic_categories(
+        {"reader": "old.f90", "doc": "old"},
+        {"reader": "new.f90", "doc": "new"},
+    )
+    assert categories == {"documentation", "source_organization"}
+    assert result["summary"]["documentation_only_changes"] == 0
+    assert result["summary"]["source_organization_changes"] == 1
+
+
+def test_semantic_unknown_with_known_change_remains_uncertain():
+    _, categories, changes = _semantic_categories(
+        {"future_key": "old", "reader_line": 1},
+        {"future_key": "new", "reader_line": 2},
+    )
+    assert categories == {"uncertain", "source_location"}
+    assert {change["path"] for change in changes} == {
+        "/future_key", "/reader_line"
+    }
+
+
+def test_semantic_absent_key_and_explicit_null_do_not_disappear():
+    result, categories, changes = _semantic_categories(
+        {"future_key": None}, {}
+    )
+    assert categories == {"uncertain"}
+    assert result["summary"]["changed_schema_entries"] == 1
+    assert changes[0]["base_present"] is True
+    assert changes[0]["candidate_present"] is False
+    assert changes[0]["base"] is None
+
+
+def test_semantic_named_field_reorder_is_structural():
+    fields = [
+        {"name": "a", "fortran_type": "integer"},
+        {"name": "b", "fortran_type": "real"},
+    ]
+    _, categories, changes = _semantic_categories(
+        {"fields": fields}, {"fields": list(reversed(fields))}
+    )
+    assert categories == {"structural"}
+    assert [change["path"] for change in changes] == ["/fields/@order"]
+
+
+def test_semantic_repeat_and_tagged_variant_structure_changes():
+    cases = (
+        ({"repeat": {"fields": [_field("x")]}},
+         {"repeat": {"fields": [_field("x"), _field("y")]}}),
+        ({"variants": {"a": {"tag": "a"}}},
+         {"variants": {"a": {"tag": "b"}}}),
+    )
+    for base, candidate in cases:
+        result, categories, _ = _semantic_categories(base, candidate)
+        assert categories == {"structural"}
+        assert result["summary"]["structural_changes"] == 1
+
+
+def test_semantic_identical_schemas_have_zero_changes():
+    schema = {
+        "files": {"test.dat": {"reader_line": 1, "fields": [_field("x")]}},
+        "runtime_arity": {},
+    }
+    result = _semantic_schema_diff(schema, schema)
+    assert result["summary"]["changed_schema_entries"] == 0
+    assert result["summary"]["unique_changed_input_files"] == 0
+    assert result["semantic_sections"]["files"]["unchanged_count"] == 1
+
+
+def test_semantic_entry_counts_can_exceed_unique_filenames():
+    base = {
+        "files": {"same.ini": {"reader_line": 1}},
+        "runtime_arity": {"same.ini": {"reader_line": 5}},
+    }
+    candidate = {
+        "files": {"same.ini": {"reader_line": 2}},
+        "runtime_arity": {"same.ini": {"reader_line": 6}},
+    }
+    result = _semantic_schema_diff(base, candidate)
+    summary = result["summary"]
+    assert summary["changed_schema_entries"] == 2
+    assert summary["unique_changed_input_files"] == 1
+    assert summary["source_location_only_changes"] == 2
+    assert summary["unique_input_files_by_category"]["source_location"] == 1
+
+
+def test_semantic_release_pair_artifacts_match_expected_categories():
+    import json
+
+    root = Path(__file__).resolve().parents[1] / "schema_artifacts" / "releases"
+    base = json.loads((root / "swatplus-61.0.1.json").read_text(encoding="utf-8"))
+    candidate = json.loads((root / "swatplus-61.0.2.json").read_text(encoding="utf-8"))
+    result = _semantic_schema_diff(base, candidate)
+    summary = result["summary"]
+    assert summary["changed_schema_entries"] == 71
+    assert summary["unique_changed_input_files"] == 71
+    assert summary["structural_changes"] == 1
+    assert summary["documentation_only_changes"] == 1
+    assert summary["source_location_only_changes"] == 69
+    assert summary["source_organization_changes"] == 0
+    assert summary["uncertain_changes"] == 0
+    assert result["semantic_sections"]["files"]["structural_changes"] == ["codes.bsn"]
+    assert result["semantic_sections"]["files"]["documentation_only_changes"] == [
+        "sediment.cha"
+    ]
+
+
+def test_semantic_missing_type_source_keeps_provenance_evidence():
+    result, categories, changes = _semantic_categories(
+        {"fields": [_field("x")]},
+        {"fields": [_field("x")], "type_source": "module.f90:1-2"},
+    )
+    assert categories == {"source_organization"}
+    assert result["summary"]["source_organization_changes"] == 1
+    assert changes[0]["path"] == "/type_source"
+    assert changes[0]["base_present"] is False
+    assert changes[0]["candidate"] == "module.f90:1-2"
+
+
+def test_semantic_empty_type_source_is_not_silently_ignored():
+    _, categories, changes = _semantic_categories(
+        {"type_source": ""}, {"type_source": None}
+    )
+    assert categories == {"uncertain"}
+    assert changes[0]["path"] == "/type_source"
+    assert changes[0]["reason"] == "value_type_change"
+    assert _split_type_source("") == (None, None)
+
+
+def test_semantic_malformed_type_source_preserves_whole_path():
+    malformed = "module.f90:not-a-range"
+    assert _split_type_source(malformed) == (malformed, None)
+    _, categories, changes = _semantic_categories(
+        {"type_source": malformed},
+        {"type_source": "module.f90:10-20"},
+    )
+    assert categories == {"source_organization", "source_location"}
+    assert all(change["path"] == "/type_source" for change in changes)
+
+
+def test_semantic_type_source_splits_last_numeric_suffix_after_colons():
+    windows_path = "C:\\source\\model:archive\\module.f90"
+    assert _split_type_source(windows_path + ":12-34") == (
+        windows_path, "12-34"
+    )
+    _, categories, changes = _semantic_categories(
+        {"type_source": windows_path + ":12-34"},
+        {"type_source": windows_path + ":13-35"},
+    )
+    assert categories == {"source_location"}
+    assert changes[0]["path"] == "/type_source"
+
+
+def test_semantic_duplicate_field_names_fall_back_to_positions():
+    base_fields = [
+        {"name": "same", "fortran_type": "integer"},
+        {"name": "same", "fortran_type": "real"},
+    ]
+    _, categories, changes = _semantic_categories(
+        {"fields": base_fields},
+        {"fields": list(reversed(base_fields))},
+    )
+    assert categories == {"structural"}
+    assert {change["path"] for change in changes} == {
+        "/fields/0/fortran_type", "/fields/1/fortran_type"
+    }
+
+
+def test_semantic_depth_limit_reports_bounded_uncertainty():
+    import json
+
+    def nested(value):
+        for _ in range(MAX_COMPARISON_DEPTH + 10):
+            value = {"blocks": value}
+        return value
+
+    result, categories, changes = _semantic_categories(
+        nested({"doc": "old"}), nested({"doc": "new"})
+    )
+    assert categories == {"uncertain"}
+    assert result["summary"]["uncertain_changes"] == 1
+    assert changes[0]["reason"] == "comparison_depth_limit_exceeded"
+    assert changes[0]["limit"] == MAX_COMPARISON_DEPTH
+    assert changes[0]["path"].startswith("/blocks/")
+    assert "base" not in changes[0] and "candidate" not in changes[0]
+    json.dumps(result, sort_keys=True)
+
+
+def test_semantic_dict_to_list_change_is_explicitly_structural():
+    _, categories, changes = _semantic_categories(
+        {"repeat": {"count_field": "n"}},
+        {"repeat": [{"count_field": "n"}]},
+    )
+    assert categories == {"structural"}
+    assert changes[0]["path"] == "/repeat"
+    assert changes[0]["reason"] == "schema_shape_change"
+    assert (changes[0]["base_type"], changes[0]["candidate_type"]) == (
+        "dict", "list"
+    )
+
+
+def test_semantic_list_to_dict_change_is_explicitly_structural():
+    _, categories, changes = _semantic_categories(
+        {"sections": [{"name": "row"}]},
+        {"sections": {"name": "row"}},
+    )
+    assert categories == {"structural"}
+    assert changes[0]["path"] == "/sections"
+    assert changes[0]["reason"] == "schema_shape_change"
+    assert (changes[0]["base_type"], changes[0]["candidate_type"]) == (
+        "list", "dict"
+    )
+
+
+def test_semantic_scalar_and_container_changes_are_structural():
+    for base_value, candidate_value, base_type, candidate_type in (
+        ("old", {"name": "new"}, "str", "dict"),
+        ("old", ["new"], "str", "list"),
+        ({"name": "old"}, "new", "dict", "str"),
+        (["old"], "new", "list", "str"),
+    ):
+        _, categories, changes = _semantic_categories(
+            {"blocks": base_value}, {"blocks": candidate_value}
+        )
+        assert categories == {"structural"}
+        assert changes[0]["path"] == "/blocks"
+        assert changes[0]["reason"] == "schema_shape_change"
+        assert (changes[0]["base_type"], changes[0]["candidate_type"]) == (
+            base_type, candidate_type
+        )
+
+
+def test_semantic_non_field_list_reordering_is_structural():
+    for base_list, candidate_list in (
+        ([{"name": "a"}, {"name": "b"}],
+         [{"name": "b"}, {"name": "a"}]),
+        (["a", "a", "b"], ["a", "b", "a"]),
+    ):
+        _, categories, changes = _semantic_categories(
+            {"sections": base_list}, {"sections": candidate_list}
+        )
+        assert categories == {"structural"}
+        assert [change["path"] for change in changes] == ["/sections/@order"]
+
+
+def test_semantic_ordering_is_deterministic_across_mapping_insertion_orders():
+    import json
+
+    base = {"files": {
+        "z.dat": {"reader_line": 1, "doc": "old"},
+        "a.dat": {"reader_line": 2, "doc": "old"},
+    }}
+    candidate = {"files": {
+        "a.dat": {"doc": "new", "reader_line": 3},
+        "z.dat": {"doc": "new", "reader_line": 4},
+    }}
+    reordered_base = {"files": {
+        name: dict(reversed(list(entry.items())))
+        for name, entry in reversed(list(base["files"].items()))
+    }}
+    reordered_candidate = {"files": {
+        name: dict(reversed(list(entry.items())))
+        for name, entry in reversed(list(candidate["files"].items()))
+    }}
+    serialize = lambda left, right: json.dumps(
+        _semantic_schema_diff(left, right),
+        sort_keys=True,
+        ensure_ascii=False,
+    )
+    assert serialize(base, candidate) == serialize(base, candidate)
+    assert serialize(base, candidate) == serialize(
+        reordered_base, reordered_candidate
+    )

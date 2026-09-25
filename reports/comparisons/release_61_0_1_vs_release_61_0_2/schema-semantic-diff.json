@@ -1,0 +1,2625 @@
+{
+  "counting": {
+    "category_counts": "Entry memberships; mixed entries appear in multiple categories.",
+    "changed_schema_entries": "Sum of added, removed, and changed entries across schema sections.",
+    "unique_changed_input_files": "Distinct entry names across schema sections."
+  },
+  "determinism": {
+    "candidate_sha256": "d70666bdc4be32ce08411cb36101b3a15364c1a9ba1ce6a23b3a57d7fbc75c41",
+    "repeat_sha256": "d70666bdc4be32ce08411cb36101b3a15364c1a9ba1ce6a23b3a57d7fbc75c41",
+    "zero_byte_diff": true
+  },
+  "metadata": {
+    "base_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+    "base_version": "pr-252-base",
+    "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522",
+    "candidate_version": "pr-252-candidate"
+  },
+  "semantic_sections": {
+    "decision_tables": {
+      "added": [],
+      "changed": [],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {},
+      "removed": [],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 4
+    },
+    "files": {
+      "added": [],
+      "changed": [
+        "aqu_catunit.def",
+        "aqu_catunit.ele",
+        "aquifer.con",
+        "ch_catunit.def",
+        "ch_reg.def",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "co2_yr.dat",
+        "codes.bsn",
+        "delratio.con",
+        "delratio.del",
+        "dr_om.del",
+        "element.ccu",
+        "exco.con",
+        "exco.exc",
+        "exco_om.exc",
+        "fertilizer.frt_cs",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "hyd-sed-lte.cha",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_reg.def",
+        "ls_reg.ele",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "nutrients.cha",
+        "object.prt",
+        "om_water.ini",
+        "outlet.con",
+        "parameters.bsn",
+        "pest.com",
+        "print.prt",
+        "rec_catunit.def",
+        "rec_catunit.ele",
+        "rec_reg.def",
+        "recall.con",
+        "res_conds.dat",
+        "reservoir.con",
+        "rout_unit.con",
+        "salt_aqu.ini",
+        "salt_fertilizer.frt",
+        "sed_nut.cha",
+        "sediment.cha",
+        "soil_plant.ini",
+        "temperature.cha",
+        "water_balance.sft",
+        "weather-sta.cli"
+      ],
+      "documentation_changes": [
+        "codes.bsn",
+        "sediment.cha"
+      ],
+      "documentation_details": {
+        "codes.bsn": {
+          "changed_paths": [
+            "/fields/23/doc"
+          ]
+        },
+        "sediment.cha": {
+          "changed_paths": [
+            "/fields/eqn/doc"
+          ]
+        }
+      },
+      "documentation_only_changes": [
+        "sediment.cha"
+      ],
+      "entry_details": {
+        "aqu_catunit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 58,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "aqu_catunit.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 167,
+              "base_present": true,
+              "candidate": 172,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "aquifer.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "ch_catunit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 51,
+              "base_present": true,
+              "candidate": 54,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ch_reg.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 95,
+              "base_present": true,
+              "candidate": 98,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "chan-surf.lin": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sd_channel_module.f90:153-210",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:158-215",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "chandeg.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "channel-lte.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 217,
+              "base_present": true,
+              "candidate": 219,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "sd_channel_module.f90:120-131",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:125-136",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "channel.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "co2_yr.dat": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/0/reader_line"
+            },
+            {
+              "base": "co2_read.f90:24-27",
+              "base_present": true,
+              "candidate": "co2_read.f90:27-30",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/0/type_source"
+            },
+            {
+              "base": 45,
+              "base_present": true,
+              "candidate": 48,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/1/reader_line"
+            },
+            {
+              "base": "co2_read.f90:24-27",
+              "base_present": true,
+              "candidate": "co2_read.f90:27-30",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/1/type_source"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "co2_read.f90:24-27",
+              "base_present": true,
+              "candidate": "co2_read.f90:27-30",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "codes.bsn": {
+          "categories": [
+            "structural",
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "0 = new sediment and nutrient routing (no QUAL2E - simplified nutrients) 1 = daily routing with QUAL2E 2 = subdaily routing - with QUAL2E",
+              "base_present": true,
+              "candidate": "0 = channel routine using QUAL2E 1 = channel routing with simplified nutrient transformations",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/23/doc"
+            },
+            {
+              "base": "i_fpwet",
+              "base_present": true,
+              "candidate": "qual2e",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/23/fortran_name"
+            },
+            {
+              "base": "basin_module.f90:16-85",
+              "base_present": true,
+              "candidate": "basin_module.f90:16-84",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "delratio.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "delratio.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 44,
+              "base_present": true,
+              "candidate": 46,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "dr_om.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 60,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "hydrograph_module.f90:30-49",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:31-50",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "element.ccu": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 164,
+              "base_present": true,
+              "candidate": 167,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "exco.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "exco.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 43,
+              "base_present": true,
+              "candidate": 45,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "exco_om.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 52,
+              "base_present": true,
+              "candidate": 59,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "hydrograph_module.f90:30-49",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:31-50",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "fertilizer.frt_cs": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 37,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "gwflow.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "hru-lte.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "hru.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "hyd-sed-lte.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sd_channel_module.f90:13-37",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:18-42",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "initial.aqu": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 52,
+              "base_present": true,
+              "candidate": 53,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "initial.aqu_cs": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 68,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ls_reg.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 92,
+              "base_present": true,
+              "candidate": 104,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/0/reader_line"
+            },
+            {
+              "base": 61,
+              "base_present": true,
+              "candidate": 73,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/1/reader_line"
+            },
+            {
+              "base": 92,
+              "base_present": true,
+              "candidate": 104,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ls_reg.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 143,
+              "base_present": true,
+              "candidate": 155,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ls_unit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 56,
+              "base_present": true,
+              "candidate": 68,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ls_unit.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 113,
+              "base_present": true,
+              "candidate": 125,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "nutrients.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "channel_data_module.f90:110-157",
+              "base_present": true,
+              "candidate": "channel_data_module.f90:109-156",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "object.prt": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:171-180",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:172-181",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "om_water.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:30-49",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:31-50",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "outlet.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "parameters.bsn": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "basin_module.f90:88-146",
+              "base_present": true,
+              "candidate": "basin_module.f90:87-145",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "pest.com": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 267,
+              "base_present": true,
+              "candidate": 228,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "print.prt": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/0/type_source"
+            },
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/1/type_source"
+            },
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/2/type_source"
+            },
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/3/type_source"
+            },
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/4/type_source"
+            },
+            {
+              "base": "basin_module.f90:156-252",
+              "base_present": true,
+              "candidate": "basin_module.f90:155-251",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "rec_catunit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 49,
+              "base_present": true,
+              "candidate": 52,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "rec_catunit.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 157,
+              "base_present": true,
+              "candidate": 160,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "rec_reg.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 93,
+              "base_present": true,
+              "candidate": 96,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "recall.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "res_conds.dat": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 26,
+              "base_present": true,
+              "candidate": 32,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "reservoir.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "rout_unit.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:257-344",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-344",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "salt_aqu.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 62,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "salt_fertilizer.frt": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 37,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "sed_nut.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sd_channel_module.f90:40-54",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:45-59",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "sediment.cha": {
+          "categories": [
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn",
+              "base_present": true,
+              "candidate": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn 2 = Kodatie 3 = Molinas WU 4 = Yang",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/eqn/doc"
+            },
+            {
+              "base": "channel_data_module.f90:86-107",
+              "base_present": true,
+              "candidate": "channel_data_module.f90:86-106",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "soil_plant.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 44,
+              "base_present": true,
+              "candidate": 45,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "temperature.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:217-225",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:218-226",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "water_balance.sft": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 77,
+              "base_present": true,
+              "candidate": 89,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/0/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 67,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/blocks/1/reader_line"
+            },
+            {
+              "base": 77,
+              "base_present": true,
+              "candidate": 89,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "weather-sta.cli": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "climate_module.f90:126-142",
+              "base_present": true,
+              "candidate": "climate_module.f90:127-143",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        }
+      },
+      "removed": [],
+      "source_location_changes": [
+        "aqu_catunit.def",
+        "aqu_catunit.ele",
+        "aquifer.con",
+        "ch_catunit.def",
+        "ch_reg.def",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "co2_yr.dat",
+        "codes.bsn",
+        "delratio.con",
+        "delratio.del",
+        "dr_om.del",
+        "element.ccu",
+        "exco.con",
+        "exco.exc",
+        "exco_om.exc",
+        "fertilizer.frt_cs",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "hyd-sed-lte.cha",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_reg.def",
+        "ls_reg.ele",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "nutrients.cha",
+        "object.prt",
+        "om_water.ini",
+        "outlet.con",
+        "parameters.bsn",
+        "pest.com",
+        "print.prt",
+        "rec_catunit.def",
+        "rec_catunit.ele",
+        "rec_reg.def",
+        "recall.con",
+        "res_conds.dat",
+        "reservoir.con",
+        "rout_unit.con",
+        "salt_aqu.ini",
+        "salt_fertilizer.frt",
+        "sed_nut.cha",
+        "sediment.cha",
+        "soil_plant.ini",
+        "temperature.cha",
+        "water_balance.sft",
+        "weather-sta.cli"
+      ],
+      "source_location_only_changes": [
+        "aqu_catunit.def",
+        "aqu_catunit.ele",
+        "aquifer.con",
+        "ch_catunit.def",
+        "ch_reg.def",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "co2_yr.dat",
+        "delratio.con",
+        "delratio.del",
+        "dr_om.del",
+        "element.ccu",
+        "exco.con",
+        "exco.exc",
+        "exco_om.exc",
+        "fertilizer.frt_cs",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "hyd-sed-lte.cha",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_reg.def",
+        "ls_reg.ele",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "nutrients.cha",
+        "object.prt",
+        "om_water.ini",
+        "outlet.con",
+        "parameters.bsn",
+        "pest.com",
+        "print.prt",
+        "rec_catunit.def",
+        "rec_catunit.ele",
+        "rec_reg.def",
+        "recall.con",
+        "res_conds.dat",
+        "reservoir.con",
+        "rout_unit.con",
+        "salt_aqu.ini",
+        "salt_fertilizer.frt",
+        "sed_nut.cha",
+        "soil_plant.ini",
+        "temperature.cha",
+        "water_balance.sft",
+        "weather-sta.cli"
+      ],
+      "source_location_only_details": {
+        "aqu_catunit.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "aqu_catunit.ele": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "aquifer.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "ch_catunit.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "ch_reg.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "chan-surf.lin": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "chandeg.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "channel-lte.cha": {
+          "changed_paths": [
+            "/reader_line",
+            "/type_source"
+          ]
+        },
+        "channel.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "co2_yr.dat": {
+          "changed_paths": [
+            "/blocks/0/reader_line",
+            "/blocks/0/type_source",
+            "/blocks/1/reader_line",
+            "/blocks/1/type_source",
+            "/reader_line",
+            "/type_source"
+          ]
+        },
+        "delratio.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "delratio.del": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "dr_om.del": {
+          "changed_paths": [
+            "/reader_line",
+            "/type_source"
+          ]
+        },
+        "element.ccu": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "exco.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "exco.exc": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "exco_om.exc": {
+          "changed_paths": [
+            "/reader_line",
+            "/type_source"
+          ]
+        },
+        "fertilizer.frt_cs": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "gwflow.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "hru-lte.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "hru.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "hyd-sed-lte.cha": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "initial.aqu": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "initial.aqu_cs": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "ls_reg.def": {
+          "changed_paths": [
+            "/blocks/0/reader_line",
+            "/blocks/1/reader_line",
+            "/reader_line"
+          ]
+        },
+        "ls_reg.ele": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "ls_unit.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "ls_unit.ele": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "nutrients.cha": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "object.prt": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "om_water.ini": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "outlet.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "parameters.bsn": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "pest.com": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "print.prt": {
+          "changed_paths": [
+            "/blocks/0/type_source",
+            "/blocks/1/type_source",
+            "/blocks/2/type_source",
+            "/blocks/3/type_source",
+            "/blocks/4/type_source",
+            "/type_source"
+          ]
+        },
+        "rec_catunit.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "rec_catunit.ele": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "rec_reg.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "recall.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "res_conds.dat": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "reservoir.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "rout_unit.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "salt_aqu.ini": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "salt_fertilizer.frt": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "sed_nut.cha": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "soil_plant.ini": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "temperature.cha": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "water_balance.sft": {
+          "changed_paths": [
+            "/blocks/0/reader_line",
+            "/blocks/1/reader_line",
+            "/reader_line"
+          ]
+        },
+        "weather-sta.cli": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        }
+      },
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [
+        "codes.bsn"
+      ],
+      "structural_details": {
+        "codes.bsn": {
+          "changed_paths": [
+            "/fields/23/fortran_name"
+          ]
+        }
+      },
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 68
+    },
+    "multi_record": {
+      "added": [],
+      "changed": [],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {},
+      "removed": [],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 6
+    },
+    "multi_section": {
+      "added": [],
+      "changed": [],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {},
+      "removed": [],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 7
+    },
+    "runtime_arity": {
+      "added": [],
+      "changed": [
+        "cs_aqu.ini",
+        "cs_channel.ini",
+        "cs_hru.ini",
+        "cs_recall.rec",
+        "dr_hmet.del",
+        "dr_path.del",
+        "dr_pest.del",
+        "dr_salt.del",
+        "exco_hmet.exc",
+        "exco_path.exc",
+        "exco_pest.exc",
+        "exco_salt.exc",
+        "hmet_hru.ini",
+        "path_hru.ini",
+        "path_water.ini",
+        "pest_hru.ini",
+        "pest_water.ini",
+        "salt_channel.ini",
+        "salt_hru.ini",
+        "salt_recall.rec"
+      ],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {
+        "cs_aqu.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 32,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 55,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/aquifer_concentrations/reader_line"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 55,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 32,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "cs_channel.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 35,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 55,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/channel_concentrations/reader_line"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 55,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 35,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "cs_hru.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 36,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 67,
+              "base_present": true,
+              "candidate": 68,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 71,
+              "base_present": true,
+              "candidate": 72,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/plant_concentrations/reader_line"
+            },
+            {
+              "base": 36,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 69,
+              "base_present": true,
+              "candidate": 70,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/soil_concentrations/reader_line"
+            }
+          ]
+        },
+        "cs_recall.rec": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 203,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_annual_rows/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 203,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_daily_rows/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 203,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_monthly_rows/reader_line"
+            },
+            {
+              "base": 118,
+              "base_present": true,
+              "candidate": 120,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_year_count/reader_line"
+            },
+            {
+              "base": 110,
+              "base_present": true,
+              "candidate": 112,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/registry_rows/reader_line"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "dr_hmet.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 32,
+              "base_present": true,
+              "candidate": 40,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 56,
+              "base_present": true,
+              "candidate": 64,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/delivery_ratios/reader_line"
+            },
+            {
+              "base": 56,
+              "base_present": true,
+              "candidate": 64,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 32,
+              "base_present": true,
+              "candidate": 40,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "dr_path.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/delivery_ratios/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "dr_pest.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/delivery_ratios/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "dr_salt.del": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/delivery_ratios/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "exco_hmet.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/export_coefficients/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "exco_path.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/export_coefficients/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "exco_pest.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 30,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 62,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 62,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/export_coefficients/reader_line"
+            },
+            {
+              "base": 30,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "exco_salt.exc": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/export_coefficients/reader_line"
+            },
+            {
+              "base": 31,
+              "base_present": true,
+              "candidate": 39,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "hmet_hru.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 28,
+              "base_present": true,
+              "candidate": 29,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 56,
+              "base_present": true,
+              "candidate": 57,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 28,
+              "base_present": true,
+              "candidate": 29,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 59,
+              "base_present": true,
+              "candidate": 60,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/soil_plant_concentration_rows/reader_line"
+            }
+          ]
+        },
+        "path_hru.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 27,
+              "base_present": true,
+              "candidate": 28,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 27,
+              "base_present": true,
+              "candidate": 28,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 57,
+              "base_present": true,
+              "candidate": 58,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/soil_plant_concentrations/reader_line"
+            }
+          ]
+        },
+        "path_water.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 60,
+              "base_present": true,
+              "candidate": 61,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 62,
+              "base_present": true,
+              "candidate": 63,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/water_benthic_concentrations/reader_line"
+            }
+          ]
+        },
+        "pest_hru.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 27,
+              "base_present": true,
+              "candidate": 28,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 27,
+              "base_present": true,
+              "candidate": 28,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 57,
+              "base_present": true,
+              "candidate": 58,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/soil_plant_concentration_rows/reader_line"
+            }
+          ]
+        },
+        "pest_water.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 32,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 60,
+              "base_present": true,
+              "candidate": 62,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 32,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 62,
+              "base_present": true,
+              "candidate": 64,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/water_benthic_concentrations/reader_line"
+            }
+          ]
+        },
+        "salt_channel.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 54,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/channel_concentrations/reader_line"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 54,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 33,
+              "base_present": true,
+              "candidate": 34,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        },
+        "salt_hru.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 36,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 66,
+              "base_present": true,
+              "candidate": 67,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_name/reader_line"
+            },
+            {
+              "base": 70,
+              "base_present": true,
+              "candidate": 71,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/plant_concentrations/reader_line"
+            },
+            {
+              "base": 36,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            },
+            {
+              "base": 68,
+              "base_present": true,
+              "candidate": 69,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/soil_concentrations/reader_line"
+            }
+          ]
+        },
+        "salt_recall.rec": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 204,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_annual_rows/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 204,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_daily_rows/reader_line"
+            },
+            {
+              "base": 201,
+              "base_present": true,
+              "candidate": 204,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_monthly_rows/reader_line"
+            },
+            {
+              "base": 118,
+              "base_present": true,
+              "candidate": 121,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/nested_year_count/reader_line"
+            },
+            {
+              "base": 110,
+              "base_present": true,
+              "candidate": 113,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/registry_rows/reader_line"
+            },
+            {
+              "base": 53,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/row_count_pass/reader_line"
+            }
+          ]
+        }
+      },
+      "removed": [],
+      "source_location_changes": [
+        "cs_aqu.ini",
+        "cs_channel.ini",
+        "cs_hru.ini",
+        "cs_recall.rec",
+        "dr_hmet.del",
+        "dr_path.del",
+        "dr_pest.del",
+        "dr_salt.del",
+        "exco_hmet.exc",
+        "exco_path.exc",
+        "exco_pest.exc",
+        "exco_salt.exc",
+        "hmet_hru.ini",
+        "path_hru.ini",
+        "path_water.ini",
+        "pest_hru.ini",
+        "pest_water.ini",
+        "salt_channel.ini",
+        "salt_hru.ini",
+        "salt_recall.rec"
+      ],
+      "source_location_only_changes": [
+        "cs_aqu.ini",
+        "cs_channel.ini",
+        "cs_hru.ini",
+        "cs_recall.rec",
+        "dr_hmet.del",
+        "dr_path.del",
+        "dr_pest.del",
+        "dr_salt.del",
+        "exco_hmet.exc",
+        "exco_path.exc",
+        "exco_pest.exc",
+        "exco_salt.exc",
+        "hmet_hru.ini",
+        "path_hru.ini",
+        "path_water.ini",
+        "pest_hru.ini",
+        "pest_water.ini",
+        "salt_channel.ini",
+        "salt_hru.ini",
+        "salt_recall.rec"
+      ],
+      "source_location_only_details": {
+        "cs_aqu.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/aquifer_concentrations/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "cs_channel.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/channel_concentrations/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "cs_hru.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/plant_concentrations/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/soil_concentrations/reader_line"
+          ]
+        },
+        "cs_recall.rec": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/nested_annual_rows/reader_line",
+            "/sections/nested_daily_rows/reader_line",
+            "/sections/nested_monthly_rows/reader_line",
+            "/sections/nested_year_count/reader_line",
+            "/sections/registry_rows/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "dr_hmet.del": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/delivery_ratios/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "dr_path.del": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/delivery_ratios/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "dr_pest.del": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/delivery_ratios/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "dr_salt.del": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/delivery_ratios/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "exco_hmet.exc": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/export_coefficients/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "exco_path.exc": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/export_coefficients/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "exco_pest.exc": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/export_coefficients/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "exco_salt.exc": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/export_coefficients/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "hmet_hru.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/soil_plant_concentration_rows/reader_line"
+          ]
+        },
+        "path_hru.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/soil_plant_concentrations/reader_line"
+          ]
+        },
+        "path_water.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/water_benthic_concentrations/reader_line"
+          ]
+        },
+        "pest_hru.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/soil_plant_concentration_rows/reader_line"
+          ]
+        },
+        "pest_water.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/water_benthic_concentrations/reader_line"
+          ]
+        },
+        "salt_channel.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/channel_concentrations/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        },
+        "salt_hru.ini": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/entry_name/reader_line",
+            "/sections/plant_concentrations/reader_line",
+            "/sections/row_count_pass/reader_line",
+            "/sections/soil_concentrations/reader_line"
+          ]
+        },
+        "salt_recall.rec": {
+          "changed_paths": [
+            "/reader_line",
+            "/sections/nested_annual_rows/reader_line",
+            "/sections/nested_daily_rows/reader_line",
+            "/sections/nested_monthly_rows/reader_line",
+            "/sections/nested_year_count/reader_line",
+            "/sections/registry_rows/reader_line",
+            "/sections/row_count_pass/reader_line"
+          ]
+        }
+      },
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 3
+    }
+  },
+  "source": {
+    "base_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+    "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522"
+  },
+  "summary": {
+    "base_flat_files": 119,
+    "candidate_flat_files": 119,
+    "changed_schema_entries": 71,
+    "changed_unresolved_reasons": 0,
+    "documentation_changes": 2,
+    "documentation_only_changes": 1,
+    "new_unresolved": 0,
+    "source_location_changes": 71,
+    "source_location_only_changes": 69,
+    "source_organization_changes": 0,
+    "structural_changes": 1,
+    "uncertain_changes": 0,
+    "unique_changed_input_files": 71,
+    "unique_input_files_by_category": {
+      "documentation": 2,
+      "source_location": 71,
+      "source_organization": 0,
+      "structural": 1,
+      "uncertain": 0
+    }
+  },
+  "unresolved_sections": {
+    "decision_tables_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_record_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_section_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "runtime_arity_unresolved": {
+      "base_count": 10,
+      "candidate_count": 10,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "unresolved": {
+      "base_count": 26,
+      "candidate_count": 26,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    }
+  }
+}

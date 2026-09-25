@@ -30,21 +30,11 @@ from ..parser.schema_model import IOOperation, ProcedureDoc, ProjectIndex
 from ..schema.input import SchemaResolver, build_schema, dumps as schema_dumps
 from ..source.config import ComparisonConfig, Config
 from ..source.fetch import fetch_profile, resolve_profile
-
-
-SCHEMA_SECTIONS = (
-    "files",
-    "decision_tables",
-    "multi_record",
-    "multi_section",
-    "runtime_arity",
-)
-UNRESOLVED_SECTIONS = (
-    "unresolved",
-    "decision_tables_unresolved",
-    "multi_record_unresolved",
-    "multi_section_unresolved",
-    "runtime_arity_unresolved",
+from .schema_semantic import (
+    SCHEMA_SECTIONS,
+    UNRESOLVED_SECTIONS,
+    _semantic_schema_diff,
+    _unresolved_map,
 )
 
 
@@ -224,13 +214,6 @@ def _symbol_diff(base: FactStore, candidate: FactStore) -> dict[str, Any]:
         "added": added,
         "removed": removed,
         "changed": changed,
-    }
-
-
-def _unresolved_map(payload: dict[str, Any], section: str) -> dict[str, str]:
-    return {
-        str(item.get("file")): str(item.get("reason", ""))
-        for item in payload.get(section, [])
     }
 
 
@@ -1846,6 +1829,7 @@ def _summary_markdown(summary: dict[str, Any]) -> str:
         f"- Parser fallback coverage: base={summary['parser']['base_fallback_files']} files, candidate={summary['parser']['candidate_fallback_files']} files",
         f"- Symbols: {symbols['added']} added, {symbols['removed']} removed, {symbols['changed']} changed",
         f"- Schema entries: {schemas['changed_entries']} added, removed, or changed; {schemas['new_unresolved']} newly unresolved",
+        f"- Semantic schema: {schemas['semantic']['changed_schema_entries']} changed section entries across {schemas['semantic']['unique_changed_input_files']} unique input filenames; {schemas['semantic']['structural_changes']} structural, {schemas['semantic']['documentation_only_changes']} documentation-only, {schemas['semantic']['source_location_only_changes']} source-location-only, {schemas['semantic']['source_organization_changes']} source-organization, {schemas['semantic']['uncertain_changes']} uncertain",
         f"- Input contracts: {inputs['added']} added, {inputs['removed']} removed, {inputs['changed']} changed; {inputs['new_unresolved_open_blocks']} newly unresolved filename expressions ({inputs['candidate_unresolved_open_blocks']} candidate total)",
         f"- Output contracts: {outputs['added']} added, {outputs['removed']} removed, {outputs['changed']} changed; {outputs['new_unresolved_open_blocks']} newly unresolved filename expressions ({outputs['candidate_unresolved_open_blocks']} candidate total)",
         f"- Corpus impact attributable to the PR: {pages['newly_stale']} newly stale, {pages['newly_affected']} newly affected, {pages['newly_orphaned']} newly orphaned, {pages['new_missing_pages']} new pages needed",
@@ -2012,6 +1996,16 @@ def run_comparison(
         "repeat_sha256": schema_hashes["candidate_repeat"],
         "zero_byte_diff": schema_hashes["candidate"] == schema_hashes["candidate_repeat"],
     }
+    semantic_schema_diff = _semantic_schema_diff(base_schema, candidate_schema)
+    semantic_schema_diff["source"] = {
+        "base_commit": base_provenance.resolved_commit,
+        "candidate_commit": candidate_provenance.resolved_commit,
+    }
+    semantic_schema_diff["determinism"] = {
+        "candidate_sha256": schema_hashes["candidate"],
+        "repeat_sha256": schema_hashes["candidate_repeat"],
+        "zero_byte_diff": schema_hashes["candidate"] == schema_hashes["candidate_repeat"],
+    }
     input_contract_changes = _input_contract_diff(
         base_schema_result.project,
         base_schema,
@@ -2128,6 +2122,7 @@ def run_comparison(
         "symbols": symbol_diff["summary"],
         "schemas": {
             **schema_diff["summary"],
+            "semantic": semantic_schema_diff["summary"],
             "new_unresolved_files": new_unresolved_files,
         },
         "inputs": input_contract_changes["summary"],
@@ -2158,6 +2153,7 @@ def run_comparison(
     _write_json(report_dir / "summary.json", summary)
     _write_json(report_dir / "symbol-diff.json", symbol_diff)
     _write_json(report_dir / "schema-diff.json", schema_diff)
+    _write_json(report_dir / "schema-semantic-diff.json", semantic_schema_diff)
     _write_json(report_dir / "input-contract-changes.json", input_contract_changes)
     _write_json(report_dir / "output-contract-changes.json", output_contract_changes)
     _write_json(report_dir / "page-status.json", page_status)

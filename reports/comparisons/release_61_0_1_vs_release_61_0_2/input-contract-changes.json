@@ -1,0 +1,76 @@
+{
+  "added": {},
+  "changed": {},
+  "determinism": {
+    "candidate_repeat_zero_change": true,
+    "repeat_comparison_summary": {
+      "added": 0,
+      "base_input_files": 182,
+      "base_unresolved_open_blocks": 28,
+      "candidate_input_files": 182,
+      "candidate_unresolved_open_blocks": 28,
+      "changed": 0,
+      "new_unresolved_open_blocks": 0,
+      "possible_renames_or_replacements": 0,
+      "removed": 0,
+      "resolved_unresolved_open_blocks": 0
+    }
+  },
+  "possible_renames_or_replacements": [],
+  "removed": {},
+  "source": {
+    "base_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+    "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522"
+  },
+  "summary": {
+    "added": 0,
+    "base_input_files": 182,
+    "base_unresolved_open_blocks": 27,
+    "candidate_input_files": 182,
+    "candidate_unresolved_open_blocks": 28,
+    "changed": 0,
+    "new_unresolved_open_blocks": 1,
+    "possible_renames_or_replacements": 0,
+    "removed": 0,
+    "resolved_unresolved_open_blocks": 0
+  },
+  "unresolved_open_blocks": {
+    "introduced": [
+      {
+        "block": {
+          "match": "source_input",
+          "open": {
+            "condition": null,
+            "file_expr": "source",
+            "file_resolved": "source",
+            "line": 16,
+            "raw": "open(unit=107, file=source, status='old', action='read')"
+          },
+          "procedure": "copy_file",
+          "reader": "copy_file.f90",
+          "reads": [
+            {
+              "condition": "do",
+              "fields": [
+                "line"
+              ],
+              "line": 21,
+              "raw": "read(107, '(A)', iostat=eof) line",
+              "role": "data"
+            }
+          ],
+          "resolved_default_filenames": [],
+          "source_expressions": [
+            "source"
+          ]
+        },
+        "reason": "opened input filename could not be resolved",
+        "review_needed": true,
+        "source_expressions": [
+          "source"
+        ]
+      }
+    ],
+    "resolved": []
+  }
+}
