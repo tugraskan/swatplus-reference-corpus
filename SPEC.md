@@ -85,6 +85,7 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | `schema` | base schema, ranges, field maps, and Editor comparison |
 | `comparison` | locked source builds, symbol/schema diffs, page impact, preview |
 | `generation` | optional prose fill, batch fill, and source-diff refill |
+| `maintain.py` | reviewed propose/preview/apply of source-driven page updates |
 | `provenance` | deterministic source/artifact records |
 | `cli.py` | `source`, `docs`, `schema`, and `compare` command groups |
 
@@ -286,5 +287,8 @@ not carried into the public repository.
 6. Run the full reproducibility gates in section 7.
 7. Commit the schema, reports, provenance sidecar, and configuration together.
 
-For a documentation bump, preserve the old checkout, change `[docs].source`,
-parse and mark staleness, then use the delta refill path only for changed pages.
+For a documentation bump, keep the old profile fetched, change `[docs].source`,
+and run `swatref docs maintain propose --base OLD`. Review the preview, run
+`swatref docs maintain apply`, and commit `reports/maintain/proposal.json` with
+the pages it changed. Apply writes only the reviewed bytes, and refuses if the
+docs source commit, a page, or a symbol's source changed after the preview.

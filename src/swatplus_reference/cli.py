@@ -892,6 +892,55 @@ def cmd_apply_delta(cfg: Config, args) -> int:
     return 1 if refill.has_failures(results) else 0
 
 
+def cmd_maintain(cfg: Config, args) -> int:
+    """Propose, preview, and apply reviewed source-driven page updates."""
+    from . import maintain
+
+    proposal_path = cfg.resolve(Path(args.proposal))
+    try:
+        if args.action == "show":
+            print(maintain.render(maintain.load_proposal(proposal_path)), end="")
+            return 0
+        if args.action == "apply":
+            proposal = maintain.load_proposal(proposal_path)
+            store = get_store(cfg)
+            _, candidate = resolve_profile(cfg, cfg.docs_source)
+            ok, lines = maintain.apply(cfg, store, candidate, proposal)
+            for line in lines:
+                print(line)
+            return 0 if ok else 1
+
+        if not args.base:
+            sys.exit("swatref docs maintain propose: --base PROFILE is required "
+                     "(the source the pages were written against)")
+        if args.base == cfg.docs_source:
+            sys.exit(f"swatref docs maintain propose: --base {args.base} is the docs "
+                     "source itself; pass the profile the pages were written against")
+        store = get_store(cfg)
+        _, candidate = resolve_profile(cfg, cfg.docs_source)
+        base_dir, base = resolve_profile(cfg, args.base)
+        if args.deltas:
+            generate, generator = maintain.deltas_generator(Path(args.deltas), cfg.root)
+        else:
+            generate, generator = maintain.model_generator(cfg, args.model)
+    except (FileNotFoundError, RuntimeError, ValueError) as exc:
+        sys.exit(f"swatref docs maintain {args.action}: {exc}")
+
+    print(f"parsing base {base.profile} @ {base.resolved_commit[:12]} ...", file=sys.stderr)
+    # Same engine as the docs store, so an unchanged symbol hashes identically.
+    old_store, _old_rich = parse_documentation(
+        base_dir, base.resolved_commit, engine=cfg.docs_engine
+    )
+    proposal = maintain.propose(
+        cfg, store, old_store, base_dir, base, candidate, generate, generator,
+        paths=[Path(p) for p in args.pages], limit=args.limit,
+    )
+    maintain.write_proposal(proposal_path, proposal)
+    print(maintain.render(proposal), end="")
+    print(f"wrote {_rel(proposal_path, cfg.root)}")
+    return 1 if maintain.has_failures(proposal) else 0
+
+
 def cmd_batch(cfg: Config, args) -> int:
     from .generation import batch
 
@@ -1310,6 +1359,30 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("apply-delta", help="apply a hand-authored {symbol: delta} JSON (key-free)")
     p.add_argument("deltas", help="JSON file mapping symbol -> changed fields")
 
+    p = sub.add_parser(
+        "maintain",
+        help="propose, preview, and apply reviewed updates to stale pages",
+        description=(
+            "propose: generate a grounded update for every stale page and save it "
+            "as a proposal without touching the pages. show: print the stored "
+            "proposal. apply: verify the stored proposal is still current and "
+            "write exactly its ready pages (no generation)."
+        ),
+    )
+    p.add_argument("action", choices=["propose", "show", "apply"])
+    p.add_argument("pages", nargs="*", help="propose only these page paths (default: all stale)")
+    p.add_argument("--base", help="source profile the pages were written against (propose)")
+    p.add_argument(
+        "--deltas", metavar="FILE",
+        help="take {symbol: delta} from this JSON instead of calling the model (propose)",
+    )
+    p.add_argument("--model")
+    p.add_argument("--limit", type=int)
+    p.add_argument(
+        "--proposal", default="reports/maintain/proposal.json",
+        help="proposal file (default: reports/maintain/proposal.json)",
+    )
+
     p = sub.add_parser("batch")
     p.add_argument("action", choices=["submit", "status", "merge"])
     p.add_argument("batch_id", nargs="?", help="batch id (status/merge)")
@@ -1337,6 +1410,7 @@ def main(argv: list[str] | None = None) -> int:
         "fill": cmd_fill,
         "refill": cmd_refill,
         "apply-delta": cmd_apply_delta,
+        "maintain": cmd_maintain,
         "batch": cmd_batch,
         "render": cmd_render,
     }[args.command]

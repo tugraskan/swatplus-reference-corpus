@@ -58,6 +58,7 @@ src/swatplus_reference/
   schema/                          schema, range, field-map, Editor comparison
   comparison/                      locked builds, diffs, reproducibility checks
   generation/                      optional prose fill and delta refill
+  maintain.py                      reviewed propose/preview/apply of stale pages
   provenance/                      deterministic provenance sidecars
   cli.py                           `swatref` command
 
@@ -283,6 +284,33 @@ Both commands drop structured notes the parser cannot see. `refill` and
 a reviewed section, and do not save a page that still has grounding errors;
 `refill` additionally refuses an old checkout that is not the source a page was
 written against. They exit non-zero when a stale page was not revised.
+
+### Reviewed maintenance
+
+`swatref docs maintain` does what `refill` does, but shows you the exact change
+before anything is written:
+
+```sh
+swatref docs --source NEW maintain propose --base OLD   # generate + preview
+swatref docs --source NEW maintain show                 # preview again
+swatref docs --source NEW maintain apply                # write exactly that
+```
+
+`propose` diffs each stale page's symbol between the `OLD` profile (the source
+the pages were written against) and `NEW`, generates a delta once, grounds the
+merged page in memory, and saves `reports/maintain/proposal.json`: both exact
+commits and, per page, the source diff, the delta, the grounding findings, and
+the original and proposed page bytes. It does not touch `docs_src/`. Pages with
+grounding errors are marked rejected; affected pages are listed for review
+only; stale io pages and orphaned pages are listed for a manual update. Pass
+`--deltas FILE` to use a hand-authored `{symbol: delta}` JSON instead of the
+model.
+
+`apply` never generates. It refuses the whole proposal, writing nothing, if
+the docs source moved to another commit, any page changed since the preview,
+any symbol's source hash changed, or a proposed page no longer grounds;
+otherwise it writes exactly the proposed bytes of the ready pages. Commit the
+proposal with the pages it changed as the record of why they changed.
 
 ## License
 

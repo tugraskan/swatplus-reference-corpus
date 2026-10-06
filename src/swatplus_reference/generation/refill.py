@@ -34,6 +34,7 @@ from __future__ import annotations
 import difflib
 import json
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from pathlib import Path
 
 from ..docs.grounding import Finding, check_page
@@ -311,35 +312,78 @@ def _is_stale(store: FactStore, page: Page) -> bool:
     return any(p is page for p in compute_status(store, [page]).stale)
 
 
-def _prepare(
+@dataclass
+class DeltaRequest:
+    """A page's delta prompt, or why refill must leave the page alone.
+
+    ``outcome`` is empty when the page may be revised; otherwise it is the
+    result-line prefix (``SKIP`` or ``REFUSED``) and ``reason`` says why.
+    """
+
+    page: Page
+    sym: Symbol | None = None
+    diff: str = ""
+    prompt: str = ""
+    outcome: str = ""
+    reason: str = ""
+
+    @property
+    def line(self) -> str:
+        return f"{self.outcome} {self.page.name}: {self.reason}"
+
+
+def prepare_delta(
     cfg: Config, store: FactStore, old_store: FactStore, old_source_dir: Path, page: Page
-) -> tuple[Symbol | None, str]:
-    """``(symbol, delta prompt)`` for a page refill may revise, else ``(None, result line)``."""
+) -> DeltaRequest:
+    """Gate ``page`` for revision and build its source diff and delta prompt."""
     sym = store.get(page.symbol)
     if sym is None:
-        return None, f"SKIP {page.name}: gone in new source"
+        return DeltaRequest(page, outcome="SKIP", reason="gone in new source")
     if not _is_stale(store, page):
-        return None, f"SKIP {page.name}: not stale (its own source is unchanged)"
+        return DeltaRequest(
+            page, outcome="SKIP", reason="not stale (its own source is unchanged)"
+        )
     old_sym = old_store.get(page.symbol)
     found = old_sym.source_hash if old_sym else "no such symbol"
     if found != page.source_hash:
-        return None, (
-            f"REFUSED {page.name}: the old source is not the baseline this page was "
-            f"written against (page {page.source_hash}, old source {found})"
-        )
+        return DeltaRequest(page, outcome="REFUSED", reason=(
+            "the old source is not the baseline this page was written against "
+            f"(page {page.source_hash}, old source {found})"
+        ))
     diff = symbol_source_diff(old_sym, sym, old_source_dir, cfg.abs_source_dir)
     prompt = build_delta_prompt(page_to_data(page), diff, build_fact_sheet(cfg, store, sym))
-    return sym, prompt
+    return DeltaRequest(page, sym, diff, prompt)
+
+
+def request_delta(client, cfg: Config, prompt: str, model: str | None = None) -> dict | None:
+    """Ask the model for a partial delta; ``None`` when it refuses."""
+    resp = client.messages.create(
+        model=model or cfg.fill.model,
+        max_tokens=cfg.fill.max_tokens,
+        system=DELTA_SYSTEM,
+        output_config={"format": {"type": "json_schema", "schema": _partial_schema()}},
+        messages=[{"role": "user", "content": prompt}],
+    )
+    if resp.stop_reason == "refusal":
+        return None
+    return json.loads(next(b.text for b in resp.content if b.type == "text"))
+
+
+def merge_delta(
+    cfg: Config, store: FactStore, page: Page, sym: Symbol, delta: dict
+) -> tuple[list[str], list[Finding]]:
+    """Splice ``delta`` into ``page`` in memory and ground the result. Writes nothing."""
+    splice_delta(page, sym, delta)
+    page.version_label = cfg.version_label
+    dropped = drop_ungrounded_notes(store, page)
+    return dropped, check_page(store, page)
 
 
 def _apply_and_ground(
     cfg: Config, store: FactStore, page: Page, sym: Symbol, delta: dict
 ) -> tuple[list[str], list[Finding]]:
-    """Splice, drop ungrounded notes, and save only if no grounding error remains."""
-    splice_delta(page, sym, delta)
-    page.version_label = cfg.version_label
-    dropped = drop_ungrounded_notes(store, page)
-    findings = check_page(store, page)
+    """merge_delta, then save only if no grounding error remains."""
+    dropped, findings = merge_delta(cfg, store, page, sym, delta)
     if not any(f.level == "error" for f in findings):
         page.save()
     return dropped, findings
@@ -369,13 +413,12 @@ def emit_delta_prompts(
     out_dir.mkdir(parents=True, exist_ok=True)
     results = []
     for p in paths:
-        page = load_page(p)
-        sym, prompt = _prepare(cfg, store, old_store, old_source_dir, page)
-        if sym is None:
-            results.append(prompt)
+        req = prepare_delta(cfg, store, old_store, old_source_dir, load_page(p))
+        if req.outcome:
+            results.append(req.line)
             continue
-        (out_dir / f"{page.symbol}.delta.md").write_text(prompt, encoding="utf-8")
-        results.append(f"PROMPT {page.symbol}")
+        (out_dir / f"{req.page.symbol}.delta.md").write_text(req.prompt, encoding="utf-8")
+        results.append(f"PROMPT {req.page.symbol}")
     return results
 
 
@@ -426,26 +469,17 @@ def run_refill(
 
     def one(path: Path) -> str:
         try:
-            page = load_page(path)
-            sym, prompt = _prepare(cfg, store, old_store, old_source_dir, page)
-            if sym is None:
-                return prompt
+            req = prepare_delta(cfg, store, old_store, old_source_dir, load_page(path))
+            if req.outcome:
+                return req.line
             if dry_run:
-                return f"DRY {page.symbol}: delta prompt {len(prompt)} chars"
-            resp = client.messages.create(
-                model=model or cfg.fill.model,
-                max_tokens=cfg.fill.max_tokens,
-                system=DELTA_SYSTEM,
-                output_config={"format": {"type": "json_schema", "schema": _partial_schema()}},
-                messages=[{"role": "user", "content": prompt}],
-            )
-            if resp.stop_reason == "refusal":
-                return f"REFUSED {page.symbol}"
-            text = next(b.text for b in resp.content if b.type == "text")
-            delta = json.loads(text)
+                return f"DRY {req.page.symbol}: delta prompt {len(req.prompt)} chars"
+            delta = request_delta(client, cfg, req.prompt, model)
+            if delta is None:
+                return f"REFUSED {req.page.symbol}"
             changed = ", ".join(k for k in delta if delta[k] not in (None, [], ""))
-            dropped, findings = _apply_and_ground(cfg, store, page, sym, delta)
-            return _report(f"{page.symbol} [{changed}]", dropped, findings)
+            dropped, findings = _apply_and_ground(cfg, store, req.page, req.sym, delta)
+            return _report(f"{req.page.symbol} [{changed}]", dropped, findings)
         except Exception as exc:  # noqa: BLE001 — one page failing shouldn't kill the run
             return f"ERROR {path.stem}: {type(exc).__name__}: {exc}"
 
