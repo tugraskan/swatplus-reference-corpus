@@ -263,7 +263,9 @@ version = "my-branch-build"
 
 Add a `commit` value when the result must be reproducible. Keep the previous
 source checkout when updating documentation so `swatref docs refill` can make
-small, source-diff-driven prose changes instead of rewriting whole pages.
+small, source-diff-driven prose changes instead of rewriting whole pages. It
+must be the checkout the pages were last filled from; refill verifies this
+against each page's recorded source hash.
 
 ## Optional prose generation
 
@@ -276,8 +278,11 @@ swatref docs fill --limit 10
 swatref docs refill --old-source-dir external/swatplus-OLD/src
 ```
 
-Generated prose still passes through the same symbol-grounding checks before it
-is saved.
+Both commands drop structured notes the parser cannot see. `refill` and
+`apply-delta` also touch only stale pages, never let an empty delta field blank
+a reviewed section, and do not save a page that still has grounding errors;
+`refill` additionally refuses an old checkout that is not the source a page was
+written against. They exit non-zero when a stale page was not revised.
 
 ## License
 

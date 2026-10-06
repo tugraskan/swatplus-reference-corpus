@@ -856,7 +856,9 @@ def cmd_refill(cfg: Config, args) -> int:
     if not old_dir.exists():
         sys.exit(f"--old-source-dir {old_dir} not found")
     print(f"parsing old source {old_dir} ...", file=sys.stderr)
-    old_store, _old_rich = parse_documentation(old_dir, "old")
+    # Same engine as the new store, so an unchanged symbol hashes identically
+    # and the baseline check compares like with like.
+    old_store, _old_rich = parse_documentation(old_dir, "old", engine=cfg.docs_engine)
 
     paths = [Path(p) for p in args.pages] if args.pages else _stale_paths(cfg, store, args.limit)
     if not paths:
@@ -865,26 +867,29 @@ def cmd_refill(cfg: Config, args) -> int:
 
     if args.emit_prompts:
         out = Path(args.emit_prompts)
-        for line in refill.emit_delta_prompts(cfg, store, old_store, old_dir, paths, out):
+        results = refill.emit_delta_prompts(cfg, store, old_store, old_dir, paths, out)
+        for line in results:
             print(line)
         print(f"wrote delta prompts to {out} — fill them, then `swatref docs apply-delta`")
-        return 0
+        return 1 if refill.has_failures(results) else 0
 
     print(f"delta re-filling {len(paths)} stale pages with {args.model or cfg.fill.model}")
-    for line in refill.run_refill(
+    results = refill.run_refill(
         cfg, store, old_store, old_dir, paths, model=args.model, dry_run=args.dry_run
-    ):
+    )
+    for line in results:
         print(line)
-    return 0
+    return 1 if refill.has_failures(results) else 0
 
 
 def cmd_apply_delta(cfg: Config, args) -> int:
     from .generation import refill
 
     store = get_store(cfg)
-    for line in refill.apply_delta_file(cfg, store, Path(args.deltas)):
+    results = refill.apply_delta_file(cfg, store, Path(args.deltas))
+    for line in results:
         print(line)
-    return 0
+    return 1 if refill.has_failures(results) else 0
 
 
 def cmd_batch(cfg: Config, args) -> int:
