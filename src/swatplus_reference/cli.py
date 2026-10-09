@@ -1153,38 +1153,105 @@ def _field_map_for(cfg: Config) -> Path | None:
     return candidates[-1] if candidates else None
 
 
-def cmd_schema_user_docs_report(cfg: Config, docs_root: str) -> int:
-    """Compare a read-only SWATPlus-user-documentation checkout with the schema."""
-    from .schema.user_docs import build_report, example_headers, write_report
+def _user_docs_inputs(cfg: Config) -> dict:
+    """Schema, provenance, field map, example headers, and the verified source.
+
+    Example headers and the source directory are returned only when the
+    profile's checkout is on the exact commit the schema came from;
+    otherwise ``source_dir`` is None.
+    """
+    from .schema.user_docs import example_headers
 
     _, schema_path, _, provenance_path = _schema_paths(cfg)
     if not schema_path.exists():
         raise FileNotFoundError(f"{schema_path} not found; run `swatref schema build` first")
     provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
     field_map_path = _field_map_for(cfg)
-
-    # Example-file headers count only from the exact commit the schema came from.
-    headers, headers_name = {}, ""
+    inputs = {
+        "schema": json.loads(schema_path.read_text(encoding="utf-8")),
+        "provenance": provenance,
+        "field_map": json.loads(field_map_path.read_text(encoding="utf-8")) if field_map_path else None,
+        "field_map_name": field_map_path.name if field_map_path else "",
+        "headers": {},
+        "headers_name": "",
+        "source_dir": None,
+    }
     try:
-        _, checkout = resolve_profile(cfg, cfg.schema.source)
+        source_dir, checkout = resolve_profile(cfg, cfg.schema.source)
     except (FileNotFoundError, RuntimeError):
         checkout = None
     if checkout and checkout.resolved_commit == provenance.get("resolved_commit"):
+        inputs["source_dir"] = source_dir
         refdata = cfg.source_profile(cfg.schema.source).abs_checkout(cfg.root) / "refdata"
-        headers = example_headers(refdata)
-        if headers:
+        inputs["headers"] = example_headers(refdata)
+        if inputs["headers"]:
             datasets = sorted(p.name for p in refdata.iterdir() if p.is_dir())
-            headers_name = (f"`refdata/` ({', '.join(datasets)}) @ "
-                            f"`{checkout.resolved_commit[:12]}`")
+            inputs["headers_name"] = (f"`refdata/` ({', '.join(datasets)}) @ "
+                                      f"`{checkout.resolved_commit[:12]}`")
+    return inputs
 
+
+def _changed_pages(docs_root: Path) -> set[Path]:
+    """Markdown files added or modified in the docs checkout (git status)."""
+    import subprocess
+
+    result = subprocess.run(["git", "-C", str(docs_root), "status", "--porcelain"],
+                            capture_output=True, text=True, check=False)
+    changed = set()
+    for line in result.stdout.splitlines():
+        path = line[3:].split(" -> ")[-1].strip('"')
+        if path.endswith(".md"):
+            changed.add((docs_root / path).resolve())
+    return changed
+
+
+def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json: bool) -> int:
+    """Print the evidence packet for one input file's docs table."""
+    from .schema.user_docs_packet import build_packet, render_packet
+
+    inputs = _user_docs_inputs(cfg)
+    if inputs["source_dir"] is None:
+        raise RuntimeError(
+            f"source profile {cfg.schema.source!r} is not fetched at the schema's commit "
+            f"{inputs['provenance'].get('resolved_commit')}; the packet must quote that exact source"
+        )
+    packet = build_packet(
+        inputs["schema"], inputs["provenance"], Path(docs_root).resolve(), inputs["source_dir"],
+        file, inputs["field_map"], inputs["headers"],
+        check_command=(f"swatref schema --source {cfg.schema.source} user-docs-check {file} "
+                       f"--docs-root {docs_root}"),
+    )
+    print(json.dumps(packet, indent=2) if as_json else render_packet(packet), end="\n" if as_json else "")
+    return 0
+
+
+def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str) -> int:
+    """Pass/fail for edited docs tables; writes nothing."""
+    from .schema.user_docs_packet import check_tables
+
+    inputs = _user_docs_inputs(cfg)
+    root = Path(docs_root).resolve()
+    ok, lines = check_tables(inputs["schema"], inputs["provenance"], root, files,
+                             inputs["field_map"], inputs["headers"], _changed_pages(root))
+    for line in lines:
+        print(line)
+    print("ALL PASS" if ok else "NOT DONE: fix the FAIL lines and check again")
+    return 0 if ok else 1
+
+
+def cmd_schema_user_docs_report(cfg: Config, docs_root: str) -> int:
+    """Compare a read-only SWATPlus-user-documentation checkout with the schema."""
+    from .schema.user_docs import build_report, write_report
+
+    inputs = _user_docs_inputs(cfg)
     report = build_report(
-        json.loads(schema_path.read_text(encoding="utf-8")),
-        provenance,
+        inputs["schema"],
+        inputs["provenance"],
         Path(docs_root).resolve(),
-        json.loads(field_map_path.read_text(encoding="utf-8")) if field_map_path else None,
-        field_map_path.name if field_map_path else "",
-        headers,
-        headers_name,
+        inputs["field_map"],
+        inputs["field_map_name"],
+        inputs["headers"],
+        inputs["headers_name"],
     )
     output = cfg.resolve(cfg.schema.reports_dir) / (
         f"swatplus-{cfg.schema.version}-user-docs-report.json"
@@ -1216,6 +1283,19 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
         help="compare the input tables of a read-only SWATPlus-user-documentation checkout",
     )
     user_docs.add_argument("--docs-root", required=True)
+    packet = sub.add_parser(
+        "user-docs-packet",
+        help="print the evidence for fixing one input file's docs table (writes nothing)",
+    )
+    packet.add_argument("file", help="input file name, e.g. codes.bsn")
+    packet.add_argument("--docs-root", required=True)
+    packet.add_argument("--json", action="store_true", help="print the packet as JSON")
+    check = sub.add_parser(
+        "user-docs-check",
+        help="pass/fail for edited docs tables (writes nothing; exit 1 when not done)",
+    )
+    check.add_argument("files", nargs="+", help="input file names, e.g. codes.bsn hru.con")
+    check.add_argument("--docs-root", required=True)
     args = parser.parse_args(argv)
     try:
         if source or version:
@@ -1228,6 +1308,10 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
             return cmd_schema_field_map(cfg)
         if args.action == "user-docs-report":
             return cmd_schema_user_docs_report(cfg, args.docs_root)
+        if args.action == "user-docs-packet":
+            return cmd_schema_user_docs_packet(cfg, args.file, args.docs_root, args.json)
+        if args.action == "user-docs-check":
+            return cmd_schema_user_docs_check(cfg, args.files, args.docs_root)
         return cmd_schema_editor_report(cfg, args.editor_root)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))

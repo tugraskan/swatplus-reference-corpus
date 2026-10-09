@@ -211,6 +211,24 @@ readers, so they never decide structure. Units, ranges, defaults, and
 descriptions are not compared, and non-flat layouts are checked for a page
 only. The JSON and Markdown reports record the source commit and docs commit.
 
+`swatref schema user-docs-packet FILE --docs-root PATH` prints the evidence for
+fixing one table:
+
+- the exact current rows with line numbers;
+- the source fields in read order with their declarations and comments, quoted
+  from the verified checkout;
+- the insertion point of each missing row;
+- the rows the source does not read;
+- the reader's statement in context, and every `call` of the reader;
+- example headers.
+
+`swatref schema user-docs-check FILE... --docs-root PATH` re-runs the comparison
+for those tables, and for any others sharing their table. It exits 0 only when
+each table matches or differs only by unconfirmed names, no field link is
+broken, every linked page is registered in `SUMMARY.md` (with front matter for
+added or modified pages), and no `SUMMARY.md` entry points at a missing page.
+Neither command writes anything.
+
 ## 7. Reproducibility
 
 ### 7.1 Release and corpus gates

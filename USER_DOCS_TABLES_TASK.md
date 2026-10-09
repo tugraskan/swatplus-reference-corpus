@@ -37,14 +37,29 @@ Do **not** run `swatref source add`, `source fetch`, or `schema build`.
   Read that section; do not add files from any other section and do not work
   from memory. Several entries share one table (`'object'.con` covers every
   `*.con` entry), so there are fewer tables than entries.
-- **Work one table at a time:** sections 3 → 4 → 5 for that table. Then stop,
-  show the facts packet, the `review_code` verdict, and the diff, and wait for
-  the go-ahead before the next table.
-- **Never fix from the report alone.** A table changes only after the tools in
-  section 3 confirm what the code reads.
+- **Fix each table with the `swat-docs-table` skill, one table per fresh
+  session.** The skill is a short loop:
+
+  1. `swatref schema --source release_62_0_1 user-docs-packet FILE --docs-root external/SWATPlus-user-documentation`
+     prints the evidence: the exact current rows with line numbers, the
+     source fields in read order with their declarations (file:line), where
+     each missing row goes, whether the reader runs, and example headers.
+  2. You decide.
+  3. `delegate_code_task` drafts the rows.
+  4. `review_code` reviews the diff.
+  5. You apply the edit.
+  6. `swatref schema --source release_62_0_1 user-docs-check FILE --docs-root external/SWATPlus-user-documentation`
+     passes or fails it. The table is done only on `ALL PASS`.
+
+  A fresh session per table keeps Hermes's context compression from dropping
+  the instructions.
+- **Never fix from the report or from memory.** The packet is the evidence.
+  Use Tamandua and dataselector (sections 3 and 1b–1c) only for questions the
+  packet does not answer.
 - Drive this run with the **Gemma 4 26B** model. In ANT's tests it is the
   steadiest in tool loops; gpt-oss returned empty replies and malformed tool
   calls here.
+- You may stop for review after each table; the check makes that optional.
 
 ## 0. Who does what
 

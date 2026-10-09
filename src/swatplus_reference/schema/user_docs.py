@@ -152,6 +152,57 @@ def field_table(text: str) -> list[dict] | None:
     return None
 
 
+_TABLE_RX = re.compile(r"<table\b.*?</table>", re.I | re.S)
+_ROW_RX = re.compile(r"<tr\b.*?</tr>", re.I | re.S)
+_CELL_RX = re.compile(r"<t[dh]\b.*?</t[dh]>", re.I | re.S)
+
+
+def _cell_text(raw: str) -> str:
+    plain = _TAG_RX.sub(" ", _LINK_RX.sub(r"\1", raw))
+    return _clean(html.unescape(plain).replace("\\", "").replace("`", ""))
+
+
+def field_table_lines(text: str) -> list[tuple[int, str]]:
+    """``(line number, raw text)`` for each row `field_table` returns, in order.
+
+    For a pipe table the raw text is the row's line; for GitBook's
+    single-line HTML tables it is the row's ``<tr>`` element.
+    """
+    def line_of(pos: int) -> int:
+        return text.count("\n", 0, pos) + 1
+
+    for table in _TABLE_RX.finditer(text):
+        rows = list(_ROW_RX.finditer(table.group(0)))
+        head = _CELL_RX.findall(rows[0].group(0)) if rows else []
+        if not head or _cell_text(head[0]).lower() != "field":
+            continue
+        out = []
+        for row in rows[1:]:
+            cells = _CELL_RX.findall(row.group(0))
+            if cells and _cell_text(cells[0]):
+                out.append((line_of(table.start() + row.start()), row.group(0)))
+        return out
+
+    lines = text.splitlines()
+    for k, line in enumerate(lines):
+        s = line.strip()
+        cells = re.split(r"(?<!\\)\|", s[1:-1]) if s.startswith("|") and s.endswith("|") else []
+        if not cells or _cell_text(cells[0]).lower() != "field":
+            continue
+        out = []
+        for n in range(k + 1, len(lines)):
+            s = lines[n].strip()
+            if not (s.startswith("|") and s.endswith("|")):
+                break
+            cells = [c.strip() for c in re.split(r"(?<!\\)\|", s[1:-1])]
+            if all(re.fullmatch(r":?-+:?", c) for c in cells if c):
+                continue
+            if _cell_text(cells[0]):
+                out.append((n + 1, lines[n]))
+        return out
+    return []
+
+
 def _title_files(text: str) -> set[str]:
     """File names in the H1 title (``# rout\\_unit.rtu``, ``# Master File (file.cio)``)."""
     m = re.search(r"^#\s+(.+)$", text, re.M)
@@ -287,8 +338,12 @@ def expected_fields(entry: dict) -> list[dict]:
     return fields + list(repeat.get("fields") or [])
 
 
-def compare_table(source: list[dict], rows: list[dict], editor: dict[str, str]) -> dict:
-    """Field-level differences between a docs table and the source's fields."""
+def match_rows(source: list[dict], rows: list[dict], editor: dict[str, str]) -> list[tuple[int, int]]:
+    """``(docs row index, source field index)`` pairs that name the same field.
+
+    A row matches the first unmatched field whose Fortran name or Editor
+    column it uses.
+    """
     def names(f: dict) -> set[str]:
         fortran = f["fortran_name"].lower()
         return {fortran, editor.get(fortran, fortran)}
@@ -301,6 +356,13 @@ def compare_table(source: list[dict], rows: list[dict], editor: dict[str, str]) 
         if j is not None:
             pairs.append((i, j))
             free.discard(j)
+    return pairs
+
+
+def compare_table(source: list[dict], rows: list[dict], editor: dict[str, str]) -> dict:
+    """Field-level differences between a docs table and the source's fields."""
+    pairs = match_rows(source, rows, editor)
+    free = set(range(len(source))) - {j for _, j in pairs}
     matched_docs = {i for i, _ in pairs}
     extra = [i for i in range(len(rows)) if i not in matched_docs]
     missing = sorted(free)

@@ -246,6 +246,18 @@ against a release schema: which input files have no page, which tables miss,
 add, reorder, or retype fields, and which field names still need a check. It
 never writes to the docs checkout.
 
+To fix one table, `swatref schema user-docs-packet FILE --docs-root PATH`
+prints its evidence:
+
+- the exact current rows with line numbers;
+- the source fields in read order with their declarations (file and line);
+- where each missing row goes;
+- whether the reader is ever called.
+
+After editing, `swatref schema user-docs-check FILE --docs-root PATH` exits 0
+only when the table matches the source, no field link is broken, and every
+linked page is registered in `SUMMARY.md`. Neither command writes anything.
+
 ```sh
 # core.longpaths: some theory-section paths exceed Windows' 260-character limit
 git clone -c core.longpaths=true https://github.com/swat-model/SWATPlus-user-documentation external/SWATPlus-user-documentation
