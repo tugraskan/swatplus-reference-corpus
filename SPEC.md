@@ -218,7 +218,8 @@ fixing one table:
 - the source fields in read order with their declarations and comments, quoted
   from the verified checkout;
 - the insertion point of each missing row;
-- the rows the source does not read;
+- the rows the source does not read, each paired with the missing field
+  inserted in its place when there is one (a probable rename);
 - the reader's statement in context, and every `call` of the reader;
 - example headers.
 

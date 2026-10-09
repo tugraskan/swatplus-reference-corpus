@@ -12,8 +12,8 @@ Checks page coverage, field names and order, types, and field links. A file with
 | Status | Files |
 | --- | --- |
 | match | 30 |
-| differs | 19 |
-| names_to_check | 20 |
+| differs | 18 |
+| names_to_check | 21 |
 | no_field_table | 3 |
 | named_only | 44 |
 | no_page | 67 |
@@ -23,7 +23,7 @@ Checks page coverage, field names and order, types, and field links. A file with
 - Tables with broken field links: 0
 - Docs pages for files not in the 62.0.1 input schema: 12
 
-## Tables that differ from the source (19)
+## Tables that differ from the source (18)
 
 - **`aquifer.con`**: `io-docs/introduction-1/connectivity/hru.con/README.md` (shared table, listed on `io-docs/introduction-1/connectivity/README.md`): 17 docs rows, 17 source fields (repeating group)
   - position 8: docs `hru`, source `props`
@@ -64,8 +64,6 @@ Checks page coverage, field names and order, types, and field links. A file with
   - missing from docs: `meta_frac`, `str_frac`, `lig_frac`, `pl_class`
   - type of `days_mat`: docs real, source integer
   - names confirmed by an example file header: `gro_trig` (source `trig`)
-- **`print.prt`**: `io-docs/introduction-1/simulation-settings/print.prt/README.md`: 19 docs rows, 6 source fields
-  - not read by the source: `aa_int_cnt`, `csvout`, `dbout`, `cdfout`, `crop_yld`, `mgtout`, `hydcon`, `fdcout`, `object`, `daily`, `monthly`, `yearly`, `avann`
 - **`recall_db.rec`**: `io-docs/introduction-1/point-sources-and-inlets/recall.rec/README.md`: 20 docs rows, 9 source fields
   - not read by the source: `path_unit`, `path_tstep`, `hmet_name`, `hmet_unit`, `hmet_tstep`, `salt_name`, `salt_unit`, `salt_tstep`, `cst_name`, `cst_unit`, `cst_tstep`
   - position 1: docs `id`, source `k`
@@ -92,7 +90,7 @@ Checks page coverage, field names and order, types, and field links. A file with
   - not read by the source: `wnd_dir`
   - out of order: `atmo_dep`
 
-## Tables whose field names need a check (20)
+## Tables whose field names need a check (21)
 
 - **`bmpuser.str`**: `io-docs/introduction-1/structural-practices/bmpuser.str/README.md`: 8 docs rows, 8 source fields
   - position 2: docs `flag_bmp`, source `flag (bmp_flag)`
@@ -164,6 +162,14 @@ Checks page coverage, field names and order, types, and field links. A file with
   - position 17: docs `frac`, source `frac_out`
 - **`ovn_table.lum`**: `io-docs/introduction-1/landuse-and-management/ovn_table.lum/README.md`: 4 docs rows, 4 source fields
   - position 1: docs `name_ovn`, source `name`
+- **`print.prt`**: `io-docs/introduction-1/simulation-settings/print.prt/README.md`: 19 docs rows, 19 source fields
+  - position 7: docs `aa_int_cnt`, source `aa_numint`
+  - position 9: docs `dbout`, source `use_obj_labels`
+  - position 15: docs `object`, source `name`
+  - position 16: docs `daily`, source `d`
+  - position 17: docs `monthly`, source `m`
+  - position 18: docs `yearly`, source `y`
+  - position 19: docs `avann`, source `a`
 - **`recall.con`**: `io-docs/introduction-1/connectivity/hru.con/README.md` (shared table, listed on `io-docs/introduction-1/connectivity/README.md`): 17 docs rows, 17 source fields (repeating group)
   - position 1: docs `id`, source `num`
   - position 4: docs `area`, source `area_ha`

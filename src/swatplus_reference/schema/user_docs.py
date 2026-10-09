@@ -331,11 +331,26 @@ def editor_names(field_map: dict | None) -> dict[str, dict[str, str]]:
     return out
 
 
+def field_origins(entry: dict) -> list[tuple[dict, int | None, bool]]:
+    """``(field, reader line, repeated)`` for every field a docs table should list.
+
+    A record's fixed fields come first, then each repeated field once. A file
+    read as several records (``blocks``, e.g. ``print.prt``) lists every
+    block's fields in the order the reader reads them.
+    """
+    out: list[tuple[dict, int | None, bool]] = []
+    blocks = sorted(entry["blocks"], key=lambda b: b.get("reader_line") or 0) \
+        if entry.get("blocks") else [entry]
+    for block in blocks:
+        line = block.get("reader_line")
+        out += [(f, line, False) for f in block.get("fields") or []]
+        out += [(f, line, True) for f in (block.get("repeat") or {}).get("fields") or []]
+    return out
+
+
 def expected_fields(entry: dict) -> list[dict]:
-    """The fields a docs table should list: fixed fields, then each repeated one once."""
-    fields = list(entry.get("fields") or [])
-    repeat = entry.get("repeat") or {}
-    return fields + list(repeat.get("fields") or [])
+    """The fields a docs table should list, in read order (see `field_origins`)."""
+    return [f for f, _, _ in field_origins(entry)]
 
 
 def match_rows(source: list[dict], rows: list[dict], editor: dict[str, str]) -> list[tuple[int, int]]:

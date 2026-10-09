@@ -30,7 +30,7 @@ from urllib.parse import unquote
 from .user_docs import (
     build_report,
     editor_names,
-    expected_fields,
+    field_origins,
     field_table,
     field_table_lines,
     match_rows,
@@ -126,8 +126,8 @@ def build_packet(schema: dict, provenance: dict, docs_root: Path, source_root: P
         return packet
 
     flat = schema["files"][file.lower()]
-    source = expected_fields(flat)
-    fixed = len(flat.get("fields") or [])
+    origins = field_origins(flat)
+    source = [f for f, _, _ in origins]
     page = docs_root / entry["table_page"]
     text = page.read_text(encoding="utf-8")
     rows = field_table(text) or []
@@ -152,18 +152,27 @@ def build_packet(schema: dict, provenance: dict, docs_root: Path, source_root: P
             "type": f["fortran_type"],
             "units": f.get("units"),
             "editor_name": editor.get(f["fortran_name"].lower()),
-            "repeated": j >= fixed,
+            "read_at": origins[j][1],
+            "repeated": origins[j][2],
             "docs_row": {"line": raw[i][0], "field": rows[i]["field"], "match": how}
             if i is not None else None,
             "declaration": declaration(source_root, flat["type_source"], f["fortran_name"], cache)
             if flat.get("type_source") else None,
         })
+    index_of_line = {raw[i][0]: i for i in range(len(rows))}
+    replaced_by: dict[int, str] = {}
     for k, f in enumerate(fields):
         if f["docs_row"] is None:
             prev = next((g["docs_row"] for g in reversed(fields[:k]) if g["docs_row"]), None)
             f["insert"] = (f"after line {prev['line']} (the {prev['field']} row)" if prev
                            else f"before line {raw[0][0]} (as the first row)" if raw
                            else "as the first row")
+            # A row the source no longer reads, sitting exactly where this field
+            # goes, was most likely renamed to it (e.g. bed_load -> bankfull_flo).
+            nxt = index_of_line.get(prev["line"], -1) + 1 if prev else 0
+            if 0 <= nxt < len(rows) and nxt not in used and nxt not in replaced_by:
+                replaced_by[nxt] = f["fortran_name"]
+                f["probably_replaces"] = rows[nxt]["field"]
 
     reader_path = source_root / flat["reader"]
     reader_lines = _read_lines(reader_path, cache) if reader_path.exists() else []
@@ -182,17 +191,22 @@ def build_packet(schema: dict, provenance: dict, docs_root: Path, source_root: P
             "file": flat["reader"],
             "routine": routine,
             "statement": _statement(reader_lines, at) if reader_lines else [],
+            "reads": [{"line": n, "statement": _statement(reader_lines, n)}
+                      for n in sorted({line for _, line, _ in origins if line})]
+            if reader_lines else [],
             "context": [(n, reader_lines[n - 1].rstrip())
                         for n in range(max(1, at - 10), min(len(reader_lines), at + 4) + 1)],
             "called_from": callers(source_root, routine, cache),
         },
         "record_type": {"name": flat.get("derived_type"), "at": flat.get("type_source")},
-        "repeat": ({"count_field": flat["repeat"].get("count_field"), "first_repeated": fixed + 1}
-                   if flat.get("repeat") else None),
+        "repeat": ({"count_field": flat["repeat"].get("count_field"),
+                    "first_repeated": next(f["position"] for f in fields if f["repeated"])}
+                   if flat.get("repeat") and any(f["repeated"] for f in fields) else None),
         "fields": fields,
         "docs_rows": [{"line": raw[i][0], "field": r["field"], "type": r.get("type", ""),
                        "link": r["link"], "raw": raw[i][1],
-                       "read_by_source": i in used} for i, r in enumerate(rows)],
+                       "read_by_source": i in used,
+                       "probably_replaced_by": replaced_by.get(i)} for i, r in enumerate(rows)],
         "example_headers": (headers or {}).get(file.lower(), []),
     })
     return packet
@@ -217,21 +231,28 @@ def render_packet(packet: dict) -> str:
             "", "Read statement and context:", "", "```fortran"]
     out += [f"{n:5}  {line}" for n, line in r["context"]]
     out += ["```", ""]
+    if len(r.get("reads", [])) > 1:
+        out += ["This file is read as several records. Every read statement, in file order", "(fields below give the line they are read at):", "", "```fortran"]
+        for read in r["reads"]:
+            out += [f"{n:5}  {line}" for n, line in read["statement"]]
+        out += ["```", ""]
     if p["record_type"]["name"]:
         out.append(f"Record type: `{p['record_type']['name']}` at `{p['record_type']['at']}`")
     if p["repeat"]:
         out.append(f"Fields from #{p['repeat']['first_repeated']} on repeat "
                    f"`{p['repeat']['count_field']}` times; the docs list them once.")
     out += ["", "## Source fields, in read order", "",
-            "| # | Fortran | Type | Units | Editor column | Docs row | Declaration |",
-            "| --- | --- | --- | --- | --- | --- | --- |"]
+            "| # | Fortran | Type | Units | Editor column | Read at | Docs row | Declaration |",
+            "| --- | --- | --- | --- | --- | --- | --- | --- |"]
     for f in p["fields"]:
         row = f["docs_row"]
         docs = (f"line {row['line']}: `{row['field']}`" + ("" if row["match"] == "same name" else f" ({row['match']})")
-                if row else f"**MISSING**, insert {f['insert']}")
+                if row else f"**MISSING**, insert {f['insert']}"
+                + (f"; probably replaces `{f['probably_replaces']}`" if f.get("probably_replaces") else ""))
         decl = f"`{f['declaration']['at']}`" if f["declaration"] else "not found"
+        read_at = f"line {f['read_at']}" + (" (repeated)" if f["repeated"] else "") if f.get("read_at") else ""
         out.append(f"| {f['position']} | `{f['fortran_name']}` | {f['type']} | {f['units'] or ''} | "
-                   f"{f['editor_name'] or ''} | {docs} | {decl} |")
+                   f"{f['editor_name'] or ''} | {read_at} | {docs} | {decl} |")
     out += ["", "## Declarations (exact source text)", ""]
     for f in p["fields"]:
         if f["declaration"]:
@@ -239,7 +260,9 @@ def render_packet(packet: dict) -> str:
             out += ["  ```fortran"] + [f"  {t}" for t in f["declaration"]["text"]] + ["  ```"]
     out += ["", "## Current docs rows (exact text)", ""]
     for d in p["docs_rows"]:
-        flag = "" if d["read_by_source"] else "   <-- NOT READ BY THE SOURCE"
+        flag = "" if d["read_by_source"] else "   <-- NOT READ BY THE SOURCE" + (
+            f" (probably replaced by `{d['probably_replaced_by']}`: rename its field page)"
+            if d.get("probably_replaced_by") else "")
         out.append(f"- line {d['line']}: `{d['raw'].strip()[:300]}`{flag}")
     if p["example_headers"]:
         out += ["", "## Example input-file headers (refdata; older than the readers)", ""]

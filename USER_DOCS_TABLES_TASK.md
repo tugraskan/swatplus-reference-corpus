@@ -33,7 +33,7 @@ Section 1 is **done and verified**:
 Do **not** run `swatref source add`, `source fetch`, or `schema build`.
 
 - **Your work list** is exactly the section "Tables that differ from the
-  source (19)" in `schema_artifacts/reports/swatplus-62.0.1-user-docs-report.md`.
+  source (18)" in `schema_artifacts/reports/swatplus-62.0.1-user-docs-report.md`.
   Read that section; do not add files from any other section and do not work
   from memory. Several entries share one table (`'object'.con` covers every
   `*.con` entry), so there are fewer tables than entries.
@@ -148,7 +148,7 @@ git diff --exit-code -- schema_artifacts/reports/swatplus-62.0.1-user-docs-repor
 ```
 
 The report must come out **identical** to the committed one: `git diff
---exit-code` exits 0. Its summary is 30 `match`, 19 `differs`, 20
+--exit-code` exits 0. Its summary is 30 `match`, 18 `differs`, 21
 `names_to_check`, 3 `no_field_table`, 44 `named_only`, 67 `no_page`, and 15
 `not_compared`. If the report differs, stop and report why: the inputs are not
 the same as in the first run. The report never writes to the docs checkout. On
@@ -171,8 +171,6 @@ Check for each of these before acting on a flag:
 
 - **Dead readers.** The schema counts any file that has a reader, even if
   nothing ever calls that reader.
-- **Multi-line files.** Some are modelled by their first line only, which makes
-  later-line fields look "extra".
 - **Shared tables.** These are detected only when a section page lists the files
   in a table and links to exactly one Field table, as `connectivity/README.md`
   does for every `*.con` file via `'object'.con`. Several report entries can

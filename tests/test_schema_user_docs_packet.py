@@ -145,6 +145,27 @@ def test_packet_places_the_missing_row_and_quotes_its_declaration(tmp_path):
     text = render_packet(packet)
     assert "**MISSING**, insert after line 10 (the event row)" in text
     assert "!! 2 = epic tillage method" in text
+    assert "probably" not in text  # nothing sits where idc_till goes
+
+
+def test_packet_pairs_an_unread_row_with_the_missing_field_in_its_place(tmp_path):
+    # pet_file is missing too, so positions no longer line up (as `order` does
+    # in hyd-sed-lte.cha) and only the insertion point pairs till_meth.
+    src, docs = make_tree(tmp_path)
+    readme = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn" / "README.md"
+    readme.write_text(TABLE.replace("| [pet\\_file](pet_file.md) | PET file | string |\n", "")
+                      + "| [till\\_meth](till_meth.md) | Old name | integer |\n")
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+
+    assert packet["fields"][0]["insert"] == "before line 9 (as the first row)"
+    assert "probably_replaces" not in packet["fields"][0]  # event is read, not replaced
+    assert packet["fields"][2]["probably_replaces"] == "till_meth"
+    assert [(d["field"], d["read_by_source"], d["probably_replaced_by"])
+            for d in packet["docs_rows"]] == [("event", True, None),
+                                               ("till_meth", False, "idc_till")]
+    text = render_packet(packet)
+    assert "insert after line 9 (the event row); probably replaces `till_meth`" in text
+    assert "NOT READ BY THE SOURCE (probably replaced by `idc_till`: rename its field page)" in text
 
 
 def test_packet_says_when_a_reader_never_runs(tmp_path):

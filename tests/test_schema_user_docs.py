@@ -183,6 +183,22 @@ def test_unknown_doc_type_words_are_not_flagged():
     assert user_docs.compare_table([field("a"), field("b")], rows, {}) == {}
 
 
+def test_a_file_read_as_several_records_lists_every_block_in_read_order():
+    entry = {  # print.prt: the first block is listed first, but read order decides
+        "fields": [field("nyskip", "integer")], "reader_line": 28,
+        "blocks": [
+            {"reader_line": 28, "fields": [field("nyskip", "integer")]},
+            {"reader_line": 44, "fields": [field("csvout", "character")]},
+            {"reader_line": 32, "fields": [field("aa_numint", "integer")],
+             "repeat": {"fields": [field("aa_yrs", "integer")]}},
+        ],
+    }
+    assert [f["fortran_name"] for f in user_docs.expected_fields(entry)] == [
+        "nyskip", "aa_numint", "aa_yrs", "csvout"]
+    assert [(line, rep) for _, line, rep in user_docs.field_origins(entry)] == [
+        (28, False), (32, False), (32, True), (44, False)]
+
+
 def test_a_repeating_group_is_expected_once():
     entry = {"fields": [field("id", "integer")],
              "repeat": {"count_field": "out_tot", "fields": [field("obj_typ", "character")]}}

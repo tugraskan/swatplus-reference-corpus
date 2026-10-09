@@ -1564,26 +1564,48 @@
     "print.prt": {
       "docs_fields": 19,
       "layout": "flat",
-      "not_in_source": [
-        "aa_int_cnt",
-        "csvout",
-        "dbout",
-        "cdfout",
-        "crop_yld",
-        "mgtout",
-        "hydcon",
-        "fdcout",
-        "object",
-        "daily",
-        "monthly",
-        "yearly",
-        "avann"
+      "name_differs": [
+        {
+          "docs": "aa_int_cnt",
+          "position": 7,
+          "source": "aa_numint"
+        },
+        {
+          "docs": "dbout",
+          "position": 9,
+          "source": "use_obj_labels"
+        },
+        {
+          "docs": "object",
+          "position": 15,
+          "source": "name"
+        },
+        {
+          "docs": "daily",
+          "position": 16,
+          "source": "d"
+        },
+        {
+          "docs": "monthly",
+          "position": 17,
+          "source": "m"
+        },
+        {
+          "docs": "yearly",
+          "position": 18,
+          "source": "y"
+        },
+        {
+          "docs": "avann",
+          "position": 19,
+          "source": "a"
+        }
       ],
       "pages": [
         "io-docs/introduction-1/simulation-settings/print.prt/README.md"
       ],
-      "source_fields": 6,
-      "status": "differs",
+      "source_fields": 19,
+      "status": "names_to_check",
       "table_page": "io-docs/introduction-1/simulation-settings/print.prt/README.md"
     },
     "puddle.ops": {
@@ -2446,12 +2468,12 @@
     "resolved_commit": "97ca231e22b29356b9891e057238fa3c68809da5"
   },
   "summary": {
-    "differs": 19,
+    "differs": 18,
     "files_with_broken_links": 0,
     "input_files": 198,
     "match": 30,
     "named_only": 44,
-    "names_to_check": 20,
+    "names_to_check": 21,
     "no_field_table": 3,
     "no_page": 67,
     "not_compared": 15,
