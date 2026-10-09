@@ -21,6 +21,31 @@ Out of scope: reviewing the text of existing field pages.
 **Do not look at branch `fix/input-tables-62.0.1` or its commits until you have
 finished.** It holds the first run's answer. Section 8 explains how to compare.
 
+## Resuming: start here
+
+Section 1 is **done and verified**:
+
+- the 62.0.1 checkout is at `97ca231e`;
+- Tamandua reports `97ca231e`;
+- the docs branch `hermes/input-tables-62.0.1` is at `a6730da` with no edits;
+- the report matches the committed one.
+
+Do **not** run `swatref source add`, `source fetch`, or `schema build`.
+
+- **Your work list** is exactly the section "Tables that differ from the
+  source (19)" in `schema_artifacts/reports/swatplus-62.0.1-user-docs-report.md`.
+  Read that section; do not add files from any other section and do not work
+  from memory. Several entries share one table (`'object'.con` covers every
+  `*.con` entry), so there are fewer tables than entries.
+- **Work one table at a time:** sections 3 → 4 → 5 for that table. Then stop,
+  show the facts packet, the `review_code` verdict, and the diff, and wait for
+  the go-ahead before the next table.
+- **Never fix from the report alone.** A table changes only after the tools in
+  section 3 confirm what the code reads.
+- Drive this run with the **Gemma 4 26B** model. In ANT's tests it is the
+  steadiest in tool loops; gpt-oss returned empty replies and malformed tool
+  calls here.
+
 ## 0. Who does what
 
 | Role | Job |
@@ -211,11 +236,10 @@ Guardrails:
 
 - Keep packets compact: under ~12k tokens for `nemo`, ~40k for `oss20`.
 - Never paste the API key or whole files of unrelated code.
-- Nothing stops you automatically: this Hermes has `hard_stop_enabled: false`
-  and only warns after 2–3 failures. Stop yourself. If any call fails twice,
-  do not retry it a third time: carry on without it, and note it. A failed
-  delegate call means that table is marked "not cross-checked" in your
-  findings.
+- Hermes warns after 2–3 failures and hard-stops after 5 identical failures
+  or 8 on the same tool. Do not get there: if any call fails twice, do not
+  retry it a third time. Carry on without it and note it. A failed delegate
+  call means that table is marked "not cross-checked" in your findings.
 - A `truncated: true` reply means the output budget ran out. Raise
   `max_tokens` once, or split the request; do not treat it as an answer.
 
