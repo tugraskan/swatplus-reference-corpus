@@ -1,19 +1,35 @@
-# Task: align the SWAT+ user-documentation input tables with the SWAT+ `dev` branch
+# Task: review and update the SWAT+ user-documentation input tables (replication run)
 
-You are updating the input-file tables in a checkout of
-`tugraskan/SWATPlus-user-documentation` (GitBook source) so they match what the
-Fortran readers on the SWAT+ `dev` branch actually read. Work on a branch of the
-docs fork, never on `main`.
+You are repeating, independently, a review that has already been done once, so
+the two results can be compared. Use **exactly the same inputs**:
+
+| Input | Exact version |
+|---|---|
+| Docs | `tugraskan/SWATPlus-user-documentation`, `main` at commit **`a6730da`** |
+| SWAT+ source | release **62.0.1**, commit **`97ca231e`** (profile `release_62_0_1`, checkout `external/swatplus-release_62_0_1`) |
+
+**Scope** (the same as the first run, no more and no less):
+
+1. Review the input-file tables against the 62.0.1 readers and decide which
+   ones need changes.
+2. Update those tables.
+3. Create a field page (`.md`) for every row you add or replace, and register
+   it in `SUMMARY.md`.
+
+Out of scope: reviewing the text of existing field pages.
+
+**Do not look at branch `fix/input-tables-62.0.1` or its commits until you have
+finished.** It holds the first run's answer. Section 8 explains how to compare.
 
 ## 0. Who does what
 
-| Role | Source | Job |
-|---|---|---|
-| **swatref** (this repository, the SWAT corpus tool) | the locked `dev` commit | Finds **where** the docs and the source disagree: builds the dev input schema and the user-docs report |
-| **Tamandua** (`swatplus-source` MCP) | the same `dev` checkout | Answers **what the code does**: who calls a reader, what it reads, a type's fields with units, every assignment to a variable |
-| **dataselector** (`swat-dataset` MCP) | the same `dev` checkout | Answers **what a column means** and **what real input files contain** |
-| **ANT models** (`local-agent-router` MCP) | facts you hand them | **Cross-check and review** your conclusions. They never supply facts. |
-| **You** | all of the above | Decide, edit, and verify |
+| Role | Job |
+|---|---|
+| **swatref** (this repository, the SWAT corpus tool) | Finds **where** the docs and the source disagree: the input schema and the user-docs report |
+| **Tamandua** (`swatplus-source` MCP) | Answers **what the code does**: who calls a reader, what it reads, a type's fields with units, every assignment to a variable |
+| **dataselector** (`swat-dataset` MCP) | Answers **what a column means** and **what real input files contain** |
+| **ANT models** (`local-agent-router` MCP) | **Cross-check and review** your conclusions. They never supply facts. |
+| **You** | Decide, edit, and verify |
 
 Facts come only from swatref, Tamandua, dataselector, or the Fortran itself.
 A model's answer is a second opinion to compare against those facts, never a
@@ -23,38 +39,33 @@ accepted change goes through `review_code` (section 4).
 ## 1. Setup
 
 Run from the root of this repository with its virtual environment
-(`.venv/Scripts/swatref.exe` on Windows, or activate `.venv` first). Running
-the full test suite also needs `jsonschema`: `pip install -e ".[dev]"`.
+(`.venv/Scripts/swatref.exe` on Windows, or activate `.venv` first). Do not run
+this while another agent is modifying the same checkout.
 
-Do not run this while another agent is modifying the same checkout. ANT's
-operating rules forbid two coding agents in one Git worktree.
+### 1a. The source (already in place)
 
-### 1a. The dev source and its schema (swatref)
-
-```sh
-swatref source add dev                       # new [sources.dev] profile locked to today's dev tip; note the commit it prints
-swatref source fetch dev                     # checkout: external/swatplus-dev
-swatref schema --source dev --version dev build
-```
-
-The schema is written to `schema_artifacts/releases/swatplus-dev.json`. Its
-provenance sidecar records the exact commit. Every other tool below must
-describe **this same commit**.
-
-### 1b. Tamandua on the dev checkout
-
-Tamandua's bundled facts are pinned to an older release, so build a facts file
-from the dev checkout. It is already installed for the system Python
-(`swatplus-build` and `swatplus-mcp` are on PATH); in another environment,
-`pip install -e C:/Users/taci.ugraskan/source/repos/Tamandua` first. From the
-root of this repository (`--corpus .` supplies its parser):
+The `release_62_0_1` profile is fetched and locked. Confirm it:
 
 ```sh
-swatplus-build --source external/swatplus-dev --corpus . --facts external/swatplus-dev/swatplus-facts.json
+git -C external/swatplus-release_62_0_1 rev-parse HEAD     # must print 97ca231e22b29356b9891e057238fa3c68809da5
 ```
 
-This was tested on the 62.0.1 checkout: about 25 s, and it records the commit
-it indexed. Its answers matched a manual check of the same questions.
+Its input schema is committed at `schema_artifacts/releases/swatplus-62.0.1.json`.
+Do not rebuild it.
+
+### 1b. Tamandua on the same commit
+
+Tamandua is installed for the system Python (`swatplus-build` and
+`swatplus-mcp` are on PATH). Build its index from the 62.0.1 checkout into the
+git-ignored `.swatref/` folder (`--corpus .` supplies this repository's parser;
+it takes about 25 s):
+
+```sh
+swatplus-build --source external/swatplus-release_62_0_1 --corpus . --facts .swatref/tamandua/swatplus-62.0.1-facts.json
+```
+
+This index has already been built on this machine; rebuild only if the file is
+missing.
 
 Add the server to Hermes (`mcp_servers` in `~/.hermes/config.yaml`, stdio form;
 adapt to your Hermes version's syntax), then restart Hermes:
@@ -63,41 +74,43 @@ adapt to your Hermes version's syntax), then restart Hermes:
 mcp_servers:
   swatplus-source:
     command: swatplus-mcp
-    args: ["--facts", "<this repo>/external/swatplus-dev/swatplus-facts.json", "--compact"]
+    args: ["--facts", "<this repo>/.swatref/tamandua/swatplus-62.0.1-facts.json", "--compact"]
 ```
 
-Check: Tamandua's `provenance` tool must report the dev commit from step 1a.
+Check: Tamandua's `provenance` tool must report commit `97ca231e`.
 
-### 1c. dataselector on the dev checkout
+### 1c. dataselector on the same commit
 
-The Claude Code configuration points dataselector at a different local copy
-(`SWATPLUS_REPOS/swatplus_DEV`). For this task, give Hermes its own entry with
-`--source` set to the dev checkout:
+The Claude Code configuration points dataselector at a different local copy.
+Give Hermes its own entry with `--source` set to the 62.0.1 checkout:
 
 ```yaml
   swat-dataset:
     command: node
     args: ["C:/Users/taci.ugraskan/source/repos/swatplus-dataselector/dist/mcp-server.js",
-           "--source", "<this repo>/external/swatplus-dev"]
+           "--source", "<this repo>/external/swatplus-release_62_0_1"]
 ```
 
-Keep the `--exe` argument from the existing configuration if the server
-refuses to start without it. The example datasets that ship with the source
-(`external/swatplus-dev/refdata/Ames_sub1`, `.../Osu_1hru`) can be selected
-with `select_dataset`. `Ames_sub1` is newer; both can be older than the
+Keep the `--exe` argument from the existing configuration if the server refuses
+to start without it. The example datasets that ship with the source
+(`external/swatplus-release_62_0_1/refdata/Ames_sub1`, `.../Osu_1hru`) can be
+selected with `select_dataset`. `Ames_sub1` is newer; both are older than the
 readers.
 
 ### 1d. The docs checkout and the report
 
 ```sh
-git -C external/SWATPlus-user-documentation fetch origin
-git -C external/SWATPlus-user-documentation switch -c hermes/input-tables-dev origin/main
-swatref schema --source dev --version dev user-docs-report --docs-root external/SWATPlus-user-documentation
+git -C external/SWATPlus-user-documentation switch -c hermes/input-tables-62.0.1 a6730da
+swatref schema --source release_62_0_1 user-docs-report --docs-root external/SWATPlus-user-documentation
+git diff --exit-code -- schema_artifacts/reports/swatplus-62.0.1-user-docs-report.json schema_artifacts/reports/swatplus-62.0.1-user-docs-report.md
 ```
 
-The output is `schema_artifacts/reports/swatplus-dev-user-docs-report.md` and
-`.json`. The report never writes to the docs checkout. On Windows the docs
-clone needs `core.longpaths` (already set in this clone).
+The report must come out **identical** to the committed one: `git diff
+--exit-code` exits 0. Its summary is 30 `match`, 19 `differs`, 20
+`names_to_check`, 3 `no_field_table`, 44 `named_only`, 67 `no_page`, and 15
+`not_compared`. If the report differs, stop and report why: the inputs are not
+the same as in the first run. The report never writes to the docs checkout. On
+Windows the docs clone needs `core.longpaths` (already set).
 
 ## 2. Reading the report, and its limits
 
@@ -111,7 +124,8 @@ clone needs `core.longpaths` (already set in this clone).
 | `no_page` | Not mentioned anywhere in the docs |
 | `not_compared` | Multi-record, multi-section, runtime-sized, or decision-table layout; only page coverage is checked |
 
-Known limits. Check for each of these before acting on a flag:
+The report flags tables; it does not decide what is correct. Known limits.
+Check for each of these before acting on a flag:
 
 - **Dead readers.** The schema counts any file that has a reader, even if
   nothing ever calls that reader.
@@ -119,9 +133,10 @@ Known limits. Check for each of these before acting on a flag:
   later-line fields look "extra".
 - **Shared tables.** These are detected only when a section page lists the files
   in a table and links to exactly one Field table, as `connectivity/README.md`
-  does for every `*.con` file via `'object'.con`.
+  does for every `*.con` file via `'object'.con`. Several report entries can
+  point at **one** table; edit it once.
 - **Names.** Field names match on the Fortran variable, the Editor column, or an
-  example-file header. The example files can be older than the readers.
+  example-file header. The example files are older than the readers.
 
 ## 3. Verify each `differs` table with the tools
 
@@ -144,9 +159,9 @@ tool cannot answer, and say so in your notes.
    input has no effect; say so on the field page.
 5. **Meaning, units, defaults.** Use dataselector `lookup_docs` (file and
    column) as evidence, and cross-check it against `describe_type`.
-6. **Real files.** Select an example dataset and compare its header row with
-   the reader. dataselector `check_inputs` counts values per line against the
-   read statement: it catches missing or extra columns, not swapped ones.
+6. **Real files.** Compare an example dataset's header row with the reader.
+   dataselector `check_inputs` counts values per line against the read
+   statement: it catches missing or extra columns, not swapped ones.
 7. **Types.**
    - Real documented as integer is harmless but inaccurate; fix it anyway.
    - **Integer documented as real is harmful**: an integer read of `110.0`
@@ -164,9 +179,9 @@ header evidence, each with file:line. Section 4 uses it.
 ## 4. Use the ANT models (`local-agent-router`)
 
 Run `gpu_pool_status` first. Use only **loaded** models: an unloaded one can
-take minutes to start, and clients give up after about 100 s. At the time this
-was written, `oss20` (gpt-oss-20b, 65,536-token window) and `nemo` (Mistral-Nemo
-12B, 16,384 tokens, an independent model lineage) were loaded.
+take minutes to start, and clients give up after about 100 s. `oss20`
+(gpt-oss-20b, 65,536-token window) and `nemo` (Mistral-Nemo 12B, 16,384 tokens,
+an independent model lineage) are the usual choices.
 
 For **every `differs` table**:
 
@@ -176,8 +191,7 @@ For **every `differs` table**:
    evidence line, and **not** to see your proposed edit. Compare its list with
    yours. Where they disagree, go back to the tools (section 3) and settle it
    from the facts, not by majority. If `oss20` and you still disagree, ask
-   `delegate_gpu_model` with `model: "nemo"`. It does not share gpt-oss's
-   lineage.
+   `delegate_gpu_model` with `model: "nemo"`.
 2. **Field-page text, with `delegate_gpu_model`.** For new or replaced field
    pages, call it with `model: "oss20"` and only the facts packet. Ask for one
    description line and a short body, using **only** facts in the packet.
@@ -205,13 +219,11 @@ Guardrails:
 
 - Preserve each page's format: pipe tables or single-line GitBook HTML, `\_`
   escaping, and the existing columns.
-- A shared table covers several files. Edit `'object'.con`
-  (`connectivity/hru.con/README.md`) **once** for all connect files.
-- **Every new row gets a field page.** Create `<file folder>/<field>.md` with
-  front matter (`description:`), a `# heading` with escaped underscores, and a
-  short body traceable to the facts packet. Link it from the table, and
-  register it in `io-docs/SUMMARY.md` in table order, nested under the file's
-  README entry.
+- **Every new or replaced row gets a field page.** Create
+  `<file folder>/<field>.md` with front matter (`description:`), a `# heading`
+  with escaped underscores, and a short body traceable to the facts packet.
+  Link it from the table, and register it in `io-docs/SUMMARY.md` in table
+  order, nested under the file's README entry.
 - **For a replaced field,** `git mv` the old page to the new name, rewrite it,
   update its `SUMMARY.md` entry, and search for any other references to the old
   page.
@@ -221,14 +233,15 @@ Guardrails:
 - Leave alone:
   - tables whose reader is never called;
   - report false positives;
-  - `names_to_check` rows, unless the Editor name and a real header agree.
+  - `names_to_check` rows, unless the Editor name and a real header agree;
+  - the text of existing field pages, which is out of scope for this run.
 
 ## 6. Verify before committing
 
 - Re-run the comparison against the edited checkout. Every table you edited
-  should be `match` or `names_to_check`, with no broken links. (Re-running the
-  CLI rewrites the report under `schema_artifacts/reports/`; restore it
-  afterwards if it should keep describing docs `main`.)
+  should be `match` or `names_to_check`, with no broken links. Re-running the
+  CLI rewrites the committed report, so restore it afterwards:
+  `git checkout -- schema_artifacts/reports/swatplus-62.0.1-user-docs-report.*`.
 - Every `SUMMARY.md` target exists, every new page is registered, and nothing
   references a deleted page.
 - Send the complete `git diff` to `review_code` once more, with the list of
@@ -236,7 +249,7 @@ Guardrails:
 
 ## 7. Deliver
 
-- Commits on `hermes/input-tables-dev` in the docs checkout. Do not push or
+- Commits on `hermes/input-tables-62.0.1` in the docs checkout. Do not push or
   open a pull request unless asked.
 - A findings list in four parts:
   - per table: what changed and the evidence (file:line);
@@ -246,5 +259,17 @@ Guardrails:
     being read, and files whose real columns disagree with the reader;
   - names you inferred.
 
-After you finish (not before), you can compare your result with an earlier pass
-against release 62.0.1 on branch `fix/input-tables-62.0.1` of the docs fork.
+## 8. Compare with the first run (only after section 7)
+
+```sh
+git -C external/SWATPlus-user-documentation diff --stat fix/input-tables-62.0.1 hermes/input-tables-62.0.1 -- io-docs
+git -C external/SWATPlus-user-documentation diff fix/input-tables-62.0.1 hermes/input-tables-62.0.1 -- io-docs
+```
+
+For every difference, say which run is right and why, with file:line evidence.
+Agreement only counts where both runs cite the same facts.
+
+Later, the same procedure can run against the SWAT+ `dev` branch: add the
+profile with `swatref source add dev`, fetch it, build its schema with
+`--version dev`, and use that checkout and profile everywhere this runbook says
+62.0.1.
