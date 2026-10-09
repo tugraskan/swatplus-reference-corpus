@@ -221,13 +221,32 @@ fixing one table:
 - the rows the source does not read, each paired with the missing field
   inserted in its place when there is one (a probable rename);
 - the reader's statement in context, and every `call` of the reader;
-- example headers.
+- example headers;
+- every edit as exact text, unless the reader never runs:
+  - the fewest row moves that restore read order;
+  - row edits, either a corrected type or the deletion of an unread row,
+    with its `SUMMARY.md` line and page;
+  - for each missing field, its table row, field page, and `SUMMARY.md` line.
+
+A new row is named after its Editor column; failing that, after the example
+header at the same position when that header has exactly the source's
+columns; failing that, after the Fortran name. Its description is the
+declaration's comment with the units column dropped. HTML tables, which GitBook
+keeps on one line, are anchored on the start of a row (its first cell). The
+first cell is unique and has none of the zero-width characters that other
+cells carry.
 
 `swatref schema user-docs-check FILE... --docs-root PATH` re-runs the comparison
 for those tables, and for any others sharing their table. It exits 0 only when
-each table matches or differs only by unconfirmed names, no field link is
-broken, every linked page is registered in `SUMMARY.md` (with front matter for
-added or modified pages), and no `SUMMARY.md` entry points at a missing page.
+each table matches, differs only by unconfirmed names, or has a reader nothing
+calls (reported as SKIP). It also requires that:
+
+- no row is split across lines or has the wrong number of cells;
+- no field link is broken;
+- every linked page is registered in `SUMMARY.md`, with front matter for added
+  or modified pages;
+- no `SUMMARY.md` entry points at a missing page.
+
 Neither command writes anything.
 
 ## 7. Reproducibility

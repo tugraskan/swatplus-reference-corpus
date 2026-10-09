@@ -1205,6 +1205,13 @@ def _changed_pages(docs_root: Path) -> set[Path]:
     return changed
 
 
+def _utf8_stdout() -> None:
+    """Print docs text (zero-width spaces and all) even when Windows redirects stdout."""
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        reconfigure(encoding="utf-8")
+
+
 def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json: bool) -> int:
     """Print the evidence packet for one input file's docs table."""
     from .schema.user_docs_packet import build_packet, render_packet
@@ -1221,6 +1228,7 @@ def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json:
         check_command=(f"swatref schema --source {cfg.schema.source} user-docs-check {file} "
                        f"--docs-root {docs_root}"),
     )
+    _utf8_stdout()
     print(json.dumps(packet, indent=2) if as_json else render_packet(packet), end="\n" if as_json else "")
     return 0
 
@@ -1232,7 +1240,9 @@ def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str) ->
     inputs = _user_docs_inputs(cfg)
     root = Path(docs_root).resolve()
     ok, lines = check_tables(inputs["schema"], inputs["provenance"], root, files,
-                             inputs["field_map"], inputs["headers"], _changed_pages(root))
+                             inputs["field_map"], inputs["headers"], _changed_pages(root),
+                             inputs["source_dir"])
+    _utf8_stdout()
     for line in lines:
         print(line)
     print("ALL PASS" if ok else "NOT DONE: fix the FAIL lines and check again")

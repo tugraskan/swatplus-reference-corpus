@@ -203,6 +203,49 @@ def field_table_lines(text: str) -> list[tuple[int, str]]:
     return []
 
 
+def field_table_columns(text: str) -> tuple[list[str], str] | None:
+    """Header cells of the table `field_table` reads, and its kind ("html" or "pipe")."""
+    parser = _Tables()
+    parser.feed(text)
+    for kind, tables in (("html", parser.tables), ("pipe", _pipe_tables(text))):
+        for table in tables:
+            if table and table[0][0][0].strip().lower() == "field":
+                return [_clean(c[0]) for c in table[0]], kind
+    return None
+
+
+def malformed_table_lines(text: str) -> list[int]:
+    """Line numbers in the pipe Field table's block that are not complete rows.
+
+    The block runs from the header to the first blank line or other text. A
+    row with a different number of cells from the header, or split across
+    lines (the lines continuing it are flagged too), ends the table early in
+    GitBook and hides every row after it.
+    """
+    lines = text.splitlines()
+    split = lambda s: re.split(r"(?<!\\)\|", s[1:-1])  # noqa: E731
+    for k, line in enumerate(lines):
+        s = line.strip()
+        if not (s.startswith("|") and s.endswith("|")) or _cell_text(split(s)[0]).lower() != "field":
+            continue
+        width, bad, open_row = len(split(s)), [], False
+        for n in range(k + 1, len(lines)):
+            s = lines[n].strip()
+            if not s:
+                break
+            if s.startswith("|"):
+                open_row = not s.endswith("|")
+                if open_row or len(split(s)) != width:
+                    bad.append(n + 1)
+            elif open_row:
+                bad.append(n + 1)
+                open_row = not s.endswith("|")
+            else:
+                break
+        return bad
+    return []
+
+
 def _title_files(text: str) -> set[str]:
     """File names in the H1 title (``# rout\\_unit.rtu``, ``# Master File (file.cio)``)."""
     m = re.search(r"^#\s+(.+)$", text, re.M)

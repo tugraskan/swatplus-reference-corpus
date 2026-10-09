@@ -41,15 +41,18 @@ Do **not** run `swatref source add`, `source fetch`, or `schema build`.
   session.** The skill is a short loop:
 
   1. `swatref schema --source release_62_0_1 user-docs-packet FILE --docs-root external/SWATPlus-user-documentation`
-     prints the evidence: the exact current rows with line numbers, the
-     source fields in read order with their declarations (file:line), where
-     each missing row goes, whether the reader runs, and example headers.
-  2. You decide.
-  3. `delegate_code_task` drafts the rows.
-  4. `review_code` reviews the diff.
-  5. You apply the edit.
-  6. `swatref schema --source release_62_0_1 user-docs-check FILE --docs-root external/SWATPlus-user-documentation`
-     passes or fails it. The table is done only on `ALL PASS`.
+     prints the evidence (current rows, source fields in read order with
+     their declarations, whether the reader runs, example headers) **and every
+     edit as exact text**: row moves, row edits (type fixes, deletions), and
+     for each missing row its table row, field page, and `SUMMARY.md` line.
+  2. You apply those edits as given, in that order, yourself. You do not
+     write rows or descriptions, and no model drafts them.
+  3. `swatref schema --source release_62_0_1 user-docs-check FILE --docs-root external/SWATPlus-user-documentation`
+     passes or fails it. The table is done only on `ALL PASS`; reading the
+     file yourself is not a check. A table whose reader never runs shows
+     `SKIP` and is left alone.
+  4. `review_code` reviews the diff (advisory).
+  5. You commit in the docs checkout and report the check output verbatim.
 
   A fresh session per table keeps Hermes's context compression from dropping
   the instructions.
@@ -78,9 +81,14 @@ accepted change goes through `review_code` (section 4).
 
 ## 1. Setup
 
-Run from the root of this repository with its virtual environment
-(`.venv/Scripts/swatref.exe` on Windows, or activate `.venv` first). Do not run
-this while another agent is modifying the same checkout.
+Run every command from the root of this repository, the inner folder that
+contains `swatref.toml`:
+`C:\Users\taci.ugraskan\source\repos\swatplus-reference-corpus-main\swatplus-reference-corpus-main`.
+`swatref` is
+`C:\Users\taci.ugraskan\source\repos\swatplus-reference-corpus-main\swatplus-reference-corpus-main\.venv\Scripts\swatref.exe`
+(or `C:\Users\taci.ugraskan\AppData\Roaming\Python\Python313\Scripts\swatref.exe`,
+which runs the same code). Use these full paths; do not search for others. Do
+not run this while another agent is modifying the same checkout.
 
 ### 1a. The source (already in place)
 
@@ -217,6 +225,12 @@ rows, the read statement, the type fields with units, callers, writers, and the
 header evidence, each with file:line. Section 4 uses it.
 
 ## 4. Use the ANT models (`local-agent-router`)
+
+> **Per-table fixes no longer use this section.** The packet now gives every
+> edit as exact text, and the `swat-docs-table` skill only asks ANT for an
+> advisory `review_code`. Model-drafted rows and descriptions were where the
+> earlier runs went wrong (a reworded source comment, a row split across
+> lines). Use the steps below only for questions the packet does not answer.
 
 Run `gpu_pool_status` first. Use only **loaded** models: an unloaded one can
 take minutes to start, and clients give up after about 100 s. `oss20`
