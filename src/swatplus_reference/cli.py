@@ -1138,6 +1138,64 @@ def cmd_schema_editor_report(cfg: Config, editor_root: str) -> int:
     )
 
 
+def _field_map_for(cfg: Config) -> Path | None:
+    """This version's field map, else the newest one (Editor names change rarely)."""
+    reports = cfg.resolve(cfg.schema.reports_dir)
+    exact = reports / f"swatplus-{cfg.schema.version}-field-map.json"
+    if exact.exists():
+        return exact
+
+    def version(path: Path) -> tuple[int, ...]:
+        middle = path.name.removeprefix("swatplus-").removesuffix("-field-map.json")
+        return tuple(int(p) for p in middle.split(".") if p.isdigit())
+
+    candidates = sorted(reports.glob("swatplus-*-field-map.json"), key=version)
+    return candidates[-1] if candidates else None
+
+
+def cmd_schema_user_docs_report(cfg: Config, docs_root: str) -> int:
+    """Compare a read-only SWATPlus-user-documentation checkout with the schema."""
+    from .schema.user_docs import build_report, example_headers, write_report
+
+    _, schema_path, _, provenance_path = _schema_paths(cfg)
+    if not schema_path.exists():
+        raise FileNotFoundError(f"{schema_path} not found; run `swatref schema build` first")
+    provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    field_map_path = _field_map_for(cfg)
+
+    # Example-file headers count only from the exact commit the schema came from.
+    headers, headers_name = {}, ""
+    try:
+        _, checkout = resolve_profile(cfg, cfg.schema.source)
+    except (FileNotFoundError, RuntimeError):
+        checkout = None
+    if checkout and checkout.resolved_commit == provenance.get("resolved_commit"):
+        refdata = cfg.source_profile(cfg.schema.source).abs_checkout(cfg.root) / "refdata"
+        headers = example_headers(refdata)
+        if headers:
+            datasets = sorted(p.name for p in refdata.iterdir() if p.is_dir())
+            headers_name = (f"`refdata/` ({', '.join(datasets)}) @ "
+                            f"`{checkout.resolved_commit[:12]}`")
+
+    report = build_report(
+        json.loads(schema_path.read_text(encoding="utf-8")),
+        provenance,
+        Path(docs_root).resolve(),
+        json.loads(field_map_path.read_text(encoding="utf-8")) if field_map_path else None,
+        field_map_path.name if field_map_path else "",
+        headers,
+        headers_name,
+    )
+    output = cfg.resolve(cfg.schema.reports_dir) / (
+        f"swatplus-{cfg.schema.version}-user-docs-report.json"
+    )
+    markdown = write_report(report, output)
+    print(f"wrote {output}")
+    print(f"wrote {markdown}")
+    print(json.dumps(report["summary"], indent=2))
+    return 0
+
+
 def cmd_schema(cfg: Config, argv: list[str]) -> int:
     # Popped rather than declared so they work before or after the action.
     source, argv = _pop_option(argv, "--source")
@@ -1153,6 +1211,11 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     sub.add_parser("field-map", help="write source/spreadsheet field crosswalks")
     editor = sub.add_parser("editor-report", help="compare with a read-only Editor checkout")
     editor.add_argument("--editor-root", required=True)
+    user_docs = sub.add_parser(
+        "user-docs-report",
+        help="compare the input tables of a read-only SWATPlus-user-documentation checkout",
+    )
+    user_docs.add_argument("--docs-root", required=True)
     args = parser.parse_args(argv)
     try:
         if source or version:
@@ -1163,6 +1226,8 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
             return cmd_schema_ranges(cfg)
         if args.action == "field-map":
             return cmd_schema_field_map(cfg)
+        if args.action == "user-docs-report":
+            return cmd_schema_user_docs_report(cfg, args.docs_root)
         return cmd_schema_editor_report(cfg, args.editor_root)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))

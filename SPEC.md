@@ -198,6 +198,19 @@ with a read-only SWAT+ Editor checkout. Peewee is an optional dependency used
 only for this path and its tests. The report records the Editor commit and a
 portable checkout name, not a machine-specific absolute path.
 
+### 6.5 User-documentation report
+
+`swatref schema user-docs-report --docs-root PATH` reads a SWATPlus-user-
+documentation checkout without writing to it and compares each input file's
+`Field` table with the release schema: page coverage, missing, extra,
+reordered, and retyped fields, and broken field links. A field matches on its
+Fortran name or Editor column. A remaining name difference is confirmed when
+an example input file under the profile's `refdata/` (same verified commit) has
+that name in its header at the same position; those headers are older than the
+readers, so they never decide structure. Units, ranges, defaults, and
+descriptions are not compared, and non-flat layouts are checked for a page
+only. The JSON and Markdown reports record the source commit and docs commit.
+
 ## 7. Reproducibility
 
 ### 7.1 Release and corpus gates

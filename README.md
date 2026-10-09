@@ -240,6 +240,18 @@ contradictions, and 526 rows that do not apply to the input schema.
 `swatref schema field-map` writes the full spreadsheet-to-Editor-to-Fortran
 mapping in JSON and readable Markdown.
 
+`swatref schema user-docs-report` checks the input-file tables of the SWAT+
+user documentation (a read-only checkout of SWATPlus-user-documentation)
+against a release schema: which input files have no page, which tables miss,
+add, reorder, or retype fields, and which field names still need a check. It
+never writes to the docs checkout.
+
+```sh
+# core.longpaths: some theory-section paths exceed Windows' 260-character limit
+git clone -c core.longpaths=true https://github.com/swat-model/SWATPlus-user-documentation external/SWATPlus-user-documentation
+swatref schema --source release_62_0_1 user-docs-report --docs-root external/SWATPlus-user-documentation
+```
+
 For backward compatibility with the reviewed release artifact, the schema JSON
 keeps its historical generator label. Exact modern provenance is stored in the
 adjacent `.provenance.json` file, including requested ref and resolved commit.
