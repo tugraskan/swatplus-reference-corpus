@@ -67,32 +67,34 @@ swatplus-build --source external/swatplus-release_62_0_1 --corpus . --facts .swa
 This index has already been built on this machine; rebuild only if the file is
 missing.
 
-Add the server to Hermes (`mcp_servers` in `~/.hermes/config.yaml`, stdio form;
-adapt to your Hermes version's syntax), then restart Hermes:
+Hermes (`%LOCALAPPDATA%\hermes\config.yaml`) already has a `tamandua` entry,
+but it runs Tamandua 0.1.1 from the Tamandua repo's `.venv` with its bundled
+62.0.0 snapshot, and 0.1.1 cannot read this index (format 5). Point that entry
+at the installed Tamandua 0.4.1 and the 62.0.1 index:
 
 ```yaml
-mcp_servers:
-  swatplus-source:
-    command: swatplus-mcp
-    args: ["--facts", "<this repo>/.swatref/tamandua/swatplus-62.0.1-facts.json", "--compact"]
+  tamandua:
+    command: 'C:\Users\taci.ugraskan\AppData\Roaming\Python\Python313\Scripts\swatplus-mcp.exe'
+    args: ['--facts', 'C:\Users\taci.ugraskan\source\repos\swatplus-reference-corpus-main\swatplus-reference-corpus-main\.swatref\tamandua\swatplus-62.0.1-facts.json', '--compact']
+    enabled: true
 ```
 
 Check: Tamandua's `provenance` tool must report commit `97ca231e`.
 
 ### 1c. dataselector on the same commit
 
-The Claude Code configuration points dataselector at a different local copy.
-Give Hermes its own entry with `--source` set to the 62.0.1 checkout:
+Hermes has no dataselector entry yet. Add one with `--source` set to the
+62.0.1 checkout (the Claude Code configuration points at a different local
+copy). `--exe` is only needed by `run_dataset`, which this task does not use:
 
 ```yaml
   swat-dataset:
     command: node
-    args: ["C:/Users/taci.ugraskan/source/repos/swatplus-dataselector/dist/mcp-server.js",
-           "--source", "<this repo>/external/swatplus-release_62_0_1"]
+    args: ['C:\Users\taci.ugraskan\source\repos\swatplus-dataselector\dist\mcp-server.js', '--source', 'C:\Users\taci.ugraskan\source\repos\swatplus-reference-corpus-main\swatplus-reference-corpus-main\external\swatplus-release_62_0_1']
+    enabled: true
 ```
 
-Keep the `--exe` argument from the existing configuration if the server refuses
-to start without it. The example datasets that ship with the source
+The example datasets that ship with the source
 (`external/swatplus-release_62_0_1/refdata/Ames_sub1`, `.../Osu_1hru`) can be
 selected with `select_dataset`. `Ames_sub1` is newer; both are older than the
 readers.
@@ -209,9 +211,11 @@ Guardrails:
 
 - Keep packets compact: under ~12k tokens for `nemo`, ~40k for `oss20`.
 - Never paste the API key or whole files of unrelated code.
-- Hermes stops a run after repeated tool failures (5 identical, 8 on the same
-  tool). If a delegate call fails twice, do not retry it a third time: carry on
-  without it, and mark that table "not cross-checked" in your findings.
+- Nothing stops you automatically: this Hermes has `hard_stop_enabled: false`
+  and only warns after 2–3 failures. Stop yourself. If any call fails twice,
+  do not retry it a third time: carry on without it, and note it. A failed
+  delegate call means that table is marked "not cross-checked" in your
+  findings.
 - A `truncated: true` reply means the output budget ran out. Raise
   `max_tokens` once, or split the request; do not treat it as an answer.
 
