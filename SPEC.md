@@ -224,9 +224,18 @@ fixing one table:
 - example headers;
 - every edit as exact text, unless the reader never runs:
   - the fewest row moves that restore read order;
-  - row edits, either a corrected type or the deletion of an unread row,
-    with its `SUMMARY.md` line and page;
+  - row edits: a corrected type; the deletion of an unread row, with its
+    `SUMMARY.md` line and page; or a rename to the field's Editor column
+    (with its `SUMMARY.md` entry and page heading; the page file keeps its
+    name);
   - for each missing field, its table row, field page, and `SUMMARY.md` line.
+
+An existing row is renamed to its Editor column only when the two names plainly
+name the same field: the row uses the Fortran name, one name contains the other,
+or they differ by a typo (similarity of at least 0.75). Any other mismatch is
+listed under "Names left for a person". The docs may list the columns in a
+different order, or the field's meaning may have changed, and either case
+needs a new description, not just a new label.
 
 A new row is named after its Editor column; failing that, after the example
 header at the same position when that header has exactly the source's

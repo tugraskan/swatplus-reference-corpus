@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import html
 import re
+from difflib import SequenceMatcher
 from pathlib import Path
 from urllib.parse import unquote
 
@@ -186,15 +187,77 @@ def _with_cell(raw: str, kind: str, col: int, value: str) -> str:
     return "|".join(parts)
 
 
+def _with_name(raw: str, kind: str, name: str) -> str:
+    """Row ``raw`` with its Field cell's visible name set to ``name``; the link target is kept."""
+    if kind == "html":
+        cell = next(_CELL_RX.finditer(raw))
+        text = cell.group(0)
+        link = re.search(r"(<a\b[^>]*>)(.*?)(</a>)", text, re.S)
+        if link:
+            text = text[:link.start(2)] + html.escape(name) + text[link.end(2):]
+        else:
+            opening = re.match(r"<t[dh]\b[^>]*>", text).group(0)
+            text = opening + html.escape(name) + text[-5:]
+        return (raw[:cell.start()] + text + raw[cell.end():]).translate(_INVISIBLE)
+    escaped = name.replace("_", "\\_")
+    parts = re.split(r"(?<!\\)\|", raw)
+    old = parts[1]
+    if re.search(r"\[[^\]]*\]\(", old):
+        new = re.sub(r"\[[^\]]*\]\(", lambda _: f"[{escaped}](", old, count=1).strip()
+    else:
+        new = escaped
+    parts[1] = f" {new} ".ljust(len(old)) if len(old) >= len(new) + 2 else f" {new} "
+    return "|".join(parts)
+
+
+def _same_field(docs_name: str, editor: str, match: str) -> bool:
+    """Whether a docs row and the Editor column plainly name the same field.
+
+    True when the row already uses the Fortran name, when one name contains
+    the other (``unit``/``units``, ``ini``/``cha_ini``), or when they differ
+    by a typo (``plt_p``/``ptl_p``). A row matched only by position with an
+    unrelated name may be out of order (``irr_eff`` sits where ``amt_mm`` is
+    read) or describe a field whose meaning changed (``aq_reac``/``aq_hlife``),
+    so it is left to a person.
+    """
+    a, b = docs_name.lower(), editor.lower()
+    return match == "same name" or a in b or b in a or SequenceMatcher(None, a, b).ratio() >= 0.75
+
+
+def _renamed_entry(edit: dict, d: dict, name: str, table: Path, io: Path, summary: list[str]) -> None:
+    """Add the SUMMARY.md entry and page heading that carry the row's old name."""
+    link = unquote(d["link"].split("#", 1)[0]) if d["link"] and "://" not in d["link"] else ""
+    target = (table.parent / link).resolve() if link else None
+    if target is None or not target.is_file() or not target.is_relative_to(io.resolve()):
+        return
+    escaped = name.replace("_", "\\_")
+    old = d["field"].lower()
+    rel = target.relative_to(io.resolve()).as_posix()
+    for line in summary:
+        shown = re.search(r"\[([^\]]*)\]\(" + re.escape(rel) + r"\)", line)
+        if shown and shown.group(1).replace("\\", "").lower() == old:
+            edit["summary_rename"] = {"from": line, "to": line.replace(f"[{shown.group(1)}]", f"[{escaped}]", 1)}
+            break
+    heading = next((s for s in target.read_text(encoding="utf-8").splitlines() if s.startswith("# ")), None)
+    if heading and heading[2:].strip().replace("\\", "").lower() == old:
+        edit["heading"] = {"page": f"io-docs/{rel}", "from": heading, "to": f"# {escaped}"}
+
+
 def _row_edits(docs_rows: list[dict], columns: tuple[list[str], str] | None, differences: dict,
-               table_page: str, docs_root: Path) -> list[dict]:
-    """Exact edits for rows the source does not read (delete) and rows of the wrong type."""
+               table_page: str, docs_root: Path, fields: list[dict] | None = None) -> list[dict]:
+    """Exact edits for rows the source does not read (delete), rows of the wrong type,
+    and rows whose name is a variant of the field's Editor column (rename)."""
     if columns is None:
         return []
     header, kind = columns
     lower = [c.lower() for c in header]
     retype = {d["field"]: DOCS_TYPES.get(d["source"], d["source"])
               for d in differences.get("type_differs", [])}
+    rename = {(f["docs_row"]["line"], f["docs_row"]["field"]): f["editor_name"]
+              for f in fields or []
+              if f["docs_row"] and f["editor_name"]
+              and f["docs_row"]["field"].lower() != f["editor_name"].lower()
+              and _same_field(f["docs_row"]["field"], f["editor_name"], f["docs_row"]["match"])}
     io = docs_root / "io-docs"
     summary_path = io / "SUMMARY.md"
     summary = summary_path.read_text(encoding="utf-8").splitlines() if summary_path.exists() else []
@@ -204,6 +267,16 @@ def _row_edits(docs_rows: list[dict], columns: tuple[list[str], str] | None, dif
         edit = {"field": d["field"], "line": d["line"], "raw": d["raw"]}
         if kind == "html":
             edit["anchor"] = _row_start(d["raw"])
+        new_name = rename.get((d["line"], d["field"]))
+        if new_name and d["read_by_source"]:
+            row = _with_name(d["raw"], kind, new_name)
+            if d["field"] in retype and "type" in lower:
+                row = _with_cell(row, kind, lower.index("type"), retype[d["field"]])
+                edit["to"] = retype[d["field"]]
+            edit.update(action="edit" if "to" in edit else "rename", rename_to=new_name, row=row)
+            _renamed_entry(edit, d, new_name, table, io, summary)
+            edits.append(edit)
+            continue
         if not d["read_by_source"] and not d.get("probably_replaced_by"):
             edit["action"] = "delete"
             link = unquote(d["link"].split("#", 1)[0]) if d["link"] and "://" not in d["link"] else ""
@@ -490,7 +563,15 @@ def build_packet(schema: dict, provenance: dict, docs_root: Path, source_root: P
     live = bool(packet["reader"]["called_from"])
     packet["moves"] = _moves(fields, packet["docs_rows"], columns and columns[1]) if live else []
     packet["row_edits"] = (_row_edits(packet["docs_rows"], columns, packet["differences"],
-                                      entry["table_page"], docs_root) if live else [])
+                                      entry["table_page"], docs_root, fields) if live else [])
+    renamed = {(e["line"], e["field"]) for e in packet["row_edits"] if e.get("rename_to")}
+    packet["names_to_decide"] = [
+        {"docs": f["docs_row"]["field"], "editor": f["editor_name"], "fortran": f["fortran_name"],
+         "line": f["docs_row"]["line"]}
+        for f in fields
+        if live and f["docs_row"] and f["editor_name"]
+        and f["docs_row"]["field"].lower() != f["editor_name"].lower()
+        and (f["docs_row"]["line"], f["docs_row"]["field"]) not in renamed]
     packet["exact_text"] = (_exact_text(fields, packet["docs_rows"], columns,
                                         entry["table_page"], docs_root, packet["example_headers"])
                             if live else [])
@@ -546,8 +627,10 @@ def render_packet(packet: dict) -> str:
     if p.get("row_edits"):
         out += ["", "## Row edits (exact; do these after the moves)", ""]
         for e in p["row_edits"]:
+            changes = ([f"rename it to `{e['rename_to']}` (the Editor column)"] if e.get("rename_to") else []) \
+                + ([f"set its type to `{e['to']}`"] if e.get("to") else [])
             what = (f"Delete the `{e['field']}` row (the source does not read it)" if e["action"] == "delete"
-                    else f"Change the `{e['field']}` row's type to `{e['to']}`")
+                    else f"`{e['field']}` row: " + " and ".join(changes))
             if e.get("anchor"):
                 out += [f"- {what}: " + ("delete" if e["action"] == "delete" else "replace")
                         + " the whole row, from this exact text through its `</tr>`:", "",
@@ -556,15 +639,30 @@ def render_packet(packet: dict) -> str:
                 out += [f"- {what}: " + ("delete" if e["action"] == "delete" else "replace")
                         + f" this exact line (line {e['line']}):", "",
                         "  ```markdown", f"  {e['raw'].strip()}", "  ```", ""]
-            if e["action"] == "retype":
+            if e["action"] != "delete":
                 out += ["  with:", "", "  ```" + ("html" if e.get("anchor") else "markdown"),
                         f"  {e['row'].strip()}", "  ```", ""]
+            if e.get("summary_rename"):
+                out.append(f"  In `io-docs/SUMMARY.md`, change `{e['summary_rename']['from'].strip()}` "
+                           f"to `{e['summary_rename']['to'].strip()}`.")
+            if e.get("heading"):
+                out.append(f"  In `{e['heading']['page']}`, change the heading `{e['heading']['from']}` "
+                           f"to `{e['heading']['to']}` (the file keeps its name).")
+            if e.get("summary_rename") or e.get("heading"):
+                out.append("")
             if e.get("summary_line"):
                 out.append(f"  Also delete `io-docs/SUMMARY.md` line {e['summary_line']} (`{e['summary_text']}`).")
             if e.get("remove_page"):
                 out.append(f"  Then remove its page: `git -C <docs checkout> rm {e['remove_page']}`.")
             if e.get("summary_line") or e.get("remove_page"):
                 out.append("")
+    if p.get("names_to_decide"):
+        out += ["", "## Names left for a person (not renamed)", "",
+                "These rows' names differ from the Editor column, but not as a spelling variant: the docs "
+                "may list the columns in another order, or the field may have changed meaning. A person "
+                "decides, and rewrites the description if the meaning changed.", ""]
+        out += [f"- line {n['line']}: docs `{n['docs']}`, Editor column `{n['editor']}` "
+                f"(Fortran `{n['fortran']}`)" for n in p["names_to_decide"]]
     if p.get("exact_text"):
         out += ["", "## Exact text for each missing row (copy it as is; do not reformat or reword)", ""]
         for x in p["exact_text"]:
@@ -648,10 +746,14 @@ def apply_packet(packet: dict, docs_root: Path) -> list[str]:
     """
     import subprocess
 
-    if packet.get("status") != "differs" or "table_page" not in packet:
+    if "table_page" not in packet:
         return [f"nothing to apply: {packet['file']} is {packet.get('status')}"]
     if not packet["reader"]["called_from"]:
         return [f"nothing to apply: the reader of {packet['file']} never runs"]
+    if not (packet["moves"] or packet["row_edits"] or packet["exact_text"]):
+        held = "".join(f"; name left for a person: {n['docs']} (Editor column {n['editor']})"
+                       for n in packet.get("names_to_decide", []))
+        return [f"nothing to apply: {packet['file']} is {packet.get('status')}{held}"]
     if packet.get("malformed_lines"):
         raise ApplyError("the table is broken at line(s) "
                          + ", ".join(map(str, packet["malformed_lines"])) + "; restore it first")
@@ -685,7 +787,7 @@ def apply_packet(packet: dict, docs_root: Path) -> list[str]:
             text = "\n".join(lines)
         done.append(f"moved the {m['field']} row {'after' if m['after'] else 'before'} the {other} row")
 
-    removals, renames, pages = [], [], []
+    removals, renames, pages, headings = [], [], [], []
     for e in packet["row_edits"]:
         new = e.get("row", "")
         if e.get("anchor"):
@@ -698,10 +800,25 @@ def apply_packet(packet: dict, docs_root: Path) -> list[str]:
             text = "\n".join(lines)
         if e.get("summary_line"):
             del summary[_one([s.strip() for s in summary], e["summary_text"], f"SUMMARY.md entry of {e['field']}")]
+        if e.get("summary_rename"):
+            k = _one(summary, e["summary_rename"]["from"], f"SUMMARY.md entry of {e['field']}")
+            summary[k] = e["summary_rename"]["to"]
+        if e.get("heading"):
+            path = docs_root / e["heading"]["page"]
+            page_text, nl = _read_text(path)
+            lines = page_text.split("\n")
+            lines[_one(lines, e["heading"]["from"], f"heading of {e['heading']['page']}")] = e["heading"]["to"]
+            headings.append((path, "\n".join(lines).replace("\n", nl)))
         if e.get("remove_page"):
             removals.append(e["remove_page"])
-        done.append(f"deleted the {e['field']} row" if e["action"] == "delete"
-                    else f"set the {e['field']} row's type to {e['to']}")
+        if e["action"] == "delete":
+            done.append(f"deleted the {e['field']} row")
+        else:
+            parts = ([f"renamed the {e['field']} row to {e['rename_to']} (the Editor column)"]
+                     if e.get("rename_to") else [f"set the {e['field']} row's type to {e['to']}"])
+            if e.get("rename_to") and e.get("to"):
+                parts.append(f"set its type to {e['to']}")
+            done.append(" and ".join(parts))
 
     last_row = last_summary = None
     for x in packet["exact_text"]:
@@ -769,6 +886,8 @@ def apply_packet(packet: dict, docs_root: Path) -> list[str]:
     for target, page_text in pages:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(page_text.replace("\n", page_nl).encode("utf-8"))
+    for path, page_text in headings:
+        path.write_bytes(page_text.encode("utf-8"))
     for path in removals:
         subprocess.run(git + ["rm", "-q", path], check=True, capture_output=True)
     return done

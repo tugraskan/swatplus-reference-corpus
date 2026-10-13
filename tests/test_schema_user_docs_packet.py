@@ -12,6 +12,8 @@ from swatplus_reference.cli import main
 from swatplus_reference.provenance.records import SourceProvenance
 from swatplus_reference.schema.user_docs_packet import (
     ApplyError,
+    _same_field,
+    _with_name,
     apply_packet,
     build_packet,
     check_tables,
@@ -337,6 +339,59 @@ def test_apply_renames_the_page_of_a_replaced_row(tmp_path):
     assert "till_meth" not in summary.read_text()
     ok, lines = check_tables(SCHEMA, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP, source_root=src)
     assert ok, lines
+
+
+@pytest.mark.parametrize("docs, editor, match, same", [
+    ("plt_p", "ptl_p", "same position, different name", True),          # typo
+    ("cbn_bod___stl", "cbn_bod_stl", "same position, different name", True),
+    ("unit", "units", "same position, different name", True),            # one contains the other
+    ("ini", "cha_ini", "same position, different name", True),
+    ("prf", "adj_pkrt_sed", "same name", True),                          # docs use the Fortran name
+    ("aq_reac", "aq_hlife", "same position, different name", False),     # meaning changed
+    ("irr_eff", "amt_mm", "same position, different name", False),      # columns out of order
+])
+def test_only_spelling_variants_of_the_editor_column_are_renamed(docs, editor, match, same):
+    assert _same_field(docs, editor, match) is same
+
+
+def test_with_name_keeps_the_link_target_and_the_padding():
+    assert _with_name("| [plt\\_p](plt_p.md)  | P | real |", "pipe", "ptl_p") == \
+        "| [ptl\\_p](plt_p.md)  | P | real |"
+    assert _with_name("| plt_p      | P | real |", "pipe", "ptl_p") == "| ptl\\_p     | P | real |"
+    assert _with_name('<tr><td><a href="plt_p.md">plt_p</a></td><td>​P</td></tr>', "html", "ptl_p") == \
+        '<tr><td><a href="plt_p.md">ptl_p</a></td><td>P</td></tr>'
+
+
+def test_apply_renames_a_misspelled_row_its_summary_entry_and_heading(tmp_path):
+    src, docs = make_tree(tmp_path)
+    table = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn"
+    readme = table / "README.md"
+    readme.write_text(readme.read_text().replace("[pet\\_file](pet_file.md)", "[pet\\_fiel](pet_file.md)"))
+    (table / "pet_file.md").write_text("---\ndescription: PET file\n---\n\n# pet\\_fiel\n")
+    summary = docs / "io-docs" / "SUMMARY.md"
+    summary.write_text(summary.read_text().replace("[pet\\_file]", "[pet\\_fiel]"))
+    add_idc_till(docs)
+    _committed(docs)
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+    assert packet["names_to_decide"] == []
+
+    assert apply_packet(packet, docs) == ["renamed the pet_fiel row to pet_file (the Editor column)"]
+    assert "[pet\\_file](pet_file.md)" in readme.read_text()
+    assert "* [pet\\_file](introduction-1/basin/codes.bsn/pet_file.md)" in summary.read_text()
+    assert "# pet\\_file" in (table / "pet_file.md").read_text()
+    ok, lines = check_tables(SCHEMA, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP, source_root=src)
+    assert ok and lines == ["PASS codes.bsn"]  # no "names to check" left
+
+
+def test_unrelated_names_are_left_for_a_person(tmp_path):
+    src, docs = make_tree(tmp_path)
+    readme = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn" / "README.md"
+    readme.write_text(readme.read_text().replace("[pet\\_file](pet_file.md)", "[evap\\_src](pet_file.md)"))
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+    assert not any(e.get("rename_to") for e in packet["row_edits"])
+    assert packet["names_to_decide"] == [{"docs": "evap_src", "editor": "pet_file", "fortran": "petfile",
+                                          "line": 9}]
+    assert "docs `evap_src`, Editor column `pet_file`" in render_packet(packet)
 
 
 def test_apply_writes_nothing_over_uncommitted_changes(tmp_path):
