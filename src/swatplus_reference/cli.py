@@ -1243,6 +1243,9 @@ def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str) ->
                              inputs["field_map"], inputs["headers"], _changed_pages(root),
                              inputs["source_dir"])
     _utf8_stdout()
+    from .schema.user_docs import _commit
+    print(f"Checked against SWAT+ {inputs['schema'].get('swatplus_version')} @ "
+          f"{str(inputs['provenance'].get('resolved_commit'))[:12]}; docs @ {_commit(root)[:12]}")
     for line in lines:
         print(line)
     print("ALL PASS" if ok else "NOT DONE: fix the FAIL lines and check again")
@@ -1308,6 +1311,14 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     check.add_argument("--docs-root", required=True)
     args = parser.parse_args(argv)
     try:
+        if args.action.startswith("user-docs") and cfg.config_file is None:
+            # Built-in defaults name another SWAT+ commit, so a comparison
+            # against them is confidently wrong. Checked before --source, whose
+            # error would otherwise suggest --version.
+            raise RuntimeError(
+                f"no swatref.toml in {cfg.root}: run from the corpus repository root "
+                "(the folder that contains swatref.toml) or pass --config PATH"
+            )
         if source or version:
             cfg = with_schema_source(cfg, source or cfg.schema.source, version)
         if args.action == "build":

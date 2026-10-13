@@ -110,6 +110,9 @@ class Config:
     docs_source: str = "main"
     schema: SchemaPipelineConfig = field(default_factory=SchemaPipelineConfig)
     comparisons: dict[str, ComparisonConfig] = field(default_factory=dict)
+    # The file this was loaded from; None when no file existed and every
+    # setting is a built-in default.
+    config_file: Path | None = None
 
     def resolve(self, p: Path) -> Path:
         return p if p.is_absolute() else self.root / p
@@ -224,6 +227,7 @@ def load_config(path: str | Path = "swatref.toml") -> Config:
         docs_source=docs_source,
         schema=schema,
         comparisons=comparisons,
+        config_file=path.resolve() if path.exists() else None,
     )
 
     if sources:

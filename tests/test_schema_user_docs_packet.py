@@ -5,6 +5,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from swatplus_reference import cli
 from swatplus_reference.cli import main
 from swatplus_reference.provenance.records import SourceProvenance
@@ -344,5 +346,18 @@ def test_cli_packet_and_check(tmp_path, monkeypatch, capsys):
     assert "NOT DONE" in capsys.readouterr().out
     add_idc_till(docs)
     assert main(base + ["user-docs-check", "codes.bsn", "--docs-root", str(docs)]) == 0
-    assert "ALL PASS" in capsys.readouterr().out
+    out = capsys.readouterr().out
+    assert out.startswith(f"Checked against SWAT+ 62.0.1 @ {COMMIT[:12]}; docs @ ")
+    assert "ALL PASS" in out
     assert not list(reports.glob("*user-docs-report*"))  # neither command writes a report
+
+
+def test_cli_refuses_to_compare_without_a_config_file(tmp_path, capsys):
+    # Built-in defaults name another SWAT+ commit; a check against them once
+    # passed a table that was still wrong.
+    _, docs = make_tree(tmp_path)
+    with pytest.raises(SystemExit) as stop:
+        main(["--config", str(tmp_path / "missing" / "swatref.toml"), "schema", "--source",
+              "release_62_0_1", "user-docs-check", "codes.bsn", "--docs-root", str(docs)])
+    assert stop.value.code == 2
+    assert "no swatref.toml in" in capsys.readouterr().err

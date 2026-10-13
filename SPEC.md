@@ -247,7 +247,10 @@ calls (reported as SKIP). It also requires that:
   or modified pages;
 - no `SUMMARY.md` entry points at a missing page.
 
-Neither command writes anything.
+Its output starts with the SWAT+ and docs commits it compared. Neither command
+writes anything. All three user-docs commands refuse to run without a
+`swatref.toml`: the built-in defaults name another SWAT+ commit, so a
+comparison against them would be wrong yet look valid.
 
 ## 7. Reproducibility
 
