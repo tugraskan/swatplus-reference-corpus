@@ -352,6 +352,38 @@ def test_cli_packet_and_check(tmp_path, monkeypatch, capsys):
     assert not list(reports.glob("*user-docs-report*"))  # neither command writes a report
 
 
+def test_cli_check_committed_fails_until_io_docs_is_committed(tmp_path, monkeypatch, capsys):
+    # An agent once reported a commit it never made; --committed makes the
+    # claim checkable from the output it pastes.
+    import subprocess
+
+    src, docs = make_tree(tmp_path)
+    releases = tmp_path / "releases"
+    releases.mkdir()
+    (releases / "swatplus-62.0.1.json").write_text(json.dumps(SCHEMA))
+    (releases / "swatplus-62.0.1.provenance.json").write_text(json.dumps(PROVENANCE))
+    config = tmp_path / "swatref.toml"
+    config.write_text('[sources.release_62_0_1]\nref = "62.0.1"\n\n'
+                      '[docs]\nsource = "release_62_0_1"\n\n'
+                      '[schema]\noutput_dir = "releases"\nreports_dir = "releases"\n')
+    checkout = SourceProvenance("release_62_0_1", "https://example.test/swatplus", "62.0.1",
+                                COMMIT, COMMIT)
+    monkeypatch.setattr(cli, "resolve_profile", lambda cfg, name: (src, checkout))
+    git = ["git", "-C", str(docs), "-c", "user.name=t", "-c", "user.email=t@example.test"]
+    subprocess.run(git + ["init", "-q"], check=True)
+    add_idc_till(docs)
+    command = ["--config", str(config), "schema", "--source", "release_62_0_1",
+               "user-docs-check", "codes.bsn", "--docs-root", str(docs), "--committed"]
+
+    assert main(command) == 1
+    assert "FAIL not committed: io-docs/" in capsys.readouterr().out
+    subprocess.run(git + ["add", "-A"], check=True)
+    subprocess.run(git + ["commit", "-qm", "fix"], check=True)
+    assert main(command) == 0
+    out = capsys.readouterr().out
+    assert "COMMITTED: no uncommitted changes under io-docs" in out and "ALL PASS" in out
+
+
 def test_cli_refuses_to_compare_without_a_config_file(tmp_path, capsys):
     # Built-in defaults name another SWAT+ commit; a check against them once
     # passed a table that was still wrong.

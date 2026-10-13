@@ -247,8 +247,10 @@ calls (reported as SKIP). It also requires that:
   or modified pages;
 - no `SUMMARY.md` entry points at a missing page.
 
-Its output starts with the SWAT+ and docs commits it compared. Neither command
-writes anything. All three user-docs commands refuse to run without a
+Its output starts with the SWAT+ and docs commits it compared. With
+`--committed` it also fails while anything under `io-docs` is uncommitted, so an
+agent's claim to have committed can be checked from the output it reports.
+Neither command writes anything. All three user-docs commands refuse to run without a
 `swatref.toml`: the built-in defaults name another SWAT+ commit, so a
 comparison against them would be wrong yet look valid.
 

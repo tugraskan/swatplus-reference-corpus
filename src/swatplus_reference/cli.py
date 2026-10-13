@@ -1233,8 +1233,15 @@ def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json:
     return 0
 
 
-def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str) -> int:
-    """Pass/fail for edited docs tables; writes nothing."""
+def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str,
+                               committed: bool = False) -> int:
+    """Pass/fail for edited docs tables; writes nothing.
+
+    With ``committed``, also fail while anything under ``io-docs`` is
+    uncommitted, so a reported commit can be verified from this output.
+    """
+    import subprocess
+
     from .schema.user_docs_packet import check_tables
 
     inputs = _user_docs_inputs(cfg)
@@ -1242,6 +1249,15 @@ def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str) ->
     ok, lines = check_tables(inputs["schema"], inputs["provenance"], root, files,
                              inputs["field_map"], inputs["headers"], _changed_pages(root),
                              inputs["source_dir"])
+    if committed:
+        status = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "--", "io-docs"],
+                                capture_output=True, text=True, check=False)
+        dirty = [line[3:] for line in status.stdout.splitlines()]
+        if status.returncode != 0 or dirty:
+            ok = False
+            lines.append("FAIL not committed: " + (", ".join(dirty) if dirty else status.stderr.strip()))
+        else:
+            lines.append("COMMITTED: no uncommitted changes under io-docs")
     _utf8_stdout()
     from .schema.user_docs import _commit
     print(f"Checked against SWAT+ {inputs['schema'].get('swatplus_version')} @ "
@@ -1309,6 +1325,8 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     )
     check.add_argument("files", nargs="+", help="input file names, e.g. codes.bsn hru.con")
     check.add_argument("--docs-root", required=True)
+    check.add_argument("--committed", action="store_true",
+                       help="also fail while anything under io-docs is uncommitted")
     args = parser.parse_args(argv)
     try:
         if args.action.startswith("user-docs") and cfg.config_file is None:
@@ -1332,7 +1350,7 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
         if args.action == "user-docs-packet":
             return cmd_schema_user_docs_packet(cfg, args.file, args.docs_root, args.json)
         if args.action == "user-docs-check":
-            return cmd_schema_user_docs_check(cfg, args.files, args.docs_root)
+            return cmd_schema_user_docs_check(cfg, args.files, args.docs_root, args.committed)
         return cmd_schema_editor_report(cfg, args.editor_root)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))
