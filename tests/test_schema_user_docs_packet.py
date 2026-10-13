@@ -11,6 +11,8 @@ from swatplus_reference import cli
 from swatplus_reference.cli import main
 from swatplus_reference.provenance.records import SourceProvenance
 from swatplus_reference.schema.user_docs_packet import (
+    ApplyError,
+    apply_packet,
     build_packet,
     check_tables,
     comment_lines,
@@ -261,6 +263,93 @@ def test_html_tables_anchor_on_row_starts_without_invisible_characters(tmp_path)
     [e] = packet["row_edits"]
     assert e["anchor"] == "<tr><td>event</td>"
     assert e["row"] == "<tr><td>event</td><td>Extra</td><td>integer</td></tr>"
+
+
+# --------------------------------------------------------------------------
+# apply
+# --------------------------------------------------------------------------
+
+def _committed(docs: Path) -> list[str]:
+    """Make the docs a git repository with everything committed; returns the git prefix."""
+    import subprocess
+
+    git = ["git", "-C", str(docs), "-c", "user.name=t", "-c", "user.email=t@example.test"]
+    subprocess.run(git + ["init", "-q"], check=True)
+    subprocess.run(git + ["config", "core.autocrlf", "false"], check=True)
+    subprocess.run(git + ["add", "-A"], check=True)
+    subprocess.run(git + ["commit", "-qm", "base"], check=True)
+    return git
+
+
+def test_apply_writes_the_missing_row_page_and_summary_entry(tmp_path):
+    src, docs = make_tree(tmp_path)
+    summary = docs / "io-docs" / "SUMMARY.md"
+    summary.write_bytes(summary.read_text().replace("\n", "\r\n").encode())  # GitBook's CRLF
+    _committed(docs)
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+
+    done = apply_packet(packet, docs)
+    assert done == ["added the idc_till row, its page io-docs/introduction-1/basin/codes.bsn/idc_till.md, "
+                    "and its SUMMARY.md entry"]
+    assert b"\r\n" in summary.read_bytes() and b"\n" not in summary.read_bytes().replace(b"\r\n", b"")
+    page = (docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn" / "idc_till.md").resolve()
+    ok, lines = check_tables(SCHEMA, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP,
+                             new_pages={page}, source_root=src)
+    assert ok, lines
+
+
+def test_apply_moves_retypes_and_deletes_rows(tmp_path):
+    src, docs = make_tree(tmp_path)
+    readme = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn" / "README.md"
+    # pet_file out of order, event wrongly typed, wnd_dir not read by the source
+    readme.write_text(TABLE.replace(
+        "| [pet\\_file](pet_file.md) | PET file | string |\n| event | Extra columns | integer |\n",
+        "| event | Extra columns | real |\n| [pet\\_file](pet_file.md) | PET file | string |\n"
+        "| idc_till | Tillage | integer |\n| wnd_dir | Wind direction | real |\n"))
+    _committed(docs)
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+
+    assert apply_packet(packet, docs) == ["moved the pet_file row before the event row",
+                                          "set the event row's type to integer", "deleted the wnd_dir row"]
+    ok, lines = check_tables(SCHEMA, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP, source_root=src)
+    assert ok, lines
+
+
+def test_apply_renames_the_page_of_a_replaced_row(tmp_path):
+    # pet_file is missing too, so positions shift and till_meth sits where idc_till goes
+    src, docs = make_tree(tmp_path)
+    table = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn"
+    (table / "README.md").write_text(
+        TABLE.replace("| [pet\\_file](pet_file.md) | PET file | string |\n", "")
+        + "| [till\\_meth](till_meth.md) | Old name | integer |\n")
+    (table / "till_meth.md").write_text("---\ndescription: old\n---\n\n# till\\_meth\n")
+    (table / "pet_file.md").unlink()
+    summary = docs / "io-docs" / "SUMMARY.md"
+    summary.write_text("* [codes.bsn](introduction-1/basin/codes.bsn/README.md)\n"
+                       "  * [till\\_meth](introduction-1/basin/codes.bsn/till_meth.md)\n")
+    _committed(docs)
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+
+    done = apply_packet(packet, docs)
+    assert done[-1] == ("replaced the idc_till row, its page io-docs/introduction-1/basin/codes.bsn/"
+                        "idc_till.md, and its SUMMARY.md entry")
+    assert not (table / "till_meth.md").exists() and (table / "idc_till.md").exists()
+    assert "till_meth" not in summary.read_text()
+    ok, lines = check_tables(SCHEMA, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP, source_root=src)
+    assert ok, lines
+
+
+def test_apply_writes_nothing_over_uncommitted_changes(tmp_path):
+    src, docs = make_tree(tmp_path)
+    _committed(docs)
+    readme = docs / "io-docs" / "introduction-1" / "basin" / "codes.bsn" / "README.md"
+    readme.write_text(readme.read_text() + "\nlocal edit\n")
+    before = readme.read_text()
+    packet = build_packet(SCHEMA, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+    with pytest.raises(ApplyError, match="uncommitted changes under io-docs"):
+        apply_packet(packet, docs)
+    assert readme.read_text() == before
+    assert not (readme.parent / "idc_till.md").exists()
 
 
 # --------------------------------------------------------------------------

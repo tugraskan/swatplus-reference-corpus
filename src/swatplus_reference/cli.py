@@ -1233,6 +1233,33 @@ def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json:
     return 0
 
 
+def cmd_schema_user_docs_apply(cfg: Config, file: str, docs_root: str) -> int:
+    """Write one table's packet edits into the docs checkout (the only user-docs command that writes)."""
+    from .schema.user_docs_packet import ApplyError, apply_packet, build_packet
+
+    inputs = _user_docs_inputs(cfg)
+    if inputs["source_dir"] is None:
+        raise RuntimeError(
+            f"source profile {cfg.schema.source!r} is not fetched at the schema's commit "
+            f"{inputs['provenance'].get('resolved_commit')}; the edits must come from that exact source"
+        )
+    root = Path(docs_root).resolve()
+    packet = build_packet(inputs["schema"], inputs["provenance"], root, inputs["source_dir"],
+                          file, inputs["field_map"], inputs["headers"])
+    _utf8_stdout()
+    print(f"Applying the packet for {packet['file']} (SWAT+ {packet['swatplus_version']} @ "
+          f"{str(packet['source_commit'])[:12]}; docs @ {str(packet['docs_commit'])[:12]})")
+    try:
+        done = apply_packet(packet, root)
+    except ApplyError as exc:
+        print(f"NOT APPLIED, nothing was written: {exc}")
+        return 1
+    for line in done:
+        print(f"- {line}")
+    print(f"Next: swatref schema --source {cfg.schema.source} user-docs-check {file} --docs-root {docs_root}")
+    return 0
+
+
 def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str,
                                committed: bool = False) -> int:
     """Pass/fail for edited docs tables; writes nothing.
@@ -1319,6 +1346,12 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     packet.add_argument("file", help="input file name, e.g. codes.bsn")
     packet.add_argument("--docs-root", required=True)
     packet.add_argument("--json", action="store_true", help="print the packet as JSON")
+    apply = sub.add_parser(
+        "user-docs-apply",
+        help="write one table's packet edits into the docs checkout (all or nothing)",
+    )
+    apply.add_argument("file", help="input file name, e.g. codes.bsn")
+    apply.add_argument("--docs-root", required=True)
     check = sub.add_parser(
         "user-docs-check",
         help="pass/fail for edited docs tables (writes nothing; exit 1 when not done)",
@@ -1351,6 +1384,8 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
             return cmd_schema_user_docs_packet(cfg, args.file, args.docs_root, args.json)
         if args.action == "user-docs-check":
             return cmd_schema_user_docs_check(cfg, args.files, args.docs_root, args.committed)
+        if args.action == "user-docs-apply":
+            return cmd_schema_user_docs_apply(cfg, args.file, args.docs_root)
         return cmd_schema_editor_report(cfg, args.editor_root)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))

@@ -45,8 +45,10 @@ Do **not** run `swatref source add`, `source fetch`, or `schema build`.
      their declarations, whether the reader runs, example headers) **and every
      edit as exact text**: row moves, row edits (type fixes, deletions), and
      for each missing row its table row, field page, and `SUMMARY.md` line.
-  2. You apply those edits as given, in that order, yourself. You do not
-     write rows or descriptions, and no model drafts them.
+  2. `swatref schema --source release_62_0_1 user-docs-apply FILE --docs-root external/SWATPlus-user-documentation`
+     writes those edits. You never edit docs files yourself, and no model
+     drafts rows or descriptions. `run_hermes_docs_tables.ps1` runs the whole
+     loop for a list of tables, one fresh Hermes session each.
   3. `swatref schema --source release_62_0_1 user-docs-check FILE --docs-root external/SWATPlus-user-documentation`
      passes or fails it. The table is done only on `ALL PASS`; reading the
      file yourself is not a check. A table whose reader never runs shows

@@ -250,7 +250,20 @@ calls (reported as SKIP). It also requires that:
 Its output starts with the SWAT+ and docs commits it compared. With
 `--committed` it also fails while anything under `io-docs` is uncommitted, so an
 agent's claim to have committed can be checked from the output it reports.
-Neither command writes anything. All three user-docs commands refuse to run without a
+Neither command writes anything.
+
+`swatref schema user-docs-apply FILE --docs-root PATH` writes one table's packet
+edits into the docs checkout:
+
+- the moves, the row edits, and each missing row with its field page and
+  `SUMMARY.md` entry;
+- `git mv` for a renamed page and `git rm` for a removed one.
+
+Every edit is placed against the exact text the packet quotes before anything is
+written. It refuses, writing nothing, when the checkout has uncommitted changes
+under `io-docs`, when the table is broken, or when any edit does not fit. Line
+endings are kept. An agent runs it instead of retyping the packet's text, which
+is where agents introduced reworded descriptions and doubled backslashes. All three user-docs commands refuse to run without a
 `swatref.toml`: the built-in defaults name another SWAT+ commit, so a
 comparison against them would be wrong yet look valid.
 

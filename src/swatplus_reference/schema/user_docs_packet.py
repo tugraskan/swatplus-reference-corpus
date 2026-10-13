@@ -321,16 +321,22 @@ def _exact_text(fields: list[dict], docs_rows: list[dict], columns: tuple[list[s
             old_page = (table_dir / old_link).resolve() if old_link else None
             item["table"] = (f"replace the whole {old['field']} row, from this exact text through its `</tr>`,"
                              if kind == "html" else f"replace line {old['line']} (the {old['field']} row)")
+            item["table_mode"] = "replace"
             if kind == "html":
                 item["table_anchor"] = _row_start(old["raw"])
+            else:
+                item["table_raw"] = old["raw"]
             if old_page is not None and old_page.is_file() and old_page.is_relative_to(io.resolve()):
-                item["page_action"] = (f"git mv io-docs/{old_page.relative_to(io.resolve()).as_posix()} "
-                                       f"io-docs/{page}, then replace its whole text with")
+                item["page_from"] = f"io-docs/{old_page.relative_to(io.resolve()).as_posix()}"
+                item["page_action"] = f"git mv {item['page_from']} io-docs/{page}, then replace its whole text with"
             n = summary_line_of(old["link"])
             item["summary"] = (f"replace line {n} (`{summary[n - 1].strip()}`)" if n
                                else None)
+            if n:
+                item["summary_mode"], item["summary_ref"] = "replace", summary[n - 1]
         elif after_new:
             item["table"] = f"insert right after the row you add for {after_new}"
+            item["table_mode"] = "after_new"
         elif kind == "html" and docs_rows:
             prev = next((g["docs_row"] for g in reversed(fields[:k]) if g["docs_row"]), None)
             at = [d["field"] for d in docs_rows].index(prev["field"]) + 1 if prev else 0
@@ -338,18 +344,27 @@ def _exact_text(fields: list[dict], docs_rows: list[dict], columns: tuple[list[s
                 item["table"] = (f"insert directly before this exact text, the start of the "
                                  f"{docs_rows[at]['field']} row (line {docs_rows[at]['line']})")
                 item["table_anchor"] = _row_start(docs_rows[at]["raw"])
+                item["table_mode"] = "before"
             elif (docs_root / table_page).read_text(encoding="utf-8").count("</tbody>") == 1:
                 item["table"] = "insert directly before this exact text, the end of the table"
                 item["table_anchor"] = "</tbody>"
+                item["table_mode"] = "before"
             else:
                 item["table"] = (f"insert directly after the `</tr>` that ends the {docs_rows[-1]['field']} "
                                  f"row, the last row, which starts with this exact text")
                 item["table_anchor"] = _row_start(docs_rows[-1]["raw"])
+                item["table_mode"] = "after_row_end"
         else:
             item["table"] = f"insert {f['insert']}"
+            prev = next((g["docs_row"] for g in reversed(fields[:k]) if g["docs_row"]), None)
+            if prev:
+                item["table_mode"], item["table_raw"] = "after", by_field[prev["field"]]["raw"]
+            elif docs_rows:
+                item["table_mode"], item["table_raw"] = "before", docs_rows[0]["raw"]
         if "summary" not in item or item["summary"] is None:
             if after_new:
                 item["summary"] = f"insert right after the line you add for {after_new}"
+                item["summary_mode"] = "after_new"
             elif block is None:
                 item["summary"] = "add under the table's own entry (none found in SUMMARY.md: add that too)"
             else:
@@ -358,6 +373,7 @@ def _exact_text(fields: list[dict], docs_rows: list[dict], columns: tuple[list[s
                           for m in [summary_line_of(by_field[g["docs_row"]["field"]]["link"])] if m),
                          block[0])
                 item["summary"] = f"insert after line {n} (`{summary[n - 1].strip()}`)"
+                item["summary_mode"], item["summary_ref"] = "after", summary[n - 1]
         item.setdefault("page_action", f"create io-docs/{page} with")
         out.append(item)
         after_new = name
@@ -595,6 +611,167 @@ def render_packet(packet: dict) -> str:
     if p.get("check_command"):
         out += ["", "## When you have edited the table", "", "```sh", p["check_command"], "```"]
     return "\n".join(out) + "\n"
+
+
+class ApplyError(RuntimeError):
+    """The packet's edits do not fit the docs as they are now; nothing was written."""
+
+
+def _read_text(path: Path) -> tuple[str, str]:
+    """``(text with \\n line ends, the file's own line end)``."""
+    data = path.read_bytes().decode("utf-8")
+    return data.replace("\r\n", "\n"), "\r\n" if "\r\n" in data else "\n"
+
+
+def _one(items: list[str], wanted: str, what: str) -> int:
+    found = [k for k, s in enumerate(items) if s == wanted]
+    if len(found) != 1:
+        raise ApplyError(f"{what}: expected exactly one line {wanted.strip()!r}, found {len(found)}")
+    return found[0]
+
+
+def _row_span(text: str, anchor: str, what: str) -> tuple[int, int]:
+    """Start of the HTML row beginning with ``anchor`` and the end of its ``</tr>``."""
+    if text.count(anchor) != 1:
+        raise ApplyError(f"{what}: expected exactly one {anchor!r}, found {text.count(anchor)}")
+    start = text.index(anchor)
+    return start, text.index("</tr>", start) + len("</tr>")
+
+
+def apply_packet(packet: dict, docs_root: Path) -> list[str]:
+    """Write the packet's row moves, row edits, and missing rows into the docs.
+
+    Every edit is resolved in memory against the exact text the packet quotes
+    before anything is written, so a packet that no longer fits the files
+    raises `ApplyError` and changes nothing. Line endings are kept. Field
+    pages are renamed with ``git mv`` and removed with ``git rm``.
+    """
+    import subprocess
+
+    if packet.get("status") != "differs" or "table_page" not in packet:
+        return [f"nothing to apply: {packet['file']} is {packet.get('status')}"]
+    if not packet["reader"]["called_from"]:
+        return [f"nothing to apply: the reader of {packet['file']} never runs"]
+    if packet.get("malformed_lines"):
+        raise ApplyError("the table is broken at line(s) "
+                         + ", ".join(map(str, packet["malformed_lines"])) + "; restore it first")
+    dirty = subprocess.run(["git", "-C", str(docs_root), "status", "--porcelain", "--", "io-docs"],
+                           capture_output=True, text=True, check=False).stdout.strip()
+    if dirty:
+        raise ApplyError("uncommitted changes under io-docs; commit or discard them first:\n" + dirty)
+
+    io = docs_root / "io-docs"
+    page_path = docs_root / packet["table_page"]
+    text, page_nl = _read_text(page_path)
+    summary_path = io / "SUMMARY.md"
+    summary_text, summary_nl = _read_text(summary_path)
+    summary = summary_text.split("\n")
+    raw_at = {d["line"]: d["raw"] for d in packet["docs_rows"]}
+    done: list[str] = []
+
+    for m in packet["moves"]:
+        other = m["after"] or m["before"]
+        if m.get("anchor"):
+            start, end = _row_span(text, m["anchor"], f"move {m['field']}")
+            row, text = text[start:end], text[:start] + text[end:]
+            t_start, t_end = _row_span(text, m["to_anchor"], f"move {m['field']} next to {other}")
+            at = t_end if m["after"] else t_start
+            text = text[:at] + row + text[at:]
+        else:
+            lines = text.split("\n")
+            row = lines.pop(_one(lines, raw_at[m["line"]], f"move {m['field']}"))
+            k = _one(lines, raw_at[m["after_line"] or m["before_line"]], f"move {m['field']} next to {other}")
+            lines.insert(k + 1 if m["after"] else k, row)
+            text = "\n".join(lines)
+        done.append(f"moved the {m['field']} row {'after' if m['after'] else 'before'} the {other} row")
+
+    removals, renames, pages = [], [], []
+    for e in packet["row_edits"]:
+        new = e.get("row", "")
+        if e.get("anchor"):
+            start, end = _row_span(text, e["anchor"], f"{e['action']} {e['field']}")
+            text = text[:start] + new + text[end:]
+        else:
+            lines = text.split("\n")
+            k = _one(lines, e["raw"], f"{e['action']} {e['field']}")
+            lines[k:k + 1] = [] if e["action"] == "delete" else [new]
+            text = "\n".join(lines)
+        if e.get("summary_line"):
+            del summary[_one([s.strip() for s in summary], e["summary_text"], f"SUMMARY.md entry of {e['field']}")]
+        if e.get("remove_page"):
+            removals.append(e["remove_page"])
+        done.append(f"deleted the {e['field']} row" if e["action"] == "delete"
+                    else f"set the {e['field']} row's type to {e['to']}")
+
+    last_row = last_summary = None
+    for x in packet["exact_text"]:
+        mode, row = x.get("table_mode"), x["row"]
+        if mode is None:
+            raise ApplyError(f"no place for the {x['name']} row; edit it by hand")
+        if x.get("table_anchor") or (mode == "after_new" and row.startswith("<tr")):
+            if mode == "after_new":
+                at = text.index(last_row) + len(last_row)
+            elif mode == "before":
+                if text.count(x["table_anchor"]) != 1:
+                    raise ApplyError(f"insert {x['name']}: anchor {x['table_anchor']!r} is not unique")
+                at = text.index(x["table_anchor"])
+            else:
+                start, end = _row_span(text, x["table_anchor"], f"place {x['name']}")
+                if mode == "replace":
+                    text = text[:start] + text[end:]
+                    at = start
+                else:  # after_row_end
+                    at = end
+            text = text[:at] + row + text[at:]
+        else:
+            lines = text.split("\n")
+            if mode == "after_new":
+                k = _one(lines, last_row, f"place {x['name']}") + 1
+            else:
+                k = _one(lines, x["table_raw"], f"place {x['name']}")
+                if mode == "replace":
+                    del lines[k]
+                elif mode == "after":
+                    k += 1
+            lines.insert(k, row)
+            text = "\n".join(lines)
+        last_row = row
+
+        smode = x.get("summary_mode")
+        if smode == "after_new":
+            k = _one(summary, last_summary, f"SUMMARY.md entry of {x['name']}") + 1
+        elif smode in ("after", "replace"):
+            k = _one(summary, x["summary_ref"], f"SUMMARY.md entry of {x['name']}")
+            if smode == "replace":
+                del summary[k]
+            else:
+                k += 1
+        else:
+            raise ApplyError(f"no SUMMARY.md entry for the {packet['file']} table; add it by hand first")
+        summary.insert(k, x["summary_line"])
+        last_summary = x["summary_line"]
+
+        target = io / x["page"]
+        if x.get("page_from"):
+            renames.append((x["page_from"], f"io-docs/{x['page']}"))
+        elif target.exists():
+            raise ApplyError(f"io-docs/{x['page']} already exists but no row links to it; "
+                             "link or remove it by hand, then apply again")
+        pages.append((target, x["page_text"]))
+        done.append(f"{'replaced' if mode == 'replace' else 'added'} the {x['name']} row, "
+                    f"its page io-docs/{x['page']}, and its SUMMARY.md entry")
+
+    page_path.write_bytes(text.replace("\n", page_nl).encode("utf-8"))
+    summary_path.write_bytes("\n".join(summary).replace("\n", summary_nl).encode("utf-8"))
+    git = ["git", "-C", str(docs_root)]
+    for old, new in renames:
+        subprocess.run(git + ["mv", old, new], check=True, capture_output=True)
+    for target, page_text in pages:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(page_text.replace("\n", page_nl).encode("utf-8"))
+    for path in removals:
+        subprocess.run(git + ["rm", "-q", path], check=True, capture_output=True)
+    return done
 
 
 def _front_matter_ok(path: Path) -> bool:
