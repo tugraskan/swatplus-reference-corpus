@@ -420,6 +420,29 @@ def test_check_names_a_row_split_across_lines(tmp_path):
     assert lines[0].startswith("FAIL codes.bsn: table broken at line(s) 11, 12")
 
 
+def test_a_reader_called_only_from_the_main_program_template_runs(tmp_path):
+    # SWAT+ keeps its main program in main.f90.in; readers called only there
+    # were once reported as never running and their tables skipped.
+    src, docs = make_tree(tmp_path)
+    (src / "main.f90.in").write_text("program main\n  call dead_read\nend program main\n")
+    dead = {**SCHEMA, "files": {**SCHEMA["files"], "codes.bsn": {**SCHEMA["files"]["codes.bsn"],
+                                                                "reader": "dead_read.f90"}}}
+    packet = build_packet(dead, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+    assert packet["reader"]["called_from"] == ["main.f90.in:2"]
+    ok, lines = check_tables(dead, PROVENANCE, docs.resolve(), ["codes.bsn"], FIELD_MAP, source_root=src)
+    assert not ok and lines[0].startswith("FAIL codes.bsn")
+
+
+def test_a_reader_is_found_by_the_routine_it_defines_not_its_file_name(tmp_path):
+    src, docs = make_tree(tmp_path)
+    (src / "codes_reader.f90").write_text("subroutine basin_read_cc\nend subroutine basin_read_cc\n")
+    renamed = {**SCHEMA, "files": {**SCHEMA["files"], "codes.bsn": {**SCHEMA["files"]["codes.bsn"],
+                                                                  "reader": "codes_reader.f90"}}}
+    packet = build_packet(renamed, PROVENANCE, docs, src, "codes.bsn", FIELD_MAP)
+    assert packet["reader"]["routine"] == "basin_read_cc"
+    assert packet["reader"]["called_from"] == ["proc_bsn.f90:4"]
+
+
 def test_check_skips_a_table_whose_reader_never_runs(tmp_path):
     src, docs = make_tree(tmp_path)
     dead = {**SCHEMA, "files": {**SCHEMA["files"], "codes.bsn": {**SCHEMA["files"]["codes.bsn"],

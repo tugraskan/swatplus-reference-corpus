@@ -94,11 +94,23 @@ def declaration(source_root: Path, type_source: str, name: str,
     return {"at": f"{file}:{n}" + (f"-{end}" if end > n else ""), "text": text}
 
 
+def reader_routine(source_root: Path, reader: str, cache: dict[Path, list[str]]) -> str:
+    """The subroutine a reader file defines; not always its file name
+    (ls_read_parms_cal.f90 defines ls_read_lsparms_cal)."""
+    path = source_root / reader
+    lines = _read_lines(path, cache) if path.exists() else []
+    found = next((m.group(1) for line in lines
+                  for m in [re.match(r"\s*subroutine\s+(\w+)", _code(line), re.I)] if m), None)
+    return found or Path(reader).stem
+
+
 def callers(source_root: Path, routine: str, cache: dict[Path, list[str]]) -> list[str]:
     """``file:line`` of every ``call <routine>`` in the source (comments ignored)."""
     rx = re.compile(rf"\bcall\s+{re.escape(routine)}\b", re.I)
     found = []
-    for path in sorted(p for p in source_root.rglob("*") if p.suffix in SOURCE_SUFFIXES):
+    # main.f90.in (the CMake template of the main program) calls readers too
+    for path in sorted(p for p in source_root.rglob("*")
+                       if p.suffix in SOURCE_SUFFIXES or p.name.lower().endswith((".f90.in", ".f.in"))):
         for n, line in enumerate(_read_lines(path, cache), 1):
             if rx.search(_code(line)):
                 found.append(f"{path.relative_to(source_root).as_posix()}:{n}")
@@ -526,7 +538,7 @@ def build_packet(schema: dict, provenance: dict, docs_root: Path, source_root: P
     reader_path = source_root / flat["reader"]
     reader_lines = _read_lines(reader_path, cache) if reader_path.exists() else []
     at = flat.get("reader_line") or 1
-    routine = Path(flat["reader"]).stem
+    routine = reader_routine(source_root, flat["reader"], cache)
     packet.update({
         "table_page": entry["table_page"],
         "listed_on": entry.get("listed_on"),
@@ -937,8 +949,9 @@ def check_tables(schema: dict, provenance: dict, docs_root: Path, files: list[st
             lines.append(f"SKIP {f}: {e['status']}, no Field table to check")
             continue
         reader = (schema["files"].get(f) or {}).get("reader")
-        if source_root is not None and reader and not callers(source_root, Path(reader).stem, cache):
-            lines.append(f"SKIP {f}: its reader {Path(reader).stem} never runs; leave the table alone")
+        routine = reader_routine(source_root, reader, cache) if source_root is not None and reader else ""
+        if routine and not callers(source_root, routine, cache):
+            lines.append(f"SKIP {f}: its reader {routine} never runs; leave the table alone")
             continue
         problems = []
         bad = malformed_table_lines((docs_root / e["table_page"]).read_text(encoding="utf-8"))
