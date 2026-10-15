@@ -1,0 +1,82 @@
+{
+  "file": "bmpuser.str",
+  "prompt": "/swat-docs-fix Fix bmpuser.str. FILE = bmpuser.str",
+  "expected_worktree_diff": [
+    "-| flag\\_bmp                | Currently not used            | integer |         |           |",
+    "+| flag                     | Currently not used            | integer |         |           |"
+  ],
+  "code_checks": {
+    "checked_flag_in_code": [
+      "bmp_flag"
+    ],
+    "checked_bact_in_code": [
+      "bmp_bac"
+    ]
+  },
+  "claims": {
+    "fractions_all_5": {
+      "fields": [
+        "sed_eff",
+        "ptlp_eff",
+        "solp_eff",
+        "ptln_eff",
+        "soln_eff"
+      ],
+      "line": [
+        "fraction",
+        "0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?"
+      ]
+    },
+    "bact_not_used": {
+      "fields": [
+        "bact_eff"
+      ],
+      "line": [
+        "not used|no effect|never (used|applied|read)|not implemented|not applied|ignored|has no effect|no bacteria reduction"
+      ]
+    },
+    "flag_judged_right": {
+      "fields": [
+        "flag"
+      ],
+      "line": [
+        "not used|never read|no effect|ignored|accurate|overwrit|forced|hard-?coded|always|set to 1"
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?!.*(no change|unchanged|keep|kept|retain|correct|accurate|not used|unused|no effect|never read|not read|ignored|overwrit|forc|set to 1|= ?1\\b(?! ?=)|hard-?coded|always|renam|layout|editor|column|applied)).*$"
+    },
+    "evidence_cited": {
+      "each": [
+        "smp_bmpfixed\\.f90:4[6-9]|smp_bmpfixed\\.f90:5[0-9]",
+        "structure_set_parms\\.f90:10[2-8]"
+      ]
+    },
+    "no_placeholder_wording": {
+      "none": "\\b(sed|ptlp|solp|ptln|soln|bact)_eff\\s*=\\s*bmp_"
+    }
+  },
+  "bonus": {
+    "guidance_0.2_is_20pct": {
+      "line": [
+        "0\\.2\\b.*20 ?%|20 ?%.*0\\.2\\b"
+      ]
+    },
+    "percent_warning": {
+      "line": [
+        "negative|not (a )?percent|instead of (a )?percent|rather than (a )?percent"
+      ]
+    },
+    "cites_hru_control_gate": {
+      "each": [
+        "hru_control\\.f90:623"
+      ]
+    },
+    "flag_explains_set_by_code": {
+      "fields": [
+        "flag"
+      ],
+      "line": [
+        "(overwrit|forced|hard-?coded|always (set|switch|overwrit)|sets it to 1|set to 1 by|= ?1\\b.*(code|model)|structure_set_parms\\.f90:102)"
+      ]
+    }
+  }
+}

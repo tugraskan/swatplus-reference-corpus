@@ -1,0 +1,98 @@
+{
+  "file": "hydrology.hyd",
+  "prompt": "/swat-docs-fix Fix hydrology.hyd. FILE = hydrology.hyd",
+  "expected_worktree_diff": [
+    "-    * [lat\\_time](introduction-1/hydrology/hydrology.hyd/lat_time.md)",
+    "+    * [lat\\_ttime](introduction-1/hydrology/hydrology.hyd/lat_time.md)",
+    "-<table><thead><tr><th width=\"118\">Field</th><th width=\"222.6666259765625\">Description</th><th width=\"89.333251953125\" align=\"center\">Type</th><th width=\"90.6666259765625\" align=\"center\">Unit</th><th width=\"100\" align=\"center\">Default</th><th width=\"100.6666259765625\" align=\"center\">Range</th></tr></thead><tbody><tr><td><a href=\"name.md\">name</a></td><td>Name of the hydrology record</td><td align=\"center\">string</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td></tr><tr><td><a href=\"lat_time.md\">lat_time</a></td><td>Lateral flow travel time</td><td align=\"center\">real</td><td align=\"center\">days</td><td align=\"center\">0</td><td align=\"center\">0-180</td></tr><tr><td><a href=\"lat_sed.md\">lat_sed</a>",
+    "+<table><thead><tr><th width=\"118\">Field</th><th width=\"222.6666259765625\">Description</th><th width=\"89.333251953125\" align=\"center\">Type</th><th width=\"90.6666259765625\" align=\"center\">Unit</th><th width=\"100\" align=\"center\">Default</th><th width=\"100.6666259765625\" align=\"center\">Range</th></tr></thead><tbody><tr><td><a href=\"name.md\">name</a></td><td>Name of the hydrology record</td><td align=\"center\">string</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td></tr><tr><td><a href=\"lat_time.md\">lat_ttime</a></td><td>Lateral flow travel time</td><td align=\"center\">real</td><td align=\"center\">days</td><td align=\"center\">0</td><td align=\"center\">0-180</td></tr><tr><td><a href=\"lat_sed.md\">lat_sed</a>",
+    "-# lat\\_time",
+    "+# lat\\_ttime"
+  ],
+  "code_checks": {
+    "checked_lat_sed_in_code": [
+      "lat_sed"
+    ]
+  },
+  "claims": {
+    "lat_sed_tile_flow": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "tile"
+      ]
+    },
+    "lat_sed_unit_mg_per_L": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "mg/l"
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?=.*(?<![m\\w])g/l\\b)(?!.*(mg/l|stale|outdated|comment|wrong|incorrect)).*$"
+    },
+    "used_rows_not_called_unused": {
+      "fields": [
+        "can_max",
+        "esco",
+        "epco",
+        "orgn_enrich",
+        "orgp_enrich",
+        "cn3_swf",
+        "bio_mix",
+        "perco",
+        "lat_orgn",
+        "lat_orgp",
+        "pet_co",
+        "latq_co"
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:).*(not used|never read|no effect|unused|ignored)"
+    },
+    "evidence_cited": {
+      "each": [
+        "swr_latsed\\.f90:(3[89]|4[0-7])"
+      ]
+    },
+    "no_placeholder_wording": {
+      "none": "\\blat_(sed|ttime|time)\\s*=\\s*(hyd_db|lat_)"
+    }
+  },
+  "bonus": {
+    "lat_sed_not_groundwater": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "groundwater",
+        "\\bnot\\b|\\bno\\b|instead|rather|replac|remov|drop|wrong|incorrect|only"
+      ]
+    },
+    "lat_sed_stale_comment": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "(?<![m\\w])g/l\\b",
+        "stale|outdated|comment|wrong|incorrect|100000|1e5"
+      ]
+    },
+    "lat_ttime_zero_computed": {
+      "fields": [
+        [
+          "lat_ttime",
+          "lat_time"
+        ]
+      ],
+      "line": [
+        "\\b0\\b|zero|<= ?0",
+        "comput|calculat|estimat|deriv"
+      ]
+    },
+    "cites_100000": {
+      "line": [
+        "100000|1e5|10\\^5"
+      ]
+    }
+  }
+}

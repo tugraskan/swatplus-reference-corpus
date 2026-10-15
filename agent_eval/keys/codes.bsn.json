@@ -1,0 +1,96 @@
+{
+  "file": "codes.bsn",
+  "prompt": "/swat-docs-fix Fix codes.bsn. FILE = codes.bsn",
+  "expected_worktree_diff": [],
+  "code_checks": {
+    "checked_sed_det_cfac_in_code": [
+      "sed_det",
+      "cfac"
+    ]
+  },
+  "claims": {
+    "sed_det_used": {
+      "fields": [
+        "sed_det"
+      ],
+      "line": [
+        "peak|nrcs|half[- ]?hour|rainfall intensity"
+      ]
+    },
+    "gwflow_meaning": {
+      "fields": [
+        "gwflow"
+      ],
+      "line": [
+        "gwflow module|groundwater[- ]flow module|gw ?flow (module|model)|module.{0,40}(activ|\\bon\\b|\\boff\\b|enabl)|(activ|enabl|switch|turn).{0,40}(gwflow|groundwater)"
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?=.*flood routing)(?!.*(\\bnot\\b|wrong|incorrect|instead|replac|\\bwas\\b|\\bfrom\\b|chang|\\bto\\b|→|->|gwflow module|groundwater)).*$"
+    },
+    "c_fact_kept": {
+      "fields": [
+        [
+          "c_fact",
+          "cfac"
+        ]
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?!.*(no change|unchanged|keep|kept|retain|correct|accurate|not used|unused|no effect|never read|not read|ignored|overwrit|forc|set to 1|= ?1\\b(?! ?=)|hard-?coded|always|renam|layout|editor|column|applied)).*$"
+    },
+    "unused_rows_kept": {
+      "fields": [
+        "pet_file",
+        "wq_file",
+        "deg_cha",
+        "wq_cha",
+        "sed_cha",
+        "atmo_dep",
+        "stor_max"
+      ],
+      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?!.*(no change|unchanged|keep|kept|retain|correct|accurate|not used|unused|no effect|never read|not read|ignored|overwrit|forc|set to 1|= ?1\\b(?! ?=)|hard-?coded|always|renam|layout|editor|column|applied)).*$"
+    },
+    "evidence_cited": {
+      "each": [
+        "ero_pkq\\.f90:4[3-9]",
+        "basin_read_objs\\.f90:46|basin_module\\.f90:70|cal_parm_select\\.f90:1\\d{3}"
+      ]
+    },
+    "no_placeholder_wording": {
+      "none": "\\b(sed_det|gwflow|c_fact)\\s*=\\s*bsn_cc"
+    }
+  },
+  "bonus": {
+    "sed_det_codes": {
+      "fields": [
+        "sed_det"
+      ],
+      "line": [
+        "nrcs|hydrograph",
+        "half|intensity"
+      ]
+    },
+    "gwflow_codes": {
+      "fields": [
+        "gwflow"
+      ],
+      "line": [
+        "\\b0 ?=",
+        "\\b1 ?="
+      ]
+    },
+    "gwflow_page_flagged": {
+      "each": [
+        "headwater"
+      ]
+    },
+    "c_fact_explains_forced": {
+      "fields": [
+        [
+          "c_fact",
+          "cfac"
+        ]
+      ],
+      "line": [
+        "cfac ?= ?1|set to 1|forc|overwrit|hard-?coded|ero_cfactor\\.f90:5[01]"
+      ]
+    }
+  }
+}
