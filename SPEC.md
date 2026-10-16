@@ -85,6 +85,7 @@ Local absolute paths and timestamps are excluded from tracked artifacts.
 | `schema` | base schema, ranges, field maps, and Editor comparison |
 | `comparison` | locked source builds, symbol/schema diffs, page impact, preview |
 | `generation` | optional prose fill, batch fill, and source-diff refill |
+| `maintain.py` | reviewed propose/preview/apply of source-driven page updates |
 | `provenance` | deterministic source/artifact records |
 | `cli.py` | `source`, `docs`, `schema`, and `compare` command groups |
 
@@ -197,6 +198,84 @@ with a read-only SWAT+ Editor checkout. Peewee is an optional dependency used
 only for this path and its tests. The report records the Editor commit and a
 portable checkout name, not a machine-specific absolute path.
 
+### 6.5 User-documentation report
+
+`swatref schema user-docs-report --docs-root PATH` reads a SWATPlus-user-
+documentation checkout without writing to it and compares each input file's
+`Field` table with the release schema: page coverage, missing, extra,
+reordered, and retyped fields, and broken field links. A field matches on its
+Fortran name or Editor column. A remaining name difference is confirmed when
+an example input file under the profile's `refdata/` (same verified commit) has
+that name in its header at the same position; those headers are older than the
+readers, so they never decide structure. Units, ranges, defaults, and
+descriptions are not compared, and non-flat layouts are checked for a page
+only. The JSON and Markdown reports record the source commit and docs commit.
+
+`swatref schema user-docs-packet FILE --docs-root PATH` prints the evidence for
+fixing one table:
+
+- the exact current rows with line numbers;
+- the source fields in read order with their declarations and comments, quoted
+  from the verified checkout;
+- the insertion point of each missing row;
+- the rows the source does not read, each paired with the missing field
+  inserted in its place when there is one (a probable rename);
+- the reader's statement in context, and every `call` of the reader;
+- example headers;
+- every edit as exact text, unless the reader never runs:
+  - the fewest row moves that restore read order;
+  - row edits: a corrected type; the deletion of an unread row, with its
+    `SUMMARY.md` line and page; or a rename to the field's Editor column
+    (with its `SUMMARY.md` entry and page heading; the page file keeps its
+    name);
+  - for each missing field, its table row, field page, and `SUMMARY.md` line.
+
+An existing row is renamed to its Editor column only when the two names plainly
+name the same field: the row uses the Fortran name, one name contains the other,
+or they differ by a typo (similarity of at least 0.75). Any other mismatch is
+listed under "Names left for a person". The docs may list the columns in a
+different order, or the field's meaning may have changed, and either case
+needs a new description, not just a new label.
+
+A new row is named after its Editor column; failing that, after the example
+header at the same position when that header has exactly the source's
+columns; failing that, after the Fortran name. Its description is the
+declaration's comment with the units column dropped. HTML tables, which GitBook
+keeps on one line, are anchored on the start of a row (its first cell). The
+first cell is unique and has none of the zero-width characters that other
+cells carry.
+
+`swatref schema user-docs-check FILE... --docs-root PATH` re-runs the comparison
+for those tables, and for any others sharing their table. It exits 0 only when
+each table matches, differs only by unconfirmed names, or has a reader nothing
+calls (reported as SKIP). It also requires that:
+
+- no row is split across lines or has the wrong number of cells;
+- no field link is broken;
+- every linked page is registered in `SUMMARY.md`, with front matter for added
+  or modified pages;
+- no `SUMMARY.md` entry points at a missing page.
+
+Its output starts with the SWAT+ and docs commits it compared. With
+`--committed` it also fails while anything under `io-docs` is uncommitted, so an
+agent's claim to have committed can be checked from the output it reports.
+Neither command writes anything.
+
+`swatref schema user-docs-apply FILE --docs-root PATH` writes one table's packet
+edits into the docs checkout:
+
+- the moves, the row edits, and each missing row with its field page and
+  `SUMMARY.md` entry;
+- `git mv` for a renamed page and `git rm` for a removed one.
+
+Every edit is placed against the exact text the packet quotes before anything is
+written. It refuses, writing nothing, when the checkout has uncommitted changes
+under `io-docs`, when the table is broken, or when any edit does not fit. Line
+endings are kept. An agent runs it instead of retyping the packet's text, which
+is where agents introduced reworded descriptions and doubled backslashes. All three user-docs commands refuse to run without a
+`swatref.toml`: the built-in defaults name another SWAT+ commit, so a
+comparison against them would be wrong yet look valid.
+
 ## 7. Reproducibility
 
 ### 7.1 Release and corpus gates
@@ -286,5 +365,8 @@ not carried into the public repository.
 6. Run the full reproducibility gates in section 7.
 7. Commit the schema, reports, provenance sidecar, and configuration together.
 
-For a documentation bump, preserve the old checkout, change `[docs].source`,
-parse and mark staleness, then use the delta refill path only for changed pages.
+For a documentation bump, keep the old profile fetched, change `[docs].source`,
+and run `swatref docs maintain propose --base OLD`. Review the preview, run
+`swatref docs maintain apply`, and commit `reports/maintain/proposal.json` with
+the pages it changed. Apply writes only the reviewed bytes, and refuses if the
+docs source commit, a page, or a symbol's source changed after the preview.

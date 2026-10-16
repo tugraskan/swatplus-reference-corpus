@@ -1,0 +1,5671 @@
+{
+  "determinism": {
+    "candidate_sha256": "d70666bdc4be32ce08411cb36101b3a15364c1a9ba1ce6a23b3a57d7fbc75c41",
+    "repeat_sha256": "d70666bdc4be32ce08411cb36101b3a15364c1a9ba1ce6a23b3a57d7fbc75c41",
+    "zero_byte_diff": true
+  },
+  "sections": {
+    "decision_tables": {
+      "added": [],
+      "changed": [],
+      "changed_details": {},
+      "removed": [],
+      "unchanged_count": 4
+    },
+    "files": {
+      "added": [],
+      "changed": [
+        "aqu_catunit.def",
+        "aqu_catunit.ele",
+        "aquifer.con",
+        "ch_catunit.def",
+        "ch_reg.def",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "co2_yr.dat",
+        "codes.bsn",
+        "delratio.con",
+        "delratio.del",
+        "dr_om.del",
+        "element.ccu",
+        "exco.con",
+        "exco.exc",
+        "exco_om.exc",
+        "fertilizer.frt_cs",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "hyd-sed-lte.cha",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_reg.def",
+        "ls_reg.ele",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "nutrients.cha",
+        "object.prt",
+        "om_water.ini",
+        "outlet.con",
+        "parameters.bsn",
+        "pest.com",
+        "print.prt",
+        "rec_catunit.def",
+        "rec_catunit.ele",
+        "rec_reg.def",
+        "recall.con",
+        "res_conds.dat",
+        "reservoir.con",
+        "rout_unit.con",
+        "salt_aqu.ini",
+        "salt_fertilizer.frt",
+        "sed_nut.cha",
+        "sediment.cha",
+        "soil_plant.ini",
+        "temperature.cha",
+        "water_balance.sft",
+        "weather-sta.cli"
+      ],
+      "changed_details": {
+        "aqu_catunit.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "aqu_catunit.ele": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 7
+          }
+        },
+        "aquifer.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "ch_catunit.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "ch_reg.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "chan-surf.lin": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "chandeg.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "channel-lte.cha": {
+          "changed_keys": [
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "channel.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "co2_yr.dat": {
+          "changed_keys": [
+            "blocks",
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 2
+          }
+        },
+        "codes.bsn": {
+          "changed_keys": [
+            "fields",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [
+              "23"
+            ],
+            "changed_details": {
+              "23": {
+                "base": {
+                  "doc": "0 = new sediment and nutrient routing (no QUAL2E - simplified nutrients) 1 = daily routing with QUAL2E 2 = subdaily routing - with QUAL2E",
+                  "fortran_name": "i_fpwet",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 23,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": "0 = channel routine using QUAL2E 1 = channel routing with simplified nutrient transformations",
+                  "fortran_name": "qual2e",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 23,
+                  "units": null
+                }
+              }
+            },
+            "removed": [],
+            "unchanged_count": 24
+          }
+        },
+        "delratio.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "delratio.del": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "dr_om.del": {
+          "changed_keys": [
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 19
+          }
+        },
+        "element.ccu": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 7
+          }
+        },
+        "exco.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "exco.exc": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "exco_om.exc": {
+          "changed_keys": [
+            "reader_line",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 19
+          }
+        },
+        "fertilizer.frt_cs": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "gwflow.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "hru-lte.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "hru.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "hyd-sed-lte.cha": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 23
+          }
+        },
+        "initial.aqu": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "initial.aqu_cs": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "ls_reg.def": {
+          "changed_keys": [
+            "blocks",
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "ls_reg.ele": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 5
+          }
+        },
+        "ls_unit.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "ls_unit.ele": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "nutrients.cha": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 39
+          }
+        },
+        "object.prt": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 5
+          }
+        },
+        "om_water.ini": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 19
+          }
+        },
+        "outlet.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "parameters.bsn": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 44
+          }
+        },
+        "pest.com": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "print.prt": {
+          "changed_keys": [
+            "blocks",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 6
+          }
+        },
+        "rec_catunit.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "rec_catunit.ele": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 7
+          }
+        },
+        "rec_reg.def": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 4
+          }
+        },
+        "recall.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "res_conds.dat": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "reservoir.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "rout_unit.con": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "salt_aqu.ini": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 3
+          }
+        },
+        "salt_fertilizer.frt": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 9
+          }
+        },
+        "sed_nut.cha": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 13
+          }
+        },
+        "sediment.cha": {
+          "changed_keys": [
+            "fields",
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [
+              "1"
+            ],
+            "changed_details": {
+              "1": {
+                "base": {
+                  "doc": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn",
+                  "fortran_name": "eqn",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 1,
+                  "units": null
+                },
+                "candidate": {
+                  "doc": "sediment routine methods: 0 = original SWAT method 1 = Bagnold\"seqn 2 = Kodatie 3 = Molinas WU 4 = Yang",
+                  "fortran_name": "eqn",
+                  "fortran_type": "integer",
+                  "numeric": true,
+                  "position": 1,
+                  "units": null
+                }
+              }
+            },
+            "removed": [],
+            "unchanged_count": 23
+          }
+        },
+        "soil_plant.ini": {
+          "changed_keys": [
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 7
+          }
+        },
+        "temperature.cha": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 7
+          }
+        },
+        "water_balance.sft": {
+          "changed_keys": [
+            "blocks",
+            "reader_line"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 11
+          }
+        },
+        "weather-sta.cli": {
+          "changed_keys": [
+            "type_source"
+          ],
+          "fields": {
+            "added": [],
+            "changed": [],
+            "changed_details": {},
+            "removed": [],
+            "unchanged_count": 9
+          }
+        }
+      },
+      "removed": [],
+      "unchanged_count": 68
+    },
+    "multi_record": {
+      "added": [],
+      "changed": [],
+      "changed_details": {},
+      "removed": [],
+      "unchanged_count": 6
+    },
+    "multi_section": {
+      "added": [],
+      "changed": [],
+      "changed_details": {},
+      "removed": [],
+      "unchanged_count": 7
+    },
+    "runtime_arity": {
+      "added": [],
+      "changed": [
+        "cs_aqu.ini",
+        "cs_channel.ini",
+        "cs_hru.ini",
+        "cs_recall.rec",
+        "dr_hmet.del",
+        "dr_path.del",
+        "dr_pest.del",
+        "dr_salt.del",
+        "exco_hmet.exc",
+        "exco_path.exc",
+        "exco_pest.exc",
+        "exco_salt.exc",
+        "hmet_hru.ini",
+        "path_hru.ini",
+        "path_water.ini",
+        "pest_hru.ini",
+        "pest_water.ini",
+        "salt_channel.ini",
+        "salt_hru.ini",
+        "salt_recall.rec"
+      ],
+      "changed_details": {
+        "cs_aqu.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "cs_channel.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "cs_hru.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "cs_recall.rec": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "dr_hmet.del": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "dr_path.del": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "dr_pest.del": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "dr_salt.del": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "exco_hmet.exc": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "exco_path.exc": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "exco_pest.exc": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "exco_salt.exc": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "hmet_hru.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "path_hru.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "path_water.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "pest_hru.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "pest_water.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "salt_channel.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "salt_hru.ini": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        },
+        "salt_recall.rec": {
+          "changed_keys": [
+            "reader_line",
+            "sections"
+          ]
+        }
+      },
+      "removed": [],
+      "unchanged_count": 3
+    }
+  },
+  "source": {
+    "base_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+    "candidate_commit": "5f932baf276792c28db0e0d8faa6e8ed30003522"
+  },
+  "source_read_evidence": {
+    "cs_aqu.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_aqu.ini\"",
+              "file_resolved": "cs_aqu.ini",
+              "line": 22,
+              "raw": "open (107,file=\"cs_aqu.ini\")"
+            },
+            "procedure": "cs_aqu_read",
+            "reader": "cs_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_aqu_ini(ics)%name",
+                  "cs_aqu_ini(ics)%aqu"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) cs_aqu_ini(ics)%name,cs_aqu_ini(ics)%aqu",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_aqu.ini"
+            ],
+            "source_expressions": [
+              "cs_aqu.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_aqu.ini\"",
+              "file_resolved": "cs_aqu.ini",
+              "line": 23,
+              "raw": "open (107,file=\"cs_aqu.ini\")"
+            },
+            "procedure": "cs_aqu_read",
+            "reader": "cs_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_aqu.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_aqu_ini(ics)%name",
+                  "cs_aqu_ini(ics)%aqu"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) cs_aqu_ini(ics)%name,cs_aqu_ini(ics)%aqu",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_aqu.ini"
+            ],
+            "source_expressions": [
+              "cs_aqu.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "cs_channel.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_channel.ini\"",
+              "file_resolved": "cs_channel.ini",
+              "line": 26,
+              "raw": "open (107,file=\"cs_channel.ini\")"
+            },
+            "procedure": "cs_cha_read",
+            "reader": "cs_cha_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do > do icsi = 1, imax",
+                "fields": [
+                  "cs_cha_ini(icsi)%name",
+                  "cs_cha_ini(icsi)%conc"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) cs_cha_ini(icsi)%name,cs_cha_ini(icsi)%conc",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_channel.ini"
+            ],
+            "source_expressions": [
+              "cs_channel.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_channel.ini\"",
+              "file_resolved": "cs_channel.ini",
+              "line": 28,
+              "raw": "open (107,file=\"cs_channel.ini\")"
+            },
+            "procedure": "cs_cha_read",
+            "reader": "cs_cha_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_channel.ini\" /= \"null\") then > do > do icsi = 1, imax",
+                "fields": [
+                  "cs_cha_ini(icsi)%name",
+                  "cs_cha_ini(icsi)%conc"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) cs_cha_ini(icsi)%name,cs_cha_ini(icsi)%conc",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_channel.ini"
+            ],
+            "source_expressions": [
+              "cs_channel.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "cs_hru.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_hru.ini\"",
+              "file_resolved": "cs_hru.ini",
+              "line": 22,
+              "raw": "open (107,file=\"cs_hru.ini\")"
+            },
+            "procedure": "cs_hru_read",
+            "reader": "cs_hru_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 40,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%name"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%soil"
+                ],
+                "line": 69,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%plt"
+                ],
+                "line": 71,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_hru.ini"
+            ],
+            "source_expressions": [
+              "cs_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+              "file_expr": "\"cs_hru.ini\"",
+              "file_resolved": "cs_hru.ini",
+              "line": 23,
+              "raw": "open (107,file=\"cs_hru.ini\")"
+            },
+            "procedure": "cs_hru_read",
+            "reader": "cs_hru_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 64,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%name"
+                ],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%soil"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"cs_hru.ini\" /= \"null\") then > do > do ics = 1, imax",
+                "fields": [
+                  "cs_soil_ini(ics)%plt"
+                ],
+                "line": 72,
+                "raw": "read (107,*,iostat=eof) cs_soil_ini(ics)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_hru.ini"
+            ],
+            "source_expressions": [
+              "cs_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "cs_recall.rec": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+              "file_expr": "\"cs_recall.rec\"",
+              "file_resolved": "cs_recall.rec",
+              "line": 45,
+              "raw": "open (107,file=\"cs_recall.rec\")"
+            },
+            "procedure": "recall_read_cs",
+            "reader": "recall_read_cs.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "i"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 100,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 102,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "i"
+                ],
+                "line": 107,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "k",
+                  "rec_cs(i)%name",
+                  "rec_cs(i)%typ",
+                  "rec_cs(i)%filename"
+                ],
+                "line": 110,
+                "raw": "read (107,*,iostat = eof) k, rec_cs(i)%name, rec_cs(i)%typ, rec_cs(i)%filename",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_recall.rec"
+            ],
+            "source_expressions": [
+              "cs_recall.rec"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+              "file_expr": "\"cs_recall.rec\"",
+              "file_resolved": "cs_recall.rec",
+              "line": 47,
+              "raw": "open (107,file=\"cs_recall.rec\")"
+            },
+            "procedure": "recall_read_cs",
+            "reader": "recall_read_cs.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "i"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 102,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 104,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "i"
+                ],
+                "line": 109,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_rec%recall_rec /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "k",
+                  "rec_cs(i)%name",
+                  "rec_cs(i)%typ",
+                  "rec_cs(i)%filename"
+                ],
+                "line": 112,
+                "raw": "read (107,*,iostat = eof) k, rec_cs(i)%name, rec_cs(i)%typ, rec_cs(i)%filename",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "cs_recall.rec"
+            ],
+            "source_expressions": [
+              "cs_recall.rec"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "dr_hmet.del": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+              "file_expr": "in_delr%hmet",
+              "file_resolved": "dr_hmet.del",
+              "line": 25,
+              "raw": "open (107,file=in_delr%hmet)"
+            },
+            "procedure": "dr_read_hmet",
+            "reader": "dr_read_hmet.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do ii = 1, db_mx%dr_hmet",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do ii = 1, db_mx%dr_hmet",
+                "fields": [
+                  "dr_hmet_name(ii)",
+                  "(dr_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) dr_hmet_name(ii), (dr_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_hmet.del"
+            ],
+            "source_expressions": [
+              "in_delr%hmet",
+              "dr_hmet.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+              "file_expr": "in_delr%hmet",
+              "file_resolved": "dr_hmet.del",
+              "line": 33,
+              "raw": "open (107,file=in_delr%hmet)"
+            },
+            "procedure": "dr_read_hmet",
+            "reader": "dr_read_hmet.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 40,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do ii = 1, db_mx%dr_hmet",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%hmet /= \"null\") then > do > do ii = 1, db_mx%dr_hmet",
+                "fields": [
+                  "dr_hmet_name(ii)",
+                  "(dr_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)"
+                ],
+                "line": 64,
+                "raw": "read (107,*,iostat=eof) dr_hmet_name(ii), (dr_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_hmet.del"
+            ],
+            "source_expressions": [
+              "in_delr%hmet",
+              "dr_hmet.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "dr_path.del": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+              "file_expr": "in_delr%path",
+              "file_resolved": "dr_path.del",
+              "line": 24,
+              "raw": "open (107,file=in_delr%path)"
+            },
+            "procedure": "dr_path_read",
+            "reader": "dr_read_path.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do ii = 1, db_mx%dr_path",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do ii = 1, db_mx%dr_path",
+                "fields": [
+                  "dr_path_name(ii)",
+                  "(dr_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) dr_path_name(ii), (dr_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_path.del"
+            ],
+            "source_expressions": [
+              "in_delr%path",
+              "dr_path.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+              "file_expr": "in_delr%path",
+              "file_resolved": "dr_path.del",
+              "line": 32,
+              "raw": "open (107,file=in_delr%path)"
+            },
+            "procedure": "dr_path_read",
+            "reader": "dr_read_path.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do ii = 1, db_mx%dr_path",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%path /= \"null\") then > do > do ii = 1, db_mx%dr_path",
+                "fields": [
+                  "dr_path_name(ii)",
+                  "(dr_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) dr_path_name(ii), (dr_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_path.del"
+            ],
+            "source_expressions": [
+              "in_delr%path",
+              "dr_path.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "dr_pest.del": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+              "file_expr": "in_delr%pest",
+              "file_resolved": "dr_pest.del",
+              "line": 24,
+              "raw": "open (107,file=in_delr%pest)"
+            },
+            "procedure": "dr_read_pest",
+            "reader": "dr_read_pest.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do ii = 1, db_mx%dr_pest",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do ii = 1, db_mx%dr_pest",
+                "fields": [
+                  "dr_pest_name(ii)",
+                  "(dr_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) dr_pest_name(ii), (dr_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_pest.del"
+            ],
+            "source_expressions": [
+              "in_delr%pest",
+              "dr_pest.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+              "file_expr": "in_delr%pest",
+              "file_resolved": "dr_pest.del",
+              "line": 32,
+              "raw": "open (107,file=in_delr%pest)"
+            },
+            "procedure": "dr_read_pest",
+            "reader": "dr_read_pest.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do ii = 1, db_mx%dr_pest",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%pest /= \"null\") then > do > do ii = 1, db_mx%dr_pest",
+                "fields": [
+                  "dr_pest_name(ii)",
+                  "(dr_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) dr_pest_name(ii), (dr_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_pest.del"
+            ],
+            "source_expressions": [
+              "in_delr%pest",
+              "dr_pest.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "dr_salt.del": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+              "file_expr": "in_delr%salt",
+              "file_resolved": "dr_salt.del",
+              "line": 24,
+              "raw": "open (107,file=in_delr%salt)"
+            },
+            "procedure": "dr_read_salt",
+            "reader": "dr_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do ii = 1, db_mx%dr_salt",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do ii = 1, db_mx%dr_salt",
+                "fields": [
+                  "dr_salt_name(ii)",
+                  "(dr_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) dr_salt_name(ii), (dr_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_salt.del"
+            ],
+            "source_expressions": [
+              "in_delr%salt",
+              "dr_salt.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+              "file_expr": "in_delr%salt",
+              "file_resolved": "dr_salt.del",
+              "line": 32,
+              "raw": "open (107,file=in_delr%salt)"
+            },
+            "procedure": "dr_read_salt",
+            "reader": "dr_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do ii = 1, db_mx%dr_salt",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_delr%salt /= \"null\") then > do > do ii = 1, db_mx%dr_salt",
+                "fields": [
+                  "dr_salt_name(ii)",
+                  "(dr_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) dr_salt_name(ii), (dr_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "dr_salt.del"
+            ],
+            "source_expressions": [
+              "in_delr%salt",
+              "dr_salt.del"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "exco_hmet.exc": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+              "file_expr": "in_exco%hmet",
+              "file_resolved": "exco_hmet.exc",
+              "line": 24,
+              "raw": "open (107,file=in_exco%hmet)"
+            },
+            "procedure": "exco_read_hmet",
+            "reader": "exco_read_hmet.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do ii = 1, db_mx%exco_hmet",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do ii = 1, db_mx%exco_hmet",
+                "fields": [
+                  "exco_hmet_name(ii)",
+                  "(exco_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) exco_hmet_name(ii), (exco_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_hmet.exc"
+            ],
+            "source_expressions": [
+              "in_exco%hmet",
+              "exco_hmet.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+              "file_expr": "in_exco%hmet",
+              "file_resolved": "exco_hmet.exc",
+              "line": 32,
+              "raw": "open (107,file=in_exco%hmet)"
+            },
+            "procedure": "exco_read_hmet",
+            "reader": "exco_read_hmet.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do ii = 1, db_mx%exco_hmet",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%hmet /= \"null\") then > do > do ii = 1, db_mx%exco_hmet",
+                "fields": [
+                  "exco_hmet_name(ii)",
+                  "(exco_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) exco_hmet_name(ii), (exco_hmet(ii)%hmet(ihmet), ihmet = 1, cs_db%num_metals)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_hmet.exc"
+            ],
+            "source_expressions": [
+              "in_exco%hmet",
+              "exco_hmet.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "exco_path.exc": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+              "file_expr": "in_exco%path",
+              "file_resolved": "exco_path.exc",
+              "line": 24,
+              "raw": "open (107,file=in_exco%path)"
+            },
+            "procedure": "exco_read_path",
+            "reader": "exco_read_path.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do ii = 1, db_mx%exco_path",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do ii = 1, db_mx%exco_path",
+                "fields": [
+                  "exco_path_name(ii)",
+                  "(exco_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) exco_path_name(ii), (exco_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_path.exc"
+            ],
+            "source_expressions": [
+              "in_exco%path",
+              "exco_path.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+              "file_expr": "in_exco%path",
+              "file_resolved": "exco_path.exc",
+              "line": 32,
+              "raw": "open (107,file=in_exco%path)"
+            },
+            "procedure": "exco_read_path",
+            "reader": "exco_read_path.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do ii = 1, db_mx%exco_path",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%path /= \"null\") then > do > do ii = 1, db_mx%exco_path",
+                "fields": [
+                  "exco_path_name(ii)",
+                  "(exco_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) exco_path_name(ii), (exco_path(ii)%path(ipath), ipath = 1, cs_db%num_paths)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_path.exc"
+            ],
+            "source_expressions": [
+              "in_exco%path",
+              "exco_path.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "exco_pest.exc": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+              "file_expr": "in_exco%pest",
+              "file_resolved": "exco_pest.exc",
+              "line": 23,
+              "raw": "open (107,file=in_exco%pest)"
+            },
+            "procedure": "exco_read_pest",
+            "reader": "exco_read_pest.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 44,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 46,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do ii = 1, db_mx%exco_pest",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do ii = 1, db_mx%exco_pest",
+                "fields": [
+                  "exco_pest_name(ii)",
+                  "(exco_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) exco_pest_name(ii), (exco_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_pest.exc"
+            ],
+            "source_expressions": [
+              "in_exco%pest",
+              "exco_pest.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+              "file_expr": "in_exco%pest",
+              "file_resolved": "exco_pest.exc",
+              "line": 31,
+              "raw": "open (107,file=in_exco%pest)"
+            },
+            "procedure": "exco_read_pest",
+            "reader": "exco_read_pest.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do ii = 1, db_mx%exco_pest",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%pest /= \"null\") then > do > do ii = 1, db_mx%exco_pest",
+                "fields": [
+                  "exco_pest_name(ii)",
+                  "(exco_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) exco_pest_name(ii), (exco_pest(ii)%pest(ipest), ipest = 1, cs_db%num_pests)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_pest.exc"
+            ],
+            "source_expressions": [
+              "in_exco%pest",
+              "exco_pest.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "exco_salt.exc": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+              "file_expr": "in_exco%salt",
+              "file_resolved": "exco_salt.exc",
+              "line": 24,
+              "raw": "open (107,file=in_exco%salt)"
+            },
+            "procedure": "exco_read_salt",
+            "reader": "exco_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do ii = 1, db_mx%exco_salt",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do ii = 1, db_mx%exco_salt",
+                "fields": [
+                  "exco_salt_name(ii)",
+                  "(exco_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) exco_salt_name(ii), (exco_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_salt.exc"
+            ],
+            "source_expressions": [
+              "in_exco%salt",
+              "exco_salt.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+              "file_expr": "in_exco%salt",
+              "file_resolved": "exco_salt.exc",
+              "line": 32,
+              "raw": "open (107,file=in_exco%salt)"
+            },
+            "procedure": "exco_read_salt",
+            "reader": "exco_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do ii = 1, db_mx%exco_salt",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_exco%salt /= \"null\") then > do > do ii = 1, db_mx%exco_salt",
+                "fields": [
+                  "exco_salt_name(ii)",
+                  "(exco_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) exco_salt_name(ii), (exco_salt(ii)%salt(isalt), isalt = 1, cs_db%num_salts)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "exco_salt.exc"
+            ],
+            "source_expressions": [
+              "in_exco%salt",
+              "exco_salt.exc"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "hmet_hru.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+              "file_expr": "in_init%hmet_soil",
+              "file_resolved": "hmet_hru.ini",
+              "line": 23,
+              "raw": "open (107,file=in_init%hmet_soil)"
+            },
+            "procedure": "hmet_hru_aqu_read",
+            "reader": "hmet_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0) > do ihmet = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax",
+                "fields": [
+                  "hmet_soil_ini(ihmeti)%name"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) hmet_soil_ini(ihmeti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax > do ipest = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum",
+                  "hmet_soil_ini(ihmeti)%soil(ihmet)"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) titldum, hmet_soil_ini(ihmeti)%soil(ihmet)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax > do ipest = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum",
+                  "hmet_soil_ini(ihmeti)%plt(ihmet)"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) titldum, hmet_soil_ini(ihmeti)%plt(ihmet)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "hmet_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%hmet_soil",
+              "hmet_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+              "file_expr": "in_init%hmet_soil",
+              "file_resolved": "hmet_hru.ini",
+              "line": 24,
+              "raw": "open (107,file=in_init%hmet_soil)"
+            },
+            "procedure": "hmet_hru_aqu_read",
+            "reader": "hmet_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do while (eof == 0) > do ihmet = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax",
+                "fields": [
+                  "hmet_soil_ini(ihmeti)%name"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) hmet_soil_ini(ihmeti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax > do ipest = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum",
+                  "hmet_soil_ini(ihmeti)%soil(ihmet)"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) titldum, hmet_soil_ini(ihmeti)%soil(ihmet)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%hmet_soil /= \"null\") then > do > do ihmeti = 1, imax > do ipest = 1, cs_db%num_metals",
+                "fields": [
+                  "titldum",
+                  "hmet_soil_ini(ihmeti)%plt(ihmet)"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) titldum, hmet_soil_ini(ihmeti)%plt(ihmet)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "hmet_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%hmet_soil",
+              "hmet_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "path_hru.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+              "file_expr": "in_init%path_soil",
+              "file_resolved": "path_hru.ini",
+              "line": 22,
+              "raw": "open (107,file=in_init%path_soil)"
+            },
+            "procedure": "path_hru_aqu_read",
+            "reader": "path_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "path_soil_ini(ipathi)%name"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) path_soil_ini(ipathi)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "titldum",
+                  "path_soil_ini(ipathi)%soil",
+                  "path_soil_ini(ipathi)%plt"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) titldum, path_soil_ini(ipathi)%soil, path_soil_ini(ipathi)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "path_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%path_soil",
+              "path_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+              "file_expr": "in_init%path_soil",
+              "file_resolved": "path_hru.ini",
+              "line": 23,
+              "raw": "open (107,file=in_init%path_soil)"
+            },
+            "procedure": "path_hru_aqu_read",
+            "reader": "path_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "path_soil_ini(ipathi)%name"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) path_soil_ini(ipathi)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_soil /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "titldum",
+                  "path_soil_ini(ipathi)%soil",
+                  "path_soil_ini(ipathi)%plt"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) titldum, path_soil_ini(ipathi)%soil, path_soil_ini(ipathi)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "path_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%path_soil",
+              "path_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "path_water.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+              "file_expr": "in_init%path_water",
+              "file_resolved": "path_water.ini",
+              "line": 26,
+              "raw": "open (107,file=in_init%path_water)"
+            },
+            "procedure": "path_cha_res_read",
+            "reader": "path_cha_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "path_init_name(ipathi)"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) path_init_name(ipathi)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "titldum",
+                  "path_water_ini(ipathi)%water",
+                  "path_water_ini(ipathi)%benthic"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) titldum, path_water_ini(ipathi)%water, path_water_ini(ipathi)%benthic",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "path_water.ini"
+            ],
+            "source_expressions": [
+              "in_init%path_water",
+              "path_water.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+              "file_expr": "in_init%path_water",
+              "file_resolved": "path_water.ini",
+              "line": 27,
+              "raw": "open (107,file=in_init%path_water)"
+            },
+            "procedure": "path_cha_res_read",
+            "reader": "path_cha_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do while (eof == 0) > do ipath = 1, cs_db%num_paths",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "header"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "path_init_name(ipathi)"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) path_init_name(ipathi)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%path_water /= \"null\") then > do > do ipathi = 1, imax",
+                "fields": [
+                  "titldum",
+                  "path_water_ini(ipathi)%water",
+                  "path_water_ini(ipathi)%benthic"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) titldum, path_water_ini(ipathi)%water, path_water_ini(ipathi)%benthic",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "path_water.ini"
+            ],
+            "source_expressions": [
+              "in_init%path_water",
+              "path_water.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "pest_hru.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+              "file_expr": "in_init%pest_soil",
+              "file_resolved": "pest_hru.ini",
+              "line": 22,
+              "raw": "open (107,file=in_init%pest_soil)"
+            },
+            "procedure": "pest_hru_aqu_read",
+            "reader": "pest_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "pest_soil_ini(ipesti)%name"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) pest_soil_ini(ipesti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do ipesti = 1, imax > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum",
+                  "pest_soil_ini(ipesti)%soil(ipest)",
+                  "pest_soil_ini(ipesti)%plt(ipest)"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) titldum, pest_soil_ini(ipesti)%soil(ipest), pest_soil_ini(ipesti)%plt(ipest)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "pest_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%pest_soil",
+              "pest_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+              "file_expr": "in_init%pest_soil",
+              "file_resolved": "pest_hru.ini",
+              "line": 23,
+              "raw": "open (107,file=in_init%pest_soil)"
+            },
+            "procedure": "pest_hru_aqu_read",
+            "reader": "pest_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 52,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "pest_soil_ini(ipesti)%name"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) pest_soil_ini(ipesti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_soil /= \"null\") then > do > do ipesti = 1, imax > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum",
+                  "pest_soil_ini(ipesti)%soil(ipest)",
+                  "pest_soil_ini(ipesti)%plt(ipest)"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) titldum, pest_soil_ini(ipesti)%soil(ipest), pest_soil_ini(ipesti)%plt(ipest)",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "pest_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%pest_soil",
+              "pest_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "pest_water.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+              "file_expr": "in_init%pest_water",
+              "file_resolved": "pest_water.ini",
+              "line": 25,
+              "raw": "open (107,file=in_init%pest_water)"
+            },
+            "procedure": "pest_cha_res_read",
+            "reader": "pest_cha_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "pest_init_name(ipesti)"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) pest_init_name(ipesti)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "pest_water_ini(ipesti)%water",
+                  "pest_water_ini(ipesti)%benthic"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) titldum, pest_water_ini(ipesti)%water, pest_water_ini(ipesti)%benthic",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "pest_water.ini"
+            ],
+            "source_expressions": [
+              "in_init%pest_water",
+              "pest_water.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+              "file_expr": "in_init%pest_water",
+              "file_resolved": "pest_water.ini",
+              "line": 27,
+              "raw": "open (107,file=in_init%pest_water)"
+            },
+            "procedure": "pest_cha_res_read",
+            "reader": "pest_cha_res_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do while (eof == 0) > do ipest = 1, cs_db%num_pests",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "pest_init_name(ipesti)"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) pest_init_name(ipesti)",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%pest_water /= \"null\") then > do > do ipesti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "pest_water_ini(ipesti)%water",
+                  "pest_water_ini(ipesti)%benthic"
+                ],
+                "line": 64,
+                "raw": "read (107,*,iostat=eof) titldum, pest_water_ini(ipesti)%water, pest_water_ini(ipesti)%benthic",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "pest_water.ini"
+            ],
+            "source_expressions": [
+              "in_init%pest_water",
+              "pest_water.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "salt_channel.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+              "file_expr": "\"salt_channel.ini\"",
+              "file_resolved": "salt_channel.ini",
+              "line": 26,
+              "raw": "open (107,file=\"salt_channel.ini\")"
+            },
+            "procedure": "salt_cha_read",
+            "reader": "salt_cha_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_cha_ini(isalti)%name",
+                  "salt_cha_ini(isalti)%conc"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) salt_cha_ini(isalti)%name,salt_cha_ini(isalti)%conc",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_channel.ini"
+            ],
+            "source_expressions": [
+              "salt_channel.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+              "file_expr": "\"salt_channel.ini\"",
+              "file_resolved": "salt_channel.ini",
+              "line": 27,
+              "raw": "open (107,file=\"salt_channel.ini\")"
+            },
+            "procedure": "salt_cha_read",
+            "reader": "salt_cha_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_channel.ini\" /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_cha_ini(isalti)%name",
+                  "salt_cha_ini(isalti)%conc"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) salt_cha_ini(isalti)%name,salt_cha_ini(isalti)%conc",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_channel.ini"
+            ],
+            "source_expressions": [
+              "salt_channel.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "salt_hru.ini": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+              "file_expr": "in_init%salt_soil",
+              "file_resolved": "salt_hru.ini",
+              "line": 22,
+              "raw": "open (107,file=in_init%salt_soil)"
+            },
+            "procedure": "salt_hru_aqu_read",
+            "reader": "salt_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 34,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%name"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "salt_soil_ini(isalti)%soil"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) titldum, salt_soil_ini(isalti)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "salt_soil_ini(isalti)%plt"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) titldum, salt_soil_ini(isalti)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%salt_soil",
+              "salt_hru.ini"
+            ]
+          },
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+              "file_expr": "'salt_hru.ini'",
+              "file_resolved": "salt_hru.ini",
+              "line": 22,
+              "raw": "open (107,file='salt_hru.ini')"
+            },
+            "procedure": "salt_hru_read",
+            "reader": "salt_hru_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 23,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 25,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 27,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 29,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 36,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 38,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 40,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 54,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 58,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 60,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 62,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%name"
+                ],
+                "line": 66,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%soil"
+                ],
+                "line": 68,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%plt"
+                ],
+                "line": 70,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_hru.ini"
+            ],
+            "source_expressions": [
+              "salt_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+              "file_expr": "in_init%salt_soil",
+              "file_resolved": "salt_hru.ini",
+              "line": 23,
+              "raw": "open (107,file=in_init%salt_soil)"
+            },
+            "procedure": "salt_hru_aqu_read",
+            "reader": "salt_hru_aqu_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 31,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 33,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 35,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 49,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 51,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%name"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "salt_soil_ini(isalti)%soil"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) titldum, salt_soil_ini(isalti)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. in_init%salt_soil /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "titldum",
+                  "salt_soil_ini(isalti)%plt"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) titldum, salt_soil_ini(isalti)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_hru.ini"
+            ],
+            "source_expressions": [
+              "in_init%salt_soil",
+              "salt_hru.ini"
+            ]
+          },
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+              "file_expr": "'salt_hru.ini'",
+              "file_resolved": "salt_hru.ini",
+              "line": 23,
+              "raw": "open (107,file='salt_hru.ini')"
+            },
+            "procedure": "salt_hru_read",
+            "reader": "salt_hru_read.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 24,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 26,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 28,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 30,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 32,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 37,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 39,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 41,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 55,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 57,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 59,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 61,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 63,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%name"
+                ],
+                "line": 67,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%name",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%soil"
+                ],
+                "line": 69,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%soil",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. 'salt_hru.ini' /= \"null\") then > do > do isalti = 1, imax",
+                "fields": [
+                  "salt_soil_ini(isalti)%plt"
+                ],
+                "line": 71,
+                "raw": "read (107,*,iostat=eof) salt_soil_ini(isalti)%plt",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_hru.ini"
+            ],
+            "source_expressions": [
+              "salt_hru.ini"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    },
+    "salt_recall.rec": {
+      "base": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+              "file_expr": "\"salt_recall.rec\"",
+              "file_resolved": "salt_recall.rec",
+              "line": 44,
+              "raw": "open (107,file=\"salt_recall.rec\")"
+            },
+            "procedure": "recall_read_salt",
+            "reader": "recall_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 45,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 47,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "i"
+                ],
+                "line": 53,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 99,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 101,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "i"
+                ],
+                "line": 107,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "k",
+                  "rec_salt(i)%name",
+                  "rec_salt(i)%typ",
+                  "rec_salt(i)%filename"
+                ],
+                "line": 110,
+                "raw": "read (107,*,iostat = eof) k, rec_salt(i)%name, rec_salt(i)%typ, rec_salt(i)%filename",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_recall.rec"
+            ],
+            "source_expressions": [
+              "salt_recall.rec"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "base_related": [],
+      "base_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "candidate": {
+        "blocks": [
+          {
+            "match": "exact_filename",
+            "open": {
+              "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+              "file_expr": "\"salt_recall.rec\"",
+              "file_resolved": "salt_recall.rec",
+              "line": 47,
+              "raw": "open (107,file=\"salt_recall.rec\")"
+            },
+            "procedure": "recall_read_salt",
+            "reader": "recall_read_salt.f90",
+            "reads": [
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 48,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 50,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do while (eof == 0)",
+                "fields": [
+                  "i"
+                ],
+                "line": 56,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "titldum"
+                ],
+                "line": 102,
+                "raw": "read (107,*,iostat=eof) titldum",
+                "role": "title"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do",
+                "fields": [
+                  "header"
+                ],
+                "line": 104,
+                "raw": "read (107,*,iostat=eof) header",
+                "role": "header"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "i"
+                ],
+                "line": 110,
+                "raw": "read (107,*,iostat=eof) i",
+                "role": "data"
+              },
+              {
+                "condition": "if (i_exist .or. \"salt_recall.rec\" /= \"null\") then > do > do ii = 1, imax",
+                "fields": [
+                  "k",
+                  "rec_salt(i)%name",
+                  "rec_salt(i)%typ",
+                  "rec_salt(i)%filename"
+                ],
+                "line": 113,
+                "raw": "read (107,*,iostat = eof) k, rec_salt(i)%name, rec_salt(i)%typ, rec_salt(i)%filename",
+                "role": "data"
+              }
+            ],
+            "resolved_default_filenames": [
+              "salt_recall.rec"
+            ],
+            "source_expressions": [
+              "salt_recall.rec"
+            ]
+          }
+        ],
+        "status": "found"
+      },
+      "candidate_related": [],
+      "candidate_schema_presence": {
+        "resolved_sections": [
+          "runtime_arity"
+        ],
+        "unresolved_sections": []
+      },
+      "review_needed": false,
+      "schema_diff_status": [
+        "runtime_arity.changed"
+      ]
+    }
+  },
+  "summary": {
+    "base_flat_files": 119,
+    "candidate_flat_files": 119,
+    "changed_entries": 71,
+    "new_unresolved": 0
+  },
+  "unresolved_sections": {
+    "decision_tables_unresolved": {
+      "base_count": 0,
+      "candidate": {},
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_record_unresolved": {
+      "base_count": 0,
+      "candidate": {},
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_section_unresolved": {
+      "base_count": 0,
+      "candidate": {},
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "runtime_arity_unresolved": {
+      "base_count": 10,
+      "candidate": {
+        "cell_sol.gw": "reader not found for filename",
+        "gwflow_canal.con": "reader not found for filename",
+        "minerals.gw": "reader not found for filename",
+        "out_src.wal": "reader not found for filename",
+        "ponds.gw": "reader not found for filename",
+        "tvheads.gw": "reader not found for filename",
+        "water_canal.wal": "reader not found for filename",
+        "water_pipe.wal": "reader not found for filename",
+        "water_treat.wal": "reader not found for filename",
+        "water_use.wal": "reader not found for filename"
+      },
+      "candidate_count": 10,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "unresolved": {
+      "base_count": 26,
+      "candidate": {
+        "aqu_reg.def": "reader not found for filename",
+        "carbon.bsn": "reader not found for filename",
+        "cells.gw": "reader not found for filename",
+        "chancell.gw": "reader not found for filename",
+        "floodplain.gw": "reader not found for filename",
+        "hrucell.gw": "reader not found for filename",
+        "lsucell.gw": "reader not found for filename",
+        "manure_db.frt": "reader not found for filename",
+        "manure_om.frt": "reader not found for filename",
+        "om_osrc.wal": "reader not found for filename",
+        "om_treat.wal": "reader not found for filename",
+        "om_use.wal": "reader not found for filename",
+        "outputs.gw": "reader not found for filename",
+        "outside_rcv.wal": "reader not found for filename",
+        "phreato.gw": "reader not found for filename",
+        "phreato_cell.gw": "reader not found for filename",
+        "pond_cell.gw": "reader not found for filename",
+        "pumpex.gw": "reader not found for filename",
+        "recall_db.rec": "reader not found for filename",
+        "rescell.gw": "reader not found for filename",
+        "satbuffer.str": "reader not found for filename",
+        "shade_factor.shf": "reader not found for filename",
+        "solute.gw": "reader not found for filename",
+        "tile.gw": "reader not found for filename",
+        "water_tower.wal": "reader not found for filename",
+        "zones.gw": "reader not found for filename"
+      },
+      "candidate_count": 26,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    }
+  }
+}

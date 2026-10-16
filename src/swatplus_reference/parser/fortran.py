@@ -442,7 +442,7 @@ def parse_components(lines: list[str], start: int, end: int) -> list[Component]:
             continue
         decl = m.group(1).strip()
         for entity in _split_entities(m.group(2)):
-            name = re.split(r"[(\s=*]", entity, 1)[0].strip().lower()
+            name = re.split(r"[(\s=*]", entity, maxsplit=1)[0].strip().lower()
             if name:
                 out.append(Component(name=name, decl=decl, units=units, description=desc))
     return out

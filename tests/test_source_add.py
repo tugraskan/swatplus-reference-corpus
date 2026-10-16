@@ -1,6 +1,7 @@
 import json
 import subprocess
 import tomllib
+from pathlib import Path
 
 import pytest
 
@@ -90,7 +91,7 @@ def test_add_locks_an_annotated_tag_to_its_commit(upstream, config_path):
     assert profile.commit == commit  # the commit, not the tag object
     assert profile.ref == "63.0.0"
     assert profile.label == "SWAT+ 63.0.0"
-    assert str(profile.checkout) == "external/swatplus-release_63_0_0"
+    assert profile.checkout == Path("external/swatplus-release_63_0_0")
 
 
 def test_added_profile_fetches_and_verifies(upstream, config_path):
@@ -160,7 +161,7 @@ def test_docs_source_override_repoints_every_docs_field(upstream, config_path):
     profile = cfg.sources["release_63_0_0"]
     assert selected.docs_source == "release_63_0_0"
     assert selected.source_ref == profile.commit
-    assert str(selected.source_dir) == "external/swatplus-release_63_0_0/src"
+    assert selected.source_dir == Path("external/swatplus-release_63_0_0/src")
     assert profile.commit in selected.source_link_base
     assert selected.version_label == "SWAT+ 63.0.0"
     assert cfg.docs_source == "main"  # the loaded config is untouched
@@ -219,7 +220,7 @@ def test_cli_compare_base_candidate_builds_an_unconfigured_comparison(
 
     comparison = seen["comparison"]
     assert (comparison.base_source, comparison.candidate_source) == ("main", "other")
-    assert str(comparison.output_dir) == "reports/comparisons/main_vs_other"
+    assert comparison.output_dir == Path("reports/comparisons/main_vs_other")
     assert isinstance(load_config(config_path).sources["other"], SourceProfile)
 
 

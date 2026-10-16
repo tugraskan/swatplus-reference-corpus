@@ -1,0 +1,9 @@
+{
+  "artifact": "swatplus-61.0.1.json",
+  "configured_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+  "profile": "release_61_0_1",
+  "repository": "https://github.com/swat-model/swatplus",
+  "requested_ref": "61.0.1",
+  "resolved_commit": "5108ef15230e214a1a10aefabf317e2e1731e41d",
+  "swatplus_version": "61.0.1"
+}

@@ -1,0 +1,151 @@
+{
+  "file": "hydrology.hyd",
+  "prompt": "/swat-docs-fix Fix hydrology.hyd. FILE = hydrology.hyd",
+  "expected_worktree_diff": [
+    "-    * [lat\\_time](introduction-1/hydrology/hydrology.hyd/lat_time.md)",
+    "+    * [lat\\_ttime](introduction-1/hydrology/hydrology.hyd/lat_time.md)",
+    "-<table><thead><tr><th width=\"118\">Field</th><th width=\"222.6666259765625\">Description</th><th width=\"89.333251953125\" align=\"center\">Type</th><th width=\"90.6666259765625\" align=\"center\">Unit</th><th width=\"100\" align=\"center\">Default</th><th width=\"100.6666259765625\" align=\"center\">Range</th></tr></thead><tbody><tr><td><a href=\"name.md\">name</a></td><td>Name of the hydrology record</td><td align=\"center\">string</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td></tr><tr><td><a href=\"lat_time.md\">lat_time</a></td><td>Lateral flow travel time</td><td align=\"center\">real</td><td align=\"center\">days</td><td align=\"center\">0</td><td align=\"center\">0-180</td></tr><tr><td><a href=\"lat_sed.md\">lat_sed</a>",
+    "+<table><thead><tr><th width=\"118\">Field</th><th width=\"222.6666259765625\">Description</th><th width=\"89.333251953125\" align=\"center\">Type</th><th width=\"90.6666259765625\" align=\"center\">Unit</th><th width=\"100\" align=\"center\">Default</th><th width=\"100.6666259765625\" align=\"center\">Range</th></tr></thead><tbody><tr><td><a href=\"name.md\">name</a></td><td>Name of the hydrology record</td><td align=\"center\">string</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td><td align=\"center\">n/a</td></tr><tr><td><a href=\"lat_time.md\">lat_ttime</a></td><td>Lateral flow travel time</td><td align=\"center\">real</td><td align=\"center\">days</td><td align=\"center\">0</td><td align=\"center\">0-180</td></tr><tr><td><a href=\"lat_sed.md\">lat_sed</a>",
+    "-# lat\\_time",
+    "+# lat\\_ttime"
+  ],
+  "code_checks": {
+    "checked_lat_sed_in_code": [
+      "lat_sed"
+    ]
+  },
+  "claims": {
+    "lat_sed_tile_flow": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "tile"
+      ]
+    },
+    "lat_sed_unit_mg_per_L": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "mg/l"
+      ],
+      "none": "^(?:(?=.*propos\\w*(?:\\s*/\\s*\\w+|\\s+\\w+){0,4}\\**\\s*:)(?=.*(?<![m\\w])g/l\\b)(?!.*(mg/l|stale|outdated|comment|wrong|incorrect)).*$|\\s*\\|[^|\\n]*\\|(?!\\s*`?[A-Za-z]\\w*[_%][\\w%]*`?\\s*\\|)\\s*(?P<cur>[^|\\n]*?)\\s*\\|(?!\\s*`?\\**propos)(?!\\s*:?-+:?\\s*(?:\\||$))(?=[^|\\n]*[^\\s|])(?!\\s*(?P=cur)\\s*(?:\\||$))\\s*(?=[^|\\n]*(?<![m\\w])g/l\\b)(?![^|\\n]*(?:mg/l|stale|outdated|comment|wrong|incorrect)))"
+    },
+    "used_rows_not_called_unused": {
+      "fields": [
+        "can_max",
+        "esco",
+        "epco",
+        "orgn_enrich",
+        "orgp_enrich",
+        "cn3_swf",
+        "bio_mix",
+        "perco",
+        "lat_orgn",
+        "lat_orgp",
+        "pet_co",
+        "latq_co"
+      ],
+      "none": "^(?:(?=.*propos\\w*(?:\\s*/\\s*\\w+|\\s+\\w+){0,4}\\**\\s*:).*(not used|never read|no effect|unused|ignored)|\\s*\\|[^|\\n]*\\|(?!\\s*`?[A-Za-z]\\w*[_%][\\w%]*`?\\s*\\|)\\s*(?P<cur>[^|\\n]*?)\\s*\\|(?!\\s*`?\\**propos)(?!\\s*:?-+:?\\s*(?:\\||$))(?=[^|\\n]*[^\\s|])(?!\\s*(?P=cur)\\s*(?:\\||$))\\s*[^|\\n]*(?:not used|never read|no effect|unused|ignored))"
+    },
+    "evidence_cited": {
+      "each": [
+        "swr_latsed\\.f90:(3[89]|4[0-7])"
+      ]
+    },
+    "no_placeholder_wording": {
+      "none": "\\blat_(sed|ttime|time)\\s*=\\s*(hyd_db|lat_)"
+    },
+    "documented_ranges_kept": {
+      "fields": [
+        "lat_sed",
+        "can_max",
+        "orgn_enrich",
+        "orgp_enrich",
+        "cn3_swf",
+        "lat_orgn",
+        "lat_orgp",
+        "pet_co"
+      ],
+      "none": "^(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?`?(range|\\d[\\d.]*\\s*(-|–|—|to)\\s*\\d)|\\brange\\W+(\\w+\\W+){0,2}?(kept|retained|preserved|stays?|remains?|unchanged|as[- ]is|no change)\\b(?!\\s+(to|in|for)\\b)|\\d\\W{0,3}\\(?(kept|retained|preserved|unchanged|no change)\\b(?!\\s+(to|in|for)\\b)|\\|\\s*no change\\s*\\||recommend|rather than remov|instead of remov|not remov|n't remov|without remov|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|propos\\w*\\s+range\\s*:?\\s*[`*\\\"']*\\d)).*(\\bno\\s+((explicit|numeric|numerical|fixed|documented|stated|source|code|code-enforced|declared|declaration|specific|supported)\\s+)*range\\b(?!\\s+(is|are|was|exists?|in|within|validation|check\\w*|enforce\\w*|clamp\\w*|guard\\w*|test\\w*|limit\\w*|bound\\w*|coded|defined))|\\b(remov|drop|delet|omit|strip)\\w*\\s+(the\\s+)?((\\w|')+\\s+){0,3}`?(range|\\d[\\d.]*\\s*(-|–|—|to)\\s*\\d)|\\brange\\s*(:|=|→|->)\\s*[`*\\\"']*(n/a|none|blank|unspecified|not specified)\\b)"
+    },
+    "lat_ttime_range_kept": {
+      "fields": [
+        [
+          "lat_ttime",
+          "lat_time"
+        ]
+      ],
+      "none": "^(?:(?=.*\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b)|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?`?(range|\\d[\\d.]*\\s*(-|–|—|to)\\s*\\d)|\\brange\\W+(\\w+\\W+){0,2}?(kept|retained|preserved|stays?|remains?|unchanged|as[- ]is|no change)\\b(?!\\s+(to|in|for)\\b)|\\d\\W{0,3}\\(?(kept|retained|preserved|unchanged|no change)\\b(?!\\s+(to|in|for)\\b)))).*((→|->|=>|\\bto\\b|\\bbecomes?\\b|\\bshould be\\b|\\buse\\b)\\s*[`*\\\"']*\\s*(range\\s*[:=]?\\s*)?[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b|\\bpropos\\w*\\b[^|.;]{0,30}?[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b|\\brange\\s*[:=]\\s*[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b|0\\s*(-|–|—|to)\\s*120\\b[`*\\\"']*\\s*\\((was|from|previously|formerly)\\b|/\\s+[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b[`*\\\"']*\\s*(days)?\\s*(\\||$)|\\|\\s+(range\\s*:?\\s*)?[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b(?![^|]*\\b(vs|versus)\\b)|\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0\\s*(-|–|—|to)\\s*120\\b)"
+    },
+    "esco_epco_range_kept": {
+      "fields": [
+        "esco",
+        "epco"
+      ],
+      "none": "^(?:(?=.*\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?`?(range|\\d[\\d.]*\\s*(-|–|—|to)\\s*\\d)|\\brange\\W+(\\w+\\W+){0,2}?(kept|retained|preserved|stays?|remains?|unchanged|as[- ]is|no change)\\b(?!\\s+(to|in|for)\\b)|\\d\\W{0,3}\\(?(kept|retained|preserved|unchanged|no change)\\b(?!\\s+(to|in|for)\\b)))).*((→|->|=>|\\bto\\b|\\bbecomes?\\b|\\bshould be\\b|\\buse\\b)\\s*[`*\\\"']*\\s*(range\\s*[:=]?\\s*)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|\\bpropos\\w*\\b[^|.;]{0,30}?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|\\brange\\s*[:=]\\s*[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)[`*\\\"']*\\s*\\((was|from|previously|formerly)\\b|/\\s+[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)[`*\\\"']*\\s*(days)?\\s*(\\||$)|\\|\\s+(range\\s*:?\\s*)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)(?![^|]*\\b(vs|versus)\\b)|\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d))"
+    },
+    "documented_defaults_kept": {
+      "fields": [
+        [
+          "can_max",
+          "canmx"
+        ],
+        "esco",
+        [
+          "bio_mix",
+          "biomix"
+        ]
+      ],
+      "none": "^(?:(?=.*(\\b(updated?|changed?|adopted|accepted?|agree\\w*)\\b[^|]{0,40}?\\bdefault\\b[^|]{0,40}?(→|->|=>|\\bto\\b|should be|\\bis\\b)\\s*[`*\\\"']*\\d+(?:\\.\\d+)?))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*|note[sd]?|accept\\w*|confirm\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?default|\\bdefault\\W+(\\w+\\W+)?(kept|retained|preserved|stays?|remains?|unchanged|no change(?!\\s+to\\b)|as[- ]is)\\b|\\bdefault\\b[^|]{0,40}\\brecommended\\b|\\brecommended\\b[^|]{0,40}\\bdefault\\b|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|\\|\\s*no change\\s*\\|?\\s*$|\\bnot\\s+(be\\s+)?(chang|replac|edit|updat)\\w*|rather than|instead of))).*(\\bdefault\\b[^|;]{0,25}?(→|->|=>)\\s*[`*\\\"'(]*\\s*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bpropos\\w*\\b[^|]{0,60}?\\bdefault\\b\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\s+should\\s+(be\\s+)?[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\b(updat\\w*|chang\\w*|set|add\\w*|fill\\w*|use|put)\\s+(the\\s+)?(\\w+\\s+){0,2}?default(\\s+value)?(\\s+(to|of|=|:))?\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\b[^|]{0,40}?\\b(from|chang\\w*)\\W+(\\w+\\W+){0,2}?[`*\\\"']*\\d+(?:\\.\\d+)?[`*\\\"']*\\s+to\\s+[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|^\\s*\\|.*\\bdefault\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\|\\s*[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*\\(was\\b|\\|\\s*[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*(?=\\|))"
+    },
+    "blank_defaults_not_filled": {
+      "fields": [
+        "latq_co",
+        "cn3_swf",
+        "perco",
+        "lat_orgn",
+        "lat_orgp"
+      ],
+      "none": "^(?:(?=.*(\\b(updated?|changed?|adopted|accepted?|agree\\w*)\\b[^|]{0,40}?\\bdefault\\b[^|]{0,40}?(→|->|=>|\\bto\\b|should be|\\bis\\b)\\s*[`*\\\"']*\\d+(?:\\.\\d+)?))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*|note[sd]?|accept\\w*|confirm\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?default|\\bdefault\\W+(\\w+\\W+)?(kept|retained|preserved|stays?|remains?|unchanged|no change(?!\\s+to\\b)|as[- ]is)\\b|\\bdefault\\b[^|]{0,40}\\brecommended\\b|\\brecommended\\b[^|]{0,40}\\bdefault\\b|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|\\|\\s*no change\\s*\\|?\\s*$|\\bnot\\s+(be\\s+)?(chang|replac|edit|updat)\\w*|rather than|instead of))).*(\\bdefault\\b[^|;]{0,25}?(→|->|=>)\\s*[`*\\\"'(]*\\s*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bpropos\\w*\\b[^|]{0,60}?\\bdefault\\b\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\s+should\\s+(be\\s+)?[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\b(updat\\w*|chang\\w*|set|add\\w*|fill\\w*|use|put)\\s+(the\\s+)?(\\w+\\s+){0,2}?default(\\s+value)?(\\s+(to|of|=|:))?\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\b[^|]{0,40}?\\b(from|chang\\w*)\\W+(\\w+\\W+){0,2}?[`*\\\"']*\\d+(?:\\.\\d+)?[`*\\\"']*\\s+to\\s+[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|^\\s*\\|.*\\bdefault\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\|\\s*[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*\\(was\\b|\\|\\s*[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*(?=\\|))"
+    }
+  },
+  "bonus": {
+    "lat_sed_not_groundwater": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "groundwater",
+        "\\bnot\\b|\\bno\\b|instead|rather|replac|remov|drop|wrong|incorrect|only"
+      ]
+    },
+    "lat_sed_stale_comment": {
+      "fields": [
+        "lat_sed"
+      ],
+      "line": [
+        "(?<![m\\w])g/l\\b",
+        "stale|outdated|comment|wrong|incorrect|100000|1e5"
+      ]
+    },
+    "lat_ttime_zero_computed": {
+      "fields": [
+        [
+          "lat_ttime",
+          "lat_time"
+        ]
+      ],
+      "line": [
+        "\\b0\\b|zero|<= ?0",
+        "comput|calculat|estimat|deriv"
+      ]
+    },
+    "cites_100000": {
+      "line": [
+        "100000|1e5|10\\^5"
+      ]
+    }
+  }
+}

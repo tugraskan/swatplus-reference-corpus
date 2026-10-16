@@ -856,7 +856,9 @@ def cmd_refill(cfg: Config, args) -> int:
     if not old_dir.exists():
         sys.exit(f"--old-source-dir {old_dir} not found")
     print(f"parsing old source {old_dir} ...", file=sys.stderr)
-    old_store, _old_rich = parse_documentation(old_dir, "old")
+    # Same engine as the new store, so an unchanged symbol hashes identically
+    # and the baseline check compares like with like.
+    old_store, _old_rich = parse_documentation(old_dir, "old", engine=cfg.docs_engine)
 
     paths = [Path(p) for p in args.pages] if args.pages else _stale_paths(cfg, store, args.limit)
     if not paths:
@@ -865,26 +867,78 @@ def cmd_refill(cfg: Config, args) -> int:
 
     if args.emit_prompts:
         out = Path(args.emit_prompts)
-        for line in refill.emit_delta_prompts(cfg, store, old_store, old_dir, paths, out):
+        results = refill.emit_delta_prompts(cfg, store, old_store, old_dir, paths, out)
+        for line in results:
             print(line)
         print(f"wrote delta prompts to {out} — fill them, then `swatref docs apply-delta`")
-        return 0
+        return 1 if refill.has_failures(results) else 0
 
     print(f"delta re-filling {len(paths)} stale pages with {args.model or cfg.fill.model}")
-    for line in refill.run_refill(
+    results = refill.run_refill(
         cfg, store, old_store, old_dir, paths, model=args.model, dry_run=args.dry_run
-    ):
+    )
+    for line in results:
         print(line)
-    return 0
+    return 1 if refill.has_failures(results) else 0
 
 
 def cmd_apply_delta(cfg: Config, args) -> int:
     from .generation import refill
 
     store = get_store(cfg)
-    for line in refill.apply_delta_file(cfg, store, Path(args.deltas)):
+    results = refill.apply_delta_file(cfg, store, Path(args.deltas))
+    for line in results:
         print(line)
-    return 0
+    return 1 if refill.has_failures(results) else 0
+
+
+def cmd_maintain(cfg: Config, args) -> int:
+    """Propose, preview, and apply reviewed source-driven page updates."""
+    from . import maintain
+
+    proposal_path = cfg.resolve(Path(args.proposal))
+    try:
+        if args.action == "show":
+            print(maintain.render(maintain.load_proposal(proposal_path)), end="")
+            return 0
+        if args.action == "apply":
+            proposal = maintain.load_proposal(proposal_path)
+            store = get_store(cfg)
+            _, candidate = resolve_profile(cfg, cfg.docs_source)
+            ok, lines = maintain.apply(cfg, store, candidate, proposal)
+            for line in lines:
+                print(line)
+            return 0 if ok else 1
+
+        if not args.base:
+            sys.exit("swatref docs maintain propose: --base PROFILE is required "
+                     "(the source the pages were written against)")
+        if args.base == cfg.docs_source:
+            sys.exit(f"swatref docs maintain propose: --base {args.base} is the docs "
+                     "source itself; pass the profile the pages were written against")
+        store = get_store(cfg)
+        _, candidate = resolve_profile(cfg, cfg.docs_source)
+        base_dir, base = resolve_profile(cfg, args.base)
+        if args.deltas:
+            generate, generator = maintain.deltas_generator(Path(args.deltas), cfg.root)
+        else:
+            generate, generator = maintain.model_generator(cfg, args.model)
+    except (FileNotFoundError, RuntimeError, ValueError) as exc:
+        sys.exit(f"swatref docs maintain {args.action}: {exc}")
+
+    print(f"parsing base {base.profile} @ {base.resolved_commit[:12]} ...", file=sys.stderr)
+    # Same engine as the docs store, so an unchanged symbol hashes identically.
+    old_store, _old_rich = parse_documentation(
+        base_dir, base.resolved_commit, engine=cfg.docs_engine
+    )
+    proposal = maintain.propose(
+        cfg, store, old_store, base_dir, base, candidate, generate, generator,
+        paths=[Path(p) for p in args.pages], limit=args.limit,
+    )
+    maintain.write_proposal(proposal_path, proposal)
+    print(maintain.render(proposal), end="")
+    print(f"wrote {_rel(proposal_path, cfg.root)}")
+    return 1 if maintain.has_failures(proposal) else 0
 
 
 def cmd_batch(cfg: Config, args) -> int:
@@ -1084,6 +1138,187 @@ def cmd_schema_editor_report(cfg: Config, editor_root: str) -> int:
     )
 
 
+def _field_map_for(cfg: Config) -> Path | None:
+    """This version's field map, else the newest one (Editor names change rarely)."""
+    reports = cfg.resolve(cfg.schema.reports_dir)
+    exact = reports / f"swatplus-{cfg.schema.version}-field-map.json"
+    if exact.exists():
+        return exact
+
+    def version(path: Path) -> tuple[int, ...]:
+        middle = path.name.removeprefix("swatplus-").removesuffix("-field-map.json")
+        return tuple(int(p) for p in middle.split(".") if p.isdigit())
+
+    candidates = sorted(reports.glob("swatplus-*-field-map.json"), key=version)
+    return candidates[-1] if candidates else None
+
+
+def _user_docs_inputs(cfg: Config) -> dict:
+    """Schema, provenance, field map, example headers, and the verified source.
+
+    Example headers and the source directory are returned only when the
+    profile's checkout is on the exact commit the schema came from;
+    otherwise ``source_dir`` is None.
+    """
+    from .schema.user_docs import example_headers
+
+    _, schema_path, _, provenance_path = _schema_paths(cfg)
+    if not schema_path.exists():
+        raise FileNotFoundError(f"{schema_path} not found; run `swatref schema build` first")
+    provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+    field_map_path = _field_map_for(cfg)
+    inputs = {
+        "schema": json.loads(schema_path.read_text(encoding="utf-8")),
+        "provenance": provenance,
+        "field_map": json.loads(field_map_path.read_text(encoding="utf-8")) if field_map_path else None,
+        "field_map_name": field_map_path.name if field_map_path else "",
+        "headers": {},
+        "headers_name": "",
+        "source_dir": None,
+    }
+    try:
+        source_dir, checkout = resolve_profile(cfg, cfg.schema.source)
+    except (FileNotFoundError, RuntimeError):
+        checkout = None
+    if checkout and checkout.resolved_commit == provenance.get("resolved_commit"):
+        inputs["source_dir"] = source_dir
+        refdata = cfg.source_profile(cfg.schema.source).abs_checkout(cfg.root) / "refdata"
+        inputs["headers"] = example_headers(refdata)
+        if inputs["headers"]:
+            datasets = sorted(p.name for p in refdata.iterdir() if p.is_dir())
+            inputs["headers_name"] = (f"`refdata/` ({', '.join(datasets)}) @ "
+                                      f"`{checkout.resolved_commit[:12]}`")
+    return inputs
+
+
+def _changed_pages(docs_root: Path) -> set[Path]:
+    """Markdown files added or modified in the docs checkout (git status)."""
+    import subprocess
+
+    result = subprocess.run(["git", "-C", str(docs_root), "status", "--porcelain"],
+                            capture_output=True, text=True, check=False)
+    changed = set()
+    for line in result.stdout.splitlines():
+        path = line[3:].split(" -> ")[-1].strip('"')
+        if path.endswith(".md"):
+            changed.add((docs_root / path).resolve())
+    return changed
+
+
+def _utf8_stdout() -> None:
+    """Print docs text (zero-width spaces and all) even when Windows redirects stdout."""
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        reconfigure(encoding="utf-8")
+
+
+def cmd_schema_user_docs_packet(cfg: Config, file: str, docs_root: str, as_json: bool) -> int:
+    """Print the evidence packet for one input file's docs table."""
+    from .schema.user_docs_packet import build_packet, render_packet
+
+    inputs = _user_docs_inputs(cfg)
+    if inputs["source_dir"] is None:
+        raise RuntimeError(
+            f"source profile {cfg.schema.source!r} is not fetched at the schema's commit "
+            f"{inputs['provenance'].get('resolved_commit')}; the packet must quote that exact source"
+        )
+    packet = build_packet(
+        inputs["schema"], inputs["provenance"], Path(docs_root).resolve(), inputs["source_dir"],
+        file, inputs["field_map"], inputs["headers"],
+        check_command=(f"swatref schema --source {cfg.schema.source} user-docs-check {file} "
+                       f"--docs-root {docs_root}"),
+    )
+    _utf8_stdout()
+    print(json.dumps(packet, indent=2) if as_json else render_packet(packet), end="\n" if as_json else "")
+    return 0
+
+
+def cmd_schema_user_docs_apply(cfg: Config, file: str, docs_root: str) -> int:
+    """Write one table's packet edits into the docs checkout (the only user-docs command that writes)."""
+    from .schema.user_docs_packet import ApplyError, apply_packet, build_packet
+
+    inputs = _user_docs_inputs(cfg)
+    if inputs["source_dir"] is None:
+        raise RuntimeError(
+            f"source profile {cfg.schema.source!r} is not fetched at the schema's commit "
+            f"{inputs['provenance'].get('resolved_commit')}; the edits must come from that exact source"
+        )
+    root = Path(docs_root).resolve()
+    packet = build_packet(inputs["schema"], inputs["provenance"], root, inputs["source_dir"],
+                          file, inputs["field_map"], inputs["headers"])
+    _utf8_stdout()
+    print(f"Applying the packet for {packet['file']} (SWAT+ {packet['swatplus_version']} @ "
+          f"{str(packet['source_commit'])[:12]}; docs @ {str(packet['docs_commit'])[:12]})")
+    try:
+        done = apply_packet(packet, root)
+    except ApplyError as exc:
+        print(f"NOT APPLIED, nothing was written: {exc}")
+        return 1
+    for line in done:
+        print(f"- {line}")
+    print(f"Next: swatref schema --source {cfg.schema.source} user-docs-check {file} --docs-root {docs_root}")
+    return 0
+
+
+def cmd_schema_user_docs_check(cfg: Config, files: list[str], docs_root: str,
+                               committed: bool = False) -> int:
+    """Pass/fail for edited docs tables; writes nothing.
+
+    With ``committed``, also fail while anything under ``io-docs`` is
+    uncommitted, so a reported commit can be verified from this output.
+    """
+    import subprocess
+
+    from .schema.user_docs_packet import check_tables
+
+    inputs = _user_docs_inputs(cfg)
+    root = Path(docs_root).resolve()
+    ok, lines = check_tables(inputs["schema"], inputs["provenance"], root, files,
+                             inputs["field_map"], inputs["headers"], _changed_pages(root),
+                             inputs["source_dir"])
+    if committed:
+        status = subprocess.run(["git", "-C", str(root), "status", "--porcelain", "--", "io-docs"],
+                                capture_output=True, text=True, check=False)
+        dirty = [line[3:] for line in status.stdout.splitlines()]
+        if status.returncode != 0 or dirty:
+            ok = False
+            lines.append("FAIL not committed: " + (", ".join(dirty) if dirty else status.stderr.strip()))
+        else:
+            lines.append("COMMITTED: no uncommitted changes under io-docs")
+    _utf8_stdout()
+    from .schema.user_docs import _commit
+    print(f"Checked against SWAT+ {inputs['schema'].get('swatplus_version')} @ "
+          f"{str(inputs['provenance'].get('resolved_commit'))[:12]}; docs @ {_commit(root)[:12]}")
+    for line in lines:
+        print(line)
+    print("ALL PASS" if ok else "NOT DONE: fix the FAIL lines and check again")
+    return 0 if ok else 1
+
+
+def cmd_schema_user_docs_report(cfg: Config, docs_root: str) -> int:
+    """Compare a read-only SWATPlus-user-documentation checkout with the schema."""
+    from .schema.user_docs import build_report, write_report
+
+    inputs = _user_docs_inputs(cfg)
+    report = build_report(
+        inputs["schema"],
+        inputs["provenance"],
+        Path(docs_root).resolve(),
+        inputs["field_map"],
+        inputs["field_map_name"],
+        inputs["headers"],
+        inputs["headers_name"],
+    )
+    output = cfg.resolve(cfg.schema.reports_dir) / (
+        f"swatplus-{cfg.schema.version}-user-docs-report.json"
+    )
+    markdown = write_report(report, output)
+    print(f"wrote {output}")
+    print(f"wrote {markdown}")
+    print(json.dumps(report["summary"], indent=2))
+    return 0
+
+
 def cmd_schema(cfg: Config, argv: list[str]) -> int:
     # Popped rather than declared so they work before or after the action.
     source, argv = _pop_option(argv, "--source")
@@ -1099,8 +1334,42 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
     sub.add_parser("field-map", help="write source/spreadsheet field crosswalks")
     editor = sub.add_parser("editor-report", help="compare with a read-only Editor checkout")
     editor.add_argument("--editor-root", required=True)
+    user_docs = sub.add_parser(
+        "user-docs-report",
+        help="compare the input tables of a read-only SWATPlus-user-documentation checkout",
+    )
+    user_docs.add_argument("--docs-root", required=True)
+    packet = sub.add_parser(
+        "user-docs-packet",
+        help="print the evidence for fixing one input file's docs table (writes nothing)",
+    )
+    packet.add_argument("file", help="input file name, e.g. codes.bsn")
+    packet.add_argument("--docs-root", required=True)
+    packet.add_argument("--json", action="store_true", help="print the packet as JSON")
+    apply = sub.add_parser(
+        "user-docs-apply",
+        help="write one table's packet edits into the docs checkout (all or nothing)",
+    )
+    apply.add_argument("file", help="input file name, e.g. codes.bsn")
+    apply.add_argument("--docs-root", required=True)
+    check = sub.add_parser(
+        "user-docs-check",
+        help="pass/fail for edited docs tables (writes nothing; exit 1 when not done)",
+    )
+    check.add_argument("files", nargs="+", help="input file names, e.g. codes.bsn hru.con")
+    check.add_argument("--docs-root", required=True)
+    check.add_argument("--committed", action="store_true",
+                       help="also fail while anything under io-docs is uncommitted")
     args = parser.parse_args(argv)
     try:
+        if args.action.startswith("user-docs") and cfg.config_file is None:
+            # Built-in defaults name another SWAT+ commit, so a comparison
+            # against them is confidently wrong. Checked before --source, whose
+            # error would otherwise suggest --version.
+            raise RuntimeError(
+                f"no swatref.toml in {cfg.root}: run from the corpus repository root "
+                "(the folder that contains swatref.toml) or pass --config PATH"
+            )
         if source or version:
             cfg = with_schema_source(cfg, source or cfg.schema.source, version)
         if args.action == "build":
@@ -1109,6 +1378,14 @@ def cmd_schema(cfg: Config, argv: list[str]) -> int:
             return cmd_schema_ranges(cfg)
         if args.action == "field-map":
             return cmd_schema_field_map(cfg)
+        if args.action == "user-docs-report":
+            return cmd_schema_user_docs_report(cfg, args.docs_root)
+        if args.action == "user-docs-packet":
+            return cmd_schema_user_docs_packet(cfg, args.file, args.docs_root, args.json)
+        if args.action == "user-docs-check":
+            return cmd_schema_user_docs_check(cfg, args.files, args.docs_root, args.committed)
+        if args.action == "user-docs-apply":
+            return cmd_schema_user_docs_apply(cfg, args.file, args.docs_root)
         return cmd_schema_editor_report(cfg, args.editor_root)
     except (FileNotFoundError, RuntimeError, ValueError) as exc:
         parser.error(str(exc))
@@ -1305,6 +1582,30 @@ def main(argv: list[str] | None = None) -> int:
     p = sub.add_parser("apply-delta", help="apply a hand-authored {symbol: delta} JSON (key-free)")
     p.add_argument("deltas", help="JSON file mapping symbol -> changed fields")
 
+    p = sub.add_parser(
+        "maintain",
+        help="propose, preview, and apply reviewed updates to stale pages",
+        description=(
+            "propose: generate a grounded update for every stale page and save it "
+            "as a proposal without touching the pages. show: print the stored "
+            "proposal. apply: verify the stored proposal is still current and "
+            "write exactly its ready pages (no generation)."
+        ),
+    )
+    p.add_argument("action", choices=["propose", "show", "apply"])
+    p.add_argument("pages", nargs="*", help="propose only these page paths (default: all stale)")
+    p.add_argument("--base", help="source profile the pages were written against (propose)")
+    p.add_argument(
+        "--deltas", metavar="FILE",
+        help="take {symbol: delta} from this JSON instead of calling the model (propose)",
+    )
+    p.add_argument("--model")
+    p.add_argument("--limit", type=int)
+    p.add_argument(
+        "--proposal", default="reports/maintain/proposal.json",
+        help="proposal file (default: reports/maintain/proposal.json)",
+    )
+
     p = sub.add_parser("batch")
     p.add_argument("action", choices=["submit", "status", "merge"])
     p.add_argument("batch_id", nargs="?", help="batch id (status/merge)")
@@ -1332,6 +1633,7 @@ def main(argv: list[str] | None = None) -> int:
         "fill": cmd_fill,
         "refill": cmd_refill,
         "apply-delta": cmd_apply_delta,
+        "maintain": cmd_maintain,
         "batch": cmd_batch,
         "render": cmd_render,
     }[args.command]
