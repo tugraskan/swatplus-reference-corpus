@@ -106,6 +106,12 @@ percent; a conversion factor (e.g. `/ 1000.`) only fits one unit, so work the ar
 comment can be outdated. A `comment:` line shown next to a formula usually documents that formula's units; check
 it against the arithmetic too.
 
+The docs' Unit, Default and Range columns are recommended values (e.g. from the SWAT+ Editor), not limits the
+code enforces. Keep them unless the evidence contradicts them (e.g. a `(1. - x)` formula for a value documented
+as 0-100 percent, or an example value outside the range). Never remove or narrow a range only because the code
+does not check it or a declaration comment gives another one (mark that "needs review" instead), and never set
+a unit to n/a only because the value is never read (say "not used" in the description and keep the unit).
+
 ## Step 4: write the proposal NOW, from Steps 1-3 alone (before any follow-up, so the work is saved)
 
 Do NOT edit the docs wording. Write the whole proposal to `.swatref/hermes-proposals/FILE.md` (create the folder)
@@ -138,7 +144,8 @@ the verdict, and for each point the reviewer raised, whether you changed the pro
 prints `review_code FAILED`, run it once more; if it fails again, quote the error in that section and continue.
 
 **Check each change the reviewer asks for before you accept it: the reviewer can be wrong too** (it has argued
-from an outdated declaration comment before). For a change of unit, range, meaning, or used/not used, redo the
+from an outdated declaration comment before, and asked to drop ranges the code does not enforce: keep those,
+see Step 3). For a change of unit, range, meaning, or used/not used, redo the
 point from the evidence (the formula, the `comment:` lines next to it, and where the value is read or set) and
 write that check, with the arithmetic, into the Second opinion section. Change the proposal only if your check
 agrees with the reviewer; if it does not, keep your version and say why.

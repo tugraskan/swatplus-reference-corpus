@@ -52,6 +52,12 @@
     },
     "no_placeholder_wording": {
       "none": "\\b(sed|ptlp|solp|ptln|soln|bact)_eff\\s*=\\s*bmp_"
+    },
+    "bact_eff_unit_kept": {
+      "fields": [
+        "bact_eff"
+      ],
+      "none": "^(?!.*((rather than|instead of)\\s+(\\w+\\s+){0,2}?[`*\\\"']*(n/a|not applicable)|\\bnot\\s+(be\\s+)?(set\\s+to\\s+)?[`*\\\"']*n/a|from\\s+[`*\\\"']*n/a|(keep|kept|retain\\w*)\\W+(\\w+\\W+){0,3}?units?\\b|units?\\W+(\\w+\\W+){0,3}?(kept|retained|unchanged|no change)|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree)).*(\\bunits?\\b(\\s*/\\s*range)?\\s*(:|=|to|→|->|is|are|as|of|becomes|should be|must be|set to)?\\s*[`*\\\"']*(n/a|not applicable|none)\\b|/\\s*[`*\\\"']*n/a[`*\\\"']*\\s*/|\\|\\s*(real|integer|int|string|character)\\s*\\|\\s*[`*\\\"']*n/a|\\bmark\\w*\\s+(them|it|both|units?(\\s*/\\s*range)?)\\s+(as\\s+)?[`*\\\"']*n/a|\\b(remov|drop|delet|clear|blank)\\w*\\s+(the\\s+)?(units?|percent|mg/kg|mm)\\b(?![^.;]*\\bfraction))"
     }
   },
   "bonus": {
