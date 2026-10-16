@@ -30,7 +30,7 @@
       "line": [
         "mg/l"
       ],
-      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:)(?=.*(?<![m\\w])g/l\\b)(?!.*(mg/l|stale|outdated|comment|wrong|incorrect)).*$"
+      "none": "^(?:(?=.*propos\\w*(?:\\s*/\\s*\\w+|\\s+\\w+){0,4}\\**\\s*:)(?=.*(?<![m\\w])g/l\\b)(?!.*(mg/l|stale|outdated|comment|wrong|incorrect)).*$|\\s*\\|[^|\\n]*\\|(?!\\s*`?[A-Za-z]\\w*[_%][\\w%]*`?\\s*\\|)\\s*(?P<cur>[^|\\n]*?)\\s*\\|(?!\\s*`?\\**propos)(?!\\s*:?-+:?\\s*(?:\\||$))(?=[^|\\n]*[^\\s|])(?!\\s*(?P=cur)\\s*(?:\\||$))\\s*(?=[^|\\n]*(?<![m\\w])g/l\\b)(?![^|\\n]*(?:mg/l|stale|outdated|comment|wrong|incorrect)))"
     },
     "used_rows_not_called_unused": {
       "fields": [
@@ -47,7 +47,7 @@
         "pet_co",
         "latq_co"
       ],
-      "none": "^(?=.*propos\\w*(\\s+\\w+){0,2}\\**\\s*:).*(not used|never read|no effect|unused|ignored)"
+      "none": "^(?:(?=.*propos\\w*(?:\\s*/\\s*\\w+|\\s+\\w+){0,4}\\**\\s*:).*(not used|never read|no effect|unused|ignored)|\\s*\\|[^|\\n]*\\|(?!\\s*`?[A-Za-z]\\w*[_%][\\w%]*`?\\s*\\|)\\s*(?P<cur>[^|\\n]*?)\\s*\\|(?!\\s*`?\\**propos)(?!\\s*:?-+:?\\s*(?:\\||$))(?=[^|\\n]*[^\\s|])(?!\\s*(?P=cur)\\s*(?:\\||$))\\s*[^|\\n]*(?:not used|never read|no effect|unused|ignored))"
     },
     "evidence_cited": {
       "each": [
@@ -85,6 +85,30 @@
         "epco"
       ],
       "none": "^(?:(?=.*\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?`?(range|\\d[\\d.]*\\s*(-|–|—|to)\\s*\\d)|\\brange\\W+(\\w+\\W+){0,2}?(kept|retained|preserved|stays?|remains?|unchanged|as[- ]is|no change)\\b(?!\\s+(to|in|for)\\b)|\\d\\W{0,3}\\(?(kept|retained|preserved|unchanged|no change)\\b(?!\\s+(to|in|for)\\b)))).*((→|->|=>|\\bto\\b|\\bbecomes?\\b|\\bshould be\\b|\\buse\\b)\\s*[`*\\\"']*\\s*(range\\s*[:=]?\\s*)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|\\bpropos\\w*\\b[^|.;]{0,30}?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|\\brange\\s*[:=]\\s*[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)|0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)[`*\\\"']*\\s*\\((was|from|previously|formerly)\\b|/\\s+[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)[`*\\\"']*\\s*(days)?\\s*(\\||$)|\\|\\s+(range\\s*:?\\s*)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d)(?![^|]*\\b(vs|versus)\\b)|\\b(changed|updated|corrected|adopted|set)\\s+((\\w|-)+\\s+){0,3}?(to\\s+)?[`*\\\"']*0(\\.0+)?\\s*(-|–|—|to)\\s*1(\\.0+)?\\b(?!\\.?\\d))"
+    },
+    "documented_defaults_kept": {
+      "fields": [
+        [
+          "can_max",
+          "canmx"
+        ],
+        "esco",
+        [
+          "bio_mix",
+          "biomix"
+        ]
+      ],
+      "none": "^(?:(?=.*(\\b(updated?|changed?|adopted|accepted?|agree\\w*)\\b[^|]{0,40}?\\bdefault\\b[^|]{0,40}?(→|->|=>|\\bto\\b|should be|\\bis\\b)\\s*[`*\\\"']*\\d+(?:\\.\\d+)?))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*|note[sd]?|accept\\w*|confirm\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?default|\\bdefault\\W+(\\w+\\W+)?(kept|retained|preserved|stays?|remains?|unchanged|no change(?!\\s+to\\b)|as[- ]is)\\b|\\bdefault\\b[^|]{0,40}\\brecommended\\b|\\brecommended\\b[^|]{0,40}\\bdefault\\b|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|\\|\\s*no change\\s*\\|?\\s*$|\\bnot\\s+(be\\s+)?(chang|replac|edit|updat)\\w*|rather than|instead of))).*(\\bdefault\\b[^|;]{0,25}?(→|->|=>)\\s*[`*\\\"'(]*\\s*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bpropos\\w*\\b[^|]{0,60}?\\bdefault\\b\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\s+should\\s+(be\\s+)?[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\b(updat\\w*|chang\\w*|set|add\\w*|fill\\w*|use|put)\\s+(the\\s+)?(\\w+\\s+){0,2}?default(\\s+value)?(\\s+(to|of|=|:))?\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\b[^|]{0,40}?\\b(from|chang\\w*)\\W+(\\w+\\W+){0,2}?[`*\\\"']*\\d+(?:\\.\\d+)?[`*\\\"']*\\s+to\\s+[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|^\\s*\\|.*\\bdefault\\W{0,3}[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\|\\s*[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*\\(was\\b|\\|\\s*[`*\\\"']*(?!(?:1|0\\.5|0\\.2)(?!\\.?\\d))\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*(?=\\|))"
+    },
+    "blank_defaults_not_filled": {
+      "fields": [
+        "latq_co",
+        "cn3_swf",
+        "perco",
+        "lat_orgn",
+        "lat_orgp"
+      ],
+      "none": "^(?:(?=.*(\\b(updated?|changed?|adopted|accepted?|agree\\w*)\\b[^|]{0,40}?\\bdefault\\b[^|]{0,40}?(→|->|=>|\\bto\\b|should be|\\bis\\b)\\s*[`*\\\"']*\\d+(?:\\.\\d+)?))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*|note[sd]?|accept\\w*|confirm\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?default|\\bdefault\\W+(\\w+\\W+)?(kept|retained|preserved|stays?|remains?|unchanged|no change(?!\\s+to\\b)|as[- ]is)\\b|\\bdefault\\b[^|]{0,40}\\brecommended\\b|\\brecommended\\b[^|]{0,40}\\bdefault\\b|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|\\|\\s*no change\\s*\\|?\\s*$|\\bnot\\s+(be\\s+)?(chang|replac|edit|updat)\\w*|rather than|instead of))).*(\\bdefault\\b[^|;]{0,25}?(→|->|=>)\\s*[`*\\\"'(]*\\s*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bpropos\\w*\\b[^|]{0,60}?\\bdefault\\b\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\s+should\\s+(be\\s+)?[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\b(updat\\w*|chang\\w*|set|add\\w*|fill\\w*|use|put)\\s+(the\\s+)?(\\w+\\s+){0,2}?default(\\s+value)?(\\s+(to|of|=|:))?\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\bdefault\\b[^|]{0,40}?\\b(from|chang\\w*)\\W+(\\w+\\W+){0,2}?[`*\\\"']*\\d+(?:\\.\\d+)?[`*\\\"']*\\s+to\\s+[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|^\\s*\\|.*\\bdefault\\W{0,3}[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)|\\|\\s*[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*\\(was\\b|\\|\\s*[`*\\\"']*\\d+(?:\\.\\d+)?(?!\\.?\\d)[`*\\\"']*\\s*(?=\\|))"
     }
   },
   "bonus": {

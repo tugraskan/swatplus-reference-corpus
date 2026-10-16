@@ -83,6 +83,15 @@
         ]
       ],
       "none": "^(?!.*((rather than|instead of)\\s+(\\w+\\s+){0,2}?[`*\\\"']*(n/a|not applicable)|\\bnot\\s+(be\\s+)?(set\\s+to\\s+)?[`*\\\"']*n/a|from\\s+[`*\\\"']*n/a|(keep|kept|retain\\w*)\\W+(\\w+\\W+){0,3}?units?\\b|units?\\W+(\\w+\\W+){0,3}?(kept|retained|unchanged|no change)|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree)).*(\\bunits?\\b(\\s*/\\s*range)?\\s*(:|=|to|→|->|is|are|as|of|becomes|should be|must be|set to)?\\s*[`*\\\"']*(n/a|not applicable|none)\\b|/\\s*[`*\\\"']*n/a[`*\\\"']*\\s*/|\\|\\s*(real|integer|int|string|character)\\s*\\|\\s*[`*\\\"']*n/a|\\bmark\\w*\\s+(them|it|both|units?(\\s*/\\s*range)?)\\s+(as\\s+)?[`*\\\"']*n/a|\\b(remov|drop|delet|clear|blank)\\w*\\s+(the\\s+)?(units?|percent|mg/kg|mm)\\b(?![^.;]*\\bfraction))"
+    },
+    "irr_amt_default_kept": {
+      "fields": [
+        [
+          "irr_amt",
+          "amt_mm"
+        ]
+      ],
+      "none": "^(?:(?=.*(\\b(updated?|changed?|adopted|accepted?|agree\\w*)\\b[^|]{0,40}?\\bdefault\\b[^|]{0,40}?(→|->|=>|\\bto\\b|should be|\\bis\\b)\\s*[`*\\\"']*\\d+(?:\\.\\d+)?))|(?!.*(reviewer\\W+(\\w+\\W+){0,2}?(says|said|suggest\\w*|request\\w*|recommend\\w*|flag\\w*|wants|ask\\w*|propos\\w*|note[sd]?|accept\\w*|confirm\\w*)|\\(or\\s|\\b(reject|declin)\\w*\\s+(the\\s+)?(reviewer|suggest|request|chang|propos|this|that|it)\\b|disagree|(keep|kept|retain\\w*|leave|leaving|preserv\\w*)\\W+(\\w+\\W+){0,4}?default|\\bdefault\\W+(\\w+\\W+)?(kept|retained|preserved|stays?|remains?|unchanged|no change(?!\\s+to\\b)|as[- ]is)\\b|\\bdefault\\b[^|]{0,40}\\brecommended\\b|\\brecommended\\b[^|]{0,40}\\bdefault\\b|\\b(needs?|for|flag\\w*|mark\\w*)\\s+(human\\s+)?review\\b|\\|\\s*no change\\s*\\|?\\s*$|\\bnot\\s+(be\\s+)?(chang|replac|edit|updat)\\w*|rather than|instead of))).*(\\bdefault\\b[^|;]{0,25}?(→|->|=>)\\s*[`*\\\"'(]*\\s*25\\.4(?!\\.?\\d)|\\bpropos\\w*\\b[^|]{0,60}?\\bdefault\\b\\W{0,3}[`*\\\"']*25\\.4(?!\\.?\\d)|\\bdefault\\s+should\\s+(be\\s+)?[`*\\\"']*25\\.4(?!\\.?\\d)|\\b(updat\\w*|chang\\w*|set|add\\w*|fill\\w*|use|put)\\s+(the\\s+)?(\\w+\\s+){0,2}?default(\\s+value)?(\\s+(to|of|=|:))?\\W{0,3}[`*\\\"']*25\\.4(?!\\.?\\d)|\\bdefault\\b[^|]{0,40}?\\b(from|chang\\w*)\\W+(\\w+\\W+){0,2}?[`*\\\"']*\\d+(?:\\.\\d+)?[`*\\\"']*\\s+to\\s+[`*\\\"']*25\\.4(?!\\.?\\d)|^\\s*\\|.*\\bdefault\\W{0,3}[`*\\\"']*25\\.4(?!\\.?\\d)|\\|\\s*[`*\\\"']*25\\.4(?!\\.?\\d)[`*\\\"']*\\s*\\(was\\b|\\|\\s*[`*\\\"']*25\\.4(?!\\.?\\d)[`*\\\"']*\\s*(?=\\|))"
     }
   },
   "bonus": {

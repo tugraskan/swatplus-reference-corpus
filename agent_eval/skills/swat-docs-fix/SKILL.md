@@ -111,6 +111,8 @@ code enforces. Keep them unless the evidence contradicts them (e.g. a `(1. - x)`
 as 0-100 percent, or an example value outside the range). Never remove or narrow a range only because the code
 does not check it or a declaration comment gives another one (mark that "needs review" instead), and never set
 a unit to n/a only because the value is never read (say "not used" in the description and keep the unit).
+Never replace a documented default with the declaration's initial value, and never fill a blank default
+from code (mark that "needs review" instead).
 
 ## Step 4: write the proposal NOW, from Steps 1-3 alone (before any follow-up, so the work is saved)
 
