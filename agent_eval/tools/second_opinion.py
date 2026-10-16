@@ -139,8 +139,8 @@ def verdict(review: str) -> str:
     "Verdict:"/"Decision:" first, then the first verdict word written in capitals. Prose such as "before it can be
     approved" never counts. GPT-OSS writes "REQUEST CHANGES" with a narrow no-break space (U+202F) or a
     non-breaking hyphen (U+2011), so Unicode spaces and dashes are folded first."""
-    text = re.sub(r"[  -​  　]", " ", review)
-    text = re.sub(r"[‐-―−]", "-", text)
+    text = re.sub(r"[\u00a0\u2000-\u200b\u202f\u205f\u3000]", " ", review)
+    text = re.sub(r"[\u2010-\u2015\u2212]", "-", text)
     head = "\n".join([l for l in text.splitlines() if l.strip()][:3])
     labelled = re.compile(rf"\b(?:verdict|decision)\W{{0,5}}({VERDICT})\b", re.I)
     capitals = re.compile(rf"\b({VERDICT}|COMMENT)\b")
