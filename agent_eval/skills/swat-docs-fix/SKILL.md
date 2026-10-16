@@ -139,8 +139,9 @@ the evidence already quotes each statement. After each answer, update the propos
 
     cd ... && .swatref/tamandua-0.5/venv/Scripts/python.exe agent_eval/tools/second_opinion.py FILE
 
-It sends the saved proposal and the code evidence to ANT `review_code` (GPT-OSS 120B) and prints the verdict and
-the review (it takes about a minute; it also saves the review to `.swatref/hermes-proposals/FILE.review.md`).
+It sends the saved proposal and the code evidence to the reviewer set in `agent_eval/reviewer.toml` (GPT-OSS 120B
+on ANT, Codex, or Claude; the output names it) and prints the verdict and the review (it takes one to a few minutes;
+it also saves the review to `.swatref/hermes-proposals/FILE.review.md`). Do not change the reviewer setting.
 Use this command, not the `review_code` MCP tool. Then add a `## Second opinion` section to the proposal file:
 the verdict, and for each point the reviewer raised, whether you changed the proposal or why not. If the command
 prints `review_code FAILED`, run it once more; if it fails again, quote the error in that section and continue.
