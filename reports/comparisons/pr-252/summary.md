@@ -19,6 +19,7 @@ Overall: **requires corpus and schema updates before adoption**.
 - Parser fallback coverage: base=0 files, candidate=0 files
 - Symbols: 29 added, 18 removed, 309 changed
 - Schema entries: 50 added, removed, or changed; 1 newly unresolved
+- Semantic schema: 50 changed section entries across 50 unique input filenames; 22 structural, 0 documentation-only, 28 source-location-only, 0 source-organization, 0 uncertain; 0 previously unresolved now resolved, 6 genuinely new files
 - Input contracts: 7 added, 4 removed, 7 changed; 1 newly unresolved filename expressions (27 candidate total)
 - Output contracts: 15 added, 1 removed, 11 changed; 0 newly unresolved filename expressions (60 candidate total)
 - Corpus impact attributable to the PR: 100 newly stale, 302 newly affected, 9 newly orphaned, 8 new pages needed
