@@ -85,7 +85,11 @@ KNOWN_KEYS = {
 
 
 def load_page(path: Path) -> Page:
-    text = path.read_text(encoding="utf-8")
+    return parse_page(path, path.read_text(encoding="utf-8"))
+
+
+def parse_page(path: Path, text: str) -> Page:
+    """A page from file text; ``path`` is where the page lives (or will)."""
     m = FRONTMATTER_RX.match(text)
     fm: dict = {}
     body = text

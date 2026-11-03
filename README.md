@@ -58,6 +58,7 @@ src/swatplus_reference/
   schema/                          schema, range, field-map, Editor comparison
   comparison/                      locked builds, diffs, reproducibility checks
   generation/                      optional prose fill and delta refill
+  maintain.py                      reviewed propose/preview/apply of stale pages
   provenance/                      deterministic provenance sidecars
   cli.py                           `swatref` command
 
@@ -239,6 +240,30 @@ contradictions, and 526 rows that do not apply to the input schema.
 `swatref schema field-map` writes the full spreadsheet-to-Editor-to-Fortran
 mapping in JSON and readable Markdown.
 
+`swatref schema user-docs-report` checks the input-file tables of the SWAT+
+user documentation (a read-only checkout of SWATPlus-user-documentation)
+against a release schema: which input files have no page, which tables miss,
+add, reorder, or retype fields, and which field names still need a check. It
+never writes to the docs checkout.
+
+To fix one table, `swatref schema user-docs-packet FILE --docs-root PATH`
+prints its evidence:
+
+- the exact current rows with line numbers;
+- the source fields in read order with their declarations (file and line);
+- where each missing row goes;
+- whether the reader is ever called.
+
+After editing, `swatref schema user-docs-check FILE --docs-root PATH` exits 0
+only when the table matches the source, no field link is broken, and every
+linked page is registered in `SUMMARY.md`. Neither command writes anything.
+
+```sh
+# core.longpaths: some theory-section paths exceed Windows' 260-character limit
+git clone -c core.longpaths=true https://github.com/swat-model/SWATPlus-user-documentation external/SWATPlus-user-documentation
+swatref schema --source release_62_0_1 user-docs-report --docs-root external/SWATPlus-user-documentation
+```
+
 For backward compatibility with the reviewed release artifact, the schema JSON
 keeps its historical generator label. Exact modern provenance is stored in the
 adjacent `.provenance.json` file, including requested ref and resolved commit.
@@ -263,7 +288,9 @@ version = "my-branch-build"
 
 Add a `commit` value when the result must be reproducible. Keep the previous
 source checkout when updating documentation so `swatref docs refill` can make
-small, source-diff-driven prose changes instead of rewriting whole pages.
+small, source-diff-driven prose changes instead of rewriting whole pages. It
+must be the checkout the pages were last filled from; refill verifies this
+against each page's recorded source hash.
 
 ## Optional prose generation
 
@@ -276,8 +303,38 @@ swatref docs fill --limit 10
 swatref docs refill --old-source-dir external/swatplus-OLD/src
 ```
 
-Generated prose still passes through the same symbol-grounding checks before it
-is saved.
+Both commands drop structured notes the parser cannot see. `refill` and
+`apply-delta` also touch only stale pages, never let an empty delta field blank
+a reviewed section, and do not save a page that still has grounding errors;
+`refill` additionally refuses an old checkout that is not the source a page was
+written against. They exit non-zero when a stale page was not revised.
+
+### Reviewed maintenance
+
+`swatref docs maintain` does what `refill` does, but shows you the exact change
+before anything is written:
+
+```sh
+swatref docs --source NEW maintain propose --base OLD   # generate + preview
+swatref docs --source NEW maintain show                 # preview again
+swatref docs --source NEW maintain apply                # write exactly that
+```
+
+`propose` diffs each stale page's symbol between the `OLD` profile (the source
+the pages were written against) and `NEW`, generates a delta once, grounds the
+merged page in memory, and saves `reports/maintain/proposal.json`: both exact
+commits and, per page, the source diff, the delta, the grounding findings, and
+the original and proposed page bytes. It does not touch `docs_src/`. Pages with
+grounding errors are marked rejected; affected pages are listed for review
+only; stale io pages and orphaned pages are listed for a manual update. Pass
+`--deltas FILE` to use a hand-authored `{symbol: delta}` JSON instead of the
+model.
+
+`apply` never generates. It refuses the whole proposal, writing nothing, if
+the docs source moved to another commit, any page changed since the preview,
+any symbol's source hash changed, or a proposed page no longer grounds;
+otherwise it writes exactly the proposed bytes of the ready pages. Commit the
+proposal with the pages it changed as the record of why they changed.
 
 ## License
 

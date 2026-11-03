@@ -1,0 +1,2311 @@
+{
+  "counting": {
+    "category_counts": "Entry memberships; mixed entries appear in multiple categories.",
+    "changed_schema_entries": "Sum of added, removed, and changed entries across schema sections.",
+    "unique_changed_input_files": "Distinct entry names across schema sections."
+  },
+  "determinism": {
+    "candidate_sha256": "1377449e28aedc839889f3ed674f5674aa4722338549ea337569e5a3fbe1b668",
+    "repeat_sha256": "1377449e28aedc839889f3ed674f5674aa4722338549ea337569e5a3fbe1b668",
+    "zero_byte_diff": true
+  },
+  "metadata": {
+    "base_commit": "e05177f4cb837613cf465802159eb723401668bb",
+    "base_version": "pr-252-base",
+    "candidate_commit": "795d2d92ef11bfb3c30a6b38fd987463f025ef93",
+    "candidate_version": "pr-252-candidate"
+  },
+  "resolved_unresolved_transitions": {
+    "genuinely_new_files": [
+      "outside_src.wal",
+      "place_of_use.wro",
+      "point_of_diver.wro",
+      "transplant.ops",
+      "water_hru_irr.wal",
+      "wtps_wuses.wal"
+    ],
+    "previously_unresolved_now_resolved": []
+  },
+  "semantic_sections": {
+    "decision_tables": {
+      "added": [],
+      "changed": [
+        "flo_con.dtl",
+        "lum.dtl",
+        "res_rel.dtl",
+        "scen_lu.dtl"
+      ],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {
+        "flo_con.dtl": {
+          "categories": [
+            "structural"
+          ],
+          "changes": [
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/@length"
+            },
+            {
+              "base": "irr_demand_wro",
+              "base_present": true,
+              "candidate": "irr_pou_dmd",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/43"
+            },
+            {
+              "base": "vol",
+              "base_present": true,
+              "candidate": "wtow_vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/50"
+            },
+            {
+              "base": "res_inflo",
+              "base_present": true,
+              "candidate": "vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/51"
+            },
+            {
+              "base": "wet_depth",
+              "base_present": true,
+              "candidate": "res_inflo",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/52"
+            },
+            {
+              "base": "weirh",
+              "base_present": true,
+              "candidate": "wet_depth",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/53"
+            },
+            {
+              "base": "vol_wet",
+              "base_present": true,
+              "candidate": "weirh",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/54"
+            },
+            {
+              "base_present": false,
+              "candidate": "vol_wet",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/55"
+            }
+          ]
+        },
+        "lum.dtl": {
+          "categories": [
+            "structural"
+          ],
+          "changes": [
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/@length"
+            },
+            {
+              "base": "irr_demand_wro",
+              "base_present": true,
+              "candidate": "irr_pou_dmd",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/43"
+            },
+            {
+              "base": "vol",
+              "base_present": true,
+              "candidate": "wtow_vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/50"
+            },
+            {
+              "base": "res_inflo",
+              "base_present": true,
+              "candidate": "vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/51"
+            },
+            {
+              "base": "wet_depth",
+              "base_present": true,
+              "candidate": "res_inflo",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/52"
+            },
+            {
+              "base": "weirh",
+              "base_present": true,
+              "candidate": "wet_depth",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/53"
+            },
+            {
+              "base": "vol_wet",
+              "base_present": true,
+              "candidate": "weirh",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/54"
+            },
+            {
+              "base_present": false,
+              "candidate": "vol_wet",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/55"
+            }
+          ]
+        },
+        "res_rel.dtl": {
+          "categories": [
+            "structural"
+          ],
+          "changes": [
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/@length"
+            },
+            {
+              "base": "irr_demand_wro",
+              "base_present": true,
+              "candidate": "irr_pou_dmd",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/43"
+            },
+            {
+              "base": "vol",
+              "base_present": true,
+              "candidate": "wtow_vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/50"
+            },
+            {
+              "base": "res_inflo",
+              "base_present": true,
+              "candidate": "vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/51"
+            },
+            {
+              "base": "wet_depth",
+              "base_present": true,
+              "candidate": "res_inflo",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/52"
+            },
+            {
+              "base": "weirh",
+              "base_present": true,
+              "candidate": "wet_depth",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/53"
+            },
+            {
+              "base": "vol_wet",
+              "base_present": true,
+              "candidate": "weirh",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/54"
+            },
+            {
+              "base_present": false,
+              "candidate": "vol_wet",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/55"
+            }
+          ]
+        },
+        "scen_lu.dtl": {
+          "categories": [
+            "structural"
+          ],
+          "changes": [
+            {
+              "base": 55,
+              "base_present": true,
+              "candidate": 56,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/@length"
+            },
+            {
+              "base": "irr_demand_wro",
+              "base_present": true,
+              "candidate": "irr_pou_dmd",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/43"
+            },
+            {
+              "base": "vol",
+              "base_present": true,
+              "candidate": "wtow_vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/50"
+            },
+            {
+              "base": "res_inflo",
+              "base_present": true,
+              "candidate": "vol",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/51"
+            },
+            {
+              "base": "wet_depth",
+              "base_present": true,
+              "candidate": "res_inflo",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/52"
+            },
+            {
+              "base": "weirh",
+              "base_present": true,
+              "candidate": "wet_depth",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/53"
+            },
+            {
+              "base": "vol_wet",
+              "base_present": true,
+              "candidate": "weirh",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/54"
+            },
+            {
+              "base_present": false,
+              "candidate": "vol_wet",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/vocabulary/condition_var/55"
+            }
+          ]
+        }
+      },
+      "removed": [],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [
+        "flo_con.dtl",
+        "lum.dtl",
+        "res_rel.dtl",
+        "scen_lu.dtl"
+      ],
+      "structural_details": {
+        "flo_con.dtl": {
+          "changed_paths": [
+            "/vocabulary/condition_var/@length",
+            "/vocabulary/condition_var/43",
+            "/vocabulary/condition_var/50",
+            "/vocabulary/condition_var/51",
+            "/vocabulary/condition_var/52",
+            "/vocabulary/condition_var/53",
+            "/vocabulary/condition_var/54",
+            "/vocabulary/condition_var/55"
+          ]
+        },
+        "lum.dtl": {
+          "changed_paths": [
+            "/vocabulary/condition_var/@length",
+            "/vocabulary/condition_var/43",
+            "/vocabulary/condition_var/50",
+            "/vocabulary/condition_var/51",
+            "/vocabulary/condition_var/52",
+            "/vocabulary/condition_var/53",
+            "/vocabulary/condition_var/54",
+            "/vocabulary/condition_var/55"
+          ]
+        },
+        "res_rel.dtl": {
+          "changed_paths": [
+            "/vocabulary/condition_var/@length",
+            "/vocabulary/condition_var/43",
+            "/vocabulary/condition_var/50",
+            "/vocabulary/condition_var/51",
+            "/vocabulary/condition_var/52",
+            "/vocabulary/condition_var/53",
+            "/vocabulary/condition_var/54",
+            "/vocabulary/condition_var/55"
+          ]
+        },
+        "scen_lu.dtl": {
+          "changed_paths": [
+            "/vocabulary/condition_var/@length",
+            "/vocabulary/condition_var/43",
+            "/vocabulary/condition_var/50",
+            "/vocabulary/condition_var/51",
+            "/vocabulary/condition_var/52",
+            "/vocabulary/condition_var/53",
+            "/vocabulary/condition_var/54",
+            "/vocabulary/condition_var/55"
+          ]
+        }
+      },
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 0
+    },
+    "files": {
+      "added": [
+        "point_of_diver.wro",
+        "transplant.ops"
+      ],
+      "changed": [
+        "aqu_cha.lin",
+        "aquifer.con",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "delratio.con",
+        "exco.con",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "object.prt",
+        "om_treat.wal",
+        "om_use.wal",
+        "outlet.con",
+        "outside_rcv.wal",
+        "parameters.bsn",
+        "pest.com",
+        "pesticide.pes",
+        "recall.con",
+        "recall_db.rec",
+        "reservoir.con",
+        "rout_unit.con",
+        "rout_unit.def",
+        "rout_unit.ele",
+        "salt_aqu.ini",
+        "shade_factor.shf",
+        "water_tower.wal"
+      ],
+      "documentation_changes": [
+        "parameters.bsn",
+        "pesticide.pes",
+        "shade_factor.shf"
+      ],
+      "documentation_details": {
+        "parameters.bsn": {
+          "changed_paths": [
+            "/fields/5/doc",
+            "/fields/6/doc"
+          ]
+        },
+        "pesticide.pes": {
+          "changed_paths": [
+            "/fields/mol_wt/doc"
+          ]
+        },
+        "shade_factor.shf": {
+          "changed_paths": [
+            "/fields/1/doc"
+          ]
+        }
+      },
+      "documentation_only_changes": [],
+      "entry_details": {
+        "aqu_cha.lin": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:521-528",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:527-534",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "aquifer.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "chan-surf.lin": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sd_channel_module.f90:165-222",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:166-224",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "chandeg.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "channel-lte.cha": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "sd_channel_module.f90:132-143",
+              "base_present": true,
+              "candidate": "sd_channel_module.f90:133-144",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "channel.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "delratio.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "exco.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "gwflow.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "hru-lte.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "hru.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "initial.aqu": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "aquifer_module.f90:74-81",
+              "base_present": true,
+              "candidate": "aquifer_module.f90:75-82",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "initial.aqu_cs": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "aquifer_module.f90:85-92",
+              "base_present": true,
+              "candidate": "aquifer_module.f90:86-93",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "ls_unit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 71,
+              "base_present": true,
+              "candidate": 70,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "ls_unit.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 128,
+              "base_present": true,
+              "candidate": 127,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "object.prt": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:240-249",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:256-265",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "om_treat.wal": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 42,
+              "base_present": true,
+              "candidate": 43,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "om_use.wal": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 43,
+              "base_present": true,
+              "candidate": 44,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            }
+          ]
+        },
+        "outlet.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "outside_rcv.wal": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "water_allocation_module.f90:118-121",
+              "base_present": true,
+              "candidate": "water_allocation_module.f90:172-175",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "parameters.bsn": {
+          "categories": [
+            "structural",
+            "documentation"
+          ],
+          "changes": [
+            {
+              "base": "not used",
+              "base_present": true,
+              "candidate": "pesticide groundwater mixing factor",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/5/doc"
+            },
+            {
+              "base": "spcon",
+              "base_present": true,
+              "candidate": "pestgwfact",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/5/fortran_name"
+            },
+            {
+              "base": "not used",
+              "base_present": true,
+              "candidate": "pesticide temperature decay factor (0-1) - fraction increase in decay rate per degree C increase in temp",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/6/doc"
+            },
+            {
+              "base": "spexp",
+              "base_present": true,
+              "candidate": "temp_decay",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/6/fortran_name"
+            }
+          ]
+        },
+        "pest.com": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 260,
+              "base_present": true,
+              "candidate": 297,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "constituent_mass_module.f90:249-256",
+              "base_present": true,
+              "candidate": "constituent_mass_module.f90:278-285",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "pesticide.pes": {
+          "categories": [
+            "structural",
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 15,
+              "base_present": true,
+              "candidate": 17,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/descrip/position"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/harvest_sink",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base": "molecular weight - to calculate mixing velocity",
+              "base_present": true,
+              "candidate": "molecular weight - to calulate mixing velocity",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/mol_wt/doc"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/resistance_n",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base": "pesticide_data_module.f90:5-22",
+              "base_present": true,
+              "candidate": "pesticide_data_module.f90:5-24",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "recall.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "recall_db.rec": {
+          "categories": [
+            "structural",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/constit",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/constit.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/constit.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/constit.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/descrip",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/hmet",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/hmet.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/hmet.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/hmet.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/org_min",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/org_min.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/org_min.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/org_min.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/path",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/path.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/path.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/path.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/pest",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/pest.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/pest.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/pest.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/salt",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/salt.name",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/salt.tstep",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/fields/salt.units",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 54,
+              "base_present": true,
+              "candidate": 49,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "recall_module.f90:11-25",
+              "base_present": true,
+              "candidate": "recall_module.f90:5-20",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "reservoir.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "rout_unit.con": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:315-403",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:331-419",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "rout_unit.def": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:474-478",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:480-484",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "rout_unit.ele": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "hydrograph_module.f90:481-489",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:487-495",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "salt_aqu.ini": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "constituent_mass_module.f90:273-277",
+              "base_present": true,
+              "candidate": "constituent_mass_module.f90:302-306",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "shade_factor.shf": {
+          "categories": [
+            "structural",
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": "landscape unit",
+              "base_present": true,
+              "candidate": "channel number",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/fields/1/doc"
+            },
+            {
+              "base": "lsu",
+              "base_present": true,
+              "candidate": "cha",
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/fields/1/fortran_name"
+            },
+            {
+              "base": "hydrograph_module.f90:1189-1193",
+              "base_present": true,
+              "candidate": "hydrograph_module.f90:1195-1199",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        },
+        "water_tower.wal": {
+          "categories": [
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 48,
+              "base_present": true,
+              "candidate": 42,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": "water_allocation_module.f90:130-138",
+              "base_present": true,
+              "candidate": "water_allocation_module.f90:179-188",
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/type_source"
+            }
+          ]
+        }
+      },
+      "removed": [
+        "manure.frt",
+        "transplant.plt"
+      ],
+      "source_location_changes": [
+        "aqu_cha.lin",
+        "aquifer.con",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "delratio.con",
+        "exco.con",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "object.prt",
+        "om_treat.wal",
+        "om_use.wal",
+        "outlet.con",
+        "outside_rcv.wal",
+        "pest.com",
+        "pesticide.pes",
+        "recall.con",
+        "recall_db.rec",
+        "reservoir.con",
+        "rout_unit.con",
+        "rout_unit.def",
+        "rout_unit.ele",
+        "salt_aqu.ini",
+        "shade_factor.shf",
+        "water_tower.wal"
+      ],
+      "source_location_only_changes": [
+        "aqu_cha.lin",
+        "aquifer.con",
+        "chan-surf.lin",
+        "chandeg.con",
+        "channel-lte.cha",
+        "channel.con",
+        "delratio.con",
+        "exco.con",
+        "gwflow.con",
+        "hru-lte.con",
+        "hru.con",
+        "initial.aqu",
+        "initial.aqu_cs",
+        "ls_unit.def",
+        "ls_unit.ele",
+        "object.prt",
+        "om_treat.wal",
+        "om_use.wal",
+        "outlet.con",
+        "outside_rcv.wal",
+        "pest.com",
+        "recall.con",
+        "reservoir.con",
+        "rout_unit.con",
+        "rout_unit.def",
+        "rout_unit.ele",
+        "salt_aqu.ini",
+        "water_tower.wal"
+      ],
+      "source_location_only_details": {
+        "aqu_cha.lin": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "aquifer.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "chan-surf.lin": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "chandeg.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "channel-lte.cha": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "channel.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "delratio.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "exco.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "gwflow.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "hru-lte.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "hru.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "initial.aqu": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "initial.aqu_cs": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "ls_unit.def": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "ls_unit.ele": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "object.prt": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "om_treat.wal": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "om_use.wal": {
+          "changed_paths": [
+            "/reader_line"
+          ]
+        },
+        "outlet.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "outside_rcv.wal": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "pest.com": {
+          "changed_paths": [
+            "/reader_line",
+            "/type_source"
+          ]
+        },
+        "recall.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "reservoir.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "rout_unit.con": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "rout_unit.def": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "rout_unit.ele": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "salt_aqu.ini": {
+          "changed_paths": [
+            "/type_source"
+          ]
+        },
+        "water_tower.wal": {
+          "changed_paths": [
+            "/reader_line",
+            "/type_source"
+          ]
+        }
+      },
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [
+        "parameters.bsn",
+        "pesticide.pes",
+        "recall_db.rec",
+        "shade_factor.shf"
+      ],
+      "structural_details": {
+        "parameters.bsn": {
+          "changed_paths": [
+            "/fields/5/fortran_name",
+            "/fields/6/fortran_name"
+          ]
+        },
+        "pesticide.pes": {
+          "changed_paths": [
+            "/fields/descrip/position",
+            "/fields/harvest_sink",
+            "/fields/resistance_n"
+          ]
+        },
+        "recall_db.rec": {
+          "changed_paths": [
+            "/fields/constit",
+            "/fields/constit.name",
+            "/fields/constit.tstep",
+            "/fields/constit.units",
+            "/fields/descrip",
+            "/fields/hmet",
+            "/fields/hmet.name",
+            "/fields/hmet.tstep",
+            "/fields/hmet.units",
+            "/fields/org_min",
+            "/fields/org_min.name",
+            "/fields/org_min.tstep",
+            "/fields/org_min.units",
+            "/fields/path",
+            "/fields/path.name",
+            "/fields/path.tstep",
+            "/fields/path.units",
+            "/fields/pest",
+            "/fields/pest.name",
+            "/fields/pest.tstep",
+            "/fields/pest.units",
+            "/fields/salt",
+            "/fields/salt.name",
+            "/fields/salt.tstep",
+            "/fields/salt.units"
+          ]
+        },
+        "shade_factor.shf": {
+          "changed_paths": [
+            "/fields/1/fortran_name"
+          ]
+        }
+      },
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 111
+    },
+    "multi_record": {
+      "added": [
+        "place_of_use.wro",
+        "water_hru_irr.wal"
+      ],
+      "changed": [],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {},
+      "removed": [
+        "water_allocation.wro"
+      ],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 5
+    },
+    "multi_section": {
+      "added": [
+        "wtps_wuses.wal"
+      ],
+      "changed": [],
+      "documentation_changes": [],
+      "documentation_details": {},
+      "documentation_only_changes": [],
+      "entry_details": {},
+      "removed": [],
+      "source_location_changes": [],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [],
+      "structural_details": {},
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 7
+    },
+    "runtime_arity": {
+      "added": [
+        "outside_src.wal"
+      ],
+      "changed": [
+        "water_canal.wal",
+        "water_pipe.wal",
+        "water_treat.wal",
+        "water_use.wal"
+      ],
+      "documentation_changes": [
+        "water_canal.wal",
+        "water_use.wal"
+      ],
+      "documentation_details": {
+        "water_canal.wal": {
+          "changed_paths": [
+            "/sections/canal_rows/fields/sat_con/doc",
+            "/sections/canal_rows/fields/ss/doc",
+            "/sections/canal_rows/fields/w/doc"
+          ]
+        },
+        "water_use.wal": {
+          "changed_paths": [
+            "/sections/main_rows/fields/descrip/doc"
+          ]
+        }
+      },
+      "documentation_only_changes": [],
+      "entry_details": {
+        "water_canal.wal": {
+          "categories": [
+            "structural",
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 35,
+              "base_present": true,
+              "candidate": 33,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/bed_thick",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/day_beg",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/day_end",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/div_id",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/evap_co",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/l",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/loss_fr",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 16,
+              "base_present": true,
+              "candidate": 13,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/num_aqu/position"
+            },
+            {
+              "base": 8,
+              "base_present": true,
+              "candidate": 9,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/s/position"
+            },
+            {
+              "base": "to compute percolation from canal to groundwater",
+              "base_present": true,
+              "candidate": "mm/d !to compute percolation from canal to groundwater",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/sections/canal_rows/fields/sat_con/doc"
+            },
+            {
+              "base": 10,
+              "base_present": true,
+              "candidate": 11,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/sat_con/position"
+            },
+            {
+              "base": "m/m !side slope of trapezoidal canal",
+              "base_present": true,
+              "candidate": "m/m !side slope of trapezoidal canal (horizontal/vertical)",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/sections/canal_rows/fields/ss/doc"
+            },
+            {
+              "base": 9,
+              "base_present": true,
+              "candidate": 10,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/fields/ss/position"
+            },
+            {
+              "base": "m !top width of canal",
+              "base_present": true,
+              "candidate": "m !bottom width of canal",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/sections/canal_rows/fields/w/doc"
+            },
+            {
+              "base": 56,
+              "base_present": true,
+              "candidate": 53,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/canal_rows/reader_line"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/canal_rows/repeat_fields/aqu_loss_fr",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/repeat_fields/aqu_num",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/canal_rows/repeat_fields/frac",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 35,
+              "base_present": true,
+              "candidate": 33,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_count/reader_line"
+            }
+          ]
+        },
+        "water_pipe.wal": {
+          "categories": [
+            "structural"
+          ],
+          "changes": [
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/pipe_rows/repeat_fields/aqu_loss_fr",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/pipe_rows/repeat_fields/aqu_num",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/pipe_rows/repeat_fields/frac",
+              "reason": "key_removed",
+              "value_type": "dict"
+            }
+          ]
+        },
+        "water_treat.wal": {
+          "categories": [
+            "structural",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 34,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 34,
+              "base_present": true,
+              "candidate": 37,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_count/reader_line"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/constit",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/descrip",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/i",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 3,
+              "base_present": true,
+              "candidate": 2,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/lag_days/position"
+            },
+            {
+              "base": 4,
+              "base_present": true,
+              "candidate": 3,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/loss_fr/position"
+            },
+            {
+              "base": 1,
+              "base_present": true,
+              "candidate": 0,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/name/position"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/num_treats",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/org_min",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/paths",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/pests",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/salts",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 2,
+              "base_present": true,
+              "candidate": 1,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/stor_mx/position"
+            },
+            {
+              "base": 49,
+              "base_present": true,
+              "candidate": 45,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/main_rows/reader_line"
+            },
+            {
+              "base": 75,
+              "base_present": true,
+              "candidate": 112,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/pathogen_concentrations/reader_line"
+            },
+            {
+              "base": 68,
+              "base_present": true,
+              "candidate": 105,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/pest_concentrations/reader_line"
+            }
+          ]
+        },
+        "water_use.wal": {
+          "categories": [
+            "structural",
+            "documentation",
+            "source_location"
+          ],
+          "changes": [
+            {
+              "base": 35,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/reader_line"
+            },
+            {
+              "base": 35,
+              "base_present": true,
+              "candidate": 38,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/entry_count/reader_line"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/constit",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/constit_name",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/constit_typ",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base": "description",
+              "base_present": true,
+              "candidate": "treatment plant description",
+              "candidate_present": true,
+              "category": "documentation",
+              "path": "/sections/main_rows/fields/descrip/doc"
+            },
+            {
+              "base": 10,
+              "base_present": true,
+              "candidate": 14,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/descrip/position"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/i",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base": 3,
+              "base_present": true,
+              "candidate": 2,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/lag_days/position"
+            },
+            {
+              "base": 4,
+              "base_present": true,
+              "candidate": 3,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/loss_fr/position"
+            },
+            {
+              "base": 1,
+              "base_present": true,
+              "candidate": 0,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/name/position"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/org_min",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/org_min_name",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/org_min_typ",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/paths",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/paths_name",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/paths_typ",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/pests",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/pests_name",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/pests_typ",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": true,
+              "candidate_present": false,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/salts",
+              "reason": "key_removed",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/salts_name",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base_present": false,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/salts_typ",
+              "reason": "key_added",
+              "value_type": "dict"
+            },
+            {
+              "base": 2,
+              "base_present": true,
+              "candidate": 1,
+              "candidate_present": true,
+              "category": "structural",
+              "path": "/sections/main_rows/fields/stor_mx/position"
+            },
+            {
+              "base": 50,
+              "base_present": true,
+              "candidate": 48,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/main_rows/reader_line"
+            },
+            {
+              "base": 76,
+              "base_present": true,
+              "candidate": 98,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/pathogen_concentrations/reader_line"
+            },
+            {
+              "base": 69,
+              "base_present": true,
+              "candidate": 91,
+              "candidate_present": true,
+              "category": "source_location",
+              "path": "/sections/pest_concentrations/reader_line"
+            }
+          ]
+        }
+      },
+      "removed": [
+        "out_src.wal"
+      ],
+      "source_location_changes": [
+        "water_canal.wal",
+        "water_treat.wal",
+        "water_use.wal"
+      ],
+      "source_location_only_changes": [],
+      "source_location_only_details": {},
+      "source_organization_changes": [],
+      "source_organization_details": {},
+      "structural_changes": [
+        "water_canal.wal",
+        "water_pipe.wal",
+        "water_treat.wal",
+        "water_use.wal"
+      ],
+      "structural_details": {
+        "water_canal.wal": {
+          "changed_paths": [
+            "/sections/canal_rows/fields/bed_thick",
+            "/sections/canal_rows/fields/day_beg",
+            "/sections/canal_rows/fields/day_end",
+            "/sections/canal_rows/fields/div_id",
+            "/sections/canal_rows/fields/evap_co",
+            "/sections/canal_rows/fields/l",
+            "/sections/canal_rows/fields/loss_fr",
+            "/sections/canal_rows/fields/num_aqu/position",
+            "/sections/canal_rows/fields/s/position",
+            "/sections/canal_rows/fields/sat_con/position",
+            "/sections/canal_rows/fields/ss/position",
+            "/sections/canal_rows/repeat_fields/aqu_loss_fr",
+            "/sections/canal_rows/repeat_fields/aqu_num",
+            "/sections/canal_rows/repeat_fields/frac"
+          ]
+        },
+        "water_pipe.wal": {
+          "changed_paths": [
+            "/sections/pipe_rows/repeat_fields/aqu_loss_fr",
+            "/sections/pipe_rows/repeat_fields/aqu_num",
+            "/sections/pipe_rows/repeat_fields/frac"
+          ]
+        },
+        "water_treat.wal": {
+          "changed_paths": [
+            "/sections/main_rows/fields/constit",
+            "/sections/main_rows/fields/descrip",
+            "/sections/main_rows/fields/i",
+            "/sections/main_rows/fields/lag_days/position",
+            "/sections/main_rows/fields/loss_fr/position",
+            "/sections/main_rows/fields/name/position",
+            "/sections/main_rows/fields/num_treats",
+            "/sections/main_rows/fields/org_min",
+            "/sections/main_rows/fields/paths",
+            "/sections/main_rows/fields/pests",
+            "/sections/main_rows/fields/salts",
+            "/sections/main_rows/fields/stor_mx/position"
+          ]
+        },
+        "water_use.wal": {
+          "changed_paths": [
+            "/sections/main_rows/fields/constit",
+            "/sections/main_rows/fields/constit_name",
+            "/sections/main_rows/fields/constit_typ",
+            "/sections/main_rows/fields/descrip/position",
+            "/sections/main_rows/fields/i",
+            "/sections/main_rows/fields/lag_days/position",
+            "/sections/main_rows/fields/loss_fr/position",
+            "/sections/main_rows/fields/name/position",
+            "/sections/main_rows/fields/org_min",
+            "/sections/main_rows/fields/org_min_name",
+            "/sections/main_rows/fields/org_min_typ",
+            "/sections/main_rows/fields/paths",
+            "/sections/main_rows/fields/paths_name",
+            "/sections/main_rows/fields/paths_typ",
+            "/sections/main_rows/fields/pests",
+            "/sections/main_rows/fields/pests_name",
+            "/sections/main_rows/fields/pests_typ",
+            "/sections/main_rows/fields/salts",
+            "/sections/main_rows/fields/salts_name",
+            "/sections/main_rows/fields/salts_typ",
+            "/sections/main_rows/fields/stor_mx/position"
+          ]
+        }
+      },
+      "uncertain_changes": [],
+      "uncertain_details": {},
+      "unchanged_count": 28
+    }
+  },
+  "source": {
+    "base_commit": "e05177f4cb837613cf465802159eb723401668bb",
+    "candidate_commit": "795d2d92ef11bfb3c30a6b38fd987463f025ef93"
+  },
+  "summary": {
+    "base_flat_files": 145,
+    "candidate_flat_files": 145,
+    "changed_schema_entries": 50,
+    "changed_unresolved_reasons": 0,
+    "documentation_changes": 5,
+    "documentation_only_changes": 0,
+    "genuinely_new_files": 6,
+    "new_unresolved": 1,
+    "previously_unresolved_now_resolved": 0,
+    "source_location_changes": 34,
+    "source_location_only_changes": 28,
+    "source_organization_changes": 0,
+    "structural_changes": 22,
+    "uncertain_changes": 0,
+    "unique_changed_input_files": 50,
+    "unique_input_files_by_category": {
+      "documentation": 5,
+      "source_location": 34,
+      "source_organization": 0,
+      "structural": 22,
+      "uncertain": 0
+    }
+  },
+  "unresolved_sections": {
+    "decision_tables_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_record_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "multi_section_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "runtime_arity_unresolved": {
+      "base_count": 0,
+      "candidate_count": 0,
+      "changed_reasons": {},
+      "new": [],
+      "resolved": []
+    },
+    "unresolved": {
+      "base_count": 0,
+      "candidate_count": 1,
+      "changed_reasons": {},
+      "new": [
+        "manure.frt"
+      ],
+      "resolved": []
+    }
+  }
+}

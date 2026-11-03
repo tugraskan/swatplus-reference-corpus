@@ -1,0 +1,12 @@
+# Which model gives the second opinion in Step 6 of the swat-docs-fix recipe (agent_eval/tools/second_opinion.py).
+#
+#   primary = "gpt-oss"   GPT-OSS 120B on ANT (review_code), the original reviewer; free, local
+#   primary = "codex"     Codex CLI (`codex exec`, read-only, no memories or plugins); uses your Codex quota
+#   primary = "claude"    Claude Code (`claude -p`, no tools or MCP servers); uses your Claude quota
+#
+# `second_opinion.py FILE --reviewer NAME` overrides this for one run.
+primary = "codex"
+
+# Optional model names; leave empty for each tool's own default model.
+claude_model = ""
+codex_model = ""

@@ -80,7 +80,31 @@
     "new_unresolved": 1,
     "new_unresolved_files": [
       "manure.frt"
-    ]
+    ],
+    "semantic": {
+      "base_flat_files": 145,
+      "candidate_flat_files": 145,
+      "changed_schema_entries": 50,
+      "changed_unresolved_reasons": 0,
+      "documentation_changes": 5,
+      "documentation_only_changes": 0,
+      "genuinely_new_files": 6,
+      "new_unresolved": 1,
+      "previously_unresolved_now_resolved": 0,
+      "source_location_changes": 34,
+      "source_location_only_changes": 28,
+      "source_organization_changes": 0,
+      "structural_changes": 22,
+      "uncertain_changes": 0,
+      "unique_changed_input_files": 50,
+      "unique_input_files_by_category": {
+        "documentation": 5,
+        "source_location": 34,
+        "source_organization": 0,
+        "structural": 22,
+        "uncertain": 0
+      }
+    }
   },
   "source": {
     "base_commit": "e05177f4cb837613cf465802159eb723401668bb",

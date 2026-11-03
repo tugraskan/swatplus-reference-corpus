@@ -2,10 +2,15 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from types import SimpleNamespace
 
-from swatplus_reference.docs.pages import Page
+import anthropic
+import pytest
+
+from swatplus_reference.docs.pages import Page, load_page
 from swatplus_reference.generation import refill
 from swatplus_reference.parser.facts import FactStore, Symbol
+from swatplus_reference.source.config import Config
 
 # A curated page: fill-managed sections plus additional sections
 # (Theory Equations, Lineage) that the fill template never emits.
@@ -192,3 +197,156 @@ def test_apply_delta_file_key_free(tmp_path):
     assert "FROM DELTA FILE." in page.path.read_text()
     # Additional curated sections still present after a key-free apply.
     assert "## Theory Equations" in page.path.read_text()
+
+
+# --------------------------------------------------------------------------
+# Refill gates: stale only, verified baseline, grounded writes, per-page errors
+# --------------------------------------------------------------------------
+
+def refill_case(tmp_path, names=("demo",), old_hash="oldhash0000000"):
+    """Stale pages on disk plus old/new source trees and their fact stores.
+
+    Every page records ``oldhash0000000``. The new store has moved on to
+    ``newhash1111111``; the old store hashes to ``old_hash``, which is the
+    page's baseline unless a test overrides it.
+    """
+    docs, old_dir, new_dir = tmp_path / "docs", tmp_path / "old", tmp_path / "new"
+    old_dir.mkdir()
+    new_dir.mkdir()
+    store, old_store, paths = FactStore(source_ref="new"), FactStore(source_ref="old"), []
+    for name in names:
+        page = make_page(docs)
+        page.path, page.symbol, page.title = docs / "procedures" / f"{name}.md", name, name
+        page.status = "stale"
+        page.save()
+        paths.append(page.path)
+        (old_dir / f"{name}.f90").write_text(f"subroutine {name}\n  x = 1\nend subroutine {name}\n")
+        (new_dir / f"{name}.f90").write_text(f"subroutine {name}\n  x = 2\nend subroutine {name}\n")
+        for s, h in ((store, "newhash1111111"), (old_store, old_hash)):
+            s.add(Symbol(kind="subroutine", name=name, file=f"{name}.f90",
+                         start_line=1, end_line=3, source_hash=h))
+    cfg = Config(root=tmp_path, docs_dir=docs, source_dir=new_dir, version_label="SWAT+ NEW")
+    return cfg, store, old_store, old_dir, paths
+
+
+class FakeClient:
+    """Stands in for anthropic.Anthropic(): canned reply text per symbol."""
+
+    def __init__(self, replies: dict[str, str]):
+        self.replies = replies
+        self.prompts: list[str] = []
+        self.messages = self
+
+    def create(self, **kwargs):
+        prompt = kwargs["messages"][0]["content"]
+        self.prompts.append(prompt)
+        text = next(t for name, t in self.replies.items() if f"# Symbol: {name} " in prompt)
+        return SimpleNamespace(stop_reason="end_turn",
+                               content=[SimpleNamespace(type="text", text=text)])
+
+
+def run_refill_with(monkeypatch, replies, cfg, store, old_store, old_dir, paths):
+    client = FakeClient(replies)
+    monkeypatch.setattr(anthropic, "Anthropic", lambda: client)
+    return client, refill.run_refill(cfg, store, old_store, old_dir, paths)
+
+
+def apply_deltas(tmp_path, cfg, store, deltas):
+    path = tmp_path / "deltas.json"
+    path.write_text(json.dumps(deltas))
+    return refill.apply_delta_file(cfg, store, path)
+
+
+def test_grounding_error_blocks_the_write(tmp_path):
+    cfg, store, _old, _dir, (path,) = refill_case(tmp_path)
+    before = path.read_bytes()
+    results = apply_deltas(tmp_path, cfg, store,
+                           {"demo": {"bottom_line": "Calls [sym:no_such_routine] daily."}})
+    assert results[0].startswith("REJECTED demo")
+    assert "broken-sym-ref" in results[0]
+    assert path.read_bytes() == before
+    assert refill.has_failures(results)
+
+
+def test_grounding_warnings_are_reported_but_do_not_block(tmp_path):
+    cfg, store, _old, _dir, (path,) = refill_case(tmp_path)
+    results = apply_deltas(tmp_path, cfg, store,
+                           {"demo": {"bottom_line": "Reads `mystery_var` daily."}})
+    assert results[0].startswith("REFILLED demo")
+    assert "grounding warnings: 1" in results[0]
+    assert "`mystery_var`" in path.read_text()
+    assert not refill.has_failures(results)
+
+
+def test_empty_fields_leave_reviewed_sections_untouched(tmp_path):
+    page = make_page(tmp_path)
+    body, notes = page.body, dict(page.extra["locals"])
+    refill.splice_delta(page, sym(), {"short_description": "", "algorithm": [],
+                                      "state_changes": [], "local_notes": []})
+    assert page.body == body  # the Algorithm table in particular survives
+    assert page.extra["locals"] == notes
+
+
+def test_refill_marks_the_page_filled_at_the_new_version(tmp_path):
+    cfg, store, _old, _dir, (path,) = refill_case(tmp_path)
+    apply_deltas(tmp_path, cfg, store, {"demo": {"bottom_line": "Revised."}})
+    page = load_page(path)
+    assert (page.status, page.version_label, page.source_hash) == (
+        "filled", "SWAT+ NEW", "newhash1111111")
+
+
+@pytest.mark.parametrize("status, source_hash", [
+    ("filled", "newhash1111111"),  # current: its own source is unchanged
+    ("todo", ""),                  # never filled: that is `fill`'s job
+])
+def test_pages_that_are_not_stale_are_never_rewritten(tmp_path, monkeypatch, status, source_hash):
+    cfg, store, old_store, old_dir, (path,) = refill_case(tmp_path)
+    page = load_page(path)
+    page.status, page.source_hash = status, source_hash
+    page.save()
+    before = path.read_bytes()
+
+    applied = apply_deltas(tmp_path, cfg, store, {"demo": {"bottom_line": "Rewritten."}})
+    client, refilled = run_refill_with(monkeypatch, {"demo": "{}"},
+                                       cfg, store, old_store, old_dir, [path])
+
+    assert applied[0].startswith("SKIP demo: not stale")
+    assert refilled[0].startswith("SKIP demo: not stale")
+    assert client.prompts == []
+    assert path.read_bytes() == before
+
+
+def test_refill_refuses_an_old_source_that_is_not_the_page_baseline(tmp_path, monkeypatch):
+    cfg, store, old_store, old_dir, (path,) = refill_case(tmp_path, old_hash="unrelated00000")
+    before = path.read_bytes()
+
+    client, refilled = run_refill_with(monkeypatch, {"demo": '{"bottom_line": "x"}'},
+                                       cfg, store, old_store, old_dir, [path])
+    prompts = refill.emit_delta_prompts(cfg, store, old_store, old_dir, [path],
+                                        tmp_path / "prompts")
+
+    for results in (refilled, prompts):
+        assert results[0].startswith("REFUSED demo: the old source is not the baseline")
+        assert "unrelated00000" in results[0]
+        assert refill.has_failures(results)
+    assert client.prompts == []
+    assert not list((tmp_path / "prompts").iterdir())
+    assert path.read_bytes() == before
+
+
+def test_one_failing_page_does_not_stop_the_batch(tmp_path, monkeypatch):
+    cfg, store, old_store, old_dir, paths = refill_case(tmp_path, names=("demo", "other"))
+    other_before = paths[1].read_bytes()
+
+    client, results = run_refill_with(
+        monkeypatch, {"demo": '{"bottom_line": "Revised."}', "other": "not json"},
+        cfg, store, old_store, old_dir, paths,
+    )
+
+    assert results[0].startswith("REFILLED demo [bottom_line]")
+    assert results[1].startswith("ERROR other: JSONDecodeError")
+    assert "Revised." in paths[0].read_text()
+    assert paths[1].read_bytes() == other_before
+    assert refill.has_failures(results)
+    # the model saw this symbol's own old -> new diff
+    assert any("-  x = 1" in p and "+  x = 2" in p for p in client.prompts)

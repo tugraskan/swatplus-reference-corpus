@@ -1,0 +1,2483 @@
+{
+  "docs": {
+    "commit": "a6730da20b8eaad18c92e4a15c6a0885c2e41c06",
+    "repository": "SWATPlus-user-documentation"
+  },
+  "example_headers": "`refdata/` (Ames_sub1, Osu_1hru) @ `97ca231e22b2`",
+  "field_map": "swatplus-62.0.0-field-map.json",
+  "files": {
+    "aqu_catunit.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "aqu_catunit.ele": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "aqu_cha.lin": {
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/connectivity/aqu_cha.lin.md"
+      ],
+      "status": "no_field_table"
+    },
+    "aqu_reg.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "aquifer.aqu": {
+      "docs_fields": 18,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "init",
+          "position": 3,
+          "source": "aqu_ini"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/aquifers/aquifer.aqu/README.md"
+      ],
+      "source_fields": 18,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/aquifers/aquifer.aqu/README.md"
+    },
+    "aquifer.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "atmodep.cli": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "bmpuser.str": {
+      "docs_fields": 8,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "flag_bmp",
+          "position": 2,
+          "source": "flag (bmp_flag)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/structural-practices/bmpuser.str/README.md"
+      ],
+      "source_fields": 8,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/structural-practices/bmpuser.str/README.md"
+    },
+    "cal_parms.cal": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "unit",
+          "position": 5,
+          "source": "units"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/calibration/cal_parms.cal.md"
+      ],
+      "source_fields": 5,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/calibration/cal_parms.cal.md"
+    },
+    "calibration.cal": {
+      "layout": "multi_record",
+      "pages": [
+        "io-docs/introduction-1/calibration/calibration.cal.md"
+      ],
+      "status": "not_compared"
+    },
+    "carbon.bsn": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cell_sol.gw": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cells.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "ch_catunit.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "ch_reg.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "ch_sed_budget.sft": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "ch_sed_parms.sft": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "chan-surf.lin": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "chancell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "chandeg.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "channel-lte.cha": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "ini",
+          "position": 3,
+          "source": "cha_ini (initc)"
+        },
+        {
+          "docs": "hyd",
+          "position": 4,
+          "source": "cha_hyd (hydc)"
+        },
+        {
+          "docs": "sed",
+          "position": 5,
+          "source": "cha_sed (sedc)"
+        },
+        {
+          "docs": "nut",
+          "position": 6,
+          "source": "cha_nut (nutc)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/channels/channel-lte.cha/README.md"
+      ],
+      "source_fields": 6,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/channels/channel-lte.cha/README.md"
+    },
+    "channel.cha": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "channel.con": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "chem_app.ops": {
+      "docs_fields": 9,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/management-practices/chem_app.ops/README.md"
+      ],
+      "source_fields": 9,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/management-practices/chem_app.ops/README.md"
+    },
+    "cntable.lum": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "cn_a",
+          "position": 2,
+          "source": "cn(1)"
+        },
+        {
+          "docs": "cn_b",
+          "position": 3,
+          "source": "cn(2)"
+        },
+        {
+          "docs": "cn_c",
+          "position": 4,
+          "source": "cn(3)"
+        },
+        {
+          "docs": "cn_d",
+          "position": 5,
+          "source": "cn(4)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/cntable.lum/README.md"
+      ],
+      "source_fields": 5,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/landuse-and-management/cntable.lum/README.md"
+    },
+    "co2_yr.dat": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "codes.bsn": {
+      "docs_fields": 25,
+      "layout": "flat",
+      "missing_from_docs": [
+        "idc_till"
+      ],
+      "pages": [
+        "io-docs/introduction-1/basin-1/codes.bsn/README.md"
+      ],
+      "source_fields": 26,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/basin-1/codes.bsn/README.md"
+    },
+    "codes.sft": {
+      "docs_fields": 8,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "hyd_hrulte",
+          "position": 2,
+          "source": "hyd_hrul"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/calibration/codes.sft.md"
+      ],
+      "source_fields": 8,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/calibration/codes.sft.md"
+    },
+    "cons_practice.lum": {
+      "docs_fields": 3,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/cons_practice.lum/README.md"
+      ],
+      "source_fields": 3,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/landuse-and-management/cons_practice.lum/README.md"
+    },
+    "constituents.cs": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/constituents/constituents.cs.md"
+      ],
+      "status": "not_compared"
+    },
+    "cs_aqu.ini": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cs_atmo.cli": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cs_channel.ini": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cs_hru.ini": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "cs_recall.rec": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "delratio.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "delratio.del": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "dr_hmet.del": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "dr_om.del": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "dr_path.del": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "dr_pest.del": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "dr_salt.del": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "element.ccu": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "exco.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "exco (props)"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "exco.exc": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "exco_hmet.exc": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "exco_om.exc": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "exco_path.exc": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "exco_pest.exc": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "exco_salt.exc": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "fertilizer.frt": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/databases/fertilizer.frt/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/databases/fertilizer.frt/README.md"
+    },
+    "fertilizer.frt_cs": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "field.fld": {
+      "docs_fields": 4,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/hydrology/field.fld/README.md"
+      ],
+      "source_fields": 4,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/hydrology/field.fld/README.md"
+    },
+    "filterstrip.str": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "flag_fs",
+          "position": 2,
+          "source": "flag (vfsi)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/structural-practices/filterstrip.str/README.md"
+      ],
+      "source_fields": 5,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/structural-practices/filterstrip.str/README.md"
+    },
+    "fire.ops": {
+      "docs_fields": 3,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/management-practices/fire.ops/README.md"
+      ],
+      "source_fields": 3,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/management-practices/fire.ops/README.md"
+    },
+    "flo_con.dtl": {
+      "layout": "decision_tables",
+      "named_on": [
+        "io-docs/introduction-1/decision-tables/README.md",
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "floodplain.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "grassedww.str": {
+      "docs_fields": 8,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "flag_grww",
+          "position": 2,
+          "source": "flag (grwat_i)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/structural-practices/grassedww.str/README.md"
+      ],
+      "source_fields": 8,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/structural-practices/grassedww.str/README.md"
+    },
+    "graze.ops": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "fertname",
+          "position": 2,
+          "source": "fertnm"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/management-practices/graze.ops/README.md"
+      ],
+      "source_fields": 6,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/management-practices/graze.ops/README.md"
+    },
+    "gwflow.con": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "gwflow.wetland": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "gwflow_canal.con": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "harv.ops": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/management-practices/harv.ops/README.md"
+      ],
+      "source_fields": 5,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/management-practices/harv.ops/README.md"
+    },
+    "hmd.cli": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/climate/hmd.cli-and-humidity-data-files.md"
+      ],
+      "status": "not_compared"
+    },
+    "hmet_hru.ini": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/initialization/pest_water.ini.md",
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "hru-data.hru": {
+      "docs_fields": 10,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "lu_mgt",
+          "position": 6,
+          "source": "land_use_mgt"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/hydrologic-response-units/hru-data.hru/README.md"
+      ],
+      "source_fields": 10,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/hydrologic-response-units/hru-data.hru/README.md"
+    },
+    "hru-lte.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "hru-lte.hru": {
+      "docs_fields": 35,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "perco_co",
+          "position": 8,
+          "source": "perc_co (perco)"
+        },
+        {
+          "docs": "snow_h20",
+          "position": 20,
+          "source": "snow_h2o (snow)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/hydrologic-response-units/hru-lte.hru/README.md"
+      ],
+      "source_fields": 35,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/hydrologic-response-units/hru-lte.hru/README.md"
+    },
+    "hru.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/connectivity/hru.con/README.md"
+      ],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "hrucell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "hyd-sed-lte.cha": {
+      "docs_fields": 22,
+      "layout": "flat",
+      "missing_from_docs": [
+        "order",
+        "bankfull_flo"
+      ],
+      "not_in_source": [
+        "bed_load"
+      ],
+      "pages": [
+        "io-docs/introduction-1/channels/hyd-sed-lte.cha/README.md"
+      ],
+      "source_fields": 23,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/channels/hyd-sed-lte.cha/README.md"
+    },
+    "hydrology.cha": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "hydrology.hyd": {
+      "docs_fields": 15,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "lat_time",
+          "position": 2,
+          "source": "lat_ttime"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/hydrology/hydrology.hyd/README.md"
+      ],
+      "source_fields": 15,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/hydrology/hydrology.hyd/README.md"
+    },
+    "hydrology.res": {
+      "docs_fields": 11,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/reservoirs/hydrology.res/README.md"
+      ],
+      "source_fields": 11,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/reservoirs/hydrology.res/README.md"
+    },
+    "hydrology.wet": {
+      "docs_fields": 11,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/wetlands/hydrology.wet/README.md"
+      ],
+      "source_fields": 11,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/wetlands/hydrology.wet/README.md"
+    },
+    "initial.aqu": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/aquifers/initial.aqu/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/aquifers/initial.aqu/README.md"
+    },
+    "initial.aqu_cs": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "initial.cha": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/channels/initial.cha/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/channels/initial.cha/README.md"
+    },
+    "initial.cha_cs": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "initial.res": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/reservoirs/initial.res/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/reservoirs/initial.res/README.md"
+    },
+    "irr.ops": {
+      "docs_fields": 8,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "irr_eff",
+          "position": 2,
+          "source": "amt_mm"
+        },
+        {
+          "docs": "surq_rto",
+          "position": 3,
+          "source": "eff_frac (eff)"
+        },
+        {
+          "docs": "irr_amt",
+          "position": 4,
+          "source": "sumq_frac (surq)"
+        },
+        {
+          "docs": "irr_dep",
+          "position": 5,
+          "source": "dep_mm"
+        },
+        {
+          "docs": "irr_salt",
+          "position": 6,
+          "source": "salt"
+        },
+        {
+          "docs": "irr_no3n",
+          "position": 7,
+          "source": "no3"
+        },
+        {
+          "docs": "irr_po4",
+          "position": 8,
+          "source": "po4"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/management-practices/irr.ops/README.md"
+      ],
+      "source_fields": 8,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/management-practices/irr.ops/README.md"
+    },
+    "landuse.lum": {
+      "docs_fields": 14,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "cal_grp",
+          "position": 2,
+          "source": "cal_group"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/landuse.lum/README.md"
+      ],
+      "source_fields": 14,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/landuse-and-management/landuse.lum/README.md"
+    },
+    "ls_reg.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "ls_reg.ele": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "ls_unit.def": {
+      "docs_fields": 4,
+      "layout": "flat",
+      "missing_from_docs": [
+        "area (area_ha)",
+        "elem_cnt"
+      ],
+      "not_in_source": [
+        "elements"
+      ],
+      "pages": [
+        "io-docs/introduction-1/landscape-units/ls_unit.def/README.md"
+      ],
+      "source_fields": 5,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/landscape-units/ls_unit.def/README.md",
+      "variable_arity": true
+    },
+    "ls_unit.ele": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "lsu_frac",
+          "position": 6,
+          "source": "ru_frac"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "k"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/landscape-units/ls_unit.ele/README.md"
+      ],
+      "source_fields": 6,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/landscape-units/ls_unit.ele/README.md"
+    },
+    "lsucell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "lum.dtl": {
+      "layout": "decision_tables",
+      "pages": [
+        "io-docs/introduction-1/decision-tables/lum.dtl/README.md"
+      ],
+      "status": "not_compared"
+    },
+    "management.sch": {
+      "layout": "multi_record",
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/management.sch/README.md"
+      ],
+      "status": "not_compared"
+    },
+    "manure.frt": {
+      "layout": "unresolved",
+      "pages": [],
+      "status": "no_page"
+    },
+    "manure_allo.mnu": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "manure_db.frt": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "manure_om.frt": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "minerals.gw": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "nutrients.cha": {
+      "docs_fields": 39,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "plt_p",
+          "position": 3,
+          "source": "ptl_p (opco)"
+        },
+        {
+          "docs": "cbn_bod___stl",
+          "position": 13,
+          "source": "cbn_bod_stl (rk3)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/channels/nutrients.cha/README.md"
+      ],
+      "source_fields": 39,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/channels/nutrients.cha/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "q2e_lt",
+          "source": "real"
+        }
+      ]
+    },
+    "nutrients.res": {
+      "docs_fields": 13,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/reservoirs/nutrients.res/README.md"
+      ],
+      "source_fields": 13,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/reservoirs/nutrients.res/README.md"
+    },
+    "nutrients.rte": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "nutrients.sol": {
+      "docs_fields": 12,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/soils/nutrients.sol/README.md"
+      ],
+      "source_fields": 12,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/soils/nutrients.sol/README.md"
+    },
+    "object.cnt": {
+      "docs_fields": 21,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "gwfl",
+          "position": 8,
+          "source": "gwflow"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "dlr",
+          "position": 14,
+          "source": "dr"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/simulation-settings/object.cnt.md"
+      ],
+      "source_fields": 21,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/simulation-settings/object.cnt.md"
+    },
+    "object.prt": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "k"
+        },
+        {
+          "docs": "obj_typ",
+          "position": 2,
+          "source": "obtyp"
+        },
+        {
+          "docs": "obj_typ_no",
+          "position": 3,
+          "source": "obtypno"
+        },
+        {
+          "docs": "hyd_typ",
+          "position": 4,
+          "source": "hydtyp"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/simulation-settings/object.prt/README.md"
+      ],
+      "source_fields": 5,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/simulation-settings/object.prt/README.md"
+    },
+    "om_osrc.wal": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "om_treat.wal": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "om_use.wal": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "om_water.ini": {
+      "docs_fields": 19,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "vol",
+          "position": 2,
+          "source": "flo"
+        },
+        {
+          "docs": "part_n",
+          "position": 4,
+          "source": "orgn"
+        },
+        {
+          "docs": "part_p",
+          "position": 5,
+          "source": "sedp"
+        },
+        {
+          "docs": "sand",
+          "position": 13,
+          "source": "san"
+        },
+        {
+          "docs": "silt",
+          "position": 14,
+          "source": "sil"
+        },
+        {
+          "docs": "clay",
+          "position": 15,
+          "source": "cla"
+        },
+        {
+          "docs": "sm_ag",
+          "position": 16,
+          "source": "sag"
+        },
+        {
+          "docs": "l_ag",
+          "position": 17,
+          "source": "lag"
+        },
+        {
+          "docs": "gvl",
+          "position": 18,
+          "source": "grv"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "name",
+          "position": 1,
+          "source": "om_init_name"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/initialization/om_water.ini/README.md"
+      ],
+      "source_fields": 19,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/initialization/om_water.ini/README.md"
+    },
+    "outlet.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "num"
+        },
+        {
+          "docs": "area",
+          "position": 4,
+          "source": "area_ha"
+        },
+        {
+          "docs": "lon",
+          "position": 6,
+          "source": "long"
+        },
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        },
+        {
+          "docs": "wst",
+          "position": 9,
+          "source": "wst_c"
+        },
+        {
+          "docs": "cst",
+          "position": 10,
+          "source": "constit"
+        },
+        {
+          "docs": "ovfl",
+          "position": 11,
+          "source": "props2"
+        },
+        {
+          "docs": "rule",
+          "position": 12,
+          "source": "ruleset"
+        },
+        {
+          "docs": "out_tot",
+          "position": 13,
+          "source": "src_tot"
+        },
+        {
+          "docs": "obj_typ",
+          "position": 14,
+          "source": "obtyp_out"
+        },
+        {
+          "docs": "obj_id",
+          "position": 15,
+          "source": "obtypno_out"
+        },
+        {
+          "docs": "hyd_typ",
+          "position": 16,
+          "source": "htyp_out"
+        },
+        {
+          "docs": "frac",
+          "position": 17,
+          "source": "frac_out"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "variable_arity": true
+    },
+    "outputs.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "outside_rcv.wal": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "outside_src.wal": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "ovn_table.lum": {
+      "docs_fields": 4,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "name_ovn",
+          "position": 1,
+          "source": "name"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/ovn_table.lum/README.md"
+      ],
+      "source_fields": 4,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/landuse-and-management/ovn_table.lum/README.md"
+    },
+    "parameters.bsn": {
+      "docs_fields": 44,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "lin_sed",
+          "position": 6,
+          "source": "pestgwfact"
+        },
+        {
+          "docs": "exp_sed",
+          "position": 7,
+          "source": "temp_decay"
+        },
+        {
+          "docs": "day_lag_max",
+          "position": 43,
+          "source": "day_lag_mx"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/basin-1/parameters.bsn/README.md"
+      ],
+      "source_fields": 44,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/basin-1/parameters.bsn/README.md"
+    },
+    "path_hru.ini": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/initialization/pest_water.ini.md",
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "path_water.ini": {
+      "docs_say_not_used": true,
+      "layout": "runtime_arity",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "pathogens.pth": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "pcp.cli": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/climate/pcp.cli-and-precipitation-data-files.md"
+      ],
+      "status": "not_compared"
+    },
+    "pest.com": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "pest_hru.ini": {
+      "layout": "runtime_arity",
+      "pages": [
+        "io-docs/introduction-1/initialization/pest_hru.ini.md"
+      ],
+      "status": "not_compared"
+    },
+    "pest_water.ini": {
+      "layout": "runtime_arity",
+      "pages": [
+        "io-docs/introduction-1/initialization/pest_water.ini.md"
+      ],
+      "status": "not_compared"
+    },
+    "pesticide.pes": {
+      "docs_fields": 14,
+      "layout": "flat",
+      "missing_from_docs": [
+        "pl_uptake",
+        "harvest_sink",
+        "resistance_n",
+        "descrip"
+      ],
+      "name_differs": [
+        {
+          "docs": "aq_reac",
+          "position": 7,
+          "source": "aq_hlife"
+        },
+        {
+          "docs": "ben_reac",
+          "position": 14,
+          "source": "ben_hlife"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "soil_ads",
+          "position": 2,
+          "source": "koc"
+        },
+        {
+          "docs": "frac_wash",
+          "position": 3,
+          "source": "washoff"
+        },
+        {
+          "docs": "hl_foliage",
+          "position": 4,
+          "source": "foliar_hlife"
+        },
+        {
+          "docs": "hl_soil",
+          "position": 5,
+          "source": "soil_hlife"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/databases/pesticide.pes/README.md"
+      ],
+      "source_fields": 18,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/databases/pesticide.pes/README.md"
+    },
+    "pet.cli": {
+      "layout": "multi_section",
+      "named_on": [
+        "io-docs/introduction-1/climate/weather-sta.cli/pet.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "phreato.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "phreato_cell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "place_of_use.wro": {
+      "layout": "multi_record",
+      "pages": [],
+      "status": "no_page"
+    },
+    "plant.ini": {
+      "layout": "multi_record",
+      "pages": [
+        "io-docs/introduction-1/landuse-and-management/plant.ini/README.md"
+      ],
+      "status": "not_compared"
+    },
+    "plant_gro.sft": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "plant_parms.sft": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "plants.plt": {
+      "docs_fields": 53,
+      "layout": "flat",
+      "missing_from_docs": [
+        "meta_frac",
+        "str_frac",
+        "lig_frac",
+        "pl_class"
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "gro_trig",
+          "position": 3,
+          "source": "trig"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/databases/plants.plt/README.md"
+      ],
+      "source_fields": 57,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/databases/plants.plt/README.md",
+      "type_differs": [
+        {
+          "docs": "real",
+          "field": "days_mat",
+          "source": "integer"
+        }
+      ]
+    },
+    "point_of_diver.wro": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "pond_cell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "ponds.gw": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "print.prt": {
+      "docs_fields": 19,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "aa_int_cnt",
+          "position": 7,
+          "source": "aa_numint"
+        },
+        {
+          "docs": "dbout",
+          "position": 9,
+          "source": "use_obj_labels"
+        },
+        {
+          "docs": "object",
+          "position": 15,
+          "source": "name"
+        },
+        {
+          "docs": "daily",
+          "position": 16,
+          "source": "d"
+        },
+        {
+          "docs": "monthly",
+          "position": 17,
+          "source": "m"
+        },
+        {
+          "docs": "yearly",
+          "position": 18,
+          "source": "y"
+        },
+        {
+          "docs": "avann",
+          "position": 19,
+          "source": "a"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/simulation-settings/print.prt/README.md"
+      ],
+      "source_fields": 19,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/simulation-settings/print.prt/README.md"
+    },
+    "puddle.ops": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "pumpex.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "rec_catunit.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "rec_catunit.ele": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "rec_reg.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "recall.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "num"
+        },
+        {
+          "docs": "area",
+          "position": 4,
+          "source": "area_ha"
+        },
+        {
+          "docs": "lon",
+          "position": 6,
+          "source": "long"
+        },
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        },
+        {
+          "docs": "cst",
+          "position": 10,
+          "source": "constit"
+        },
+        {
+          "docs": "ovfl",
+          "position": 11,
+          "source": "props2"
+        },
+        {
+          "docs": "rule",
+          "position": 12,
+          "source": "ruleset"
+        },
+        {
+          "docs": "obj_typ",
+          "position": 14,
+          "source": "obtyp_out"
+        },
+        {
+          "docs": "obj_id",
+          "position": 15,
+          "source": "obtypno_out"
+        },
+        {
+          "docs": "hyd_typ",
+          "position": 16,
+          "source": "htyp_out"
+        },
+        {
+          "docs": "frac",
+          "position": 17,
+          "source": "frac_out"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "wst",
+          "position": 9,
+          "source": "wst_c"
+        },
+        {
+          "docs": "out_tot",
+          "position": 13,
+          "source": "src_tot"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "variable_arity": true
+    },
+    "recall_db.rec": {
+      "docs_fields": 20,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "k"
+        },
+        {
+          "docs": "om_name",
+          "position": 3,
+          "source": "org_min"
+        },
+        {
+          "docs": "om_unit",
+          "position": 4,
+          "source": "pest"
+        },
+        {
+          "docs": "om_tstep",
+          "position": 5,
+          "source": "path"
+        },
+        {
+          "docs": "pest_name",
+          "position": 6,
+          "source": "hmet"
+        },
+        {
+          "docs": "pest_unit",
+          "position": 7,
+          "source": "salt"
+        },
+        {
+          "docs": "pest_tstep",
+          "position": 8,
+          "source": "constit"
+        },
+        {
+          "docs": "path_name",
+          "position": 9,
+          "source": "descrip"
+        }
+      ],
+      "not_in_source": [
+        "path_unit",
+        "path_tstep",
+        "hmet_name",
+        "hmet_unit",
+        "hmet_tstep",
+        "salt_name",
+        "salt_unit",
+        "salt_tstep",
+        "cst_name",
+        "cst_unit",
+        "cst_tstep"
+      ],
+      "pages": [
+        "io-docs/introduction-1/point-sources-and-inlets/recall.rec/README.md"
+      ],
+      "source_fields": 9,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/point-sources-and-inlets/recall.rec/README.md"
+    },
+    "res_catunit.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "res_catunit.ele": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "res_conds.dat": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "res_reg.def": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "res_rel.dtl": {
+      "layout": "decision_tables",
+      "named_on": [
+        "io-docs/introduction-1/decision-tables/README.md",
+        "io-docs/introduction-1/master-file-file.cio.md",
+        "io-docs/introduction-1/reservoirs/README.md",
+        "io-docs/introduction-1/reservoirs/reservoir.res/rel.md",
+        "io-docs/introduction-1/reservoirs/weir.res/name.md",
+        "io-docs/introduction-1/wetlands/README.md",
+        "io-docs/introduction-1/wetlands/wetland.wet/rel.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "rescell.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "reservoir.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "reservoir.res": {
+      "docs_fields": 7,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/reservoirs/reservoir.res/README.md"
+      ],
+      "source_fields": 7,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/reservoirs/reservoir.res/README.md"
+    },
+    "reservoir.res_cs": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "rout_unit.con": {
+      "docs_fields": 17,
+      "layout": "flat",
+      "listed_on": "io-docs/introduction-1/connectivity/README.md",
+      "name_differs": [
+        {
+          "docs": "hru",
+          "position": 8,
+          "source": "props"
+        }
+      ],
+      "pages": [],
+      "source_fields": 17,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/connectivity/hru.con/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "rule",
+          "source": "character"
+        }
+      ],
+      "variable_arity": true
+    },
+    "rout_unit.def": {
+      "docs_fields": 4,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "id",
+          "position": 1,
+          "source": "numb"
+        },
+        {
+          "docs": "elem_tot",
+          "position": 3,
+          "source": "nspu"
+        },
+        {
+          "docs": "elements",
+          "position": 4,
+          "source": "elem_cnt"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/routing-units/untitled-1/README.md"
+      ],
+      "source_fields": 4,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/routing-units/untitled-1/README.md",
+      "variable_arity": true
+    },
+    "rout_unit.ele": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "obj_id",
+          "position": 4,
+          "source": "obtypno"
+        },
+        {
+          "docs": "dlr",
+          "position": 6,
+          "source": "dr_name"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/routing-units/untitled-2/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/routing-units/untitled-2/README.md"
+    },
+    "rout_unit.rtu": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "define",
+          "position": 3,
+          "source": "elem_def"
+        },
+        {
+          "docs": "dlr",
+          "position": 4,
+          "source": "elem_dr"
+        },
+        {
+          "docs": "field",
+          "position": 6,
+          "source": "field_db"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/routing-units/untitled/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/routing-units/untitled/README.md"
+    },
+    "salt_aqu.ini": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "salt_atmo.cli": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "salt_channel.ini": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "salt_fertilizer.frt": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "salt_hru.ini": {
+      "layout": "runtime_arity",
+      "pages": [
+        "io-docs/introduction-1/initialization/salt_hru.ini.md"
+      ],
+      "status": "not_compared"
+    },
+    "salt_recall.rec": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "satbuffer.str": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "scen_dtl.upd": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "scen_lu.dtl": {
+      "layout": "decision_tables",
+      "named_on": [
+        "io-docs/introduction-1/decision-tables/README.md",
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "sed_nut.cha": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "sediment.cha": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "sediment.res": {
+      "docs_fields": 7,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/reservoirs/sediment.res/README.md"
+      ],
+      "source_fields": 7,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/reservoirs/sediment.res/README.md"
+    },
+    "septic.sep": {
+      "docs_fields": 11,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/databases/septic.sep/README.md"
+      ],
+      "source_fields": 11,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/databases/septic.sep/README.md"
+    },
+    "septic.str": {
+      "docs_fields": 28,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "fecal_delay",
+          "position": 17,
+          "source": "fecal_decay (fecal)"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/structural-practices/septic.str/README.md"
+      ],
+      "source_fields": 28,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/structural-practices/septic.str/README.md"
+    },
+    "shade_factor.shf": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "slr.cli": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/climate/slr.cli-and-solar-radiation-data-files.md"
+      ],
+      "status": "not_compared"
+    },
+    "snow.sno": {
+      "docs_fields": 9,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/hydrology/snow.sno/README.md"
+      ],
+      "source_fields": 9,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/hydrology/snow.sno/README.md"
+    },
+    "soil_plant.ini": {
+      "docs_fields": 7,
+      "layout": "flat",
+      "missing_from_docs": [
+        "csc"
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "nutrients",
+          "position": 3,
+          "source": "nutc"
+        }
+      ],
+      "out_of_order": [
+        "hmet"
+      ],
+      "pages": [
+        "io-docs/introduction-1/initialization/soil_plant.ini/README.md"
+      ],
+      "source_fields": 8,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/initialization/soil_plant.ini/README.md"
+    },
+    "soils.sol": {
+      "layout": "multi_record",
+      "pages": [
+        "io-docs/introduction-1/soils/soils.sol/README.md"
+      ],
+      "status": "not_compared"
+    },
+    "soils_lte.sol": {
+      "docs_say_not_used": true,
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "solute.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "sweep.ops": {
+      "docs_fields": 3,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/management-practices/sweep.ops/README.md"
+      ],
+      "source_fields": 3,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/management-practices/sweep.ops/README.md"
+    },
+    "temperature.cha": {
+      "layout": "flat",
+      "named_on": [
+        "io-docs/introduction-1/master-file-file.cio.md"
+      ],
+      "pages": [],
+      "status": "named_only"
+    },
+    "tile.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "tiledrain.str": {
+      "docs_fields": 9,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/structural-practices/tiledrain.str/README.md"
+      ],
+      "source_fields": 9,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/structural-practices/tiledrain.str/README.md"
+    },
+    "tillage.til": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/databases/tillage.til/README.md"
+      ],
+      "source_fields": 6,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/databases/tillage.til/README.md"
+    },
+    "time.sim": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/simulation-settings/time.sim/README.md"
+      ],
+      "source_fields": 5,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/simulation-settings/time.sim/README.md"
+    },
+    "tmp.cli": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/climate/tmp.cli-and-temperature-data-files.md"
+      ],
+      "status": "not_compared"
+    },
+    "topography.hyd": {
+      "docs_fields": 6,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/hydrology/topography.hyd/README.md"
+      ],
+      "source_fields": 6,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/hydrology/topography.hyd/README.md",
+      "type_differs": [
+        {
+          "docs": "integer",
+          "field": "depos",
+          "source": "real"
+        }
+      ]
+    },
+    "transplant.ops": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "tvheads.gw": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "urban.urb": {
+      "docs_fields": 11,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/databases/urban.urb/README.md"
+      ],
+      "source_fields": 11,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/databases/urban.urb/README.md"
+    },
+    "water_balance.sft": {
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/calibration/water_balance.sft.md"
+      ],
+      "status": "no_field_table"
+    },
+    "water_canal.wal": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "water_hru_irr.wal": {
+      "layout": "multi_record",
+      "pages": [],
+      "status": "no_page"
+    },
+    "water_pipe.wal": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "water_tower.wal": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "water_treat.wal": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "water_use.wal": {
+      "layout": "runtime_arity",
+      "pages": [],
+      "status": "no_page"
+    },
+    "wb_parms.sft": {
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/calibration/wb_parms.sft.md"
+      ],
+      "status": "no_field_table"
+    },
+    "weather-sta.cli": {
+      "docs_fields": 10,
+      "layout": "flat",
+      "not_in_source": [
+        "wnd_dir"
+      ],
+      "out_of_order": [
+        "atmo_dep"
+      ],
+      "pages": [
+        "io-docs/introduction-1/climate/weather-sta.cli/README.md"
+      ],
+      "source_fields": 9,
+      "status": "differs",
+      "table_page": "io-docs/introduction-1/climate/weather-sta.cli/README.md"
+    },
+    "weather-wgn.cli": {
+      "layout": "multi_record",
+      "pages": [
+        "io-docs/introduction-1/climate/weather-wgn.cli/README.md"
+      ],
+      "status": "not_compared"
+    },
+    "weir.res": {
+      "docs_fields": 5,
+      "layout": "flat",
+      "name_differs": [
+        {
+          "docs": "width",
+          "position": 4,
+          "source": "w"
+        },
+        {
+          "docs": "height",
+          "position": 5,
+          "source": "h"
+        }
+      ],
+      "names_confirmed_by_example_header": [
+        {
+          "docs": "linear_c",
+          "position": 2,
+          "source": "c"
+        },
+        {
+          "docs": "exp_k",
+          "position": 3,
+          "source": "k"
+        }
+      ],
+      "pages": [
+        "io-docs/introduction-1/reservoirs/weir.res/README.md"
+      ],
+      "source_fields": 5,
+      "status": "names_to_check",
+      "table_page": "io-docs/introduction-1/reservoirs/weir.res/README.md"
+    },
+    "wetland.wet": {
+      "docs_fields": 7,
+      "layout": "flat",
+      "pages": [
+        "io-docs/introduction-1/wetlands/wetland.wet/README.md"
+      ],
+      "source_fields": 7,
+      "status": "match",
+      "table_page": "io-docs/introduction-1/wetlands/wetland.wet/README.md"
+    },
+    "wetland.wet_cs": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    },
+    "wnd.cli": {
+      "layout": "multi_section",
+      "pages": [
+        "io-docs/introduction-1/climate/wnd.cli-and-wind-speed-data-files.md"
+      ],
+      "status": "not_compared"
+    },
+    "wtps_wuses.wal": {
+      "layout": "multi_section",
+      "pages": [],
+      "status": "no_page"
+    },
+    "zones.gw": {
+      "layout": "flat",
+      "pages": [],
+      "status": "no_page"
+    }
+  },
+  "pages_not_in_schema": [
+    {
+      "closest": [],
+      "names": [
+        "carb_coefs.cbn"
+      ],
+      "page": "io-docs/introduction-1/carbon/carb_coefs.cbn.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "atmo.cli"
+      ],
+      "page": "io-docs/introduction-1/climate/atmo.cli/README.md"
+    },
+    {
+      "closest": [
+        "chan-surf.lin"
+      ],
+      "names": [
+        "chan_surf.lin"
+      ],
+      "page": "io-docs/introduction-1/connectivity/chan_surf.lin.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "salt_water.ini"
+      ],
+      "page": "io-docs/introduction-1/initialization/salt_water.ini.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "file.cio",
+        "master-file-file.cio"
+      ],
+      "page": "io-docs/introduction-1/master-file-file.cio.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "cst_filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/cst_filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "hmet_filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/hmet_filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "path_filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/path_filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "pest_filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/pest_filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "salt_filename.rec"
+      ],
+      "page": "io-docs/introduction-1/point-sources-and-inlets/salt_filename.rec.md"
+    },
+    {
+      "closest": [],
+      "names": [
+        "water_allocation.wro"
+      ],
+      "page": "io-docs/introduction-1/water-allocation/water_allocation.wro/README.md"
+    }
+  ],
+  "source": {
+    "profile": "release_62_0_1",
+    "repository": "https://github.com/swat-model/swatplus",
+    "resolved_commit": "97ca231e22b29356b9891e057238fa3c68809da5"
+  },
+  "summary": {
+    "differs": 18,
+    "files_with_broken_links": 0,
+    "input_files": 198,
+    "match": 30,
+    "named_only": 44,
+    "names_to_check": 21,
+    "no_field_table": 3,
+    "no_page": 67,
+    "not_compared": 15,
+    "pages_not_in_schema": 12
+  },
+  "swatplus_version": "62.0.1"
+}

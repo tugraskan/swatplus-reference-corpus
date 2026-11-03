@@ -11,7 +11,13 @@ unchanged parts come back reworded. Delta re-fill fixes that:
 3. Ask the model to return **only** the prose fields the diff actually
    affects; every field it omits is preserved *verbatim* from the existing
    prose (`merge_delta`).
-4. Merge and write through the same grounding gate as a full fill.
+4. Merge, then save only if the merged page has no grounding errors.
+
+Refill only revises a page that is stale (its own symbol changed), and only
+generates from an old checkout whose slice hashes to the page's recorded
+``source_hash`` — so the diff is exactly the change the prose has not seen.
+An empty field in a delta means "unchanged": a delta revises reviewed prose
+but never blanks it.
 
 Parser-owned facts (signatures, call graph, links, line numbers) are injected
 at render time and never regenerated here, so the structural half of the page
@@ -28,9 +34,12 @@ from __future__ import annotations
 import difflib
 import json
 from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
 from pathlib import Path
 
-from ..docs.pages import Page, load_page
+from ..docs.grounding import Finding, check_page
+from ..docs.pages import STATUS_FILLED, Page, load_page
+from ..docs.staleness import compute_status
 from ..parser.facts import FactStore, Symbol
 from ..source.config import Config
 from .fill import (
@@ -182,15 +191,18 @@ def splice_delta(page: Page, sym: Symbol, delta: dict) -> None:
     (Theory Equations, Lineage, Review Notes, the outside-state table) and any
     unchanged prose — is preserved byte-for-byte. Note fields update individual
     entries in the frontmatter maps, leaving unnamed entries untouched.
+
+    An empty value (``""``, ``[]``, ``None``) counts as omitted, so a delta can
+    never blank a reviewed section; clearing one is a manual edit.
     """
     body = page.body
-    if "short_description" in delta and delta["short_description"]:
+    if delta.get("short_description"):
         body = _replace_body_section(body, _HEADER, delta["short_description"].strip())
-    if "bottom_line" in delta and delta["bottom_line"]:
+    if delta.get("bottom_line"):
         body = _replace_body_section(body, "## Bottom Line", delta["bottom_line"].strip())
-    if "where_it_fits" in delta and delta["where_it_fits"]:
+    if delta.get("where_it_fits"):
         body = _replace_body_section(body, "## Where It Fits", delta["where_it_fits"].strip())
-    if "algorithm" in delta and delta["algorithm"] is not None:
+    if delta.get("algorithm"):
         body = _replace_body_section(
             body, "## Algorithm",
             _render_table(
@@ -199,7 +211,7 @@ def splice_delta(page: Page, sym: Symbol, delta: dict) -> None:
                 [("step", "Step"), ("behavior", "What happens")],
             ),
         )
-    if "state_changes" in delta and delta["state_changes"] is not None:
+    if delta.get("state_changes"):
         body = _replace_body_section(
             body, "## State Changes",
             _render_table(
@@ -211,7 +223,7 @@ def splice_delta(page: Page, sym: Symbol, delta: dict) -> None:
     page.body = body
 
     for field, key in NOTE_FIELDS.items():
-        if field not in delta or delta[field] is None:
+        if not delta.get(field):
             continue
         current = dict(page.extra.get(key) or {})
         for entry in delta[field]:
@@ -233,6 +245,7 @@ def splice_delta(page: Page, sym: Symbol, delta: dict) -> None:
         if tc:
             page.extra["type_components"] = tc
 
+    page.status = STATUS_FILLED
     page.source_hash = sym.source_hash
 
 
@@ -263,7 +276,8 @@ DELTA_SYSTEM = SYSTEM_PROMPT + (
     "ONLY the fields whose accuracy is affected by the diff; omit every field "
     "that is still correct — omitted fields are kept exactly as-is. Do not "
     "reword unaffected prose. Return the same JSON schema, with unaffected keys "
-    "left out entirely."
+    "left out entirely. An empty string or empty array is treated as unchanged, "
+    "so it cannot clear a section."
 )
 
 
@@ -284,11 +298,107 @@ def build_delta_prompt(existing_data: dict, diff: str, fact_sheet: str) -> str:
 # Apply
 # --------------------------------------------------------------------------
 
-def _apply_and_ground(store: FactStore, page: Page, sym: Symbol, delta: dict) -> list[str]:
+# Result lines for a stale page that was not revised. Any of these makes the
+# command exit non-zero.
+FAILURE_PREFIXES = ("REFUSED", "REJECTED", "ERROR")
+
+
+def has_failures(results: list[str]) -> bool:
+    return any(r.startswith(FAILURE_PREFIXES) for r in results)
+
+
+def _is_stale(store: FactStore, page: Page) -> bool:
+    """Whether the page's own symbol changed — the same rule `docs status` uses."""
+    return any(p is page for p in compute_status(store, [page]).stale)
+
+
+@dataclass
+class DeltaRequest:
+    """A page's delta prompt, or why refill must leave the page alone.
+
+    ``outcome`` is empty when the page may be revised; otherwise it is the
+    result-line prefix (``SKIP`` or ``REFUSED``) and ``reason`` says why.
+    """
+
+    page: Page
+    sym: Symbol | None = None
+    diff: str = ""
+    prompt: str = ""
+    outcome: str = ""
+    reason: str = ""
+
+    @property
+    def line(self) -> str:
+        return f"{self.outcome} {self.page.name}: {self.reason}"
+
+
+def prepare_delta(
+    cfg: Config, store: FactStore, old_store: FactStore, old_source_dir: Path, page: Page
+) -> DeltaRequest:
+    """Gate ``page`` for revision and build its source diff and delta prompt."""
+    sym = store.get(page.symbol)
+    if sym is None:
+        return DeltaRequest(page, outcome="SKIP", reason="gone in new source")
+    if not _is_stale(store, page):
+        return DeltaRequest(
+            page, outcome="SKIP", reason="not stale (its own source is unchanged)"
+        )
+    old_sym = old_store.get(page.symbol)
+    found = old_sym.source_hash if old_sym else "no such symbol"
+    if found != page.source_hash:
+        return DeltaRequest(page, outcome="REFUSED", reason=(
+            "the old source is not the baseline this page was written against "
+            f"(page {page.source_hash}, old source {found})"
+        ))
+    diff = symbol_source_diff(old_sym, sym, old_source_dir, cfg.abs_source_dir)
+    prompt = build_delta_prompt(page_to_data(page), diff, build_fact_sheet(cfg, store, sym))
+    return DeltaRequest(page, sym, diff, prompt)
+
+
+def request_delta(client, cfg: Config, prompt: str, model: str | None = None) -> dict | None:
+    """Ask the model for a partial delta; ``None`` when it refuses."""
+    resp = client.messages.create(
+        model=model or cfg.fill.model,
+        max_tokens=cfg.fill.max_tokens,
+        system=DELTA_SYSTEM,
+        output_config={"format": {"type": "json_schema", "schema": _partial_schema()}},
+        messages=[{"role": "user", "content": prompt}],
+    )
+    if resp.stop_reason == "refusal":
+        return None
+    return json.loads(next(b.text for b in resp.content if b.type == "text"))
+
+
+def merge_delta(
+    cfg: Config, store: FactStore, page: Page, sym: Symbol, delta: dict
+) -> tuple[list[str], list[Finding]]:
+    """Splice ``delta`` into ``page`` in memory and ground the result. Writes nothing."""
     splice_delta(page, sym, delta)
+    page.version_label = cfg.version_label
     dropped = drop_ungrounded_notes(store, page)
-    page.save()
-    return dropped
+    return dropped, check_page(store, page)
+
+
+def _apply_and_ground(
+    cfg: Config, store: FactStore, page: Page, sym: Symbol, delta: dict
+) -> tuple[list[str], list[Finding]]:
+    """merge_delta, then save only if no grounding error remains."""
+    dropped, findings = merge_delta(cfg, store, page, sym, delta)
+    if not any(f.level == "error" for f in findings):
+        page.save()
+    return dropped, findings
+
+
+def _report(label: str, dropped: list[str], findings: list[Finding]) -> str:
+    errors = [f for f in findings if f.level == "error"]
+    if errors:
+        return f"REJECTED {label}: grounding errors, page not saved" + "".join(
+            f"\n  {f}" for f in errors
+        )
+    note = f" (dropped: {', '.join(dropped)})" if dropped else ""
+    if findings:
+        note += f" (grounding warnings: {len(findings)}; see `swatref docs check -v`)"
+    return f"REFILLED {label}{note}"
 
 
 def emit_delta_prompts(
@@ -303,18 +413,12 @@ def emit_delta_prompts(
     out_dir.mkdir(parents=True, exist_ok=True)
     results = []
     for p in paths:
-        page = load_page(p)
-        sym = store.get(page.symbol)
-        if sym is None:
-            results.append(f"SKIP {page.name}: gone in new source")
+        req = prepare_delta(cfg, store, old_store, old_source_dir, load_page(p))
+        if req.outcome:
+            results.append(req.line)
             continue
-        existing = page_to_data(page)
-        diff = symbol_source_diff(
-            old_store.get(page.symbol), sym, old_source_dir, cfg.abs_source_dir
-        )
-        prompt = build_delta_prompt(existing, diff, build_fact_sheet(cfg, store, sym))
-        (out_dir / f"{page.symbol}.delta.md").write_text(prompt, encoding="utf-8")
-        results.append(f"PROMPT {page.symbol}")
+        (out_dir / f"{req.page.symbol}.delta.md").write_text(req.prompt, encoding="utf-8")
+        results.append(f"PROMPT {req.page.symbol}")
     return results
 
 
@@ -333,9 +437,11 @@ def apply_delta_file(cfg: Config, store: FactStore, deltas_path: Path) -> list[s
             results.append(f"SKIP {symbol}: no page")
             continue
         page = load_page(page_path)
-        dropped = _apply_and_ground(store, page, sym, delta)
-        note = f" (dropped: {', '.join(dropped)})" if dropped else ""
-        results.append(f"REFILLED {symbol}{note}")
+        if not _is_stale(store, page):
+            results.append(f"SKIP {symbol}: not stale (its own source is unchanged)")
+            continue
+        dropped, findings = _apply_and_ground(cfg, store, page, sym, delta)
+        results.append(_report(symbol, dropped, findings))
     return results
 
 
@@ -362,32 +468,20 @@ def run_refill(
     client = anthropic.Anthropic()
 
     def one(path: Path) -> str:
-        page = load_page(path)
-        sym = store.get(page.symbol)
-        if sym is None:
-            return f"SKIP {page.name}: gone in new source"
-        existing = page_to_data(page)
-        diff = symbol_source_diff(
-            old_store.get(page.symbol), sym, old_source_dir, cfg.abs_source_dir
-        )
-        prompt = build_delta_prompt(existing, diff, build_fact_sheet(cfg, store, sym))
-        if dry_run:
-            return f"DRY {page.symbol}: delta prompt {len(prompt)} chars"
-        resp = client.messages.create(
-            model=model or cfg.fill.model,
-            max_tokens=cfg.fill.max_tokens,
-            system=DELTA_SYSTEM,
-            output_config={"format": {"type": "json_schema", "schema": _partial_schema()}},
-            messages=[{"role": "user", "content": prompt}],
-        )
-        if resp.stop_reason == "refusal":
-            return f"REFUSED {page.symbol}"
-        text = next(b.text for b in resp.content if b.type == "text")
-        delta = json.loads(text)
-        dropped = _apply_and_ground(store, page, sym, delta)
-        changed = ", ".join(k for k in delta if delta[k] not in (None, [], ""))
-        note = f" (dropped: {', '.join(dropped)})" if dropped else ""
-        return f"REFILLED {page.symbol} [{changed}]{note}"
+        try:
+            req = prepare_delta(cfg, store, old_store, old_source_dir, load_page(path))
+            if req.outcome:
+                return req.line
+            if dry_run:
+                return f"DRY {req.page.symbol}: delta prompt {len(req.prompt)} chars"
+            delta = request_delta(client, cfg, req.prompt, model)
+            if delta is None:
+                return f"REFUSED {req.page.symbol}"
+            changed = ", ".join(k for k in delta if delta[k] not in (None, [], ""))
+            dropped, findings = _apply_and_ground(cfg, store, req.page, req.sym, delta)
+            return _report(f"{req.page.symbol} [{changed}]", dropped, findings)
+        except Exception as exc:  # noqa: BLE001 — one page failing shouldn't kill the run
+            return f"ERROR {path.stem}: {type(exc).__name__}: {exc}"
 
     results: list[str] = []
     with ThreadPoolExecutor(max_workers=cfg.fill.concurrency) as pool:
